@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2333750730380978');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2333750730380978&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Zafir Pro - الحل السحري لكي الملابس</title>
+    <meta name="description" content="مكواة البخار المحمولة رقم 1 في المغرب. كي سريع، تعقيم، وأناقة في دقائق.">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- BRAND IDENTIY --- */
+        :root {
+            --primary: #0a4d46;      /* Dark Green */
+            --accent: #d35400;       /* Burnt Orange */
+            --gold: #cfaa76;         /* Gold */
+            --bg: #f3f4f6;
+            --white: #ffffff;
+            --text-main: #1f2937;
+            --success: #10b981;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg);
+            margin: 0; padding: 0;
+            color: var(--text-main);
+            padding-bottom: 100px;
+        }
+
+        /* --- HEADER --- */
+        .promo-bar {
+            background: linear-gradient(90deg, #b91c1c, #dc2626);
+            color: white; font-size: 13px; padding: 10px 0;
+            text-align: center; font-weight: bold;
+        }
+
+        .navbar {
+            background: var(--white);
+            padding: 10px 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; z-index: 50;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .brand-logo {
+            font-size: 24px; font-weight: 900; color: var(--primary);
+            letter-spacing: 1px; text-transform: uppercase;
+        }
+        
+        .whatsapp-nav {
+            display: flex; align-items: center;
+            text-decoration: none;
+            transition: transform 0.2s;
+        }
+        .whatsapp-nav:hover { transform: scale(1.1); }
+        .whatsapp-nav img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        /* --- CONTAINER --- */
+        .main-wrapper { max-width: 550px; margin: 0 auto; overflow: hidden; }
+
+        /* --- GALLERY --- */
+        .gallery-area { 
+            position: relative; background: #fff; 
+            margin: 15px; border-radius: 20px; 
+            box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+            overflow: hidden;
+            touch-action: pan-y;
+        }
+        
+        .discount-badge {
+            position: absolute; top: 15px; left: 15px;
+            background: #ef4444; color: white;
+            padding: 6px 12px; border-radius: 8px;
+            font-weight: bold; font-size: 14px; z-index: 10;
+            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
+        }
+
+        .main-image-frame {
+            height: 350px; display: flex; align-items: center; justify-content: center;
+            overflow: hidden; padding: 20px;
+            position: relative;
+        }
+        
+        .main-image-frame img {
+            max-width: 100%; max-height: 100%; object-fit: contain;
+            transition: opacity 0.2s ease-out;
+            pointer-events: none;
+        }
+
+        /* Arrows */
+        .nav-arrow {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(255,255,255,0.8); width: 30px; height: 30px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 18px; color: var(--primary); cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 5;
+        }
+        .prev-arrow { right: 10px; }
+        .next-arrow { left: 10px; }
+
+        .thumbnails-row {
+            display: flex; gap: 10px; padding: 0 20px 20px 20px;
+            justify-content: center;
+        }
+        .thumb-item {
+            width: 55px; height: 55px; border-radius: 12px;
+            border: 2px solid #f3f4f6; cursor: pointer;
+            object-fit: cover; transition: all 0.2s;
+        }
+        .thumb-item.selected { border-color: var(--primary); transform: scale(1.05); }
+
+        /* --- INFO SECTION --- */
+        .info-section { padding: 0 20px; }
+        
+        .title-area h1 {
+            font-size: 22px; font-weight: 800; margin: 10px 0;
+            line-height: 1.5; color: var(--primary);
+        }
+
+        .price-box {
+            display: flex; align-items: center; gap: 15px;
+            background: #fff; padding: 15px; border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            margin-bottom: 20px; border: 1px solid #e5e7eb;
+        }
+        .current-price { font-size: 28px; font-weight: 900; color: var(--primary); }
+        .old-price { font-size: 16px; color: var(--text-muted); text-decoration: line-through; }
+        
+        .shipping-tag {
+            background: #fff7ed; color: #c2410c; 
+            font-size: 12px; font-weight: 800; 
+            padding: 5px 10px; border-radius: 20px;
+            border: 1px solid #ffedd5;
+        }
+
+        /* --- FEATURES --- */
+        .features-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 25px;
+        }
+        .feat-card {
+            background: white; padding: 15px; border-radius: 15px;
+            text-align: center; border: 1px solid #f3f4f6;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+        .feat-icon { font-size: 26px; margin-bottom: 5px; display: block; }
+        .feat-title { font-weight: 700; font-size: 13px; color: var(--primary); margin: 0; }
+
+        /* --- DESCRIPTION --- */
+        .rich-content { background: white; padding: 20px; border-radius: 20px; margin-bottom: 20px; }
+        .benefit-row { display: flex; gap: 15px; margin-bottom: 20px; align-items: flex-start; }
+        .benefit-row:last-child { margin-bottom: 0; }
+        .check-icon {
+            min-width: 26px; height: 26px; background: var(--primary); color: white;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; font-size: 14px; margin-top: 2px;
+        }
+        .benefit-text h3 { margin: 0 0 5px 0; font-size: 16px; font-weight: 800; color: #111; }
+        .benefit-text p { margin: 0; font-size: 14px; color: #555; line-height: 1.6; }
+
+        /* --- FAQ SECTION --- */
+        .faq-container { margin-bottom: 30px; }
+        .faq-card {
+            background: white; border: 1px solid #e5e7eb;
+            border-radius: 15px; padding: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.01);
+            transition: transform 0.2s;
+        }
+        .faq-card:hover { transform: translateY(-2px); border-color: var(--gold); }
+        
+        .faq-q { 
+            font-weight: 800; color: var(--primary); font-size: 15px; 
+            margin-bottom: 6px; display: flex; align-items: center; gap: 8px;
+        }
+        .faq-a { color: #555; font-size: 13px; line-height: 1.6; }
+        .highlight-green { color: var(--success); font-weight: bold; }
+
+        /* --- REVIEWS --- */
+        .reviews-area { margin-bottom: 20px; padding: 0 15px; }
+        .section-header { text-align: center; margin-bottom: 20px; font-weight: 800; font-size: 18px; color: var(--text-main); }
+        
+        .chat-bubble {
+            background: white; padding: 15px; border-radius: 20px; border-bottom-right-radius: 4px;
+            margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            border: 1px solid #f0f0f0;
+        }
+        .client-info { font-size: 12px; color: var(--primary); font-weight: bold; margin-bottom: 5px; display: flex; align-items: center; gap: 5px;}
+        .chat-text { font-size: 14px; color: #333; line-height: 1.5; }
+
+        /* --- FORM SECTION --- */
+        .form-wrapper {
+            background: white; padding: 25px 20px;
+            margin: 15px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 2px solid var(--primary);
+            margin-bottom: 40px;
+        }
+        .form-header { text-align: center; margin-bottom: 20px; }
+        .form-header h2 { margin: 0; color: var(--primary); font-size: 20px; }
+        .form-header p { font-size: 13px; color: #666; margin-top: 5px; }
+
+        .input-group { margin-bottom: 15px; text-align: right; }
+        .input-group label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 8px; color: #374151; margin-right: 5px; }
+        .custom-input {
+            width: 100%; padding: 16px; border: 2px solid #f3f4f6;
+            border-radius: 12px; font-family: 'Cairo'; font-size: 15px;
+            transition: 0.3s; background: #f9fafb;
+        }
+        .custom-input:focus { border-color: var(--primary); outline: none; background: white; }
+
+        /* --- STICKY BUTTON --- */
+        .sticky-bar {
+            position: fixed; bottom: 25px; left: 0; right: 0;
+            background: transparent; z-index: 100; 
+            display: flex; justify-content: center;
+            padding: 0 20px; pointer-events: none;
+        }
+        
+        .cta-btn {
+            pointer-events: auto;
+            background: linear-gradient(135deg, #d35400 0%, #ea580c 100%);
+            color: white; border: none; width: 100%; max-width: 400px;
+            padding: 16px; border-radius: 50px;
+            font-size: 18px; font-weight: 900;
+            box-shadow: 0 10px 30px rgba(211, 84, 0, 0.5);
+            cursor: pointer; position: relative; overflow: hidden;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            transition: transform 0.2s;
+        }
+        
+        .cta-btn:active { transform: scale(0.96); }
+
+        .cta-btn::after {
+            content: ""; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+            transform: skewX(-20deg); animation: shine 2.5s infinite;
+        }
+        @keyframes shine { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="promo-bar">
+        🚚 توصيل سريع لجميع المدن المغربية - الدفع عند الاستلام
+    </div>
+
+    <div class="navbar">
+        <div class="brand-logo">ZAFIR<span style="color:var(--gold)">.</span></div>
+        <a href="https://wa.me/212649923007" class="whatsapp-nav">
+           <img src="whatsapp.png" alt="WhatsApp Contact">
+        </a>
+    </div>
+
+    <div class="main-wrapper">
+        
+        <div class="gallery-area" id="galleryBox">
+            <span class="discount-badge">-50% تخفيض</span>
+            <div class="main-image-frame">
+                <div class="nav-arrow prev-arrow" onclick="prevSlide()">&#10094;</div>
+                <div class="nav-arrow next-arrow" onclick="nextSlide()">&#10095;</div>
+                
+                <img id="currentImg" src="1.jpg" alt="Zafir Steam Iron">
+            </div>
+            <div class="thumbnails-row">
+                <img src="1.jpg" class="thumb-item selected" onclick="setImg(0)">
+                <img src="2.jpg" class="thumb-item" onclick="setImg(1)">
+                <img src="3.jpg" class="thumb-item" onclick="setImg(2)">
+                <img src="4.jpg" class="thumb-item" onclick="setImg(3)">
+                <img src="5.jpg" class="thumb-item" onclick="setImg(4)">
+            </div>
+        </div>
+
+        <div class="info-section">
+            <div class="title-area">
+                <h1>المكواة المحمولة - الحل النهائي لكي الملابس أينما كنت!</h1>
+            </div>
+
+            <div class="price-box">
+                <div class="current-price">149 <span class="currency">درهم</span></div>
+                <div class="old-price">299 درهم</div>
+                <div class="shipping-tag">+ 20 درهم شحن 🚚</div>
+            </div>
+
+            <div class="features-grid">
+                <div class="feat-card">
+                    <span class="feat-icon">⚡</span>
+                    <p class="feat-title">تسخين في 10 ثواني</p>
+                </div>
+                <div class="feat-card">
+                    <span class="feat-icon">🧳</span>
+                    <p class="feat-title">مثالية للسفر</p>
+                </div>
+                <div class="feat-card">
+                    <span class="feat-icon">💧</span>
+                    <p class="feat-title">كي جاف وبخار</p>
+                </div>
+                <div class="feat-card">
+                    <span class="feat-icon">🛡️</span>
+                    <p class="feat-title">ضمان لمدة سنة</p>
+                </div>
+            </div>
+
+            <div class="rich-content">
+                <div class="benefit-row">
+                    <div class="check-icon">✓</div>
+                    <div class="benefit-text">
+                        <h3>وداعاً للتجاعيد الصعبة</h3>
+                        <p>بفضل تقنية البخار القوي، تزيل أصعب التجاعيد من الأقمشة الرقيقة والسميكة في تمريرة واحدة.</p>
+                    </div>
+                </div>
+                <div class="benefit-row">
+                    <div class="check-icon">✓</div>
+                    <div class="benefit-text">
+                        <h3>تصميم ذكي ومحمول</h3>
+                        <p>مقبض قابل للطي يسهل وضعها في حقيبة السفر. لا تأخذ مساحة وتنقذك في المناسبات الطارئة.</p>
+                    </div>
+                </div>
+                <div class="benefit-row">
+                    <div class="check-icon">✓</div>
+                    <div class="benefit-text">
+                        <h3>آمنة على جميع الملابس</h3>
+                        <p>قاعدة سيراميك عالية الجودة تمنع حرق الملابس وتنساب بنعومة.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-container">
+                <div class="section-header" style="text-align: right; font-size: 16px;">🤔 أسئلة شائعة</div>
+                
+                <div class="faq-card">
+                    <div class="faq-q">متى سيصلني المنتج؟</div>
+                    <div class="faq-a">التوصيل سريع جداً، يستغرق فقط يوماً واحداً أو يومين كحد أقصى لجميع المدن.</div>
+                </div>
+
+                <div class="faq-card" style="border-right: 4px solid var(--success);">
+                    <div class="faq-q">هل يمكنني فحص المنتج؟</div>
+                    <div class="faq-a">
+                        <span class="highlight-green">نعم!</span> 
+                        يمكنك فتح العلبة وفحص المنتج عند استلامه من عامل التوصيل قبل دفع أي مبلغ.
+                    </div>
+                </div>
+
+                <div class="faq-card" style="border-right: 4px solid var(--gold);">
+                    <div class="faq-q">ماذا عن سياسة الاسترجاع؟</div>
+                    <div class="faq-a">
+                        نقدم ضمان استرجاع الأموال لمدة <span class="highlight-green">7 أيام</span> في حال وجود أي عيب في المنتج.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="reviews-area">
+            <div class="section-header">💬 آراء زبائننا الكرام</div>
+            <div class="chat-bubble">
+                <div class="client-info">✅ خديجة (الدار البيضاء)</div>
+                <div class="chat-text">صراحة زوينة بزاف، صغيرة ولكن الفعالية ديالها كبيرة. هناتني فالسفر. شكراً زفير!</div>
+            </div>
+            <div class="chat-bubble">
+                <div class="client-info">✅ محمد (مراكش)</div>
+                <div class="chat-text">وصلاتني دغيا، والميزة الرائعة أنني قدرت نشوف المنتج قبل ما نخلص.</div>
+            </div>
+        </div>
+
+        <div class="form-wrapper" id="orderFormSection">
+            <div class="form-header">
+                <h2>📝 اطلب الآن قبل انتهاء العرض</h2>
+                <p>الدفع نقداً عند استلام المنتج</p>
+            </div>
+
+            <form id="telegramForm">
+                <div class="input-group">
+                    <label>الاسم الكامل</label>
+                    <input type="text" id="name" class="custom-input" placeholder="مثال: أحمد العلمي" required>
+                </div>
+
+                <div class="input-group">
+                    <label>رقم الهاتف</label>
+                    <input type="tel" id="phone" class="custom-input" placeholder="06XXXXXXXX" required>
+                </div>
+
+                <div class="input-group">
+                    <label>المدينة</label>
+                    <input type="text" id="city" class="custom-input" placeholder="مدينتك..." required>
+                </div>
+                
+                <div class="input-group">
+                    <label>العنوان (اختياري)</label>
+                    <input type="text" id="address" class="custom-input" placeholder="الحي، رقم المنزل...">
+                </div>
+
+                <button type="submit" style="display:none;"></button>
+            </form>
+
+            <div style="background: #fffbe6; border: 1px solid #ffe58f; padding: 10px; font-size: 12px; border-radius: 8px; display: flex; align-items: center; gap: 8px; margin-top: 15px; color: #b45309;">
+                ⚠️ انتباه: الكمية محدودة جداً، سارع بالطلب قبل نفاذ المخزون.
+            </div>
+        </div>
+
+    </div>
+
+    <div class="sticky-bar">
+        <button class="cta-btn" onclick="submitOrder()">
+            <span>🛒 اضغط هنا للطلب - 149 درهم</span>
+        </button>
+    </div>
+
+    <script>
+        // --- IMAGE GALLERY LOGIC ---
+        let currentIndex = 0;
+        const images = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg'];
+        const mainImg = document.getElementById('currentImg');
+        const thumbs = document.querySelectorAll('.thumb-item');
+
+        function updateGallery(index) {
+            if (index < 0) index = images.length - 1;
+            if (index >= images.length) index = 0;
+            
+            currentIndex = index;
+            
+            mainImg.style.opacity = 0;
+            setTimeout(() => {
+                mainImg.src = images[currentIndex];
+                mainImg.style.opacity = 1;
+            }, 200);
+
+            thumbs.forEach((t, i) => {
+                t.classList.remove('selected');
+                if(i === currentIndex) t.classList.add('selected');
+            });
+        }
+
+        function setImg(index) {
+            updateGallery(index);
+        }
+
+        function prevSlide() { updateGallery(currentIndex - 1); }
+        function nextSlide() { updateGallery(currentIndex + 1); }
+
+        // --- SWIPE HANDLER ---
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const galleryArea = document.getElementById('galleryBox');
+
+        galleryArea.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, {passive: true});
+
+        galleryArea.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, {passive: true});
+
+        function handleSwipe() {
+            // CONFIRMED LOGIC:
+            // Swipe Left (End < Start) -> PREV Slide
+            // Swipe Right (End > Start) -> NEXT Slide
+            if (touchEndX < touchStartX - 50) prevSlide(); 
+            if (touchEndX > touchStartX + 50) nextSlide();
+        }
+
+        // --- FORM HANDLING ---
+        function submitOrder() {
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const city = document.getElementById('city').value;
+            
+            if(!name || !phone || !city) {
+                document.getElementById('orderFormSection').scrollIntoView({ behavior: 'smooth' });
+                if(!name) document.getElementById('name').style.borderColor = "red";
+                if(!phone) document.getElementById('phone').style.borderColor = "red";
+                if(!city) document.getElementById('city').style.borderColor = "red";
+                
+                document.getElementById('orderFormSection').style.transform = "translateX(5px)";
+                setTimeout(() => document.getElementById('orderFormSection').style.transform = "translateX(0)", 100);
+                setTimeout(() => document.getElementById('orderFormSection').style.transform = "translateX(-5px)", 200);
+                setTimeout(() => document.getElementById('orderFormSection').style.transform = "translateX(0)", 300);
+                
+                return;
+            }
+            document.getElementById('telegramForm').dispatchEvent(new Event('submit'));
+        }
+
+        const BOT_TOKEN = "8383494745:AAEFXQDJdszeU-EW8AWVn-NwGlQPiquG5xk";
+        const CHAT_ID = "819906295";
+
+        document.getElementById('telegramForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const btn = document.querySelector('.cta-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = "جاري تأكيد الطلب...";
+            btn.style.filter = "grayscale(1)";
+            btn.disabled = true;
+
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const city = document.getElementById('city').value;
+            const address = document.getElementById('address').value || "غير محدد";
+
+            const text = `
+📦 *طلب جديد (Zafir Iron)*
+------------------
+👤 *الاسم:* ${name}
+📱 *الهاتف:* ${phone}
+🏙 *المدينة:* ${city}
+📍 *العنوان:* ${address}
+💰 *السعر:* 149 درهم + 20 درهم شحن
+------------------
+⏰ ${new Date().toLocaleString()}
+            `;
+
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}&parse_mode=Markdown`)
+            .then(res => {
+                if(res.ok) {
+                    window.location.href = "thankyou.html";
+                } else {
+                    alert("حدث خطأ تقني، المرجو المحاولة مرة أخرى");
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    btn.style.filter = "none";
+                }
+            })
+            .catch(err => {
+                alert("خطأ في الاتصال بالانترنت");
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                btn.style.filter = "none";
+            });
+        });
+        
+        document.querySelectorAll('.custom-input').forEach(input => {
+            input.addEventListener('input', function() {
+                this.style.borderColor = "#f3f4f6";
+            });
+        });
+    </script>
+</body>
+</html>
