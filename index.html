@@ -23,7 +23,7 @@
         :root {
             --primary: #1e3a8a; 
             --accent: #f97316;  
-            --bg: #f8fafc;
+            --bg: #f1f5f9;
             --white: #ffffff;
             --text-main: #334155;
             --success: #10b981;
@@ -37,17 +37,36 @@
         .marquee-item { padding: 0 40px; font-weight: 700; flex-shrink: 0; }
         @keyframes scroll-seamless { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
         
-        .navbar { background: var(--white); padding: 5px 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; justify-content: center; align-items: center; position: sticky; top: 0; z-index: 50; }
+        /* --- التعديل هنا: تقليل ارتفاع خلفية اللوغو --- */
+        .navbar { 
+            background: var(--white); 
+            padding: 2px 20px; /* تم تقليل البادينج العلوي والسفلي من 5px إلى 2px */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            position: sticky; 
+            top: 0; 
+            z-index: 50; 
+        }
         .brand-logo { font-size: 28px; font-weight: 900; color: var(--primary); letter-spacing: 1px; text-transform: uppercase; }
 
-        .main-wrapper { max-width: 550px; margin: 0 auto; overflow: hidden; }
+        .main-wrapper { 
+            max-width: 550px; /* تمت إعادته للحجم الطبيعي */
+            margin: 0 auto; 
+            overflow: hidden; 
+            background: var(--white); 
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
+            min-height: 100vh;
+        }
+
         .gallery-area { position: relative; background: #fff; margin: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.02); overflow: hidden; }
         .discount-badge { position: absolute; top: 15px; left: 15px; background: #ef4444; color: white; padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size: 13px; z-index: 10; }
         
-        .main-image-frame { height: 320px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 20px; position: relative; }
+        .main-image-frame { height: 400px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 5px; position: relative; }
         .main-image-frame img { max-width: 100%; max-height: 100%; object-fit: contain; transition: opacity 0.2s ease-out; }
         
-        .nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.9); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary); cursor: pointer; z-index: 5; }
+        .nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.9); width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary); cursor: pointer; z-index: 5; box-shadow: 0 2px 5px rgba(0,0,0,0.2); font-size: 18px; }
         .prev-arrow { right: 10px; } .next-arrow { left: 10px; }
         
         .thumbnails-row { display: flex; gap: 8px; padding: 0 15px 15px 15px; justify-content: center; }
@@ -64,7 +83,7 @@
         .feat-card { background: white; padding: 12px; border-radius: 10px; text-align: center; border: 1px solid #f1f5f9; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
         .feat-title { font-weight: 700; font-size: 12px; color: var(--primary); margin: 0; margin-top: 5px; }
 
-        .rich-content { background: white; padding: 20px; border-radius: 16px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+        .rich-content { background: white; padding: 20px; border-radius: 16px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); border: 1px solid #f1f5f9; }
         .benefit-row { display: flex; gap: 12px; margin-bottom: 18px; align-items: flex-start; }
         .check-icon { min-width: 22px; height: 22px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; margin-top: 2px; flex-shrink: 0; }
         .benefit-text h3 { margin: 0 0 4px 0; font-size: 14px; font-weight: 800; color: #1e293b; }
@@ -241,7 +260,7 @@
     </div>
 
     <script>
-        // إعدادات الصور
+        // --- IMAGE GALLERY LOGIC ---
         let currentIndex = 0;
         const images = ['1.png', '2.jpg'];
         const mainImg = document.getElementById('currentImg');
@@ -265,23 +284,56 @@
         function prevSlide() { updateGallery(currentIndex - 1); }
         function nextSlide() { updateGallery(currentIndex + 1); }
 
-        // إرسال الطلب
+        // --- MOBILE SWIPE LOGIC ---
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const galleryArea = document.getElementById('galleryBox');
+
+        galleryArea.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, {passive: true});
+
+        galleryArea.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, {passive: true});
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) nextSlide();
+            if (touchEndX > touchStartX + 50) prevSlide();
+        }
+
+        // --- ORDER SUBMISSION & PHONE VALIDATION ---
         function submitOrder() {
             const name = document.getElementById('name').value;
             const phone = document.getElementById('phone').value;
             const city = document.getElementById('city').value;
             const address = document.getElementById('address').value || "غير محدد";
             
+            // 1. تحقق من أن الحقول غير فارغة
             if(!name || !phone || !city) {
                 document.getElementById('orderFormSection').scrollIntoView({ behavior: 'smooth' });
-                // رجة خفيفة للتنبيه
-                document.getElementById('orderFormSection').style.transform = "translateX(5px)";
-                setTimeout(() => document.getElementById('orderFormSection').style.transform = "translateX(0)", 100);
-                setTimeout(() => document.getElementById('orderFormSection').style.transform = "translateX(-5px)", 200);
-                setTimeout(() => document.getElementById('orderFormSection').style.transform = "translateX(0)", 300);
+                shakeForm();
                 return;
             }
 
+            // 2. تحقق من رقم الهاتف المغربي (Validation)
+            const phoneRegex = /^0[567][0-9]{8}$/;
+            const cleanPhone = phone.replace(/\s/g, '');
+
+            if (!phoneRegex.test(cleanPhone)) {
+                alert("المرجو إدخال رقم هاتف مغربي صحيح (مثال: 0612345678)");
+                const phoneInput = document.getElementById('phone');
+                phoneInput.style.borderColor = "red";
+                phoneInput.style.backgroundColor = "#fff1f2";
+                phoneInput.focus();
+                return;
+            }
+
+            document.getElementById('phone').style.borderColor = "#cbd5e1";
+            document.getElementById('phone').style.backgroundColor = "#f8fafc";
+
+            // 3. إرسال الطلب
             const btn = document.querySelector('.cta-btn');
             const originalText = btn.innerHTML;
             btn.innerHTML = "جاري تأكيد الطلب...";
@@ -295,7 +347,7 @@
 🔥 *طلب جديد (Zafir Pro - 30 Bar)*
 ------------------
 👤 *العميل:* ${name}
-📱 *الهاتف:* ${phone}
+📱 *الهاتف:* ${cleanPhone}
 🏙 *المدينة:* ${city}
 📍 *العنوان:* ${address}
 💰 *السعر:* 349 درهم (شحن مجاني)
@@ -309,18 +361,33 @@
                     window.location.href = "thankyou.html";
                 } else {
                     alert("عذراً، حدث خطأ تقني. يرجى المحاولة مرة أخرى.");
-                    btn.disabled = false;
-                    btn.innerHTML = originalText;
-                    btn.style.background = "linear-gradient(135deg, #f97316 0%, #ea580c 100%)";
+                    resetBtn(btn, originalText);
                 }
             })
             .catch(err => {
-                alert("يرجى التحقق من اتصال الإنترنت.");
+                // التنبيه يظهر فقط عند التجربة من الملف مباشرة، سيختفي عند الرفع على استضافة
+                if (window.location.protocol === 'file:') {
+                     alert("ملاحظة: الإرسال قد لا يعمل عند فتح الملف مباشرة من الكمبيوتر بسبب قيود المتصفح. يرجى تجربة الموقع بعد رفعه على استضافة.");
+                } else {
+                     alert("يرجى التحقق من اتصال الإنترنت.");
+                }
                 console.error(err);
-                btn.disabled = false;
-                btn.innerHTML = originalText;
-                btn.style.background = "linear-gradient(135deg, #f97316 0%, #ea580c 100%)";
+                resetBtn(btn, originalText);
             });
+        }
+
+        function shakeForm() {
+            const form = document.getElementById('orderFormSection');
+            form.style.transform = "translateX(5px)";
+            setTimeout(() => form.style.transform = "translateX(0)", 100);
+            setTimeout(() => form.style.transform = "translateX(-5px)", 200);
+            setTimeout(() => form.style.transform = "translateX(0)", 300);
+        }
+
+        function resetBtn(btn, text) {
+            btn.disabled = false;
+            btn.innerHTML = text;
+            btn.style.background = "linear-gradient(135deg, #f97316 0%, #ea580c 100%)";
         }
     </script>
 </body>
