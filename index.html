@@ -1,33 +1,28 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '2333750730380978');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=2333750730380978&ev=PageView&noscript=1"
-/></noscript>
-<meta charset="UTF-8">
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '2333750730380978');
+    fbq('track', 'PageView');
+    </script>
+    
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Zafir Pro - مكواة البخار المحمولة</title>
-    <meta name="description" content="مكواة بخار يدوية محمولة 2 في 1. كي جاف ورطب، لوح تيتانيوم، وتصميم قابل للدوران.">
+    <title>Zafir Pro - الأداء الاحترافي لغسيل السيارات</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     
     <style>
-        /* --- BRAND COLORS --- */
         :root {
-            --primary: #0f766e;      
-            --accent: #f97316;       
-            --gold: #d97706;         
+            --primary: #1e3a8a; 
+            --accent: #f97316;  
             --bg: #f8fafc;
             --white: #ffffff;
             --text-main: #334155;
@@ -35,288 +30,74 @@ src="https://www.facebook.com/tr?id=2333750730380978&ev=PageView&noscript=1"
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
-        body {
-            font-family: 'Cairo', sans-serif;
-            background-color: var(--bg);
-            margin: 0; padding: 0;
-            color: var(--text-main);
-            padding-bottom: 90px;
-        }
-
-        /* --- SEAMLESS ANIMATED PROMO BAR --- */
-        .promo-bar {
-            background: var(--primary);
-            color: white; 
-            font-size: 13px; 
-            padding: 9px 0;
-            overflow: hidden;
-            position: relative;
-            direction: ltr; 
-        }
-
-        .marquee-track {
-            display: flex;
-            width: max-content;
-            /* تم ضبط السرعة إلى 20 ثانية لتناسب النص الأقصر وتحافظ على الحيوية */
-            animation: scroll-seamless 20s linear infinite;
-        }
-
-        .marquee-item {
-            padding: 0 40px; 
-            font-weight: 700;
-            flex-shrink: 0; 
-        }
+        body { font-family: 'Cairo', sans-serif; background-color: var(--bg); margin: 0; padding: 0; color: var(--text-main); padding-bottom: 90px; }
         
-        @keyframes scroll-seamless {
-            0% { transform: translateX(-50%); } 
-            100% { transform: translateX(0); } 
-        }
+        .promo-bar { background: var(--primary); color: white; font-size: 13px; padding: 9px 0; overflow: hidden; position: relative; direction: ltr; }
+        .marquee-track { display: flex; width: max-content; animation: scroll-seamless 20s linear infinite; }
+        .marquee-item { padding: 0 40px; font-weight: 700; flex-shrink: 0; }
+        @keyframes scroll-seamless { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
+        
+        .navbar { background: var(--white); padding: 5px 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; justify-content: center; align-items: center; position: sticky; top: 0; z-index: 50; }
+        .brand-logo { font-size: 28px; font-weight: 900; color: var(--primary); letter-spacing: 1px; text-transform: uppercase; }
 
-        /* --- NAVBAR --- */
-        .navbar {
-            background: var(--white);
-            /* الحفاظ على الهامش الصغير (السمك الرفيع) */
-            padding: 5px 20px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            display: flex; 
-            justify-content: center; 
-            align-items: center;
-            position: sticky; top: 0; z-index: 50;
-        }
-
-        .brand-logo {
-            font-size: 26px; font-weight: 900; color: var(--primary);
-            letter-spacing: 1px; text-transform: uppercase;
-        }
-
-        /* --- CONTAINER --- */
         .main-wrapper { max-width: 550px; margin: 0 auto; overflow: hidden; }
-
-        /* --- GALLERY --- */
-        .gallery-area { 
-            position: relative; background: #fff; 
-            margin: 0; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
-            overflow: hidden;
-            touch-action: pan-y;
-        }
+        .gallery-area { position: relative; background: #fff; margin: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.02); overflow: hidden; }
+        .discount-badge { position: absolute; top: 15px; left: 15px; background: #ef4444; color: white; padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size: 13px; z-index: 10; }
         
-        .discount-badge {
-            position: absolute; top: 15px; left: 15px;
-            background: #ef4444; color: white;
-            padding: 4px 10px; border-radius: 4px;
-            font-weight: bold; font-size: 13px; z-index: 10;
-        }
-
-        .main-image-frame {
-            height: 320px; display: flex; align-items: center; justify-content: center;
-            overflow: hidden; padding: 20px;
-            position: relative;
-        }
+        .main-image-frame { height: 320px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 20px; position: relative; }
+        .main-image-frame img { max-width: 100%; max-height: 100%; object-fit: contain; transition: opacity 0.2s ease-out; }
         
-        .main-image-frame img {
-            max-width: 100%; max-height: 100%; object-fit: contain;
-            transition: opacity 0.2s ease-out;
-            pointer-events: none;
-        }
-
-        /* Arrows */
-        .nav-arrow {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            background: rgba(255,255,255,0.9); width: 28px; height: 28px;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 16px; color: var(--primary); cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 5;
-        }
-        .prev-arrow { right: 10px; }
-        .next-arrow { left: 10px; }
-
-        .thumbnails-row {
-            display: flex; gap: 8px; padding: 0 15px 15px 15px;
-            justify-content: center;
-        }
-        .thumb-item {
-            width: 50px; height: 50px; border-radius: 8px;
-            border: 2px solid #e2e8f0; cursor: pointer;
-            object-fit: cover; transition: all 0.2s;
-        }
+        .nav-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.9); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary); cursor: pointer; z-index: 5; }
+        .prev-arrow { right: 10px; } .next-arrow { left: 10px; }
+        
+        .thumbnails-row { display: flex; gap: 8px; padding: 0 15px 15px 15px; justify-content: center; }
+        .thumb-item { width: 60px; height: 60px; border-radius: 8px; border: 2px solid #e2e8f0; cursor: pointer; object-fit: cover; }
         .thumb-item.selected { border-color: var(--primary); transform: scale(1.05); }
 
-        /* --- INFO SECTION --- */
         .info-section { padding: 15px 20px; }
-        
-        .title-area h1 {
-            font-size: 19px; font-weight: 800; margin: 5px 0 10px 0;
-            line-height: 1.4; color: var(--primary);
-        }
+        .title-area h1 { font-size: 20px; font-weight: 900; margin: 5px 0 10px 0; line-height: 1.4; color: var(--primary); }
+        .price-box { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+        .current-price { font-size: 28px; font-weight: 900; color: var(--accent); }
+        .old-price { font-size: 15px; color: #94a3b8; text-decoration: line-through; }
 
-        .price-box {
-            display: flex; align-items: center; gap: 12px;
-            margin-bottom: 20px;
-        }
-        .current-price { font-size: 26px; font-weight: 900; color: var(--accent); }
-        .old-price { font-size: 15px; color: #94a3b8; text-decoration: line-through; margin-top: 4px; }
-        
-        .shipping-tag {
-            background: #ecfdf5; color: var(--primary); 
-            font-size: 11px; font-weight: 700; 
-            padding: 4px 8px; border-radius: 4px;
-            border: 1px solid #d1fae5;
-        }
+        .features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 25px; }
+        .feat-card { background: white; padding: 12px; border-radius: 10px; text-align: center; border: 1px solid #f1f5f9; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .feat-title { font-weight: 700; font-size: 12px; color: var(--primary); margin: 0; margin-top: 5px; }
 
-        /* --- TRUST GUARANTEE BOX --- */
-        .trust-box {
-            background: #fff;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 12px;
-            margin-bottom: 25px;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-        }
-        .trust-grid { display: flex; justify-content: space-around; gap: 8px; }
-        .trust-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-        .trust-icon { font-size: 20px; }
-        .trust-text { font-size: 11px; font-weight: 700; color: #64748b; line-height: 1.3; }
-
-        /* --- FEATURES --- */
-        .features-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 25px;
-        }
-        .feat-card {
-            background: white; padding: 12px; border-radius: 10px;
-            text-align: center; border: 1px solid #f1f5f9;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
-        }
-        .feat-icon { font-size: 22px; margin-bottom: 4px; display: block; }
-        .feat-title { font-weight: 700; font-size: 12px; color: var(--primary); margin: 0; }
-
-        /* --- DESCRIPTION --- */
-        .rich-content { background: white; padding: 20px; border-radius: 16px; margin-bottom: 20px; }
-        .desc-intro { font-size: 14px; line-height: 1.7; color: #475569; margin-bottom: 20px; font-weight: 500; }
-        
+        .rich-content { background: white; padding: 20px; border-radius: 16px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
         .benefit-row { display: flex; gap: 12px; margin-bottom: 18px; align-items: flex-start; }
-        .benefit-row:last-child { margin-bottom: 0; }
-        .check-icon {
-            min-width: 22px; height: 22px; background: var(--primary); color: white;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-weight: bold; font-size: 12px; margin-top: 2px; flex-shrink: 0;
-        }
+        .check-icon { min-width: 22px; height: 22px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; margin-top: 2px; flex-shrink: 0; }
         .benefit-text h3 { margin: 0 0 4px 0; font-size: 14px; font-weight: 800; color: #1e293b; }
-        .benefit-text p { margin: 0; font-size: 13px; color: #64748b; line-height: 1.5; }
+        .benefit-text p { margin: 0; font-size: 13px; color: #64748b; line-height: 1.6; }
 
-        /* Specs Table */
         .specs-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 13px; }
-        .specs-table td { padding: 8px; border-bottom: 1px solid #f1f5f9; }
-        .specs-table tr:last-child td { border-bottom: none; }
-        .spec-label { font-weight: 700; color: var(--primary); width: 40%; }
-        .spec-val { color: #64748b; }
-        
+        .specs-table td { padding: 10px; border-bottom: 1px solid #f1f5f9; }
+        .spec-label { font-weight: 800; color: var(--primary); width: 40%; }
+        .spec-val { font-weight: 600; color: #475569; }
+
         .box-contents { background: #f8fafc; padding: 15px; border-radius: 10px; margin-top: 20px; border: 1px dashed #cbd5e1; }
-        .box-title { font-weight: 800; color: var(--primary); margin-bottom: 8px; display: block; font-size: 13px; }
+        .box-title { font-weight: 800; color: var(--primary); margin-bottom: 10px; display: block; font-size: 14px; }
         .box-list { list-style: none; padding: 0; margin: 0; font-size: 13px; color: #475569; }
-        .box-list li { margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
-        .box-list li::before { content: "▪"; color: var(--accent); }
+        .box-list li { margin-bottom: 6px; display: flex; align-items: center; gap: 6px; font-weight: 600; }
+        .box-list li::before { content: "✔"; color: var(--accent); font-size: 14px; }
 
-        /* --- FAQ SECTION --- */
-        .faq-container { margin-bottom: 30px; }
-        .faq-card {
-            background: white; border: 1px solid #e2e8f0;
-            border-radius: 10px; padding: 12px;
-            margin-bottom: 8px;
-        }
-        
-        .faq-q { 
-            font-weight: 800; color: var(--primary); font-size: 14px; 
-            margin-bottom: 4px; display: flex; align-items: center; gap: 6px;
-        }
-        .faq-a { color: #64748b; font-size: 12px; line-height: 1.5; }
-        .highlight-green { color: var(--success); font-weight: bold; }
+        .form-wrapper { background: white; padding: 25px 15px; margin: 15px; border-radius: 16px; border: 2px solid var(--primary); margin-bottom: 40px; box-shadow: 0 10px 30px rgba(30, 58, 138, 0.08); }
+        .input-group { margin-bottom: 15px; text-align: right; }
+        .input-group label { display: block; font-size: 13px; font-weight: 800; margin-bottom: 8px; color: #1e293b; }
+        .custom-input { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: 'Cairo'; font-size: 15px; background: #f8fafc; transition: all 0.3s; }
+        .custom-input:focus { border-color: var(--accent); background: white; outline: none; box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1); }
 
-        /* --- REVIEWS --- */
-        .reviews-area { margin-bottom: 20px; padding: 0 15px; }
-        .section-header { text-align: center; margin-bottom: 15px; font-weight: 800; font-size: 16px; color: var(--text-main); }
-        
-        .review-card {
-            background: white; padding: 15px; border-radius: 12px;
-            margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-            border: 1px solid #f1f5f9;
-        }
-        .review-header { display: flex; justify-content: space-between; margin-bottom: 6px; align-items: center; }
-        .reviewer-name { font-weight: 700; font-size: 12px; color: #334155; display: flex; align-items: center; gap: 4px; }
-        .stars { color: #f59e0b; font-size: 12px; letter-spacing: 1px; }
-        .review-text { font-size: 12px; color: #64748b; line-height: 1.5; font-style: italic; }
-        .verified-badge { background: #dcfce7; color: #166534; font-size: 9px; padding: 2px 5px; border-radius: 3px; margin-right: 4px; }
-
-        /* --- FORM SECTION --- */
-        .form-wrapper {
-            background: white; padding: 20px 15px;
-            margin: 15px; border-radius: 16px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.03);
-            border: 1px solid var(--primary);
-            margin-bottom: 40px;
-        }
-        .form-header { text-align: center; margin-bottom: 15px; }
-        .form-header h2 { margin: 0; color: var(--primary); font-size: 18px; }
-        .form-header p { font-size: 12px; color: #64748b; margin-top: 4px; }
-
-        .input-group { margin-bottom: 12px; text-align: right; }
-        .input-group label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 6px; color: #475569; margin-right: 4px; }
-        .custom-input {
-            width: 100%; padding: 12px; border: 1px solid #cbd5e1;
-            border-radius: 8px; font-family: 'Cairo'; font-size: 14px;
-            transition: 0.3s; background: #f8fafc;
-        }
-        .custom-input:focus { border-color: var(--primary); outline: none; background: white; }
-
-        /* --- STICKY BUTTON --- */
-        .sticky-bar {
-            position: fixed; bottom: 20px; left: 0; right: 0;
-            background: transparent; z-index: 100; 
-            display: flex; justify-content: center;
-            padding: 0 20px; pointer-events: none;
-        }
-        
-        .cta-btn {
-            pointer-events: auto;
-            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-            color: white; border: none; 
-            width: auto;             
-            min-width: 250px;        
-            max-width: 320px;        
-            padding: 12px 25px;      
-            border-radius: 50px;
-            font-size: 16px;         
-            font-weight: 800;
-            box-shadow: 0 4px 15px rgba(234, 88, 12, 0.4);
-            cursor: pointer; position: relative; overflow: hidden;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            transition: transform 0.2s;
-        }
-        
-        .cta-btn:active { transform: scale(0.96); }
-
-        .cta-btn::after {
-            content: ""; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
-            transform: skewX(-20deg); animation: shine 3s infinite;
-        }
-        @keyframes shine { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
-
-        .hidden { display: none; }
+        .sticky-bar { position: fixed; bottom: 20px; left: 0; right: 0; z-index: 100; display: flex; justify-content: center; padding: 0 20px; pointer-events: none; }
+        .cta-btn { pointer-events: auto; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; border: none; min-width: 280px; padding: 14px 25px; border-radius: 50px; font-size: 17px; font-weight: 800; box-shadow: 0 5px 20px rgba(234, 88, 12, 0.4); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: transform 0.2s; }
+        .cta-btn:active { transform: scale(0.97); }
     </style>
 </head>
 <body>
 
     <div class="promo-bar">
         <div class="marquee-track">
-            <span class="marquee-item">
-                🛡️ تسوق آمن 100% وبدون مخاطرة &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 👁️ افحص المنتج قبل الدفع &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💰 الدفع بعد الاستلام &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; ↩️ ضمان استرجاع المال
-            </span>
-            <span class="marquee-item">
-                🛡️ تسوق آمن 100% وبدون مخاطرة &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 👁️ افحص المنتج قبل الدفع &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 💰 الدفع بعد الاستلام &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; ↩️ ضمان استرجاع المال
-            </span>
+            <span class="marquee-item">🛡️ ضمان الجودة 100% | 🚛 شحن سريع لجميع المدن | 💰 الدفع بعد الاستلام والمعاينة | ↩️ ضمان استرجاع حقيقي</span>
+            <span class="marquee-item">🛡️ ضمان الجودة 100% | 🚛 شحن سريع لجميع المدن | 💰 الدفع بعد الاستلام والمعاينة | ↩️ ضمان استرجاع حقيقي</span>
         </div>
     </div>
 
@@ -327,199 +108,111 @@ src="https://www.facebook.com/tr?id=2333750730380978&ev=PageView&noscript=1"
     <div class="main-wrapper">
         
         <div class="gallery-area" id="galleryBox">
-            <span class="discount-badge">-50% تخفيض</span>
+            <span class="discount-badge">عرض خاص -40%</span>
             <div class="main-image-frame">
                 <div class="nav-arrow prev-arrow" onclick="prevSlide()">&#10094;</div>
                 <div class="nav-arrow next-arrow" onclick="nextSlide()">&#10095;</div>
-                
-                <img id="currentImg" src="1.jpg" alt="Zafir Steam Iron">
+                <img id="currentImg" src="1.png" alt="Zafir Pro Wireless Washer">
             </div>
             <div class="thumbnails-row">
-                <img src="1.jpg" class="thumb-item selected" onclick="setImg(0)">
+                <img src="1.png" class="thumb-item selected" onclick="setImg(0)">
                 <img src="2.jpg" class="thumb-item" onclick="setImg(1)">
-                <img src="3.jpg" class="thumb-item" onclick="setImg(2)">
-                <img src="4.jpg" class="thumb-item" onclick="setImg(3)">
-                <img src="5.jpg" class="thumb-item" onclick="setImg(4)">
             </div>
         </div>
 
         <div class="info-section">
             <div class="title-area">
-                <h1>مكواة بخار يدوية محمولة (2 في 1) - كي جاف ورطب مع مقبض قابل للدوران</h1>
+                <h1>Zafir Pro™ - مضخة الغسيل اللاسلكية الأقوى (30 بار) بمحرك نحاسي متطور</h1>
             </div>
 
             <div class="price-box">
-                <div class="current-price">149 <span class="currency" style="font-size:16px;">درهم</span></div>
-                <div class="old-price">299 درهم</div>
-                <div class="shipping-tag">+ 20 درهم شحن</div>
-            </div>
-
-            <div class="trust-box">
-                <div class="trust-grid">
-                    <div class="trust-item">
-                        <span class="trust-icon" style="color:var(--primary);">👁️</span>
-                        <span class="trust-text">افتح وتأكد<br>قبل الدفع</span>
-                    </div>
-                    <div class="trust-item" style="border-right: 1px dashed #e2e8f0; border-left: 1px dashed #e2e8f0;">
-                        <span class="trust-icon" style="color:var(--gold);">💰</span>
-                        <span class="trust-text">ضمان استرجاع<br>7 أيام</span>
-                    </div>
-                    <div class="trust-item">
-                        <span class="trust-icon" style="color:var(--primary);">🛡️</span>
-                        <span class="trust-text">ضمان سنة<br>للجودة</span>
-                    </div>
-                </div>
+                <div class="current-price">349 درهم</div>
+                <div class="old-price">599 درهم</div>
+                <div style="background: #ecfdf5; color: var(--primary); font-size: 12px; font-weight: 700; padding: 6px 10px; border-radius: 6px; border: 1px solid #d1fae5;">🚀 توصيل مجاني سريع</div>
             </div>
 
             <div class="features-grid">
                 <div class="feat-card">
-                    <span class="feat-icon">🔄</span>
-                    <p class="feat-title">مقبض دوار</p>
+                    <span style="font-size:24px">🔋</span>
+                    <p class="feat-title">بطارية ليثيوم 24V</p>
                 </div>
                 <div class="feat-card">
-                    <span class="feat-icon">💎</span>
-                    <p class="feat-title">لوح تيتانيوم</p>
+                    <span style="font-size:24px">⚙️</span>
+                    <p class="feat-title">محرك نحاسي 100%</p>
                 </div>
                 <div class="feat-card">
-                    <span class="feat-icon">💧</span>
-                    <p class="feat-title">كي جاف ورطب</p>
+                    <span style="font-size:24px">🌊</span>
+                    <p class="feat-title">ضغط عالي 30 Bar</p>
                 </div>
                 <div class="feat-card">
-                    <span class="feat-icon">🚀</span>
-                    <p class="feat-title">بخار قوي</p>
+                    <span style="font-size:24px">🛠️</span>
+                    <p class="feat-title">استخدام متعدد</p>
                 </div>
             </div>
 
             <div class="rich-content">
                 <p class="desc-intro">
-                    استمتع بأناقة دائمة أينما كنت. مكواة بخارية صغيرة ومحمولة بتصميم مبتكر، تضمن لك ملابس مكوية بعناية فائقة في دقائق معدودة، سواء كنت في المنزل أو في سفر.
+                    هل سئمت من فواتير غسيل السيارات الباهظة والانتظار الطويل؟<br>
+                    اكتشف <strong>Zafir Pro</strong>، الحل اللاسلكي المتكامل الذي يمنحك قوة تنظيف المحطات في راحة يدك. مثالية للسيارات، السجاد، واجهات المنازل، والمكيفات.
                 </p>
 
                 <div class="benefit-row">
                     <div class="check-icon">✓</div>
                     <div class="benefit-text">
-                        <h3>كي مزدوج (جاف ورطب)</h3>
-                        <p>مكواة متعددة الوظائف تدعم الكي بالبخار والكي الجاف لتناسب جميع أنواع الأقمشة الحساسة والسميكة.</p>
+                        <h3>قوة ضغط هائلة (Turbo Pressure)</h3>
+                        <p>بفضل الضغط الحقيقي 30 بار (435 PSI)، تزيل الأوساخ العنيدة والطين الجاف في ثوانٍ معدودة، مما يعيد لسيارتك بريقها.</p>
                     </div>
                 </div>
                 <div class="benefit-row">
                     <div class="check-icon">✓</div>
                     <div class="benefit-text">
-                        <h3>تصميم مريح وقابل للدوران</h3>
-                        <p>مقبض قابل للدوران 180 درجة يسهل الوصول للزوايا الصعبة ويوفر مساحة كبيرة عند التخزين في الحقيبة.</p>
+                        <h3>حرية مطلقة بدون قيود</h3>
+                        <p>لا كهرباء؟ لا صنبور ماء؟ لا مشكلة! تقنية السحب الذاتي تمكنك من الغسيل باستخدام أي سطل ماء، نهر، أو خزان، في أي مكان.</p>
                     </div>
                 </div>
                 <div class="benefit-row">
                     <div class="check-icon">✓</div>
                     <div class="benefit-text">
-                        <h3>لوح تيتانيوم كبير</h3>
-                        <p>قاعدة تيتانيوم فاخرة تحافظ على حرارة ثابتة (170°C)، تحمي الملابس من الحرق وتنساب بنعومة.</p>
-                    </div>
-                </div>
-                <div class="benefit-row">
-                    <div class="check-icon">✓</div>
-                    <div class="benefit-text">
-                        <h3>دقة في التفاصيل</h3>
-                        <p>تصميم الرأس المدبب (Beauty Tip) يسمح بكي المناطق الدقيقة مثل حول الأزرار والياقات بسهولة.</p>
+                        <h3>الجودة والمتانة (Heavy Duty)</h3>
+                        <p>قلب محرك مصنوع من النحاس الخالص لضمان عدم السخونة أثناء العمل المتواصل، مع بطارية ليثيوم أيون تدوم طويلاً.</p>
                     </div>
                 </div>
 
-                <h3 style="margin-top:25px; color:var(--primary); font-size:15px;">⚙️ المواصفات الفنية:</h3>
+                <h3 style="margin-top:30px; color:var(--primary); font-size:16px;">⚙️ المواصفات التقنية (Original Specs):</h3>
                 <table class="specs-table">
-                    <tr>
-                        <td class="spec-label">خزان المياه</td>
-                        <td class="spec-val">50 مل</td> </tr>
-                    <tr>
-                        <td class="spec-label">الطاقة</td>
-                        <td class="spec-val">33 واط (اقتصادي)</td>
-                    </tr>
-                    <tr>
-                        <td class="spec-label">درجة الحرارة</td>
-                        <td class="spec-val">ثابتة عند 170°C</td>
-                    </tr>
+                    <tr><td class="spec-label">الموديل</td><td class="spec-val">Zafir Pro Wireless</td></tr>
+                    <tr><td class="spec-label">قوة الضغط</td><td class="spec-val">30 Bar / 435 PSI (Real)</td></tr>
+                    <tr><td class="spec-label">نوع المحرك</td><td class="spec-val">Pure Copper Core (نحاس خالص)</td></tr>
+                    <tr><td class="spec-label">البطارية</td><td class="spec-val">24V High-Capacity Lithium</td></tr>
+                    <tr><td class="spec-label">معدل التدفق</td><td class="spec-val">4 لتر / دقيقة</td></tr>
                 </table>
 
                 <div class="box-contents">
-                    <span class="box-title">📦 ماذا يوجد في العلبة؟</span>
+                    <span class="box-title">📦 ماذا ستحصل في الحقيبة الكاملة؟</span>
                     <ul class="box-list">
-                        <li>جهاز الكي (المكواة) المحمول</li>
-                        <li>كوب قياس للمياه</li>
-                        <li>دليل المستخدم</li>
-                        <li>قاعدة سيليكون للحماية</li>
+                        <li>جهاز الغسيل الأصلي Zafir Pro</li>
+                        <li>بطارية ليثيوم أيون + الشاحن الأصلي</li>
+                        <li>خرطوم مياه مقوى (5 أمتار)</li>
+                        <li>فوهة حمراء (ضغط مركز 0°)</li>
+                        <li>فوهة بيضاء (رش مروحي 40°)</li>
+                        <li>قارورة لرغوة الصابون (Foam Cannon)</li>
+                        <li>فلتر تنقية المياه من الشوائب</li>
+                        <li>حقيبة حمل بلاستيكية صلبة للحماية</li>
                     </ul>
-                </div>
-            </div>
-
-            <div class="faq-container">
-                <div class="section-header" style="text-align: right; font-size: 15px;">🤔 أسئلة شائعة</div>
-                
-                <div class="faq-card">
-                    <div class="faq-q">متى سيصلني المنتج؟</div>
-                    <div class="faq-a">نقوم بالشحن السريع، يصلك الطلب خلال 24 إلى 48 ساعة لمعظم المدن.</div>
-                </div>
-
-                <div class="faq-card" style="border-right: 3px solid var(--success);">
-                    <div class="faq-q">هل يمكنني فحص المنتج؟</div>
-                    <div class="faq-a">
-                        <span class="highlight-green">طبعاً!</span> 
-                        يمكنك فتح العلبة والتحقق من جودة المنتج قبل الدفع للمندوب.
-                    </div>
-                </div>
-
-                <div class="faq-card" style="border-right: 3px solid var(--gold);">
-                    <div class="faq-q">ماذا عن الضمان؟</div>
-                    <div class="faq-a">
-                        لديك ضمان استرجاع لمدة 7 أيام في حال وجود أي عيب مصنعي، وضمان سنة على المحرك.
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="reviews-area">
-            <div class="section-header">💬 تجارب الزبائن</div>
-            
-            <div class="review-card">
-                <div class="review-header">
-                    <span class="reviewer-name">✅ خديجة (الدار البيضاء)</span>
-                    <span class="stars">★★★★★</span>
-                </div>
-                <div class="review-text">
-                    "فعلاً عملية جداً، خديتها للسفر ونفعتني بزاف. صغيرة وماتاتحرقش الحوايج. شكراً على التوصيل السريع."
-                </div>
-            </div>
-
-            <div class="review-card">
-                <div class="review-header">
-                    <span class="reviewer-name">✅ كريم (الرباط) <span class="verified-badge">شراء مؤكد</span></span>
-                    <span class="stars">★★★★★</span>
-                </div>
-                <div class="review-text">
-                    "عجباتني فكرة المقبض اللي كيدور، كتسهل الكي. والجودة ديال التيتانيوم باينة ممتازة. الله يسر ليكم."
-                </div>
-            </div>
-
-            <div class="review-card">
-                <div class="review-header">
-                    <span class="reviewer-name">✅ سارة (مراكش)</span>
-                    <span class="stars">★★★★☆</span>
-                </div>
-                <div class="review-text">
-                    "وصلاتني فالوقت، جربتها فالقميصات والنتيجة كانت زوينة. شكراً حيث خليتوني نقلبها قبل ما نخلص."
                 </div>
             </div>
         </div>
 
         <div class="form-wrapper" id="orderFormSection">
-            <div class="form-header">
-                <h2>📝 للطلب، املأ الاستمارة</h2>
-                <p>الدفع نقداً عند الاستلام - التوصيل لباب المنزل</p>
+            <div style="text-align:center; margin-bottom:20px">
+                <h2 style="margin:0; color:var(--primary); font-size:20px; font-weight:900">📝 اطلبها الآن والدفع لاحقاً</h2>
+                <p style="font-size:13px; color:#64748b; margin-top:5px">الكمية محدودة جداً - التوصيل مجاني لباب المنزل</p>
             </div>
 
             <form id="telegramForm">
                 <div class="input-group">
                     <label>الاسم الكامل</label>
-                    <input type="text" id="name" class="custom-input" placeholder="الاسم والنسب" required>
+                    <input type="text" id="name" class="custom-input" placeholder="مثال: محمد العلوي" required>
                 </div>
 
                 <div class="input-group">
@@ -534,126 +227,80 @@ src="https://www.facebook.com/tr?id=2333750730380978&ev=PageView&noscript=1"
                 
                 <div class="input-group">
                     <label>العنوان (اختياري)</label>
-                    <input type="text" id="address" class="custom-input" placeholder="الحي، رقم المنزل...">
+                    <input type="text" id="address" class="custom-input" placeholder="رقم المنزل، الحي...">
                 </div>
-
                 <button type="submit" style="display:none;"></button>
             </form>
-
-            <div style="background: #fff7ed; border: 1px solid #ffedd5; padding: 10px; font-size: 11px; border-radius: 8px; display: flex; align-items: center; gap: 8px; margin-top: 15px; color: #c2410c;">
-                🔥 عرض محدود: الكمية المتبقية قليلة جداً.
-            </div>
         </div>
-
     </div>
 
     <div class="sticky-bar">
         <button class="cta-btn" onclick="submitOrder()">
-            <span>🛒 اضغط للطلب - 149 درهم</span>
+            <span>🛒 اضغط هنا للطلب - 349 درهم</span>
         </button>
     </div>
 
     <script>
-        // --- IMAGE GALLERY LOGIC ---
+        // إعدادات الصور
         let currentIndex = 0;
-        const images = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg'];
+        const images = ['1.png', '2.jpg'];
         const mainImg = document.getElementById('currentImg');
         const thumbs = document.querySelectorAll('.thumb-item');
 
         function updateGallery(index) {
             if (index < 0) index = images.length - 1;
             if (index >= images.length) index = 0;
-            
             currentIndex = index;
-            
             mainImg.style.opacity = 0;
             setTimeout(() => {
                 mainImg.src = images[currentIndex];
                 mainImg.style.opacity = 1;
             }, 200);
-
             thumbs.forEach((t, i) => {
                 t.classList.remove('selected');
                 if(i === currentIndex) t.classList.add('selected');
             });
         }
-
-        function setImg(index) {
-            updateGallery(index);
-        }
-
+        function setImg(index) { updateGallery(index); }
         function prevSlide() { updateGallery(currentIndex - 1); }
         function nextSlide() { updateGallery(currentIndex + 1); }
 
-        // --- SWIPE HANDLER ---
-        let touchStartX = 0;
-        let touchEndX = 0;
-        const galleryArea = document.getElementById('galleryBox');
-
-        galleryArea.addEventListener('touchstart', e => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, {passive: true});
-
-        galleryArea.addEventListener('touchend', e => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, {passive: true});
-
-        function handleSwipe() {
-            if (touchEndX < touchStartX - 50) prevSlide(); 
-            if (touchEndX > touchStartX + 50) nextSlide();
-        }
-
-        // --- FORM HANDLING ---
+        // إرسال الطلب
         function submitOrder() {
             const name = document.getElementById('name').value;
             const phone = document.getElementById('phone').value;
             const city = document.getElementById('city').value;
+            const address = document.getElementById('address').value || "غير محدد";
             
             if(!name || !phone || !city) {
                 document.getElementById('orderFormSection').scrollIntoView({ behavior: 'smooth' });
-                if(!name) document.getElementById('name').style.borderColor = "#ef4444";
-                if(!phone) document.getElementById('phone').style.borderColor = "#ef4444";
-                if(!city) document.getElementById('city').style.borderColor = "#ef4444";
-                
-                // Shake animation
+                // رجة خفيفة للتنبيه
                 document.getElementById('orderFormSection').style.transform = "translateX(5px)";
                 setTimeout(() => document.getElementById('orderFormSection').style.transform = "translateX(0)", 100);
                 setTimeout(() => document.getElementById('orderFormSection').style.transform = "translateX(-5px)", 200);
                 setTimeout(() => document.getElementById('orderFormSection').style.transform = "translateX(0)", 300);
-                
                 return;
             }
-            document.getElementById('telegramForm').dispatchEvent(new Event('submit'));
-        }
 
-        const BOT_TOKEN = "8383494745:AAEFXQDJdszeU-EW8AWVn-NwGlQPiquG5xk";
-        const CHAT_ID = "819906295";
-
-        document.getElementById('telegramForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
             const btn = document.querySelector('.cta-btn');
             const originalText = btn.innerHTML;
-            btn.innerHTML = "جاري الإرسال...";
-            btn.style.background = "#94a3b8"; 
+            btn.innerHTML = "جاري تأكيد الطلب...";
+            btn.style.background = "#94a3b8";
             btn.disabled = true;
 
-            const name = document.getElementById('name').value;
-            const phone = document.getElementById('phone').value;
-            const city = document.getElementById('city').value;
-            const address = document.getElementById('address').value || "غير محدد";
-
+            const BOT_TOKEN = "8383494745:AAEFXQDJdszeU-EW8AWVn-NwGlQPiquG5xk";
+            const CHAT_ID = "819906295";
+            
             const text = `
-📦 *طلب جديد (Zafir Iron)*
+🔥 *طلب جديد (Zafir Pro - 30 Bar)*
 ------------------
-👤 *الاسم:* ${name}
+👤 *العميل:* ${name}
 📱 *الهاتف:* ${phone}
 🏙 *المدينة:* ${city}
 📍 *العنوان:* ${address}
-💰 *السعر:* 149 درهم + 20 درهم شحن
+💰 *السعر:* 349 درهم (شحن مجاني)
 ------------------
-⏰ ${new Date().toLocaleString()}
+⏰ ${new Date().toLocaleString('ar-MA')}
             `;
 
             fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}&parse_mode=Markdown`)
@@ -661,25 +308,20 @@ src="https://www.facebook.com/tr?id=2333750730380978&ev=PageView&noscript=1"
                 if(res.ok) {
                     window.location.href = "thankyou.html";
                 } else {
-                    alert("حدث خطأ تقني، المرجو المحاولة مرة أخرى");
-                    btn.innerHTML = originalText;
+                    alert("عذراً، حدث خطأ تقني. يرجى المحاولة مرة أخرى.");
                     btn.disabled = false;
+                    btn.innerHTML = originalText;
                     btn.style.background = "linear-gradient(135deg, #f97316 0%, #ea580c 100%)";
                 }
             })
             .catch(err => {
-                alert("خطأ في الاتصال بالانترنت");
-                btn.innerHTML = originalText;
+                alert("يرجى التحقق من اتصال الإنترنت.");
+                console.error(err);
                 btn.disabled = false;
+                btn.innerHTML = originalText;
                 btn.style.background = "linear-gradient(135deg, #f97316 0%, #ea580c 100%)";
             });
-        });
-        
-        document.querySelectorAll('.custom-input').forEach(input => {
-            input.addEventListener('input', function() {
-                this.style.borderColor = "#cbd5e1";
-            });
-        });
+        }
     </script>
 </body>
 </html>
