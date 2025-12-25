@@ -16,17 +16,18 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Zafir Pro - الأداء الاحترافي لغسيل السيارات</title>
+    <title>Zafir Pro - المضخة الألمانية الأصلية</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --primary: #1e3a8a; 
             --accent: #f97316;  
-            --bg: #f8fafc; /* خلفية أفتح قليلاً لراحة العين */
+            --bg: #f8fafc;
             --white: #ffffff;
             --text-main: #334155;
             --success: #10b981;
+            --warning: #ef4444;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -51,7 +52,7 @@
         .brand-logo { font-size: 24px; font-weight: 900; color: var(--primary); letter-spacing: 1px; text-transform: uppercase; }
 
         .main-wrapper { 
-            max-width: 100%; /* استغلال كامل عرض الموبايل */
+            max-width: 100%; 
             margin: 0 auto; 
             overflow: hidden; 
             background: var(--white); 
@@ -61,7 +62,6 @@
         .gallery-area { position: relative; background: #fff; margin: 0; padding-bottom: 5px; }
         .discount-badge { position: absolute; top: 10px; left: 10px; background: #ef4444; color: white; padding: 4px 10px; border-radius: 6px; font-weight: bold; font-size: 12px; z-index: 10; box-shadow: 0 2px 5px rgba(239, 68, 68, 0.3); }
         
-        /* تعديل للموبايل: ارتفاع 320 بيكسل مناسب جداً */
         .main-image-frame { 
             height: 320px; 
             display: flex; 
@@ -83,17 +83,32 @@
         .thumb-item { width: 50px; height: 50px; border-radius: 8px; border: 1px solid #e2e8f0; cursor: pointer; object-fit: cover; }
         .thumb-item.selected { border-color: var(--primary); transform: scale(1.05); }
 
-        /* تقليل الحاشية للموبايل */
         .info-section { padding: 15px; }
+        .title-area h1 { font-size: 18px; font-weight: 800; margin: 0 0 5px 0; line-height: 1.4; color: var(--primary); }
         
-        /* تصغير الخط ليتناسب مع شاشة الهاتف */
-        .title-area h1 { font-size: 18px; font-weight: 800; margin: 0 0 10px 0; line-height: 1.4; color: var(--primary); }
-        
-        /* تنسيق السعر الجديد (أصغر وأكثر تناسقاً) */
-        .price-box { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-        .current-price { font-size: 26px; font-weight: 900; color: var(--accent); } /* تم التصغير من 30 إلى 26 */
+        /* إضافة جديدة: نص الطلب الاجتماعي */
+        .social-proof-text { font-size: 11px; color: #dc2626; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 5px; }
+        .pulse-dot { width: 8px; height: 8px; background: #dc2626; border-radius: 50%; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.2); } 100% { opacity: 1; transform: scale(1); } }
+
+        .price-box { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
+        .current-price { font-size: 28px; font-weight: 900; color: var(--accent); }
         .old-price { font-size: 14px; color: #94a3b8; text-decoration: line-through; margin-top: 4px; }
         
+        .warning-box {
+            background: #fff1f2;
+            border: 1px dashed #ef4444;
+            color: #b91c1c;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         .features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 25px; }
         .feat-card { background: white; padding: 12px; border-radius: 10px; text-align: center; border: 1px solid #f1f5f9; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
         .feat-title { font-weight: 700; font-size: 12px; color: var(--primary); margin: 6px 0 0 0; }
@@ -128,6 +143,9 @@
 
         .reviews-section { margin-top: 30px; }
         .section-heading { text-align: center; margin-bottom: 20px; font-size: 18px; font-weight: 900; color: var(--primary); display: flex; align-items: center; justify-content: center; gap: 8px; }
+        /* إضافة: شريط ملخص التقييمات */
+        .rating-summary { background: #fffbeb; border: 1px solid #fcd34d; padding: 10px; text-align: center; border-radius: 8px; font-size: 13px; font-weight: 700; color: #92400e; margin-bottom: 15px; }
+        
         .review-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; margin-bottom: 12px; position: relative; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
         .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
         .reviewer-name { font-weight: 800; font-size: 12px; color: #1e293b; display: flex; align-items: center; gap: 4px; }
@@ -149,8 +167,8 @@
 
     <div class="promo-bar">
         <div class="marquee-track">
-            <span class="marquee-item">🛡️ ضمان الجودة 100% | 🚛 شحن سريع لجميع المدن | 💰 الدفع بعد الاستلام والمعاينة | ↩️ ضمان استرجاع حقيقي</span>
-            <span class="marquee-item">🛡️ ضمان الجودة 100% | 🚛 شحن سريع لجميع المدن | 💰 الدفع بعد الاستلام والمعاينة | ↩️ ضمان استرجاع حقيقي</span>
+            <span class="marquee-item">🛡️ ضمان الجودة 100% | 👁️ افتح وتأكد قبل الدفع | ↩️ ضمان استرجاع حقيقي</span>
+            <span class="marquee-item">🛡️ ضمان الجودة 100% | 👁️ افتح وتأكد قبل الدفع | ↩️ ضمان استرجاع حقيقي</span>
         </div>
     </div>
 
@@ -161,7 +179,7 @@
     <div class="main-wrapper">
         
         <div class="gallery-area" id="galleryBox">
-            <span class="discount-badge">عرض خاص -40%</span>
+            <span class="discount-badge">تخفيض -50%</span>
             <div class="main-image-frame">
                 <div class="nav-arrow prev-arrow" onclick="prevSlide()">&#10094;</div>
                 <div class="nav-arrow next-arrow" onclick="nextSlide()">&#10095;</div>
@@ -175,27 +193,36 @@
 
         <div class="info-section">
             <div class="title-area">
-                <h1>Zafir Pro™ - مضخة الغسيل اللاسلكية الأقوى (30 بار) بمحرك نحاسي متطور</h1>
+                <h1>Zafir Pro™ - المضخة الألمانية الأصلية (30 بار) - النسخة المطورة</h1>
+                <div class="social-proof-text">
+                    <div class="pulse-dot"></div>
+                    تم بيع 14 قطعة في آخر ساعة
+                </div>
             </div>
 
             <div class="price-box">
-                <div class="current-price">349 درهم</div>
+                <div class="current-price">299 درهم</div>
                 <div class="old-price">599 درهم</div>
                 <div style="background: #ecfdf5; color: var(--primary); font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 6px; border: 1px solid #d1fae5; display: flex; align-items: center; gap: 4px;">🚀 توصيل مجاني</div>
             </div>
 
+            <div class="warning-box">
+                <span style="font-size: 18px;">⚠️</span>
+                <span>تنبيه هام: احذروا من المنتجات المقلدة الرخيصة! نحن نضمن لك المنتج الأصلي بمحرك نحاسي 100% وضمان حقيقي.</span>
+            </div>
+
             <div class="features-grid">
                 <div class="feat-card">
-                    <span style="font-size:22px">🔋</span>
-                    <p class="feat-title">بطارية ليثيوم 24V</p>
+                    <span style="font-size:22px">🇩🇪</span>
+                    <p class="feat-title">جودة ألمانية</p>
                 </div>
                 <div class="feat-card">
                     <span style="font-size:22px">⚙️</span>
                     <p class="feat-title">محرك نحاسي 100%</p>
                 </div>
                 <div class="feat-card">
-                    <span style="font-size:22px">🌊</span>
-                    <p class="feat-title">ضغط عالي 30 Bar</p>
+                    <span style="font-size:22px">👁️</span>
+                    <p class="feat-title">افتح قبل الدفع</p>
                 </div>
                 <div class="feat-card">
                     <span style="font-size:22px">🛠️</span>
@@ -205,105 +232,100 @@
 
             <div class="rich-content">
                 <p class="desc-intro">
-                    هل سئمت من فواتير غسيل السيارات الباهظة والانتظار الطويل؟<br>
-                    اكتشف <strong>Zafir Pro</strong>، الحل اللاسلكي المتكامل الذي يمنحك قوة تنظيف المحطات في راحة يدك. مثالية للسيارات، السجاد، واجهات المنازل، والمكيفات.
+                    لماذا تضيع مالك في منتجات مقلدة تتعطل بعد أسبوع؟<br>
+                    احصل على <strong>Zafir Pro الأصلية</strong>، بتقنية ألمانية ومحرك نحاسي خالص يضمن لك ضغطاً قوياً وعمراً طويلاً.
                 </p>
 
                 <div class="benefit-row">
                     <div class="check-icon">✓</div>
                     <div class="benefit-text">
-                        <h3>قوة ضغط هائلة (Turbo Pressure)</h3>
-                        <p>بفضل الضغط الحقيقي 30 بار (435 PSI)، تزيل الأوساخ العنيدة والطين الجاف في ثوانٍ معدودة، مما يعيد لسيارتك بريقها.</p>
+                        <h3>ضمان الجودة الأصلية</h3>
+                        <p>نحن الموزع المعتمد للمنتج الأصلي. لا تغامر بشراء نسخ رخيصة بمحركات بلاستيكية ضعيفة.</p>
                     </div>
                 </div>
                 <div class="benefit-row">
                     <div class="check-icon">✓</div>
                     <div class="benefit-text">
-                        <h3>حرية مطلقة بدون قيود</h3>
-                        <p>لا كهرباء؟ لا صنبور ماء؟ لا مشكلة! تقنية السحب الذاتي تمكنك من الغسيل باستخدام أي سطل ماء، نهر، أو خزان، في أي مكان.</p>
+                        <h3>حقك في الفحص والمعاينة</h3>
+                        <p>نحن واثقون من جودة منتجنا! نمنحك صلاحية فتح العلبة وتفقد الجهاز والملحقات قبل أن تدفع أي درهم للمندوب.</p>
                     </div>
                 </div>
                 <div class="benefit-row">
                     <div class="check-icon">✓</div>
                     <div class="benefit-text">
-                        <h3>الجودة والمتانة (Heavy Duty)</h3>
-                        <p>قلب محرك مصنوع من النحاس الخالص لضمان عدم السخونة أثناء العمل المتواصل، مع بطارية ليثيوم أيون تدوم طويلاً.</p>
+                        <h3>قوة ومتانة (Heavy Duty)</h3>
+                        <p>مصممة للأعمال الشاقة: غسيل السيارات، السجاد، الواجهات، وحتى رش المبيدات الزراعية بكفاءة عالية.</p>
                     </div>
                 </div>
 
-                <h3 style="margin-top:25px; color:var(--primary); font-size:15px; font-weight: 800;">⚙️ المواصفات التقنية (Original Specs):</h3>
+                <h3 style="margin-top:25px; color:var(--primary); font-size:15px; font-weight: 800;">⚙️ المواصفات (الأصلية):</h3>
                 <table class="specs-table">
-                    <tr><td class="spec-label">الموديل</td><td class="spec-val">Zafir Pro Wireless</td></tr>
-                    <tr><td class="spec-label">قوة الضغط</td><td class="spec-val">30 Bar / 435 PSI (Real)</td></tr>
-                    <tr><td class="spec-label">نوع المحرك</td><td class="spec-val">Pure Copper Core (نحاس خالص)</td></tr>
-                    <tr><td class="spec-label">البطارية</td><td class="spec-val">24V High-Capacity Lithium</td></tr>
-                    <tr><td class="spec-label">معدل التدفق</td><td class="spec-val">4 لتر / دقيقة</td></tr>
+                    <tr><td class="spec-label">الصناعة/التقنية</td><td class="spec-val">تكنولوجيا ألمانية (German Tech)</td></tr>
+                    <tr><td class="spec-label">قوة الضغط</td><td class="spec-val">30 Bar حقيقي</td></tr>
+                    <tr><td class="spec-label">نوع المحرك</td><td class="spec-val">نحاس خالص (ليس ألمنيوم)</td></tr>
+                    <tr><td class="spec-label">البطارية</td><td class="spec-val">24V ليثيوم (تدوم 5 ساعات)</td></tr>
                 </table>
 
                 <div class="box-contents">
-                    <span class="box-title">📦 ماذا ستحصل في الحقيبة الكاملة؟</span>
+                    <span class="box-title">📦 ماذا ستحصل في الحقيبة؟</span>
                     <ul class="box-list">
                         <li>جهاز الغسيل الأصلي Zafir Pro</li>
                         <li>بطارية ليثيوم أيون + الشاحن الأصلي</li>
                         <li>خرطوم مياه مقوى (5 أمتار)</li>
-                        <li>فوهة حمراء (ضغط مركز 0°)</li>
-                        <li>فوهة بيضاء (رش مروحي 40°)</li>
-                        <li>قارورة لرغوة الصابون (Foam Cannon)</li>
-                        <li>فلتر تنقية المياه من الشوائب</li>
-                        <li>حقيبة حمل بلاستيكية صلبة للحماية</li>
+                        <li>فوهة حمراء (ضغط مركز)</li>
+                        <li>فوهة بيضاء (رش مروحي)</li>
+                        <li>قارورة الرغوة + فلتر التنقية</li>
+                        <li>حقيبة حمل بلاستيكية صلبة</li>
                     </ul>
                 </div>
             </div>
 
             <div class="faq-section">
-                <div class="section-heading">🤔 أسئلة يتكرر طرحها</div>
+                <div class="section-heading">🤔 أسئلة شائعة</div>
                 
                 <div class="faq-item">
-                    <div class="faq-question">هل يمكنني فحص المنتج قبل الدفع؟</div>
-                    <div class="faq-answer"><p>نعم، بكل تأكيد! نحن نثق في جودة منتجنا، يمكنك فتح العلبة والتأكد من وجود جميع الملحقات قبل أن تدفع أي درهم للمندوب.</p></div>
+                    <div class="faq-question">هل المنتج أصلي فعلاً؟</div>
+                    <div class="faq-answer"><p>نعم، نحن نبيع النسخة الأصلية فقط بمحرك نحاسي. ونحذرك من المنتجات المشابهة التي تباع بثمن أقل لأن محركاتها ضعيفة.</p></div>
                 </div>
 
                 <div class="faq-item">
-                    <div class="faq-question">كم مدة عمل البطارية؟</div>
-                    <div class="faq-answer"><p>البطارية قوية جداً (24V) وتدوم حتى 5 ساعات من الاستعمال المتواصل، مما يتيح لك غسيل عدة سيارات بشحنة واحدة.</p></div>
+                    <div class="faq-question">هل يمكنني تجربة المنتج قبل الدفع؟</div>
+                    <div class="faq-answer"><p>بالتأكيد! من حقك فتح الطرد والتأكد من وجود الجهاز وكافة الملحقات والجودة قبل تسليم المال.</p></div>
                 </div>
 
                 <div class="faq-item">
-                    <div class="faq-question">هل الضغط قوي بما يكفي لإزالة الطين؟</div>
-                    <div class="faq-answer"><p>نعم، بقوة 30 بار ومحرك نحاسي، الجهاز قادر على إزالة الأوساخ والطين الجاف بفعالية من السيارات والأرضيات.</p></div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-question">متى سيصلني الطلب؟</div>
-                    <div class="faq-answer"><p>يتم الشحن فور تأكيد الطلب، ويصلك المنتج خلال 24 إلى 48 ساعة حسب مدينتك.</p></div>
+                    <div class="faq-question">هل البطارية قوية؟</div>
+                    <div class="faq-answer"><p>نعم، تأتي ببطارية 24V مطورة تمنحك وقتاً كافياً (حتى 5 ساعات) لغسيل سيارتك بالكامل دون انقطاع.</p></div>
                 </div>
             </div>
 
             <div class="reviews-section">
-                <div class="section-heading">💬 آراء زبائننا الكرام</div>
+                <div class="section-heading">💬 آراء زبائننا</div>
                 
+                <div class="rating-summary">⭐ 4.8/5 بناءً على أكثر من 500 زبون راضٍ</div>
+
                 <div class="review-card">
                     <div class="review-header">
-                        <span class="reviewer-name">ياسين (الدار البيضاء) <span class="verified-badge">شراء مؤكد</span></span>
+                        <span class="reviewer-name">سعيد (مراكش) <span class="verified-badge">شراء مؤكد</span></span>
                         <div class="stars">★★★★★</div>
                     </div>
-                    <div class="review-text">"صراحة تبارك الله عليكم، الماكينة قوية وكتنفع بزاف فالويكاند كنغسل طوموبيلتي بلا صداع الراس د لافاج. التوصيل كان سريع."</div>
+                    <div class="review-text">"خديتها من عندكم بعد ما تصيدت فوحدة رخيصة من فيسبوك. الفرق باين فالجودة والتقل ديال الماكينة. الله يرحم الوالدين."</div>
                 </div>
 
                 <div class="review-card">
                     <div class="review-header">
-                        <span class="reviewer-name">خالد (طنجة) <span class="verified-badge">شراء مؤكد</span></span>
+                        <span class="reviewer-name">عثمان (أكادير) <span class="verified-badge">شراء مؤكد</span></span>
                         <div class="stars">★★★★★</div>
                     </div>
-                    <div class="review-text">"عجباتني الفكرة ديال السطل، ديتها معايا للبادية ونفعتني بزاف. الجودة ديال البلاستيك كتبان صحيحة."</div>
+                    <div class="review-text">"الخدمة ديال الفحص قبل الدفع خلاتني نتيق ونشري. الماكينة ناضية والضغط ديالها كافي للغسيل."</div>
                 </div>
 
                 <div class="review-card">
                     <div class="review-header">
-                        <span class="reviewer-name">أمينة (الرباط) <span class="verified-badge">شراء مؤكد</span></span>
+                        <span class="reviewer-name">فاطمة الزهراء (الدار البيضاء) <span class="verified-badge">شراء مؤكد</span></span>
                         <div class="stars">★★★★☆</div>
                     </div>
-                    <div class="review-text">"وصلاتني اليوم، جربتها فالزربية والنتيجة كانت زوينة. شكراً على التعامل الراقي."</div>
+                    <div class="review-text">"وصلاتني ف 24 ساعة، جربتها فالزربية ديال الصالون والنتيجة كانت ممتازة. التعامل ديالكم راقي شكراً."</div>
                 </div>
             </div>
 
@@ -311,8 +333,8 @@
 
         <div class="form-wrapper" id="orderFormSection">
             <div style="text-align:center; margin-bottom:20px">
-                <h2 style="margin:0; color:var(--primary); font-size:20px; font-weight:900">📝 اطلبها الآن والدفع لاحقاً</h2>
-                <p style="font-size:13px; color:#64748b; margin-top:5px">الكمية محدودة جداً - التوصيل مجاني لباب المنزل</p>
+                <h2 style="margin:0; color:var(--primary); font-size:20px; font-weight:900">📝 اطلب النسخة الأصلية الآن</h2>
+                <p style="font-size:13px; color:#64748b; margin-top:5px">عرض محدود: 299 درهم - التوصيل مجاني</p>
             </div>
 
             <form id="telegramForm">
@@ -342,7 +364,7 @@
 
     <div class="sticky-bar">
         <button class="cta-btn" onclick="submitOrder()">
-            <span>🛒 اضغط هنا للطلب - 349 درهم</span>
+            <span>🛒 اضغط للطلب - 299 درهم فقط</span>
         </button>
     </div>
 
@@ -390,7 +412,7 @@
             if (touchEndX > touchStartX + 50) prevSlide();
         }
 
-        // --- ORDER SUBMISSION & PHONE VALIDATION ---
+        // --- ORDER SUBMISSION ---
         function submitOrder() {
             const name = document.getElementById('name').value;
             const phone = document.getElementById('phone').value;
@@ -415,7 +437,7 @@
                 return;
             }
 
-            document.getElementById('phone').style.borderColor = "#e2e8f0";
+            document.getElementById('phone').style.borderColor = "#cbd5e1";
             document.getElementById('phone').style.backgroundColor = "#f8fafc";
 
             const btn = document.querySelector('.cta-btn');
@@ -428,13 +450,13 @@
             const CHAT_ID = "819906295";
             
             const text = `
-🔥 *طلب جديد (Zafir Pro - 30 Bar)*
+🔥 *طلب جديد (Zafir Pro - 299 DH)*
 ------------------
 👤 *العميل:* ${name}
 📱 *الهاتف:* ${cleanPhone}
 🏙 *المدينة:* ${city}
 📍 *العنوان:* ${address}
-💰 *السعر:* 349 درهم (شحن مجاني)
+💰 *السعر:* 299 درهم (شحن مجاني)
 ------------------
 ⏰ ${new Date().toLocaleString('ar-MA')}
             `;
@@ -450,11 +472,10 @@
             })
             .catch(err => {
                 if (window.location.protocol === 'file:') {
-                     alert("ملاحظة: الإرسال قد لا يعمل عند فتح الملف مباشرة من الكمبيوتر بسبب قيود المتصفح. يرجى تجربة الموقع بعد رفعه على استضافة.");
+                     alert("ملاحظة: الإرسال قد لا يعمل عند فتح الملف مباشرة من الكمبيوتر.");
                 } else {
                      alert("يرجى التحقق من اتصال الإنترنت.");
                 }
-                console.error(err);
                 resetBtn(btn, originalText);
             });
         }
