@@ -141,7 +141,6 @@
             align-items: center; 
             gap: 10px;
         }
-        /* Forces numbers to display Left-to-Right (HH:MM:SS) */
         .timer-ltr-wrapper {
             direction: ltr; 
             display: flex; 
@@ -426,7 +425,7 @@
                         <span class="reviewer-name">ياسين (الدار البيضاء) <span class="verified-badge">شراء مؤكد</span></span>
                         <div class="stars">★★★★★</div>
                     </div>
-                    <div class="review-text">"المنتج وصلني مطابق تماماً للصور. الجودة ممتازة والعلبة أنيقة جداً. شكراً لكم على المصداقية."</div>
+                    <div class="review-text">"صراحة الباك واعر بزاف 😍 الصوت فالسماعات نقي والباور بانك كينفعني ديما فالخروج. شكراً على المصداقية."</div>
                     <img src="review1.jpeg" class="review-photo" alt="صورة العميل">
                 </div>
 
@@ -435,16 +434,16 @@
                         <span class="reviewer-name">أحمد (طنجة) <span class="verified-badge">شراء مؤكد</span></span>
                         <div class="stars">★★★★★</div>
                     </div>
-                    <div class="review-text">"اشتريتها كهدية وأعجبتهم كثيراً. التوصيل كان سريعاً والمنتج يبدو فاخراً."</div>
+                    <div class="review-text" dir="ltr" style="text-align: left;">"Je l'ai acheté comme cadeau et ça leur a beaucoup plu. La livraison était rapide et le produit a l'air luxueux."</div>
                     <img src="review2.webp" class="review-photo" alt="صورة العميل">
                 </div>
 
                 <div class="review-card">
                     <div class="review-header">
-                        <span class="reviewer-name">عمر (الرباط) <span class="verified-badge">شراء مؤكد</span></span>
+                        <span class="reviewer-name">سارة (الرباط) <span class="verified-badge">شراء مؤكد</span></span>
                         <div class="stars">★★★★☆</div>
                     </div>
-                    <div class="review-text">"صوت السماعات نقي جداً، والباور بانك عملي. تجربة شراء ناجحة."</div>
+                    <div class="review-text" dir="ltr" style="text-align: left;">"Le son des écouteurs est très pur, et le power bank est pratique. Une expérience d'achat réussie."</div>
                 </div>
             </div>
 
@@ -627,7 +626,7 @@
             document.body.style.overflow = 'auto'; 
         }
 
-        // --- ORDER SUBMISSION ---
+        // --- ORDER SUBMISSION LOGIC ---
         function submitOrder() {
             const name = document.getElementById('name').value;
             const phone = document.getElementById('phone').value;
@@ -664,7 +663,23 @@
             const BOT_TOKEN = "8383494745:AAEFXQDJdszeU-EW8AWVn-NwGlQPiquG5xk";
             const CHAT_ID = "819906295";
             
-            const text = `
+            // تم تحديث الرابط هنا بناءً على ما أرسلته
+            const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxzA6gvIU1TfBtSIGvi-gTv79xYNdDCS2jwVjehOTtaScQFj85Sjxqs6QWBrcv7wJkr/exec";
+            
+            // --- 1. Prepare Google Sheet Data ---
+            let sheetData = new FormData();
+            sheetData.append('name', name);
+            sheetData.append('phone', cleanPhone);
+            sheetData.append('city', city);
+            sheetData.append('address', address);
+            sheetData.append('product', 'iRed W10 Pro Max');
+            sheetData.append('price', '280');
+            sheetData.append('storekey', '15');
+            sheetData.append('code', ''); 
+            sheetData.append('comment', '');
+
+            // --- 2. Prepare Telegram Data ---
+            const telegramText = `
 🔥 *طلب جديد (iRed W10 Pro Max - 280 DH)*
 ------------------
 👤 *العميل:* ${name}
@@ -676,22 +691,41 @@
 ⏰ ${new Date().toLocaleString('ar-MA')}
             `;
 
-            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}&parse_mode=Markdown`)
-            .then(res => {
-                if(res.ok) {
-                    window.location.href = "thankyou.html";
-                } else {
-                    alert("عذراً، حدث خطأ تقني. يرجى المحاولة مرة أخرى.");
-                    resetBtn(btn, originalText);
-                }
+            // Function to handle redirect safely
+            const doRedirect = () => {
+                window.location.href = "thankyou.html";
+            };
+
+            // FAILSAFE: If anything takes more than 2 seconds, force redirect
+            const timeoutID = setTimeout(() => {
+                doRedirect();
+            }, 2000);
+
+            // Send Telegram (Priority 1)
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(telegramText)}&parse_mode=Markdown`)
+            .then(() => {
+                // Telegram sent, now send Sheet in background and redirect
+                fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    body: sheetData,
+                    mode: 'no-cors'
+                }).catch(e => console.log('Sheet Error ignored')); // Ignore sheet errors
+                
+                // Clear timeout and redirect immediately
+                clearTimeout(timeoutID);
+                doRedirect();
             })
             .catch(err => {
-                if (window.location.protocol === 'file:') {
-                     alert("ملاحظة: الإرسال قد لا يعمل عند فتح الملف مباشرة من الكمبيوتر.");
+                // If telegram fails, we still try to redirect
+                if (window.location.protocol !== 'file:') {
+                     clearTimeout(timeoutID);
+                     doRedirect();
                 } else {
-                     alert("يرجى التحقق من اتصال الإنترنت.");
+                     alert("خطأ في الإرسال (تأكد من الانترنت)");
+                     btn.disabled = false;
+                     btn.innerHTML = originalText;
+                     btn.style.background = "linear-gradient(135deg, #f97316 0%, #ea580c 100%)";
                 }
-                resetBtn(btn, originalText);
             });
         }
 
@@ -701,12 +735,6 @@
             setTimeout(() => form.style.transform = "translateX(0)", 100);
             setTimeout(() => form.style.transform = "translateX(-5px)", 200);
             setTimeout(() => form.style.transform = "translateX(0)", 300);
-        }
-
-        function resetBtn(btn, text) {
-            btn.disabled = false;
-            btn.innerHTML = text;
-            btn.style.background = "linear-gradient(135deg, #f97316 0%, #ea580c 100%)";
         }
 
         // --- COUNTDOWN TIMER LOGIC ---
@@ -731,7 +759,7 @@
             }, 1000);
         }
 
-        startCountdown(17970); // 4h 59m 30s
+        startCountdown(17970); 
 
     </script>
 </body>
