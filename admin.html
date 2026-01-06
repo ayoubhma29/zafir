@@ -2,20 +2,18 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ZAFIR - إدارة الطلبات</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; }
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        body { font-family: 'Cairo', sans-serif; background-color: #f1f5f9; -webkit-tap-highlight-color: transparent; }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-        .loader { border: 3px solid #f3f3f3; border-radius: 50%; border-top: 3px solid #f97316; width: 24px; height: 24px; animation: spin 1s linear infinite; display: inline-block; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
         /* Status Colors */
-        select.status-New { background-color: #e2e8f0; color: #475569; border-color: #cbd5e1; }
+        select.status-New { background-color: #e2e8f0; color: #334155; border-color: #cbd5e1; }
         select.status-NoAnswer1 { background-color: #fef9c3; color: #854d0e; border-color: #fde047; }
         select.status-NoAnswer2 { background-color: #fef08a; color: #854d0e; border-color: #facc15; }
         select.status-NoAnswer3 { background-color: #fde047; color: #854d0e; border-color: #eab308; }
@@ -23,81 +21,123 @@
         select.status-Postponed { background-color: #ffedd5; color: #9a3412; border-color: #fdba74; }
         select.status-Cancelled { background-color: #fee2e2; color: #991b1b; border-color: #fca5a5; }
         select.status-Fake { background-color: #1e293b; color: #cbd5e1; border-color: #475569; }
+
+        .loader { border: 3px solid #f3f3f3; border-radius: 50%; border-top: 3px solid #f97316; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="text-gray-800">
+<body class="text-slate-800">
 
-    <div id="loginSection" class="fixed inset-0 bg-slate-900 bg-opacity-95 flex items-center justify-center z-50 backdrop-blur-sm">
-        <div class="bg-white p-8 rounded-2xl shadow-2xl text-center w-96 border border-gray-100">
-            <div class="text-4xl mb-4">🔐</div>
-            <h2 class="text-2xl font-black mb-6 text-slate-800">لوحة تحكم المدير</h2>
-            <input type="password" id="adminPass" class="w-full p-3 border border-gray-300 rounded-xl mb-4 focus:outline-none focus:border-orange-500 transition text-center text-lg" placeholder="أدخل كلمة المرور">
-            <button onclick="checkLogin()" class="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white p-3 rounded-xl font-bold hover:shadow-lg transform active:scale-95 transition">تسجيل الدخول</button>
+    <div id="loginSection" class="fixed inset-0 bg-slate-900/95 flex items-center justify-center z-50 backdrop-blur-sm">
+        <div class="bg-white p-6 rounded-2xl shadow-2xl text-center w-80 border border-white/20">
+            <div class="text-4xl mb-3">🔐</div>
+            <h2 class="text-xl font-black mb-4 text-slate-800">تسجيل الدخول</h2>
+            <input type="password" id="adminPass" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl mb-4 text-center focus:outline-none focus:border-orange-500 transition" placeholder="كلمة المرور">
+            <button onclick="checkLogin()" class="w-full bg-orange-600 text-white p-3 rounded-xl font-bold hover:bg-orange-700 shadow-lg shadow-orange-200 transition">دخول</button>
+        </div>
+    </div>
+
+    <div id="editModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden animate-[fadeIn_0.2s_ease-out]">
+            <div class="bg-slate-50 p-4 border-b flex justify-between items-center">
+                <h3 class="font-bold text-lg">📝 تعديل الطلب</h3>
+                <button onclick="closeEditModal()" class="text-slate-400 hover:text-red-500 text-2xl leading-none">&times;</button>
+            </div>
+            <div class="p-5 space-y-3">
+                <input type="hidden" id="editRowIndex">
+                <div>
+                    <label class="text-xs font-bold text-slate-500">الاسم</label>
+                    <input type="text" id="editName" class="w-full p-2 border rounded-lg focus:border-orange-500 outline-none">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-500">الهاتف</label>
+                    <input type="tel" id="editPhone" class="w-full p-2 border rounded-lg focus:border-orange-500 outline-none" dir="ltr">
+                </div>
+                <div class="flex gap-2">
+                    <div class="w-1/2">
+                        <label class="text-xs font-bold text-slate-500">المدينة</label>
+                        <input type="text" id="editCity" class="w-full p-2 border rounded-lg focus:border-orange-500 outline-none">
+                    </div>
+                    <div class="w-1/2">
+                        <label class="text-xs font-bold text-slate-500">السعر (DH)</label>
+                        <input type="number" id="editPrice" class="w-full p-2 border rounded-lg focus:border-orange-500 outline-none">
+                    </div>
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-500">العنوان</label>
+                    <input type="text" id="editAddress" class="w-full p-2 border rounded-lg focus:border-orange-500 outline-none">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-500">ملاحظات (للمدير فقط)</label>
+                    <textarea id="editNote" class="w-full p-2 border rounded-lg focus:border-orange-500 outline-none h-20 placeholder-slate-300" placeholder="مثال: الزبون طلب الاتصال بعد العصر..."></textarea>
+                </div>
+            </div>
+            <div class="p-4 border-t bg-slate-50 flex gap-2">
+                <button onclick="saveOrderChanges()" class="flex-1 bg-green-600 text-white py-2.5 rounded-xl font-bold hover:bg-green-700 shadow-md">حفظ التعديلات</button>
+                <button onclick="closeEditModal()" class="flex-1 bg-slate-200 text-slate-700 py-2.5 rounded-xl font-bold hover:bg-slate-300">إلغاء</button>
+            </div>
         </div>
     </div>
 
     <div id="dashboardContent" class="hidden min-h-screen">
-        <nav class="bg-white shadow-md sticky top-0 z-40 border-b border-gray-100">
+        <nav class="bg-white shadow-sm sticky top-0 z-40 border-b border-slate-200/60 backdrop-blur-md bg-white/90">
             <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-                <div class="text-xl md:text-2xl font-black text-slate-800 tracking-tight">ZAFIR<span class="text-orange-500">.</span> SHOP</div>
+                <div class="text-xl font-black text-slate-800 tracking-tighter">ZAFIR<span class="text-orange-500">.</span> SHOP</div>
                 <div class="flex gap-2">
-                    <button onclick="refreshData()" class="bg-slate-100 text-slate-600 px-4 py-2 rounded-lg hover:bg-slate-200 text-sm font-bold flex items-center gap-2 transition"><span>🔄</span> <span class="hidden md:inline">تحديث</span></button>
-                    <button onclick="exportToCSV()" class="bg-green-100 text-green-700 px-4 py-2 rounded-lg hover:bg-green-200 text-sm font-bold flex items-center gap-2 transition"><span>📥</span> <span class="hidden md:inline">Excel</span></button>
+                    <button onclick="refreshData()" class="bg-slate-100 text-slate-600 w-10 h-10 rounded-full flex items-center justify-center hover:bg-orange-100 hover:text-orange-600 transition shadow-sm" title="تحديث">🔄</button>
+                    <button onclick="exportToCSV()" class="bg-green-50 text-green-600 w-10 h-10 rounded-full flex items-center justify-center hover:bg-green-100 transition shadow-sm" title="تحميل Excel">📥</button>
                 </div>
             </div>
         </nav>
 
-        <div class="container mx-auto px-2 md:px-4 py-6 pb-20">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-6">
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 relative overflow-hidden group">
-                    <div class="absolute right-0 top-0 p-3 opacity-10 group-hover:opacity-20 transition text-4xl">📦</div>
-                    <p class="text-slate-500 text-xs font-bold mb-1">الكل</p>
+        <div class="container mx-auto px-2 md:px-4 py-6 pb-24">
+            
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+                    <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-1">الطلبات</p>
                     <p class="text-2xl font-black text-slate-800" id="totalOrders">0</p>
                 </div>
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 relative overflow-hidden group">
-                    <div class="absolute right-0 top-0 p-3 opacity-10 group-hover:opacity-20 transition text-4xl">💰</div>
-                    <p class="text-slate-500 text-xs font-bold mb-1">الأرباح المتوقعة</p>
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+                    <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-1">الأرباح</p>
                     <p class="text-2xl font-black text-green-600" id="totalRevenue">0 <span class="text-xs text-slate-400">DH</span></p>
                 </div>
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 relative overflow-hidden group">
-                    <div class="absolute right-0 top-0 p-3 opacity-10 group-hover:opacity-20 transition text-4xl">🔥</div>
-                    <p class="text-slate-500 text-xs font-bold mb-1">جديد اليوم</p>
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+                    <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-1">جديد</p>
                     <p class="text-2xl font-black text-orange-500" id="newOrdersCount">0</p>
                 </div>
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 relative overflow-hidden group">
-                    <div class="absolute right-0 top-0 p-3 opacity-10 group-hover:opacity-20 transition text-4xl">✅</div>
-                    <p class="text-slate-500 text-xs font-bold mb-1">نسبة التأكيد</p>
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+                    <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-1">التأكيد</p>
                     <p class="text-2xl font-black text-blue-600" id="conversionRate">0%</p>
                 </div>
             </div>
 
-            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 mb-4 flex flex-col md:flex-row gap-3 justify-between items-center">
-                <h3 class="font-bold text-slate-700 w-full md:w-auto">📋 لائحة الطلبات</h3>
-                <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="🔍 بحث بالاسم، الهاتف أو المدينة..." class="w-full md:w-1/3 p-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-orange-400">
+            <div class="bg-white p-2 rounded-xl shadow-sm border border-slate-100 mb-4">
+                <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="🔍 ابحث بالاسم، الهاتف..." class="w-full p-2.5 bg-transparent outline-none text-sm font-semibold text-slate-600 placeholder-slate-400">
             </div>
 
             <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
                 <div class="overflow-x-auto">
                     <table class="w-full text-right text-sm whitespace-nowrap">
-                        <thead class="bg-slate-50 text-slate-600 border-b border-slate-200">
+                        <thead class="bg-slate-50 text-slate-500 border-b border-slate-100">
                             <tr>
-                                <th class="p-4 text-xs font-extrabold uppercase">#ID</th>
-                                <th class="p-4 text-xs font-extrabold uppercase">الحالة (Action)</th>
-                                <th class="p-4 text-xs font-extrabold uppercase">معلومات الزبون</th>
-                                <th class="p-4 text-xs font-extrabold uppercase">المنتج والسعر</th>
-                                <th class="p-4 text-xs font-extrabold uppercase">التاريخ</th>
-                                <th class="p-4 text-xs font-extrabold uppercase text-center">اتصال</th>
+                                <th class="p-4 text-[10px] font-extrabold uppercase tracking-wide">ID/Status</th>
+                                <th class="p-4 text-[10px] font-extrabold uppercase tracking-wide">الزبون</th>
+                                <th class="p-4 text-[10px] font-extrabold uppercase tracking-wide">الطلب</th>
+                                <th class="p-4 text-[10px] font-extrabold uppercase tracking-wide">ملاحظات</th>
+                                <th class="p-4 text-[10px] font-extrabold uppercase tracking-wide text-center">إجراءات</th>
                             </tr>
                         </thead>
-                        <tbody id="ordersTableBody" class="divide-y divide-slate-100"></tbody>
+                        <tbody id="ordersTableBody" class="divide-y divide-slate-50"></tbody>
                     </table>
-                    <div id="loadingIndicator" class="p-10 text-center w-full">
+                    
+                    <div id="loadingIndicator" class="p-12 text-center w-full">
                         <div class="loader"></div>
-                        <p class="text-slate-400 mt-3 text-xs font-bold">جاري تحميل البيانات...</p>
+                        <p class="text-slate-400 mt-3 text-xs font-bold animate-pulse">جاري التحميل...</p>
                     </div>
-                    <div id="emptyState" class="hidden p-10 text-center w-full">
-                        <div class="text-4xl mb-2">📭</div>
-                        <p class="text-slate-400 text-sm">لا توجد طلبات حالياً</p>
+                    
+                    <div id="emptyState" class="hidden p-12 text-center w-full">
+                        <p class="text-4xl mb-2">🍃</p>
+                        <p class="text-slate-400 text-sm font-medium">لا توجد طلبات حتى الآن</p>
                     </div>
                 </div>
             </div>
@@ -105,66 +145,45 @@
     </div>
 
     <script>
-        // الرابط الخاص بك (كما في الصورة)
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbylRACNSa-zj73gjancTwVUg5qGeeHIH1YRdYJL2TXvoBAf9WjzcWl_APOz8QZA62iO/exec";
-        
-        // كلمة السر
-        const ADMIN_PASS = "2911"; 
+        // ⚠️ ضع رابط السكربت الجديد هنا
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwA46KZgSm6KPD29_THPIUF3_w1L0T57jt65LUCKlPQLaysqiI3oFHbr13GSWOu_IlD/exec";
+        const ADMIN_PASS = "2911";
 
         const STATUS_OPTIONS = [
             { value: "New", label: "✨ جديد", class: "status-New" },
-            { value: "NoAnswer1", label: "📞 لا يجيب (1)", class: "status-NoAnswer1" },
-            { value: "NoAnswer2", label: "📞 لا يجيب (2)", class: "status-NoAnswer2" },
-            { value: "NoAnswer3", label: "📞 لا يجيب (3)", class: "status-NoAnswer3" },
+            { value: "NoAnswer1", label: "📞 لا يجيب 1", class: "status-NoAnswer1" },
+            { value: "NoAnswer2", label: "📞 لا يجيب 2", class: "status-NoAnswer2" },
+            { value: "NoAnswer3", label: "📞 لا يجيب 3", class: "status-NoAnswer3" },
             { value: "Postponed", label: "⏳ مؤجل", class: "status-Postponed" },
             { value: "Confirmed", label: "✅ تم التأكيد", class: "status-Confirmed" },
             { value: "Cancelled", label: "❌ ملغي", class: "status-Cancelled" },
-            { value: "Fake", label: "🚫 وهمي/سبام", class: "status-Fake" }
+            { value: "Fake", label: "🚫 وهمي", class: "status-Fake" }
         ];
-
-        function checkLogin() {
-            const input = document.getElementById('adminPass').value;
-            if(input === ADMIN_PASS) {
-                document.getElementById('loginSection').style.display = 'none';
-                document.getElementById('dashboardContent').style.display = 'block';
-                fetchData();
-            } else {
-                alert("كلمة المرور خاطئة!");
-                document.getElementById('adminPass').value = '';
-            }
-        }
 
         let allOrders = [];
 
+        function checkLogin() {
+            if(document.getElementById('adminPass').value === ADMIN_PASS) {
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('dashboardContent').style.display = 'block';
+                fetchData();
+            } else { alert("خطأ في كلمة المرور"); }
+        }
+
         async function fetchData() {
-            const loader = document.getElementById('loadingIndicator');
-            const tbody = document.getElementById('ordersTableBody');
-            const empty = document.getElementById('emptyState');
-            
-            loader.style.display = 'block';
-            tbody.innerHTML = '';
-            empty.style.display = 'none';
+            document.getElementById('loadingIndicator').style.display = 'block';
+            document.getElementById('ordersTableBody').innerHTML = '';
             
             try {
                 const response = await fetch(`${SCRIPT_URL}?action=read`);
                 const data = await response.json();
-                allOrders = data.reverse(); 
+                allOrders = data.reverse();
                 
-                if (allOrders.length === 0) {
-                    empty.style.display = 'block';
-                } else {
-                    renderTable(allOrders);
-                }
-                
+                document.getElementById('loadingIndicator').style.display = 'none';
+                if(allOrders.length === 0) document.getElementById('emptyState').style.display = 'block';
+                else renderTable(allOrders);
                 calculateStats(allOrders);
-                loader.style.display = 'none';
-
-            } catch (error) {
-                console.error("Error:", error);
-                // هذا الخطأ هو الذي كان يظهر لك سابقاً، الآن سيعمل
-                alert("حدث خطأ أثناء عرض البيانات. تأكد من أن Google Sheet ليس فارغاً تماماً.");
-                loader.style.display = 'none';
-            }
+            } catch (e) { alert("خطأ في الاتصال"); }
         }
 
         function renderTable(orders) {
@@ -172,145 +191,164 @@
             tbody.innerHTML = '';
 
             orders.forEach(order => {
-                // --- FIX: تحويل الهاتف إلى نص لتجنب المشكلة ---
-                let phoneStr = String(order.phone); 
-                let whatsappLink = "https://wa.me/212" + phoneStr.substring(1); 
+                let phoneStr = String(order.phone).replace(/^'/, ''); // إزالة الفاصلة للعرض
+                // تنسيق رقم الواتساب (المغرب)
+                let waNumber = phoneStr.replace(/\s/g, '').replace(/^0/, '212');
                 
-                // التعامل مع التواريخ (قد تكون نصاً أو كائناً)
+                // رسالة الواتساب الجديدة (خدمة التأكيد)
+                let waMsg = `مرحباً ${order.name.split(' ')[0]}، 👋%0aمعك فريق التأكيد من متجر *Zafir Shop*. 🛍️%0a%0aبخصوص طلبيتك: *${order.product}* بسعر *${order.price} درهم*.%0a%0aبغيت غير نأكد معاك العنوان والوقت المناسب للتوصيل؟ 🚛`;
+
+                // قائمة الحالات
+                let optionsHTML = STATUS_OPTIONS.map(opt => 
+                    `<option value="${opt.value}" ${order.status === opt.value ? 'selected' : ''}>${opt.label}</option>`
+                ).join('');
+                
+                const currentClass = (STATUS_OPTIONS.find(s => s.value === order.status) || STATUS_OPTIONS[0]).class;
+
+                // التاريخ
                 let dateDisplay = order.date;
                 try {
-                   let dateObj = new Date(order.date);
-                   if(!isNaN(dateObj)) {
-                       dateDisplay = dateObj.toLocaleDateString('en-GB') + ' <span class="text-slate-400 text-xs">' + dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + '</span>';
-                   }
-                } catch(e) {}
+                    let d = new Date(order.date);
+                    dateDisplay = `${d.getDate()}/${d.getMonth()+1} <span class="text-slate-400 text-[10px]">${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}</span>`;
+                } catch(e){}
 
-                let rowBg = "";
-                if (order.status === 'Confirmed') rowBg = "bg-green-50/50";
-                if (order.status === 'Cancelled') rowBg = "bg-red-50/50";
-                if (order.status === 'Fake') rowBg = "bg-slate-100 opacity-60";
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-slate-50 hover:bg-slate-50 transition group";
+                tr.innerHTML = `
+                    <td class="p-4 align-top">
+                        <div class="font-mono text-xs text-slate-400 mb-1">#${order.order_id}</div>
+                        <div class="relative">
+                            <select onchange="updateStatus(${order.row_index}, this)" class="appearance-none w-28 px-2 py-1.5 rounded-lg text-[11px] font-bold border-2 focus:outline-none cursor-pointer ${currentClass}">
+                                ${optionsHTML}
+                            </select>
+                        </div>
+                        <div class="mt-1 text-[10px] text-slate-400">${dateDisplay}</div>
+                    </td>
+                    
+                    <td class="p-4 align-top">
+                        <div class="font-bold text-slate-800 text-sm">${order.name}</div>
+                        <a href="tel:${phoneStr}" class="text-xs text-slate-500 font-mono hover:text-orange-600 block mt-0.5">${phoneStr}</a>
+                        <div class="text-[11px] text-slate-400 mt-1">📍 ${order.city}</div>
+                    </td>
 
-                let optionsHTML = '';
-                STATUS_OPTIONS.forEach(opt => {
-                    const selected = order.status === opt.value ? 'selected' : '';
-                    optionsHTML += `<option value="${opt.value}" ${selected}>${opt.label}</option>`;
-                });
+                    <td class="p-4 align-top">
+                        <div class="text-xs font-bold text-slate-700 truncate w-32">${order.product}</div>
+                        <div class="text-orange-600 font-black text-sm mt-0.5">${order.price} DH</div>
+                    </td>
 
-                const currentStatusObj = STATUS_OPTIONS.find(s => s.value === order.status) || STATUS_OPTIONS[0];
-                const selectClass = currentStatusObj.class;
+                    <td class="p-4 align-top">
+                        <div class="text-[11px] text-slate-500 italic bg-yellow-50 p-1.5 rounded border border-yellow-100 max-w-[150px] min-h-[40px] whitespace-normal">
+                            ${order.note || '...'}
+                        </div>
+                    </td>
 
-                const row = `
-                    <tr class="border-b border-slate-50 hover:bg-slate-50 transition ${rowBg}">
-                        <td class="p-4 font-mono text-slate-400 font-bold">#${order.order_id}</td>
-                        <td class="p-4">
-                            <div class="relative">
-                                <select onchange="updateStatus(${order.row_index}, this)" class="appearance-none w-36 px-3 py-2 rounded-lg text-xs font-bold border-2 focus:outline-none cursor-pointer ${selectClass}">
-                                    ${optionsHTML}
-                                </select>
-                                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center px-2 text-gray-500 text-xs">▼</div>
-                            </div>
-                        </td>
-                        <td class="p-4">
-                            <div class="font-bold text-slate-800">${order.name}</div>
-                            <div class="text-xs text-slate-500 font-mono tracking-wider mt-1">${phoneStr}</div>
-                            <div class="text-xs text-slate-400 mt-1">📍 ${order.city}</div>
-                            ${order.address && order.address !== 'غير محدد' ? `<div class="text-[10px] text-slate-400 truncate max-w-[150px]">${order.address}</div>` : ''}
-                        </td>
-                        <td class="p-4">
-                            <div class="font-bold text-slate-700 text-xs">${order.product}</div>
-                            <div class="text-orange-600 font-black mt-1">${order.price} DH</div>
-                        </td>
-                        <td class="p-4 text-sm text-slate-600">${dateDisplay}</td>
-                        <td class="p-4 text-center">
-                            <a href="${whatsappLink}?text=السلام عليكم ${order.name}، معاك خدمة التوصيل بخصوص طلبك لـ ${order.product}..." target="_blank" class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-green-100 text-green-600 hover:bg-green-500 hover:text-white transition shadow-sm" title="مراسلة واتساب">
-                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592z"/></svg>
+                    <td class="p-4 align-top text-center">
+                        <div class="flex gap-2 justify-center">
+                            <button onclick='openEditModal(${JSON.stringify(order)})' class="w-8 h-8 rounded-lg bg-slate-100 text-slate-600 hover:bg-blue-100 hover:text-blue-600 flex items-center justify-center transition shadow-sm">
+                                ✏️
+                            </button>
+                            <a href="https://wa.me/${waNumber}?text=${waMsg}" target="_blank" class="w-8 h-8 rounded-lg bg-green-100 text-green-600 hover:bg-green-500 hover:text-white flex items-center justify-center transition shadow-sm">
+                                💬
                             </a>
-                            <a href="tel:${phoneStr}" class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-500 hover:text-white transition shadow-sm mr-2" title="اتصال">
-                               <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/></svg>
-                            </a>
-                        </td>
-                    </tr>
+                        </div>
+                    </td>
                 `;
-                tbody.innerHTML += row;
+                tbody.appendChild(tr);
             });
         }
 
-        async function updateStatus(rowIndex, selectElement) {
-            const newStatus = selectElement.value;
-            const statusObj = STATUS_OPTIONS.find(s => s.value === newStatus);
-            selectElement.className = `appearance-none w-36 px-3 py-2 rounded-lg text-xs font-bold border-2 focus:outline-none cursor-pointer ${statusObj.class}`;
+        // --- وظائف التعديل ---
+        function openEditModal(order) {
+            document.getElementById('editRowIndex').value = order.row_index;
+            document.getElementById('editName').value = order.name;
+            document.getElementById('editPhone').value = String(order.phone).replace(/^'/, '');
+            document.getElementById('editCity').value = order.city;
+            document.getElementById('editAddress').value = order.address;
+            document.getElementById('editPrice').value = order.price;
+            document.getElementById('editNote').value = order.note || '';
+            
+            document.getElementById('editModal').classList.remove('hidden');
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').classList.add('hidden');
+        }
+
+        async function saveOrderChanges() {
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = "جاري الحفظ...";
+            btn.disabled = true;
+
+            const formData = new FormData();
+            formData.append('action', 'edit_order');
+            formData.append('row_index', document.getElementById('editRowIndex').value);
+            formData.append('name', document.getElementById('editName').value);
+            formData.append('phone', document.getElementById('editPhone').value);
+            formData.append('city', document.getElementById('editCity').value);
+            formData.append('address', document.getElementById('editAddress').value);
+            formData.append('price', document.getElementById('editPrice').value);
+            formData.append('note', document.getElementById('editNote').value);
+            // نحتاج إرسال اسم المنتج أيضاً للحفاظ عليه (أو يمكن قراءته من الشيت، لكن الاسهل ارساله)
+            // في هذا التصميم البسيط، لم نضع حقلاً للمنتج، لذا لن نغيره. لكن السكربت يحتاج كل الأعمدة ليعيد كتابة الصف
+            // *تصحيح:* السكربت الجديد يحدث خلايا محددة فقط (Name, Phone, City...) ولا يمس المنتج. ممتاز.
 
             try {
-                const formData = new FormData();
-                formData.append('action', 'update');
-                formData.append('row_index', rowIndex);
-                formData.append('status', newStatus);
-
                 await fetch(SCRIPT_URL, { method: 'POST', body: formData, mode: 'no-cors' });
-                
-                setTimeout(() => {
-                    const order = allOrders.find(o => o.row_index === rowIndex);
-                    if(order) order.status = newStatus;
-                    calculateStats(allOrders);
-                }, 500);
-
-            } catch (error) {
-                console.error("Update failed", error);
+                closeEditModal();
+                alert("تم التعديل بنجاح!");
+                fetchData(); // تحديث الجدول
+            } catch (e) {
+                alert("حدث خطأ");
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
             }
+        }
+
+        // --- باقي الوظائف (تحديث الحالة، الحسابات، البحث) ---
+        async function updateStatus(rowIndex, select) {
+            select.className = `appearance-none w-28 px-2 py-1.5 rounded-lg text-[11px] font-bold border-2 focus:outline-none cursor-pointer ${STATUS_OPTIONS.find(s=>s.value===select.value).class}`;
+            const formData = new FormData();
+            formData.append('action', 'update');
+            formData.append('row_index', rowIndex);
+            formData.append('status', select.value);
+            await fetch(SCRIPT_URL, { method: 'POST', body: formData, mode: 'no-cors' });
+            calculateStats(allOrders); // تحديث سريع للأرقام
         }
 
         function calculateStats(orders) {
             document.getElementById('totalOrders').innerText = orders.length;
-            const revenue = orders.reduce((sum, order) => {
-                const isValid = !['Cancelled', 'Fake'].includes(order.status);
-                return isValid ? sum + parseFloat(order.price) : sum;
-            }, 0);
+            const revenue = orders.reduce((sum, o) => !['Cancelled','Fake'].includes(o.status) ? sum + Number(o.price) : sum, 0);
             document.getElementById('totalRevenue').innerText = revenue.toLocaleString();
-
-            const newOrders = orders.filter(o => o.status === 'New').length;
-            document.getElementById('newOrdersCount').innerText = newOrders;
-
-            const confirmedCount = orders.filter(o => o.status === 'Confirmed').length;
-            const validTotal = orders.filter(o => o.status !== 'Fake').length; 
-            const rate = validTotal > 0 ? Math.round((confirmedCount / validTotal) * 100) : 0;
-            document.getElementById('conversionRate').innerText = rate + "%";
+            document.getElementById('newOrdersCount').innerText = orders.filter(o => o.status === 'New').length;
+            const confirmed = orders.filter(o => o.status === 'Confirmed').length;
+            const valid = orders.filter(o => o.status !== 'Fake').length;
+            document.getElementById('conversionRate').innerText = valid ? Math.round((confirmed/valid)*100) + "%" : "0%";
         }
 
         function filterTable() {
-            const input = document.getElementById("searchInput");
-            const filter = input.value.toUpperCase();
-            const table = document.getElementById("ordersTableBody");
-            const tr = table.getElementsByTagName("tr");
-            for (let i = 0; i < tr.length; i++) {
-                const tdName = tr[i].getElementsByTagName("td")[2]; 
-                const tdID = tr[i].getElementsByTagName("td")[0];
-                if (tdName || tdID) {
-                    const txtValue = tdName.textContent || tdName.innerText;
-                    const idValue = tdID.textContent || tdID.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1 || idValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
-        }
-        function refreshData() { fetchData(); }
-        function exportToCSV() {
-            let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
-            csvContent += "ID,Name,Phone,City,Address,Product,Price,Date,Status\n";
-            allOrders.forEach(function(row) {
-                let rowData = `${row.order_id},"${row.name}","'${row.phone}","${row.city}","${row.address}","${row.product}",${row.price},"${row.date}","${row.status}"`;
-                csvContent += rowData + "\n";
+            const term = document.getElementById('searchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#ordersTableBody tr');
+            rows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                row.style.display = text.includes(term) ? '' : 'none';
             });
-            var encodedUri = encodeURI(csvContent);
-            var link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "zafir_orders.csv");
+        }
+        
+        function refreshData() { fetchData(); }
+        
+        function exportToCSV() {
+            let csv = "ID,Name,Phone,City,Address,Price,Status,Note\n";
+            allOrders.forEach(o => {
+                csv += `${o.order_id},"${o.name}","'${o.phone}","${o.city}","${o.address}",${o.price},"${o.status}","${o.note}"\n`;
+            });
+            const link = document.createElement("a");
+            link.href = encodeURI("data:text/csv;charset=utf-8,\uFEFF" + csv);
+            link.download = "zafir_orders.csv";
             document.body.appendChild(link);
             link.click();
         }
     </script>
 </body>
 </html>
-
