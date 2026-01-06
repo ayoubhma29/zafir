@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ZAFIR - لوحة التحكم</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Cairo', sans-serif; background-color: #f3f4f6; -webkit-tap-highlight-color: transparent; }
@@ -72,7 +73,7 @@
                 <div class="flex gap-2">
                     <button onclick="refreshData()" class="p-2 bg-slate-100 rounded-lg hover:bg-orange-100 hover:text-orange-600 transition" title="تحديث">🔄</button>
                     <button onclick="exportExcel()" class="px-4 py-2 bg-green-100 text-green-700 rounded-lg font-bold hover:bg-green-200 transition text-xs flex items-center gap-1">
-                        <span>📥</span> تحميل المؤكدة
+                        <span>📥</span> تحميل المؤكدة (.xlsx)
                     </button>
                     <button onclick="logout()" class="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition" title="خروج">🚪</button>
                 </div>
@@ -81,7 +82,7 @@
 
         <div class="container mx-auto px-4 py-6">
             
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-6">
+            <div class="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
                     <p class="text-slate-400 text-xs font-bold uppercase">العدد المعروض</p>
                     <p class="text-3xl font-black text-slate-800 mt-2" id="statTotal">0</p>
@@ -227,10 +228,9 @@
                 let phone = String(o.phone).replace(/^'/, '');
                 let waPhone = phone.replace(/\s/g, '').replace(/^0/, '212');
                 
-                // رسالة واتساب
                 const msgText = `السلام عليكم ${o.name.split(' ')[0]} 👋\nمعك فريق التأكيد من متجر Zafir Shop 🛍️\n\nبخصوص طلبيتك: ${o.product}\nالسعر: ${o.price} درهم\n\nبغيت غير نأكد معاك العنوان والوقت المناسب للتوصيل؟ 🚛`;
-                
-                // التاريخ
+                const waLink = `https://wa.me/${waPhone}?text=${encodeURIComponent(msgText)}`;
+
                 let dateStr = o.date;
                 try {
                     let d = new Date(o.date);
@@ -290,19 +290,15 @@
         function openWhatsApp(phone, name, product, price) {
             let firstName = name.split(' ')[0];
             let msg = `السلام عليكم ${firstName} 👋\nمعك فريق التأكيد من متجر Zafir Shop 🛍️\n\nبخصوص طلبيتك: ${product}\nالسعر: ${price} درهم\n\nبغيت غير نأكد معاك العنوان والوقت المناسب للتوصيل؟ 🚛`;
-            
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            
             if (isMobile) {
-                // api.whatsapp.com للهاتف
                 window.location.href = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(msg)}`;
             } else {
-                // web.whatsapp.com للحاسوب
                 window.open(`https://web.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(msg)}`, '_blank');
             }
         }
 
-        // --- وظيفة الفلترة ---
+        // --- وظيفة الفلترة (المحسنة) ---
         function applyFilters() {
             const q = document.getElementById('searchInput').value.toLowerCase();
             const filterType = document.getElementById('filterSelect').value;
@@ -331,41 +327,63 @@
             calcStats(displayedOrders);
         }
 
-        // --- وظيفة التصدير (المعدلة) ---
+        // --- وظيفة التصدير (المؤكدة فقط) - .xlsx ---
         function exportExcel() {
-            // نأخذ فقط المؤكدة
+            // نأخذ فقط المؤكدة من القائمة الكاملة (استبعاد Shipped)
             const confirmedOnly = globalOrders.filter(o => o.status === 'Confirmed');
             
             if(confirmedOnly.length === 0) {
-                alert("⚠️ لا توجد طلبات مؤكدة لتصديرها.");
+                alert("⚠️ لا توجد طلبات مؤكدة (Confirmed) لتصديرها.");
                 return;
             }
 
-            // الترتيب المطلوب بدقة
-            let csv = "\uFEFFCODE SUIVI,DESTINATAIRE,TELEPHONE,ADRESSE,PRIX,VILLE,COMMENTAIRE\n";
-            
-            confirmedOnly.forEach(o => {
-                let p = String(o.phone).replace(/^'/, '');
-                // وضع الملاحظات في خانة COMMENTAIRE
-                csv += `"${o.order_id}","${o.name}","'${p}","${o.address || ''}",${o.price},"${o.city}","${o.note || ''}"\n`;
+            // تحضير البيانات بالتنسيق المطلوب
+            const dataForExcel = confirmedOnly.map(o => {
+                // إزالة العلامة ' من الهاتف
+                let cleanPhone = String(o.phone).replace(/^'/, '');
+                
+                return {
+                    "CODE SUIVI": o.order_id,
+                    "DESTINATAIRE": o.name,
+                    "TELEPHONE": cleanPhone, // إكسل سيحفظ الصفر لأنه نص في المكتبة
+                    "ADRESSE": o.address || '',
+                    "PRIX": o.price,
+                    "VILLE": o.city,
+                    "COMMENTAIRE": o.note || ''
+                };
             });
 
-            const a = document.createElement('a');
-            a.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
-            a.download = `Zafir_Export_${new Date().toISOString().slice(0,10)}.csv`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+            // إنشاء ورقة العمل
+            const worksheet = XLSX.utils.json_to_sheet(dataForExcel);
+            
+            // تحديد عرض الأعمدة (اختياري لتحسين الشكل)
+            const wscols = [
+                {wch:10}, // CODE SUIVI
+                {wch:20}, // DESTINATAIRE
+                {wch:15}, // TELEPHONE
+                {wch:30}, // ADRESSE
+                {wch:10}, // PRIX
+                {wch:15}, // VILLE
+                {wch:20}  // COMMENTAIRE
+            ];
+            worksheet['!cols'] = wscols;
+
+            // إنشاء المصنف
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Confirmed Orders");
+
+            // تحميل الملف
+            const fileName = `Zafir_Confirmed_${new Date().toISOString().slice(0,10)}.xlsx`;
+            XLSX.writeFile(workbook, fileName);
         }
 
-        // --- الحسابات (معدلة لتشمل "تم الإرسال") ---
+        // --- الحسابات ---
         function calcStats(ordersList) {
             const list = ordersList || displayedOrders;
 
             const total = list.length;
             const confirmed = list.filter(o => o.status === 'Confirmed').length;
             const shipped = list.filter(o => o.status === 'Shipped').length;
-            // في الانتظار: لا مؤكدة، ولا مرسلة، ولا ملغية
             const pending = list.filter(o => !['Confirmed', 'Shipped', 'Cancelled', 'Fake'].includes(o.status)).length;
             const cancelled = list.filter(o => ['Cancelled', 'Fake'].includes(o.status)).length;
             
@@ -376,15 +394,13 @@
             document.getElementById('statCancelled').innerText = cancelled;
         }
 
-        // باقي الوظائف
+        // باقي الوظائف (تغيير الحالة، التعديل)
         async function changeStatus(idx, select) {
             const newVal = select.value;
             select.className = `w-36 py-2 px-2 rounded-lg text-xs font-bold border-2 outline-none cursor-pointer ${STATUSES.find(s=>s.id===newVal).css} transition-colors mb-2`;
             const fd = new FormData(); fd.append('action', 'update'); fd.append('row_index', idx); fd.append('status', newVal);
             fetch(SCRIPT_URL, { method: 'POST', body: fd, mode: 'no-cors' });
-            
-            const item = globalOrders.find(o => o.row_index === idx); 
-            if(item) item.status = newVal;
+            const item = globalOrders.find(o => o.row_index === idx); if(item) item.status = newVal;
             applyFilters();
         }
 
