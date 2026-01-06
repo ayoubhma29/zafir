@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="iRed W10 Pro Max - العرض الحصري" />
+    <meta property="og:description" content="العرض الهربة! ساعة ذكية + سماعات + باور بانك بـ 280 درهم. التوصيل فابور لجميع المدن والدفع عند الاستلام." />
+    <meta property="og:image" content="https://i.imgur.com/YOUR_IMAGE_LINK.png" />
+    <meta property="og:url" content="https://zafir.shop" />
+    <meta name="twitter:card" content="summary_large_image">
+
     <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -663,8 +670,8 @@
             const BOT_TOKEN = "8383494745:AAEFXQDJdszeU-EW8AWVn-NwGlQPiquG5xk";
             const CHAT_ID = "819906295";
             
-            // تم تحديث الرابط هنا بناءً على ما أرسلته
-            const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxzA6gvIU1TfBtSIGvi-gTv79xYNdDCS2jwVjehOTtaScQFj85Sjxqs6QWBrcv7wJkr/exec";
+            // UPDATED GOOGLE SCRIPT URL HERE
+            const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyOylfK9dSyQiPnn49tkmSrhu4oEbXMiZHnS7qOLDC41ywcDlTuEjzIRWCOeNtS5IZv/exec";
             
             // --- 1. Prepare Google Sheet Data ---
             let sheetData = new FormData();
@@ -672,11 +679,11 @@
             sheetData.append('phone', cleanPhone);
             sheetData.append('city', city);
             sheetData.append('address', address);
+            // The logic below assumes the server-side script maps these keys to columns A-J
             sheetData.append('product', 'iRed W10 Pro Max');
             sheetData.append('price', '280');
-            sheetData.append('storekey', '15');
-            sheetData.append('code', ''); 
-            sheetData.append('comment', '');
+            sheetData.append('status', 'New');
+            sheetData.append('note', '');
 
             // --- 2. Prepare Telegram Data ---
             const telegramText = `
@@ -691,12 +698,10 @@
 ⏰ ${new Date().toLocaleString('ar-MA')}
             `;
 
-            // Function to handle redirect safely
             const doRedirect = () => {
                 window.location.href = "thankyou.html";
             };
 
-            // FAILSAFE: If anything takes more than 2 seconds, force redirect
             const timeoutID = setTimeout(() => {
                 doRedirect();
             }, 2000);
@@ -704,19 +709,17 @@
             // Send Telegram (Priority 1)
             fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(telegramText)}&parse_mode=Markdown`)
             .then(() => {
-                // Telegram sent, now send Sheet in background and redirect
+                // Telegram sent, now send Sheet in background
                 fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
                     body: sheetData,
                     mode: 'no-cors'
-                }).catch(e => console.log('Sheet Error ignored')); // Ignore sheet errors
+                }).catch(e => console.log('Sheet Error ignored')); 
                 
-                // Clear timeout and redirect immediately
                 clearTimeout(timeoutID);
                 doRedirect();
             })
             .catch(err => {
-                // If telegram fails, we still try to redirect
                 if (window.location.protocol !== 'file:') {
                      clearTimeout(timeoutID);
                      doRedirect();
