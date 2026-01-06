@@ -1,4 +1,642 @@
-function submitOrder() {
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="iRed W10 Pro Max - العرض الحصري" />
+    <meta property="og:description" content="العرض الهربة! ساعة ذكية + سماعات + باور بانك بـ 280 درهم. التوصيل فابور لجميع المدن والدفع عند الاستلام." />
+    <meta property="og:image" content="https://i.imgur.com/YOUR_IMAGE_LINK.png" />
+    <meta property="og:url" content="https://zafir.shop" />
+    <meta name="twitter:card" content="summary_large_image">
+
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '2333750730380978');
+    fbq('track', 'PageView');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>iRed W10 Pro Max - العرض الحصري</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #1e3a8a; 
+            --accent: #f97316;  
+            --bg: #f8fafc;
+            --white: #ffffff;
+            --text-main: #1e293b;
+            --success: #10b981;
+            --danger: #dc2626;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body { 
+            font-family: 'Cairo', sans-serif; 
+            background-color: var(--bg); 
+            margin: 0; 
+            padding: 0; 
+            color: var(--text-main); 
+            padding-bottom: 90px; 
+            opacity: 0; 
+            animation: fadeInPage 0.3s ease-out forwards; 
+        }
+
+        @keyframes fadeInPage { from { opacity: 0; } to { opacity: 1; } }
+        
+        .main-wrapper { 
+            max-width: 500px; 
+            margin: 0 auto; 
+            background: var(--white); 
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+        }
+
+        /* Navbar */
+        .navbar { 
+            background: var(--white); 
+            padding: 10px 15px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            position: sticky; 
+            top: 0; 
+            z-index: 50; 
+        }
+        .brand-logo { font-size: 22px; font-weight: 900; color: var(--primary); letter-spacing: 1px; text-transform: uppercase; }
+
+        /* Promo Bar */
+        .promo-bar { background: var(--primary); color: white; font-size: 11px; padding: 6px 0; overflow: hidden; position: relative; direction: ltr; }
+        .marquee-track { display: flex; width: max-content; animation: scroll-seamless 25s linear infinite; }
+        .marquee-item { padding: 0 15px; font-weight: 700; flex-shrink: 0; }
+        @keyframes scroll-seamless { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
+
+        /* Gallery */
+        .gallery-area { position: relative; background: #fff; margin-bottom: 10px; }
+        .discount-badge { 
+            position: absolute; top: 15px; left: 15px; 
+            background: var(--danger); color: white; 
+            padding: 4px 10px; border-radius: 4px; 
+            font-weight: 700; font-size: 12px; z-index: 10; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            animation: pulse-red 2s infinite;
+        }
+        @keyframes pulse-red { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        
+        .main-image-frame { 
+            height: 360px; 
+            display: flex; align-items: center; justify-content: center; 
+            overflow: hidden; padding: 10px; position: relative;
+        }
+        .main-image-frame img { max-width: 100%; max-height: 100%; object-fit: contain; transition: opacity 0.2s ease; }
+        
+        .nav-arrow { 
+            position: absolute; top: 50%; transform: translateY(-50%); 
+            background: rgba(255,255,255,0.9); 
+            width: 40px; height: 40px; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            color: var(--primary); cursor: pointer; z-index: 5; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-size: 20px; 
+        }
+        .prev-arrow { right: 10px; } .next-arrow { left: 10px; }
+        
+        .thumbnails-row { 
+            display: flex; gap: 8px; padding: 0 10px 10px 10px; 
+            overflow-x: auto; justify-content: flex-start; 
+            scrollbar-width: none; 
+        }
+        .thumbnails-row::-webkit-scrollbar { display: none; }
+        .thumb-item { 
+            width: 55px; height: 55px; border-radius: 8px; 
+            border: 1px solid #e2e8f0; cursor: pointer; object-fit: cover; 
+            flex-shrink: 0; 
+        }
+        .thumb-item.selected { border-color: var(--accent); border-width: 2px; }
+
+        /* Info Section */
+        .info-section { padding: 15px; }
+        .title-area h1 { font-size: 19px; font-weight: 800; margin: 0 0 10px 0; line-height: 1.4; color: var(--primary); }
+        .social-proof-text { 
+            font-size: 11px; color: var(--danger); font-weight: 700; 
+            margin-bottom: 15px; display: flex; align-items: center; gap: 6px; 
+            background: #fff1f2; width: fit-content; padding: 3px 8px; border-radius: 12px;
+        }
+        .pulse-dot { width: 6px; height: 6px; background: var(--danger); border-radius: 50%; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
+        .price-box { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
+        .current-price { font-size: 30px; font-weight: 900; color: var(--accent); }
+        .old-price { font-size: 15px; color: #94a3b8; text-decoration: line-through; margin-top: 5px; }
+        .free-delivery-tag { background: #dcfce7; color: #166534; font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 4px; }
+
+        /* --- FIXED COUNTDOWN TIMER (LTR Direction) --- */
+        .countdown-timer {
+            background: #fff7ed; border: 1px solid #ffedd5;
+            color: #c2410c; padding: 8px; border-radius: 8px;
+            text-align: center; font-weight: 700; font-size: 13px;
+            margin-bottom: 20px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 10px;
+        }
+        .timer-ltr-wrapper {
+            direction: ltr; 
+            display: flex; 
+            align-items: center; 
+            gap: 4px;
+        }
+        .timer-digits { background: white; padding: 2px 6px; border-radius: 4px; border: 1px solid #fdba74; font-family: monospace; font-size: 16px; color: #c2410c; }
+
+        .trust-box {
+            background: #f0fdf4; border: 1px dashed #16a34a;
+            color: #14532d; padding: 12px; border-radius: 8px;
+            margin-bottom: 25px; font-size: 12px; line-height: 1.5;
+        }
+        .trust-title { font-weight: 800; display: flex; align-items: center; gap: 6px; margin-bottom: 6px; font-size: 13px; color: #15803d; }
+        .trust-list { list-style: none; padding: 0; margin: 0; }
+        .trust-list li { margin-bottom: 4px; display: flex; align-items: flex-start; gap: 6px; }
+
+        .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 25px; }
+        .feat-card { background: #f8fafc; padding: 10px 5px; border-radius: 8px; text-align: center; border: 1px solid #e2e8f0; }
+        .feat-title { font-weight: 700; font-size: 10px; color: var(--primary); margin: 5px 0 0 0; }
+
+        .rich-content { background: white; margin-bottom: 25px; }
+        .desc-intro { font-size: 13px; line-height: 1.7; color: #475569; margin-bottom: 20px; font-weight: 600; }
+        
+        .benefit-row { display: flex; gap: 10px; margin-bottom: 15px; align-items: flex-start; }
+        .check-icon { min-width: 20px; height: 20px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 10px; margin-top: 2px; flex-shrink: 0; }
+        .benefit-text h3 { margin: 0 0 4px 0; font-size: 14px; font-weight: 800; color: #1e293b; }
+        .benefit-text p { margin: 0; font-size: 12px; color: #64748b; line-height: 1.5; }
+
+        .specs-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 12px; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; }
+        .specs-table td { padding: 10px; border-bottom: 1px solid #e2e8f0; }
+        .specs-table tr:last-child td { border-bottom: none; }
+        .specs-table tr:nth-child(odd) { background: #f8fafc; }
+        .spec-label { font-weight: 800; color: var(--primary); width: 35%; }
+        .spec-val { font-weight: 700; color: #475569; }
+
+        .box-contents { background: #f8fafc; padding: 15px; border-radius: 8px; margin-top: 20px; border: 1px dashed #cbd5e1; }
+        .box-title { font-weight: 800; color: var(--primary); margin-bottom: 10px; display: block; font-size: 13px; }
+        .box-list { list-style: none; padding: 0; margin: 0; }
+        .box-list li { margin-bottom: 6px; display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 12px; color: #334155; }
+        .box-list li::before { content: "✔"; color: var(--accent); }
+
+        .faq-section { margin-top: 30px; margin-bottom: 20px; }
+        .faq-item { background: white; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 8px; overflow: hidden; }
+        .faq-question { width: 100%; text-align: right; padding: 12px; background: #f8fafc; border: none; font-family: 'Cairo'; font-weight: 700; font-size: 12px; color: var(--primary); display: flex; justify-content: space-between; align-items: center; }
+        .faq-question::after { content: '+'; font-weight: 900; color: var(--accent); font-size: 16px; margin-right: 10px; }
+        .faq-answer { display: block; background: white; }
+        .faq-answer p { margin: 0; padding: 12px; font-size: 12px; color: #64748b; line-height: 1.6; }
+
+        .reviews-section { margin-top: 30px; }
+        .section-heading { text-align: center; margin-bottom: 15px; font-size: 16px; font-weight: 900; color: var(--primary); }
+        .rating-summary { background: #fffbeb; border: 1px solid #fcd34d; padding: 10px; text-align: center; border-radius: 6px; font-size: 12px; font-weight: 700; color: #92400e; margin-bottom: 15px; }
+        .review-card { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin-bottom: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        .reviewer-name { font-weight: 800; font-size: 12px; color: #1e293b; }
+        .verified-badge { background: #dcfce7; color: #166534; font-size: 10px; padding: 2px 5px; border-radius: 4px; font-weight: 700; }
+        .stars { color: #fbbf24; font-size: 12px; }
+        .review-text { font-size: 12px; color: #475569; line-height: 1.5; background: #f8fafc; padding: 10px; border-radius: 6px; font-style: italic; }
+        .review-photo { width: 100%; height: auto; max-height: 300px; object-fit: cover; border-radius: 6px; margin-top: 8px; border: 1px solid #e2e8f0; }
+
+        .form-wrapper { background: white; padding: 20px 15px; margin: 15px 0; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+        .input-group { margin-bottom: 12px; text-align: right; position: relative; }
+        .input-group label { display: block; font-size: 12px; font-weight: 800; margin-bottom: 6px; color: #1e293b; }
+        .input-icon-wrapper { position: relative; }
+        .input-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 16px; pointer-events: none; }
+        .custom-input { width: 100%; padding: 12px 35px 12px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: 'Cairo'; font-size: 16px; background: #f8fafc; transition: all 0.3s; }
+        .custom-input:focus { border-color: var(--accent); background: white; outline: none; }
+
+        .site-footer { background: #f8fafc; padding: 30px 15px; text-align: center; border-top: 1px solid #e2e8f0; font-size: 11px; color: #64748b; margin-top: 30px; }
+        .footer-links { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
+        .footer-link { color: var(--primary); text-decoration: none; font-weight: 700; cursor: pointer; }
+
+        /* --- FLOATING TRANSPARENT STICKY BAR (Updated for Small Phone Size) --- */
+        .sticky-bar { 
+            position: fixed; 
+            bottom: 10px; /* Lowered from 20px */
+            left: 0; 
+            right: 0; 
+            z-index: 100; 
+            background: transparent;
+            padding: 0 20px; 
+            display: flex; 
+            justify-content: center;
+            pointer-events: none;
+        }
+        .cta-btn { 
+            pointer-events: auto;
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); 
+            color: white; border: none; width: 100%; max-width: 500px; 
+            padding: 10px 15px; /* Reduced padding (was 15px) */
+            border-radius: 50px; 
+            font-size: 15px; /* Reduced font size (was 17px) */
+            font-weight: 900; 
+            box-shadow: 0 8px 25px rgba(234, 88, 12, 0.5); 
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; 
+            animation: pulse-btn 2s infinite;
+        }
+        @keyframes pulse-btn { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+
+        .whatsapp-float {
+            position: fixed; bottom: 90px; right: 15px; 
+            background-color: #25d366; color: white;
+            width: 50px; height: 50px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 28px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            z-index: 101; cursor: pointer; text-decoration: none;
+        }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 15px; backdrop-filter: blur(2px); }
+        .modal-content { background: white; width: 100%; max-width: 450px; border-radius: 12px; padding: 20px; position: relative; max-height: 85vh; overflow-y: auto; text-align: right; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .modal-close { position: absolute; left: 15px; top: 15px; background: #f1f5f9; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #64748b; font-weight: bold; font-size: 14px; }
+        .modal-title { color: var(--primary); font-size: 16px; font-weight: 900; margin-bottom: 15px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; }
+        .modal-text { font-size: 13px; line-height: 1.7; color: #334155; }
+        .modal-text p { margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <a href="https://wa.me/212784386140" target="_blank" class="whatsapp-float">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </a>
+
+    <div class="promo-bar">
+        <div class="marquee-track">
+            <span class="marquee-item">🛡️ ضمان الجودة 100% | 🚚 توصيل مجاني لجميع المدن | ↩️ الدفع عند الاستلام</span>
+            <span class="marquee-item">🛡️ ضمان الجودة 100% | 🚚 توصيل مجاني لجميع المدن | ↩️ الدفع عند الاستلام</span>
+        </div>
+    </div>
+
+    <div class="navbar">
+        <div class="brand-logo">ZAFIR<span style="color:var(--accent)">.</span></div>
+    </div>
+
+    <div class="main-wrapper">
+        
+        <div class="gallery-area" id="galleryBox">
+            <span class="discount-badge">عرض خاص -45%</span>
+            <div class="main-image-frame">
+                <div class="nav-arrow prev-arrow" onclick="prevSlide()">&#10094;</div>
+                <div class="nav-arrow next-arrow" onclick="nextSlide()">&#10095;</div>
+                <img id="currentImg" src="1.png" alt="iRed W10 Pro Max">
+            </div>
+            <div class="thumbnails-row">
+                <img src="1.png" class="thumb-item selected" onclick="setImg(0)">
+                <img src="2.png" class="thumb-item" onclick="setImg(1)">
+                <img src="3.png" class="thumb-item" onclick="setImg(2)">
+                <img src="4.png" class="thumb-item" onclick="setImg(3)">
+                <img src="5.png" class="thumb-item" onclick="setImg(4)">
+                <img src="6.png" class="thumb-item" onclick="setImg(5)">
+            </div>
+        </div>
+
+        <div class="info-section">
+            <div class="title-area">
+                <h1>iRed W10 Pro Max - الباقة الذهبية (ساعة + سماعات + باور بانك)</h1>
+                <div class="social-proof-text">
+                    <div class="pulse-dot"></div>
+                    تم بيع 21 قطعة في آخر ساعة
+                </div>
+            </div>
+
+            <div class="price-box">
+                <div class="current-price">280 درهم</div>
+                <div class="old-price">499 درهم</div>
+                <div class="free-delivery-tag">🚀 توصيل مجاني</div>
+            </div>
+
+            <div class="countdown-timer">
+                <span>⏳ ينتهي العرض خلال:</span>
+                <div class="timer-ltr-wrapper">
+                    <span class="timer-digits" id="t-hours">04</span> : 
+                    <span class="timer-digits" id="t-minutes">59</span> : 
+                    <span class="timer-digits" id="t-seconds">30</span>
+                </div>
+            </div>
+
+            <div class="trust-box">
+                <div class="trust-title">🛡️ تسوق بكل ثقة وأمان!</div>
+                <ul class="trust-list">
+                    <li>
+                        <span style="font-size:18px">✅</span>
+                        <span><strong>افتح وجرب قبل الدفع:</strong> من حقك فتح الطرد والتأكد من جودة المنتج وتشغيله قبل أن تدفع درهماً واحداً للمندوب.</span>
+                    </li>
+                    <li>
+                        <span style="font-size:18px">✅</span>
+                        <span><strong>ضمان استرجاع 7 أيام:</strong> نضمن لك استعادة أموالك بالكامل في حال ظهر أي عيب أو لم تكن راضياً عن المنتج خلال 7 أيام.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="features-grid">
+                <div class="feat-card">
+                    <span style="font-size:22px">🕒</span>
+                    <p class="feat-title">شاشة AMOLED</p>
+                </div>
+                <div class="feat-card">
+                    <span style="font-size:22px">🔋</span>
+                    <p class="feat-title">شاحن 10000mAh</p>
+                </div>
+                <div class="feat-card">
+                    <span style="font-size:22px">🎧</span>
+                    <p class="feat-title">صوت نقي HD</p>
+                </div>
+                <div class="feat-card">
+                    <span style="font-size:22px">🎁</span>
+                    <p class="feat-title">تصميم فاخر</p>
+                </div>
+            </div>
+
+            <div class="rich-content">
+                <p class="desc-intro">
+                    استمتع بتجربة ذكية وعصرية مع هذه الباقة المتكاملة!<br>
+                    باقة <strong>W10 Pro Max</strong> من iRed تقدم لك 3 منتجات أساسية في عرض واحد، بجودة عالية وأداء موثوق.
+                </p>
+
+                <div class="benefit-row">
+                    <div class="check-icon">✓</div>
+                    <div class="benefit-text">
+                        <h3>🕒 Smart Watch Série 10</h3>
+                        <p>ساعة ذكية أنيقة بشاشة AMOLED، تقيس نبضات القلب، تراقب جودة النوم والخطوات، وتستقبل إشعارات المكالمات والتطبيقات.</p>
+                    </div>
+                </div>
+                <div class="benefit-row">
+                    <div class="check-icon">✓</div>
+                    <div class="benefit-text">
+                        <h3>🔋 Power Bank 20W</h3>
+                        <p>لا داعي للقلق من نفاد البطارية! شاحن متنقل قوي بسعة 10000mAh يغطي احتياجاتك اليومية، خفيف الوزن وسهل الحمل.</p>
+                    </div>
+                </div>
+                <div class="benefit-row">
+                    <div class="check-icon">✓</div>
+                    <div class="benefit-text">
+                        <h3>🎧 سماعات بلوتوث</h3>
+                        <p>سماعات لاسلكية بصوت نقي وتصميم مريح، مثالية لإجراء المكالمات والاستماع للموسيقى طوال اليوم.</p>
+                    </div>
+                </div>
+
+                <h3 style="margin-top:25px; color:var(--primary); font-size:15px; font-weight: 800;">⚙️ المواصفات التقنية:</h3>
+                <table class="specs-table">
+                    <tr><td class="spec-label">الشاشة</td><td class="spec-val">AMOLED (سلسة وواضحة)</td></tr>
+                    <tr><td class="spec-label">قوة الشحن</td><td class="spec-val">20 واط (شحن سريع)</td></tr>
+                    <tr><td class="spec-label">السعة</td><td class="spec-val">10000mAh (للباور بانك)</td></tr>
+                    <tr><td class="spec-label">التوافق</td><td class="spec-val">Android & iOS</td></tr>
+                </table>
+
+                <div class="box-contents">
+                    <span class="box-title">📦 محتويات العلبة الفاخرة:</span>
+                    <ul class="box-list">
+                        <li>ساعة ذكية iRed W10 Pro Max</li>
+                        <li>سماعات بلوتوث لاسلكية</li>
+                        <li>شاحن متنقل (Power Bank 10000mAh)</li>
+                        <li>سوارين أنيقين (2 Straps) لتغيير المظهر</li>
+                        <li>كابل الشحن + دليل الاستخدام</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-section">
+                <div class="section-heading">🤔 أسئلة شائعة</div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">هل تعمل المنتجات مع جميع الهواتف؟</div>
+                    <div class="faq-answer"><p>نعم، الساعة والسماعات تتصل بكفاءة عالية مع جميع هواتف الأندرويد والآيفون عبر البلوتوث.</p></div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">هل يدعم الباور بانك الشحن السريع؟</div>
+                    <div class="faq-answer"><p>نعم، يأتي بقوة 20 واط مما يضمن لك شحناً سريعاً وآمناً لهاتفك في أي وقت.</p></div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">هل يتوفر ضمان للمنتج؟</div>
+                    <div class="faq-answer"><p>بالتأكيد، نقدم ضمان الجودة وخدمة ما بعد البيع، ويمكنك فحص المنتج والتأكد منه عند الاستلام.</p></div>
+                </div>
+            </div>
+
+            <div class="reviews-section">
+                <div class="section-heading">💬 آراء الزبائن</div>
+                
+                <div class="rating-summary">⭐ 4.9/5 بناءً على آراء الزبائن الراضين</div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="reviewer-name">ياسين (الدار البيضاء) <span class="verified-badge">شراء مؤكد</span></span>
+                        <div class="stars">★★★★★</div>
+                    </div>
+                    <div class="review-text">"صراحة الباك واعر بزاف 😍 الصوت فالسماعات نقي والباور بانك كينفعني ديما فالخروج. شكراً على المصداقية."</div>
+                    <img src="review1.jpeg" class="review-photo" alt="صورة العميل">
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="reviewer-name">أحمد (طنجة) <span class="verified-badge">شراء مؤكد</span></span>
+                        <div class="stars">★★★★★</div>
+                    </div>
+                    <div class="review-text" dir="ltr" style="text-align: left;">"Je l'ai acheté comme cadeau et ça leur a beaucoup plu. La livraison était rapide et le produit a l'air luxueux."</div>
+                    <img src="review2.webp" class="review-photo" alt="صورة العميل">
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="reviewer-name">سارة (الرباط) <span class="verified-badge">شراء مؤكد</span></span>
+                        <div class="stars">★★★★☆</div>
+                    </div>
+                    <div class="review-text" dir="ltr" style="text-align: left;">"Le son des écouteurs est très pur, et le power bank est pratique. Une expérience d'achat réussie."</div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-wrapper" id="orderFormSection">
+            <div style="text-align:center; margin-bottom:20px">
+                <h2 style="margin:0; color:var(--primary); font-size:22px; font-weight:900">📝 اطلب الباقة الكاملة الآن</h2>
+                <p style="font-size:13px; color:#64748b; margin-top:5px">عرض محدود: 280 درهم - توصيل مجاني</p>
+            </div>
+
+            <form id="telegramForm">
+                <div class="input-group">
+                    <label>الاسم الكامل</label>
+                    <div class="input-icon-wrapper">
+                        <span class="input-icon">👤</span>
+                        <input type="text" id="name" class="custom-input" placeholder="مثال: محمد العلوي" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>رقم الهاتف</label>
+                    <div class="input-icon-wrapper">
+                        <span class="input-icon">📱</span>
+                        <input type="tel" id="phone" class="custom-input" placeholder="06XXXXXXXX" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>المدينة</label>
+                    <div class="input-icon-wrapper">
+                        <span class="input-icon">🏙️</span>
+                        <input type="text" id="city" class="custom-input" placeholder="مدينتك" required>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label>العنوان (اختياري)</label>
+                    <div class="input-icon-wrapper">
+                        <span class="input-icon">📍</span>
+                        <input type="text" id="address" class="custom-input" placeholder="رقم المنزل، الحي...">
+                    </div>
+                </div>
+                <button type="submit" style="display:none;"></button>
+            </form>
+        </div>
+
+        <footer class="site-footer">
+            <div class="footer-links">
+                <a class="footer-link" onclick="openModal('returnModal')">سياسة الاسترجاع</a>
+                <span>|</span>
+                <a class="footer-link" onclick="openModal('shippingModal')">معلومات التوصيل</a>
+                <span>|</span>
+                <a class="footer-link" onclick="openModal('contactModal')">اتصل بنا</a>
+                <span>|</span>
+                <a class="footer-link" onclick="openModal('privacyModal')">سياسة الخصوصية</a>
+            </div>
+            <div class="copyright">
+                &copy; 2026 ZAFIR. جميع الحقوق محفوظة.
+            </div>
+        </footer>
+
+    </div>
+
+    <div class="sticky-bar">
+        <button class="cta-btn" onclick="submitOrder()">
+            <span>🛒 اضغط للطلب - 280 درهم فقط</span>
+        </button>
+    </div>
+
+    <div id="returnModal" class="modal-overlay" onclick="closeModal('returnModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-close" onclick="closeModal('returnModal')">✕</div>
+            <div class="modal-title">♻️ سياسة الاسترجاع</div>
+            <div class="modal-text">
+                <p>نحن في ZAFIR نضمن لك الرضا الكامل عن منتجاتنا. إذا لم تكن راضياً بنسبة 100%، يمكنك استرجاع المنتج أو استبداله بسهولة.</p>
+                <p><strong>مدة الاسترجاع:</strong> لديك 7 أيام كاملة من تاريخ استلام الطلب لتجربة المنتج وتقرير ما إذا كان يناسبك.</p>
+                <p><strong>استرجاع الأموال:</strong> نعم، يمكنك استرداد أموالك بالكامل في حال لم يعجبك المنتج. لا توجد رسوم خفية.</p>
+                <p><strong>تكاليف الشحن:</strong> نحن نتحمل كافة مصاريف شحن الإرجاع. لن تدفع أي درهم إضافي.</p>
+                <p><strong>كيف أطلب الإرجاع؟</strong> فقط تواصل معنا عبر الواتساب، وسنرسل لك المندوب لاستلام المنتج.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="shippingModal" class="modal-overlay" onclick="closeModal('shippingModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-close" onclick="closeModal('shippingModal')">✕</div>
+            <div class="modal-title">🚚 الشحن والتوصيل</div>
+            <div class="modal-text">
+                <p><strong>هل التوصيل مجاني؟</strong> نعم، التوصيل مجاني 100% لجميع المدن المغربية.</p>
+                <p><strong>مدة التوصيل:</strong></p>
+                <ul>
+                    <li>المدن الكبرى (الدار البيضاء، الرباط، طنجة...): خلال 24 ساعة (يوم واحد).</li>
+                    <li>باقي المدن: خلال 48 ساعة (يومين).</li>
+                </ul>
+                <p><strong>متى أدفع؟</strong> الدفع يكون عند الاستلام فقط (Cash on Delivery). لا نطلب أي دفع مسبق. يمكنك فتح الطرد والتأكد من طلبيتك قبل الدفع للمندوب.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="contactModal" class="modal-overlay" onclick="closeModal('contactModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-close" onclick="closeModal('contactModal')">✕</div>
+            <div class="modal-title">📞 اتصل بنا</div>
+            <div class="modal-text">
+                <p>فريق خدمة العملاء جاهز للإجابة على جميع استفساراتكم.</p>
+                <p><strong>رقم الواتساب / الهاتف:</strong> <br> <span style="font-size:16px; font-weight:bold; color:var(--accent)">0784386140</span></p>
+                <p><strong>أوقات العمل:</strong><br>من الإثنين إلى السبت<br>من الساعة 9:00 صباحاً حتى 6:00 مساءً.</p>
+                <p>نحن نسعى للرد على جميع الرسائل في أسرع وقت ممكن.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="privacyModal" class="modal-overlay" onclick="closeModal('privacyModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-close" onclick="closeModal('privacyModal')">✕</div>
+            <div class="modal-title">🔒 سياسة الخصوصية</div>
+            <div class="modal-text">
+                <p>نحن نحترم خصوصيتك ونلتزم بحماية بياناتك الشخصية.</p>
+                <p><strong>المعلومات التي نجمعها:</strong> نجمع فقط المعلومات الضرورية لإتمام طلبك (الاسم، رقم الهاتف، والعنوان).</p>
+                <p><strong>كيف نستخدم معلوماتك؟</strong> نستخدم هذه المعلومات فقط لتوصيل طلبك والتواصل معك بخصوص حالة الطلب. لا نقوم بمشاركة بياناتك مع أي طرف ثالث لأغراض تسويقية.</p>
+                <p>تصفحك للموقع يعني موافقتك على سياسة الخصوصية هذه.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- IMAGE GALLERY LOGIC ---
+        let currentIndex = 0;
+        const images = ['1.png', '2.png', '3.png', '4.png', '5.png', '6.png'];
+        const mainImg = document.getElementById('currentImg');
+        const thumbs = document.querySelectorAll('.thumb-item');
+
+        function updateGallery(index) {
+            if (index < 0) index = images.length - 1;
+            if (index >= images.length) index = 0;
+            currentIndex = index;
+            mainImg.style.opacity = 0;
+            setTimeout(() => {
+                mainImg.src = images[currentIndex];
+                mainImg.style.opacity = 1;
+            }, 200);
+            thumbs.forEach((t, i) => {
+                t.classList.remove('selected');
+                if(i === currentIndex) t.classList.add('selected');
+            });
+            
+            thumbs[currentIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+        function setImg(index) { updateGallery(index); }
+        function prevSlide() { updateGallery(currentIndex - 1); }
+        function nextSlide() { updateGallery(currentIndex + 1); }
+
+        // --- MOBILE SWIPE LOGIC (Corrected RTL) ---
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const galleryArea = document.getElementById('galleryBox');
+
+        galleryArea.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, {passive: true});
+
+        galleryArea.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, {passive: true});
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) prevSlide(); 
+            if (touchEndX > touchStartX + 50) nextSlide(); 
+        }
+
+        // --- MODAL LOGIC ---
+        function openModal(id) {
+            document.getElementById(id).style.display = 'flex';
+            document.body.style.overflow = 'hidden'; 
+        }
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+            document.body.style.overflow = 'auto'; 
+        }
+
+        // --- ORDER SUBMISSION LOGIC ---
+        function submitOrder() {
             const name = document.getElementById('name').value;
             const phone = document.getElementById('phone').value;
             const city = document.getElementById('city').value;
@@ -34,12 +672,12 @@ function submitOrder() {
             const BOT_TOKEN = "8383494745:AAEFXQDJdszeU-EW8AWVn-NwGlQPiquG5xk";
             const CHAT_ID = "819906295";
             
-            // الرابط الصحيح (كما هو عندك)
+            // GOOGLE SCRIPT URL
             const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbylRACNSa-zj73gjancTwVUg5qGeeHIH1YRdYJL2TXvoBAf9WjzcWl_APOz8QZA62iO/exec";
             
             // --- 1. Prepare Google Sheet Data ---
             let sheetData = new FormData();
-            sheetData.append('action', 'add'); // ضروري جداً للسكربت الجديد
+            sheetData.append('action', 'add'); 
             sheetData.append('name', name);
             sheetData.append('phone', cleanPhone);
             sheetData.append('city', city);
@@ -66,16 +704,14 @@ function submitOrder() {
                 window.location.href = "thankyou.html";
             };
 
-            // Failsafe: إذا تأخر الارسال أكثر من 3 ثواني، حول الزبون قسراً
+            // Failsafe timeout
             const timeoutID = setTimeout(() => {
                 doRedirect();
             }, 3000);
 
-            // Send Telegram (Priority 1)
+            // Send Telegram -> Then Sheet -> Then Redirect
             fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(telegramText)}&parse_mode=Markdown`)
             .then(() => {
-                // Telegram sent SUCCESS, NOW sending to Google Sheet
-                // نستخدم return هنا لننتظر انتهاء عملية الشيت
                 return fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
                     body: sheetData,
@@ -83,15 +719,48 @@ function submitOrder() {
                 });
             })
             .then(() => {
-                // Google Sheet sent SUCCESS
-                // الآن فقط نقوم بالتحويل
                 clearTimeout(timeoutID);
                 doRedirect();
             })
             .catch(err => {
-                // In case of ANY error (Telegram or Sheet), still redirect
                 console.log("Error occurred but redirecting anyway:", err);
                 clearTimeout(timeoutID);
                 doRedirect();
             });
         }
+
+        function shakeForm() {
+            const form = document.getElementById('orderFormSection');
+            form.style.transform = "translateX(5px)";
+            setTimeout(() => form.style.transform = "translateX(0)", 100);
+            setTimeout(() => form.style.transform = "translateX(-5px)", 200);
+            setTimeout(() => form.style.transform = "translateX(0)", 300);
+        }
+
+        // --- COUNTDOWN TIMER LOGIC ---
+        function startCountdown(duration) {
+            let timer = duration, hours, minutes, seconds;
+            const hourElem = document.getElementById('t-hours');
+            const minElem = document.getElementById('t-minutes');
+            const secElem = document.getElementById('t-seconds');
+            
+            setInterval(function () {
+                hours = parseInt(timer / 3600, 10);
+                minutes = parseInt((timer % 3600) / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                hourElem.textContent = hours < 10 ? "0" + hours : hours;
+                minElem.textContent = minutes < 10 ? "0" + minutes : minutes;
+                secElem.textContent = seconds < 10 ? "0" + seconds : seconds;
+
+                if (--timer < 0) {
+                    timer = duration; 
+                }
+            }, 1000);
+        }
+
+        startCountdown(17970); 
+
+    </script>
+</body>
+</html>
