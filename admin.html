@@ -3,292 +3,310 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ZAFIR - لوحة التحكم</title>
+    <title>لوحة التحكم - ZAFIR</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; -webkit-tap-highlight-color: transparent; }
-        ::-webkit-scrollbar { width: 5px; height: 5px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        body { font-family: 'Cairo', sans-serif; background-color: #f3f4f6; -webkit-tap-highlight-color: transparent; }
         
-        select.status-New { background-color: #e2e8f0; color: #1e293b; border-color: #94a3b8; }
-        select.status-NoAnswer1 { background-color: #fef9c3; color: #854d0e; border-color: #eab308; }
-        select.status-NoAnswer2 { background-color: #fef08a; color: #854d0e; border-color: #ca8a04; }
-        select.status-NoAnswer3 { background-color: #fde047; color: #a16207; border-color: #a16207; }
-        select.status-Confirmed { background-color: #dcfce7; color: #14532d; border-color: #16a34a; }
-        select.status-Postponed { background-color: #ffedd5; color: #9a3412; border-color: #f97316; }
-        select.status-Cancelled { background-color: #fee2e2; color: #7f1d1d; border-color: #ef4444; }
-        select.status-Fake { background-color: #1e293b; color: #94a3b8; border-color: #475569; }
+        /* تنسيق شريط التمرير */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #e5e7eb; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
 
-        .loader { border: 3px solid #f3f3f3; border-radius: 50%; border-top: 3px solid #f97316; width: 24px; height: 24px; animation: spin 1s linear infinite; display: inline-block; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* ألوان الحالات */
+        .st-New { @apply bg-blue-100 text-blue-800 border-blue-200; }
+        .st-NoAnswer { @apply bg-yellow-100 text-yellow-800 border-yellow-200; }
+        .st-Confirmed { @apply bg-green-100 text-green-800 border-green-200; }
+        .st-Postponed { @apply bg-orange-100 text-orange-800 border-orange-200; }
+        .st-Cancelled { @apply bg-red-100 text-red-800 border-red-200; }
+        .st-Fake { @apply bg-gray-200 text-gray-600 border-gray-300; }
+
+        /* لودر */
+        .loader { width: 20px; height: 20px; border: 3px solid #e2e8f0; border-top-color: #f97316; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="text-slate-800 bg-slate-50">
+<body class="text-slate-800">
 
-    <div id="loginSection" class="fixed inset-0 bg-slate-900/95 flex items-center justify-center z-50 backdrop-blur-sm transition-opacity duration-300">
-        <div class="bg-white p-8 rounded-3xl shadow-2xl text-center w-80 md:w-96 border border-white/20 transform scale-100 transition-transform">
-            <div class="text-5xl mb-4">🔐</div>
-            <h2 class="text-2xl font-black mb-2 text-slate-800">لوحة التحكم</h2>
-            <p class="text-slate-400 text-sm mb-6">يرجى تسجيل الدخول للمتابعة</p>
-            <input type="password" id="adminPass" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl mb-4 text-center focus:outline-none focus:border-orange-500 transition text-lg font-bold" placeholder="أدخل كود الدخول">
-            <button onclick="attemptLogin()" class="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white p-3 rounded-xl font-bold hover:shadow-lg transform active:scale-95 transition text-lg">دخول</button>
+    <div id="loginSection" class="fixed inset-0 bg-slate-900 z-50 flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-sm p-8 rounded-3xl shadow-2xl text-center">
+            <div class="text-6xl mb-4">🔐</div>
+            <h2 class="text-2xl font-black text-slate-800 mb-2">تسجيل الدخول</h2>
+            <p class="text-slate-400 text-sm mb-6">لوحة إدارة الطلبات</p>
+            <form onsubmit="event.preventDefault(); attemptLogin();">
+                <input type="password" id="adminPass" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl text-center text-lg font-bold focus:outline-none focus:border-orange-500 mb-4 transition" placeholder="كلمة المرور" autocomplete="current-password">
+                <button type="submit" class="w-full bg-orange-600 text-white p-3 rounded-xl font-bold hover:bg-orange-700 transition shadow-lg shadow-orange-200">دخول</button>
+            </form>
         </div>
     </div>
 
-    <div id="editModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden animate-[fadeIn_0.2s_ease-out]">
+    <div id="editModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm transition-opacity">
+        <div class="bg-white w-full max-w-lg rounded-2xl shadow-xl overflow-hidden transform transition-all scale-100">
             <div class="bg-slate-50 p-4 border-b flex justify-between items-center">
                 <h3 class="font-bold text-lg text-slate-800">📝 تعديل الطلب</h3>
-                <button onclick="closeEditModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-200 text-slate-500 hover:bg-red-100 hover:text-red-500 transition font-bold">&times;</button>
+                <button onclick="closeEditModal()" class="text-slate-400 hover:text-red-500 text-2xl font-bold">&times;</button>
             </div>
             <div class="p-6 space-y-4 max-h-[75vh] overflow-y-auto">
                 <input type="hidden" id="editRowIndex">
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="text-xs font-bold text-slate-500 mb-1 block">الاسم</label>
-                        <input type="text" id="editName" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:border-orange-500 outline-none font-bold text-slate-700">
-                    </div>
-                    <div>
-                        <label class="text-xs font-bold text-slate-500 mb-1 block">الهاتف</label>
-                        <input type="tel" id="editPhone" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:border-orange-500 outline-none font-mono text-slate-700 font-bold" dir="ltr">
-                    </div>
-                </div>
-
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="text-xs font-bold text-slate-500 mb-1 block">المدينة</label>
-                        <input type="text" id="editCity" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:border-orange-500 outline-none">
+                        <label class="text-[11px] font-bold text-slate-500">الاسم</label>
+                        <input type="text" id="editName" class="w-full p-2.5 border rounded-lg font-bold text-sm focus:border-orange-500 outline-none">
                     </div>
                     <div>
-                        <label class="text-xs font-bold text-slate-500 mb-1 block">السعر (DH)</label>
-                        <input type="number" id="editPrice" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:border-orange-500 outline-none font-bold text-green-600">
+                        <label class="text-[11px] font-bold text-slate-500">الهاتف</label>
+                        <input type="text" id="editPhone" class="w-full p-2.5 border rounded-lg font-mono text-sm font-bold focus:border-orange-500 outline-none" dir="ltr">
                     </div>
                 </div>
-
-                <div>
-                    <label class="text-xs font-bold text-slate-500 mb-1 block">العنوان</label>
-                    <input type="text" id="editAddress" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:border-orange-500 outline-none">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-[11px] font-bold text-slate-500">المدينة</label>
+                        <input type="text" id="editCity" class="w-full p-2.5 border rounded-lg text-sm focus:border-orange-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="text-[11px] font-bold text-slate-500">السعر (DH)</label>
+                        <input type="number" id="editPrice" class="w-full p-2.5 border rounded-lg text-sm font-bold text-green-600 focus:border-orange-500 outline-none">
+                    </div>
                 </div>
-
                 <div>
-                    <label class="text-xs font-bold text-slate-500 mb-1 block">ملاحظات (خاصة)</label>
-                    <textarea id="editNote" class="w-full p-3 bg-yellow-50 border border-yellow-200 rounded-xl focus:border-orange-500 outline-none h-20 placeholder-slate-400 text-sm"></textarea>
+                    <label class="text-[11px] font-bold text-slate-500">العنوان</label>
+                    <input type="text" id="editAddress" class="w-full p-2.5 border rounded-lg text-sm focus:border-orange-500 outline-none">
+                </div>
+                <div>
+                    <label class="text-[11px] font-bold text-slate-500">ملاحظات</label>
+                    <textarea id="editNote" class="w-full p-2.5 border rounded-lg text-sm focus:border-orange-500 outline-none h-20 bg-yellow-50"></textarea>
                 </div>
             </div>
-            <div class="p-4 border-t bg-slate-50 flex gap-3">
-                <button onclick="saveOrderChanges()" class="flex-1 bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700 shadow-md transform active:scale-95 transition">حفظ</button>
-                <button onclick="closeEditModal()" class="flex-1 bg-white border border-slate-300 text-slate-600 py-3 rounded-xl font-bold hover:bg-slate-100 transition">إلغاء</button>
+            <div class="p-4 bg-slate-50 border-t flex gap-3">
+                <button onclick="saveChanges()" class="flex-1 bg-green-600 text-white py-2.5 rounded-xl font-bold hover:bg-green-700 shadow transition">حفظ التعديلات</button>
+                <button onclick="closeEditModal()" class="flex-1 bg-white border border-slate-300 text-slate-600 py-2.5 rounded-xl font-bold hover:bg-slate-100 transition">إلغاء</button>
             </div>
         </div>
     </div>
 
     <div id="dashboardContent" class="hidden min-h-screen pb-20">
         
-        <nav class="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-40 border-b border-slate-200">
-            <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-                <div class="text-xl md:text-2xl font-black text-slate-800 tracking-tighter">ZAFIR<span class="text-orange-600">.</span> SHOP</div>
+        <nav class="bg-white shadow-sm sticky top-0 z-40 border-b border-slate-200">
+            <div class="container mx-auto px-4 h-16 flex justify-between items-center">
+                <div class="text-2xl font-black text-slate-800 tracking-tighter cursor-pointer" onclick="refreshData()">ZAFIR<span class="text-orange-600">.</span></div>
                 <div class="flex gap-2">
-                    <button onclick="refreshData()" class="bg-slate-100 text-slate-600 w-10 h-10 rounded-full flex items-center justify-center hover:bg-orange-100 hover:text-orange-600 transition shadow-sm border border-slate-200" title="تحديث">↻</button>
-                    <button onclick="exportToCSV()" class="bg-green-50 text-green-600 w-10 h-10 rounded-full flex items-center justify-center hover:bg-green-100 border border-green-200 transition shadow-sm" title="Excel">📥</button>
-                    <button onclick="logout()" class="bg-red-50 text-red-600 w-10 h-10 rounded-full flex items-center justify-center hover:bg-red-100 border border-red-200 transition shadow-sm" title="خروج">🚪</button>
+                    <button onclick="refreshData()" class="p-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-orange-100 hover:text-orange-600 transition" title="تحديث"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg></button>
+                    <button onclick="exportExcel()" class="p-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 transition" title="Excel"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg></button>
+                    <button onclick="logout()" class="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition" title="خروج"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg></button>
                 </div>
             </div>
         </nav>
 
-        <div class="container mx-auto px-3 md:px-6 py-6">
+        <div class="container mx-auto px-4 py-6">
             
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
-                <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
-                    <p class="text-slate-400 text-[10px] font-bold uppercase">الكل</p>
-                    <p class="text-2xl font-black text-slate-800" id="statTotal">0</p>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between h-28 relative overflow-hidden">
+                    <div class="absolute -left-4 -bottom-4 text-slate-50 text-8xl font-black select-none pointer-events-none">#</div>
+                    <div>
+                        <p class="text-slate-400 text-xs font-bold uppercase tracking-wider">مجموع الطلبات</p>
+                        <p class="text-4xl font-black text-slate-800 mt-2" id="statTotal">0</p>
+                    </div>
                 </div>
-                <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-100 border-b-4 border-b-slate-200">
-                    <p class="text-slate-400 text-[10px] font-bold uppercase">جديد ✨</p>
-                    <p class="text-2xl font-black text-slate-600" id="statNew">0</p>
+
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between h-28 border-b-4 border-b-green-500">
+                    <div>
+                        <p class="text-green-600 text-xs font-bold uppercase tracking-wider flex items-center gap-1">✅ تم التأكيد</p>
+                        <p class="text-4xl font-black text-green-600 mt-2" id="statConfirmed">0</p>
+                    </div>
+                    <p class="text-xs text-slate-400 font-medium mt-1">الأرباح: <span id="statRevenue" class="text-slate-600 font-bold">0</span> DH</p>
                 </div>
-                <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-100 border-b-4 border-b-green-400">
-                    <p class="text-green-600 text-[10px] font-bold uppercase">مؤكد ✅</p>
-                    <p class="text-2xl font-black text-green-600" id="statConfirmed">0</p>
+
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between h-28 border-b-4 border-b-orange-400">
+                    <div>
+                        <p class="text-orange-500 text-xs font-bold uppercase tracking-wider flex items-center gap-1">⏳ في الانتظار</p>
+                        <p class="text-4xl font-black text-orange-500 mt-2" id="statPending">0</p>
+                    </div>
+                    <p class="text-[10px] text-slate-400">جديد + لا يجيب + مؤجل</p>
                 </div>
-                <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-100 border-b-4 border-b-red-400">
-                    <p class="text-red-500 text-[10px] font-bold uppercase">ملغي/وهمي ❌</p>
-                    <p class="text-2xl font-black text-red-500" id="statCancelled">0</p>
-                </div>
-                <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-100 border-b-4 border-b-orange-400">
-                    <p class="text-orange-500 text-[10px] font-bold uppercase">اليوم 🔥</p>
-                    <p class="text-2xl font-black text-orange-500" id="statToday">0</p>
-                </div>
-                <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
-                    <p class="text-slate-400 text-[10px] font-bold uppercase">الأرباح 💰</p>
-                    <p class="text-xl font-black text-slate-800" id="statRevenue">0 <span class="text-[10px]">DH</span></p>
+
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between h-28 border-b-4 border-b-red-400">
+                    <div>
+                        <p class="text-red-500 text-xs font-bold uppercase tracking-wider flex items-center gap-1">❌ ملغي / وهمي</p>
+                        <p class="text-4xl font-black text-red-500 mt-2" id="statCancelled">0</p>
+                    </div>
                 </div>
             </div>
 
-            <div class="bg-white p-2 rounded-2xl shadow-sm border border-slate-100 mb-5 sticky top-20 z-30">
+            <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-100 mb-6 sticky top-20 z-30">
                 <div class="relative">
-                    <span class="absolute right-3 top-3 text-slate-400">🔍</span>
-                    <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="ابحث..." class="w-full py-2.5 pr-10 pl-4 bg-transparent outline-none text-sm font-bold text-slate-700 placeholder-slate-400">
+                    <span class="absolute right-4 top-3 text-slate-400 pointer-events-none">🔍</span>
+                    <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="بحث سريع (الاسم، الهاتف، المدينة)..." class="w-full py-2.5 pr-10 pl-4 bg-slate-50 rounded-xl outline-none text-sm font-bold text-slate-700 focus:bg-white focus:ring-2 focus:ring-orange-100 transition">
                 </div>
             </div>
 
             <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
                 <div class="overflow-x-auto">
                     <table class="w-full text-right whitespace-nowrap">
-                        <thead class="bg-slate-50 text-slate-500 border-b border-slate-200">
+                        <thead class="bg-slate-50 border-b border-slate-200">
                             <tr>
-                                <th class="p-4 text-[10px] font-extrabold uppercase">الحالة / التاريخ</th>
-                                <th class="p-4 text-[10px] font-extrabold uppercase">معلومات الزبون</th>
-                                <th class="p-4 text-[10px] font-extrabold uppercase">المنتج</th>
-                                <th class="p-4 text-[10px] font-extrabold uppercase text-center">أدوات</th>
+                                <th class="p-4 text-[10px] font-extrabold text-slate-500 uppercase">تفاصيل الحالة</th>
+                                <th class="p-4 text-[10px] font-extrabold text-slate-500 uppercase">بيانات الزبون</th>
+                                <th class="p-4 text-[10px] font-extrabold text-slate-500 uppercase">المنتج</th>
+                                <th class="p-4 text-[10px] font-extrabold text-slate-500 uppercase text-center">إجراءات</th>
                             </tr>
                         </thead>
-                        <tbody id="ordersTableBody" class="divide-y divide-slate-100"></tbody>
+                        <tbody id="ordersBody" class="divide-y divide-slate-100"></tbody>
                     </table>
                 </div>
                 
-                <div id="loadingIndicator" class="p-12 text-center w-full">
+                <div id="loader" class="p-10 flex flex-col items-center justify-center">
                     <div class="loader"></div>
-                    <p class="text-slate-400 mt-3 text-xs font-bold animate-pulse">جاري جلب البيانات...</p>
+                    <p class="text-xs font-bold text-slate-400 mt-3">جاري الاتصال...</p>
                 </div>
-                <div id="emptyState" class="hidden p-16 text-center w-full">
-                    <p class="text-4xl mb-2 opacity-50">📭</p>
-                    <p class="text-slate-500 font-bold">لا توجد طلبات</p>
+                <div id="noData" class="hidden p-16 text-center">
+                    <p class="text-4xl mb-2 opacity-30">📭</p>
+                    <p class="text-sm font-bold text-slate-400">لا توجد طلبات</p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // ⚠️ رابط السكربت (نفسه الذي يعمل لديك)
+        // --- ⚙️ إعدادات النظام ---
+        // ⚠️ ضع رابط السكربت الجديد هنا
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwA46KZgSm6KPD29_THPIUF3_w1L0T57jt65LUCKlPQLaysqiI3oFHbr13GSWOu_IlD/exec"; 
-        const ADMIN_PASS = "2911";
+        const PASS_CODE = "2911";
 
-        const STATUS_OPTIONS = [
-            { value: "New", label: "✨ جديد", class: "status-New" },
-            { value: "NoAnswer1", label: "📞 لا يجيب 1", class: "status-NoAnswer1" },
-            { value: "NoAnswer2", label: "📞 لا يجيب 2", class: "status-NoAnswer2" },
-            { value: "NoAnswer3", label: "📞 لا يجيب 3", class: "status-NoAnswer3" },
-            { value: "Postponed", label: "⏳ مؤجل", class: "status-Postponed" },
-            { value: "Confirmed", label: "✅ تم التأكيد", class: "status-Confirmed" },
-            { value: "Cancelled", label: "❌ ملغي", class: "status-Cancelled" },
-            { value: "Fake", label: "🚫 وهمي", class: "status-Fake" }
+        // خيارات الحالة
+        const STATUSES = [
+            { id: "New", text: "✨ جديد", css: "st-New" },
+            { id: "NoAnswer1", text: "📞 لا يجيب 1", css: "st-NoAnswer" },
+            { id: "NoAnswer2", text: "📞 لا يجيب 2", css: "st-NoAnswer" },
+            { id: "NoAnswer3", text: "📞 لا يجيب 3", css: "st-NoAnswer" },
+            { id: "Postponed", text: "⏳ مؤجل", css: "st-Postponed" },
+            { id: "Confirmed", text: "✅ تم التأكيد", css: "st-Confirmed" },
+            { id: "Cancelled", text: "❌ ملغي", css: "st-Cancelled" },
+            { id: "Fake", text: "🚫 وهمي", css: "st-Fake" }
         ];
 
-        let allOrders = [];
+        let globalOrders = [];
 
-        // --- 1. نظام تسجيل الدخول مع الحفظ (Local Storage) ---
-        window.onload = function() {
-            if(localStorage.getItem('zafir_admin_logged') === 'true') {
-                showDashboard();
+        // --- 1. إدارة الدخول (Auto Login) ---
+        window.onload = () => {
+            if(localStorage.getItem('zafir_auth') === 'true') {
+                showApp();
             }
         };
 
         function attemptLogin() {
-            if(document.getElementById('adminPass').value === ADMIN_PASS) {
-                localStorage.setItem('zafir_admin_logged', 'true'); // حفظ الدخول
-                showDashboard();
+            const pass = document.getElementById('adminPass').value;
+            if(pass === PASS_CODE) {
+                localStorage.setItem('zafir_auth', 'true'); // حفظ الدخول
+                showApp();
             } else {
-                alert("كلمة المرور غير صحيحة 🚫");
+                alert("كلمة المرور خاطئة");
                 document.getElementById('adminPass').value = "";
             }
         }
 
         function logout() {
-            localStorage.removeItem('zafir_admin_logged');
-            location.reload();
-        }
-
-        function showDashboard() {
-            document.getElementById('loginSection').style.display = 'none';
-            document.getElementById('dashboardContent').style.display = 'block';
-            fetchData();
-        }
-
-        // --- 2. جلب البيانات ---
-        async function fetchData() {
-            document.getElementById('loadingIndicator').style.display = 'block';
-            document.getElementById('ordersTableBody').innerHTML = '';
-            
-            try {
-                const response = await fetch(`${SCRIPT_URL}?action=read`);
-                const data = await response.json();
-                allOrders = data.reverse();
-                
-                document.getElementById('loadingIndicator').style.display = 'none';
-                if(allOrders.length === 0) document.getElementById('emptyState').style.display = 'block';
-                else renderTable(allOrders);
-                
-                calculateStats(allOrders);
-            } catch (e) {
-                alert("تأكد من الانترنت أو الرابط");
-                document.getElementById('loadingIndicator').style.display = 'none';
+            if(confirm("هل تريد تسجيل الخروج؟")) {
+                localStorage.removeItem('zafir_auth');
+                location.reload();
             }
         }
 
-        // --- 3. عرض الجدول ---
-        function renderTable(orders) {
-            const tbody = document.getElementById('ordersTableBody');
+        function showApp() {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('dashboardContent').style.display = 'block';
+            getData();
+        }
+
+        // --- 2. جلب البيانات ---
+        async function getData() {
+            const loader = document.getElementById('loader');
+            const tbody = document.getElementById('ordersBody');
+            
+            loader.style.display = 'flex';
+            tbody.innerHTML = '';
+            document.getElementById('noData').style.display = 'none';
+
+            try {
+                const res = await fetch(`${SCRIPT_URL}?action=read`);
+                const data = await res.json();
+                globalOrders = data.reverse(); // الأحدث أولاً
+                
+                loader.style.display = 'none';
+                if(globalOrders.length === 0) {
+                    document.getElementById('noData').style.display = 'block';
+                } else {
+                    renderRows(globalOrders);
+                }
+                calcStats();
+            } catch (err) {
+                alert("خطأ في الاتصال بالسيرفر");
+                loader.style.display = 'none';
+            }
+        }
+
+        // --- 3. رسم الجدول ---
+        function renderRows(orders) {
+            const tbody = document.getElementById('ordersBody');
             tbody.innerHTML = '';
 
-            orders.forEach(order => {
-                let phoneStr = String(order.phone).replace(/^'/, '');
-                let waNumber = phoneStr.replace(/\s/g, '').replace(/^0/, '212');
-                
-                // --- إصلاح رسالة الواتساب للحاسوب والهاتف ---
-                // نستخدم \n للسطر الجديد داخل string template
-                let rawMsg = `مرحباً ${order.name.split(' ')[0]} 👋\nمعك فريق التأكيد من متجر *Zafir Shop* 🛍️\n\nبخصوص طلبيتك: *${order.product}*\nبسعر: *${order.price} درهم*\n\nبغيت غير نأكد معاك العنوان والوقت المناسب للتوصيل؟ 🚛`;
-                // نقوم بعمل encodeURIComponent للنص بالكامل ليظهر بشكل صحيح في الرابط
-                let waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent(rawMsg)}`;
+            orders.forEach(o => {
+                // معالجة الهاتف
+                let phone = String(o.phone).replace(/^'/, '');
+                let waPhone = phone.replace(/\s/g, '').replace(/^0/, '212');
 
-                let optionsHTML = STATUS_OPTIONS.map(opt => 
-                    `<option value="${opt.value}" ${order.status === opt.value ? 'selected' : ''}>${opt.label}</option>`
-                ).join('');
-                const currentClass = (STATUS_OPTIONS.find(s => s.value === order.status) || STATUS_OPTIONS[0]).class;
+                // --- إصلاح رسالة الواتساب (للحاسوب والهاتف) ---
+                // نستخدم \n للسطر الجديد
+                const msgText = `مرحباً ${o.name.split(' ')[0]} 👋\nمعك فريق التأكيد من متجر *Zafir Shop* 🛍️\n\nبخصوص طلبيتك: *${o.product}*\nبسعر: *${o.price} درهم*\n\nبغيت غير نأكد معاك العنوان والوقت المناسب للتوصيل؟ 🚛`;
+                // التشفير الكامل
+                const waLink = `https://wa.me/${waPhone}?text=${encodeURIComponent(msgText)}`;
 
-                let dateDisplay = order.date;
+                // التاريخ
+                let dateStr = o.date;
                 try {
-                    let d = new Date(order.date);
-                    dateDisplay = `<span class="font-bold">${d.getDate()}/${d.getMonth()+1}</span> <span class="text-slate-400 text-[10px]">${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}</span>`;
+                    let d = new Date(o.date);
+                    dateStr = `<span class="font-bold text-slate-700">${d.getDate()}/${d.getMonth()+1}</span> <span class="text-[10px] text-slate-400">${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}</span>`;
                 } catch(e){}
 
-                let addressBlock = (order.address && order.address !== 'غير محدد') 
-                    ? `<div class="mt-1 text-[11px] text-slate-500 bg-slate-100 p-1 rounded inline-block max-w-[200px] truncate">🏠 ${order.address}</div>` : '';
-                let noteBlock = order.note 
-                    ? `<div class="mt-1 text-[10px] text-amber-600 bg-amber-50 p-1 rounded inline-block max-w-[200px] truncate">📝 ${order.note}</div>` : '';
+                // قائمة الحالات
+                let opts = STATUSES.map(s => `<option value="${s.id}" ${o.status === s.id ? 'selected' : ''}>${s.text}</option>`).join('');
+                let currCss = (STATUSES.find(s => s.id === o.status) || STATUSES[0]).css;
+
+                // الملاحظات والعنوان
+                let noteHtml = o.note ? `<div class="mt-1 text-[10px] text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-100 inline-block max-w-[180px] truncate">📝 ${o.note}</div>` : '';
+                let addrHtml = (o.address && o.address !== 'غير محدد') ? `<div class="mt-1 text-[10px] text-slate-500 bg-slate-100 px-2 py-0.5 rounded inline-block max-w-[200px] truncate">🏠 ${o.address}</div>` : '';
 
                 const tr = document.createElement('tr');
                 tr.className = "border-b border-slate-50 hover:bg-slate-50 transition group";
+                
                 tr.innerHTML = `
-                    <td class="p-4 align-top w-32">
-                        <div class="relative mb-1">
-                            <select onchange="updateStatus(${order.row_index}, this)" class="appearance-none w-28 px-2 py-1.5 rounded-lg text-[11px] font-bold border-2 focus:outline-none cursor-pointer shadow-sm ${currentClass}">
-                                ${optionsHTML}
-                            </select>
-                        </div>
-                        <div class="text-[10px] text-slate-400 font-mono">#${order.order_id} | ${dateDisplay}</div>
+                    <td class="p-4 align-top w-40">
+                        <select onchange="changeStatus(${o.row_index}, this)" class="w-32 py-1.5 px-2 rounded-lg text-xs font-bold border-2 outline-none cursor-pointer ${currCss} transition-colors">
+                            ${opts}
+                        </select>
+                        <div class="mt-1.5 text-xs text-slate-400 font-mono">#${o.order_id} | ${dateStr}</div>
                     </td>
                     
                     <td class="p-4 align-top">
-                        <div class="font-bold text-slate-800 text-sm">${order.name}</div>
-                        <a href="tel:${phoneStr}" class="text-xs text-slate-500 font-mono hover:text-orange-600 block mt-0.5 tracking-wider font-bold">${phoneStr}</a>
-                        <div class="text-[11px] text-slate-500 mt-1 font-bold">📍 ${order.city}</div>
-                        ${addressBlock}
+                        <div class="font-bold text-slate-800 text-sm">${o.name}</div>
+                        <a href="tel:${phone}" class="text-xs font-mono font-bold text-slate-500 hover:text-orange-600 block mt-0.5 tracking-wider">${phone}</a>
+                        <div class="text-[11px] text-slate-500 font-bold mt-1">📍 ${o.city}</div>
+                        ${addrHtml}
                     </td>
 
                     <td class="p-4 align-top">
-                        <div class="text-xs font-bold text-slate-700 truncate max-w-[150px]">${order.product}</div>
-                        <div class="text-green-600 font-black text-sm mt-0.5">${order.price} DH</div>
-                        ${noteBlock}
+                        <div class="text-xs font-bold text-slate-600 truncate max-w-[140px]">${o.product}</div>
+                        <div class="text-green-600 font-black text-sm mt-0.5">${o.price} DH</div>
+                        ${noteHtml}
                     </td>
 
                     <td class="p-4 align-top text-center">
-                        <div class="flex gap-2 justify-center items-center h-full pt-1">
-                            <button onclick='openEditModal(${JSON.stringify(order)})' class="w-9 h-9 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-blue-50 hover:border-blue-200 hover:text-blue-600 flex items-center justify-center transition shadow-sm">✏️</button>
-                            <a href="${waLink}" target="_blank" class="w-9 h-9 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] flex items-center justify-center transition shadow-md shadow-green-100">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        <div class="flex gap-2 justify-center pt-1">
+                            <button onclick='editOrder(${JSON.stringify(o)})' class="w-9 h-9 rounded-xl bg-white border border-slate-200 text-slate-500 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition shadow-sm">✏️</button>
+                            
+                            <a href="${waLink}" target="_blank" class="w-9 h-9 rounded-xl flex items-center justify-center bg-[#25D366] hover:bg-[#20bd5a] transition shadow-md shadow-green-100">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                             </a>
                         </div>
                     </td>
@@ -297,75 +315,101 @@
             });
         }
 
-        // --- 4. التعديل والحفظ ---
-        function openEditModal(order) {
-            document.getElementById('editRowIndex').value = order.row_index;
-            document.getElementById('editName').value = order.name;
-            document.getElementById('editPhone').value = String(order.phone).replace(/^'/, '');
-            document.getElementById('editCity').value = order.city;
-            document.getElementById('editAddress').value = order.address;
-            document.getElementById('editPrice').value = order.price;
-            document.getElementById('editNote').value = order.note || '';
-            document.getElementById('editModal').classList.remove('hidden');
-        }
-        function closeEditModal() { document.getElementById('editModal').classList.add('hidden'); }
-
-        async function saveOrderChanges() {
-            const btn = event.target;
-            btn.innerText = "جاري الحفظ..."; btn.disabled = true;
-            const formData = new FormData();
-            formData.append('action', 'edit_order');
-            formData.append('row_index', document.getElementById('editRowIndex').value);
-            formData.append('name', document.getElementById('editName').value);
-            formData.append('phone', document.getElementById('editPhone').value);
-            formData.append('city', document.getElementById('editCity').value);
-            formData.append('address', document.getElementById('editAddress').value);
-            formData.append('price', document.getElementById('editPrice').value);
-            formData.append('note', document.getElementById('editNote').value);
-            try { await fetch(SCRIPT_URL, { method: 'POST', body: formData, mode: 'no-cors' }); closeEditModal(); fetchData(); } 
-            catch (e) { alert("خطأ"); } finally { btn.innerText = "حفظ"; btn.disabled = false; }
-        }
-
-        async function updateStatus(rowIndex, select) {
-            select.className = `appearance-none w-28 px-2 py-1.5 rounded-lg text-[11px] font-bold border-2 focus:outline-none cursor-pointer shadow-sm ${STATUS_OPTIONS.find(s=>s.value===select.value).class}`;
-            const formData = new FormData();
-            formData.append('action', 'update');
-            formData.append('row_index', rowIndex);
-            formData.append('status', select.value);
-            await fetch(SCRIPT_URL, { method: 'POST', body: formData, mode: 'no-cors' });
-            // تحديث محلي سريع
-            const order = allOrders.find(o => o.row_index === rowIndex);
-            if(order) order.status = select.value;
-            calculateStats(allOrders);
-        }
-
-        // --- 5. الإحصائيات الجديدة (طلبات اليوم وغيرها) ---
-        function calculateStats(orders) {
-            document.getElementById('statTotal').innerText = orders.length;
-            document.getElementById('statNew').innerText = orders.filter(o => o.status === 'New').length;
-            document.getElementById('statConfirmed').innerText = orders.filter(o => o.status === 'Confirmed').length;
-            document.getElementById('statCancelled').innerText = orders.filter(o => ['Cancelled', 'Fake'].includes(o.status)).length;
+        // --- 4. الحسابات (Stats) ---
+        function calcStats() {
+            const total = globalOrders.length;
+            const confirmed = globalOrders.filter(o => o.status === 'Confirmed').length;
+            // الطلبات "في الانتظار" هي كل ما ليس مؤكداً وليس ملغياً/وهمياً
+            const pending = globalOrders.filter(o => !['Confirmed', 'Cancelled', 'Fake'].includes(o.status)).length;
+            const cancelled = globalOrders.filter(o => ['Cancelled', 'Fake'].includes(o.status)).length;
             
-            // حساب طلبات اليوم
-            const today = new Date().setHours(0,0,0,0);
-            const todayCount = orders.filter(o => {
-                const orderDate = new Date(o.date).setHours(0,0,0,0);
-                return orderDate === today;
-            }).length;
-            document.getElementById('statToday').innerText = todayCount;
+            // حساب الأرباح (للمؤكد فقط)
+            const revenue = globalOrders.reduce((sum, o) => {
+                return o.status === 'Confirmed' ? sum + Number(o.price) : sum;
+            }, 0);
 
-            const revenue = orders.reduce((sum, o) => !['Cancelled','Fake'].includes(o.status) ? sum + Number(o.price) : sum, 0);
+            // تحديث الواجهة
+            document.getElementById('statTotal').innerText = total;
+            document.getElementById('statConfirmed').innerText = confirmed;
+            document.getElementById('statPending').innerText = pending;
+            document.getElementById('statCancelled').innerText = cancelled;
             document.getElementById('statRevenue').innerText = revenue.toLocaleString();
         }
 
+        // --- 5. وظائف النظام ---
+        async function changeStatus(idx, select) {
+            const newVal = select.value;
+            // تحديث اللون فوراً
+            select.className = `w-32 py-1.5 px-2 rounded-lg text-xs font-bold border-2 outline-none cursor-pointer ${STATUSES.find(s=>s.id===newVal).css} transition-colors`;
+            
+            // إرسال للسيرفر
+            const fd = new FormData();
+            fd.append('action', 'update');
+            fd.append('row_index', idx);
+            fd.append('status', newVal);
+            fetch(SCRIPT_URL, { method: 'POST', body: fd, mode: 'no-cors' });
+
+            // تحديث محلي للأرقام
+            const item = globalOrders.find(o => o.row_index === idx);
+            if(item) item.status = newVal;
+            calcStats();
+        }
+
+        function editOrder(o) {
+            document.getElementById('editRowIndex').value = o.row_index;
+            document.getElementById('editName').value = o.name;
+            document.getElementById('editPhone').value = String(o.phone).replace(/^'/, '');
+            document.getElementById('editCity').value = o.city;
+            document.getElementById('editAddress').value = o.address;
+            document.getElementById('editPrice').value = o.price;
+            document.getElementById('editNote').value = o.note || '';
+            document.getElementById('editModal').classList.remove('hidden');
+        }
+
+        function closeEditModal() { document.getElementById('editModal').classList.add('hidden'); }
+
+        async function saveChanges() {
+            const btn = event.target;
+            btn.innerText = '...'; btn.disabled = true;
+            
+            const fd = new FormData();
+            fd.append('action', 'edit_order');
+            fd.append('row_index', document.getElementById('editRowIndex').value);
+            fd.append('name', document.getElementById('editName').value);
+            fd.append('phone', document.getElementById('editPhone').value);
+            fd.append('city', document.getElementById('editCity').value);
+            fd.append('address', document.getElementById('editAddress').value);
+            fd.append('price', document.getElementById('editPrice').value);
+            fd.append('note', document.getElementById('editNote').value);
+
+            await fetch(SCRIPT_URL, { method: 'POST', body: fd, mode: 'no-cors' });
+            
+            closeEditModal();
+            getData(); // تحديث الجدول
+            btn.innerText = 'حفظ التعديلات'; btn.disabled = false;
+        }
+
         function filterTable() {
-            const term = document.getElementById('searchInput').value.toLowerCase();
-            document.querySelectorAll('#ordersTableBody tr').forEach(row => {
-                row.style.display = row.innerText.toLowerCase().includes(term) ? '' : 'none';
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#ordersBody tr');
+            rows.forEach(r => {
+                r.style.display = r.innerText.toLowerCase().includes(q) ? '' : 'none';
             });
         }
-        function refreshData() { fetchData(); }
-        function exportToCSV() { /* نفس كود التصدير السابق */ }
+
+        function refreshData() { getData(); }
+
+        function exportExcel() {
+            let csv = "\uFEFFID,Name,Phone,City,Address,Product,Price,Status,Note,Date\n";
+            globalOrders.forEach(o => {
+                let p = String(o.phone).replace(/^'/, '');
+                csv += `${o.order_id},"${o.name}","'${p}","${o.city}","${o.address}","${o.product}",${o.price},"${o.status}","${o.note}","${o.date}"\n`;
+            });
+            const a = document.createElement('a');
+            a.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+            a.download = 'Zafir_Orders.csv';
+            a.click();
+        }
     </script>
 </body>
 </html>
