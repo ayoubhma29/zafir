@@ -148,7 +148,7 @@
     <script>
         // ⚠️ تأكد من الرابط
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwA46KZgSm6KPD29_THPIUF3_w1L0T57jt65LUCKlPQLaysqiI3oFHbr13GSWOu_IlD/exec"; 
-        const PASS_CODE = "Fujitest29";
+        const PASS_CODE = "2911";
 
         const STATUSES = [
             { id: "New", text: "✨ جديد", css: "st-New" },
@@ -240,7 +240,6 @@
                 const tr = document.createElement('tr');
                 tr.className = "border-b border-slate-50 hover:bg-slate-50 transition group";
                 
-                // زر الواتساب يستدعي دالة خاصة لضمان عمل الرابط في الحاسوب
                 tr.innerHTML = `
                     <td class="p-4 align-top w-44">
                         <select onchange="changeStatus(${o.row_index}, this)" class="w-36 py-2 px-2 rounded-lg text-xs font-bold border-2 outline-none cursor-pointer ${currCss} transition-colors mb-2">
@@ -276,21 +275,21 @@
             });
         }
 
-        // --- دالة خاصة لفتح واتساب بشكل صحيح على الحاسوب والهاتف ---
+        // --- دالة خاصة لفتح واتساب بشكل صحيح ---
         function openWhatsApp(phone, name, product, price) {
             let firstName = name.split(' ')[0];
-            // رسالة بسيطة جداً بدون رموز معقدة لضمان التوافق
-            let msg = `السلام عليكم ${firstName} \nمعك فريق التأكيد من متجر Zafir Shop \n\nبخصوص طلبيتك: ${product}\nالسعر: ${price} درهم\n\nبغيت غير نأكد معاك العنوان والوقت المناسب للتوصيل؟`;
+            // رسالة مع الرموز والأسطر الجديدة
+            let msg = `مرحباً ${firstName} 👋\nمعك فريق التأكيد من متجر *Zafir Shop* 🛍️\n\nبخصوص طلبيتك: *${product}*\nبسعر: *${price} درهم*\n\nبغيت غير نأكد معاك العنوان والوقت المناسب للتوصيل؟ 🚛`;
             
-            // استخدام رابط الويب مباشرة للحاسوب
-            let url = `https://web.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(msg)}`;
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             
-            // التحقق إذا كان الجهاز هاتفاً
-            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-                url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+            if (isMobile) {
+                // في الهاتف نستخدم api.whatsapp.com
+                window.location.href = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(msg)}`;
+            } else {
+                // في الحاسوب نستخدم web.whatsapp.com مباشرة
+                window.open(`https://web.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(msg)}`, '_blank');
             }
-            
-            window.open(url, '_blank');
         }
 
         // --- وظيفة الفلترة (المحسنة) ---
