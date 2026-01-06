@@ -220,26 +220,28 @@
         .footer-links { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
         .footer-link { color: var(--primary); text-decoration: none; font-weight: 700; cursor: pointer; }
 
-        /* --- FLOATING TRANSPARENT STICKY BAR --- */
+        /* --- FLOATING TRANSPARENT STICKY BAR (Updated for Small Phone Size) --- */
         .sticky-bar { 
             position: fixed; 
-            bottom: 20px; 
+            bottom: 10px; /* Lowered from 20px */
             left: 0; 
             right: 0; 
             z-index: 100; 
-            background: transparent; /* No background */
+            background: transparent;
             padding: 0 20px; 
             display: flex; 
             justify-content: center;
-            pointer-events: none; /* Allows clicking through empty space */
+            pointer-events: none;
         }
         .cta-btn { 
-            pointer-events: auto; /* Button is clickable */
+            pointer-events: auto;
             background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); 
             color: white; border: none; width: 100%; max-width: 500px; 
-            padding: 15px; border-radius: 50px; 
-            font-size: 17px; font-weight: 900; 
-            box-shadow: 0 8px 25px rgba(234, 88, 12, 0.5); /* Strong Shadow */
+            padding: 10px 15px; /* Reduced padding (was 15px) */
+            border-radius: 50px; 
+            font-size: 15px; /* Reduced font size (was 17px) */
+            font-weight: 900; 
+            box-shadow: 0 8px 25px rgba(234, 88, 12, 0.5); 
             cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; 
             animation: pulse-btn 2s infinite;
         }
@@ -670,7 +672,7 @@
             const BOT_TOKEN = "8383494745:AAEFXQDJdszeU-EW8AWVn-NwGlQPiquG5xk";
             const CHAT_ID = "819906295";
             
-            // UPDATED GOOGLE SCRIPT URL HERE
+            // YOUR CURRENT GOOGLE SCRIPT URL (FROM PREVIOUS STEP)
             const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyOylfK9dSyQiPnn49tkmSrhu4oEbXMiZHnS7qOLDC41ywcDlTuEjzIRWCOeNtS5IZv/exec";
             
             // --- 1. Prepare Google Sheet Data ---
@@ -679,7 +681,6 @@
             sheetData.append('phone', cleanPhone);
             sheetData.append('city', city);
             sheetData.append('address', address);
-            // The logic below assumes the server-side script maps these keys to columns A-J
             sheetData.append('product', 'iRed W10 Pro Max');
             sheetData.append('price', '280');
             sheetData.append('status', 'New');
