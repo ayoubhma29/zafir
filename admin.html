@@ -81,19 +81,27 @@
 
         <div class="container mx-auto px-4 py-6">
             
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-6">
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
                     <p class="text-slate-400 text-xs font-bold uppercase">العدد المعروض</p>
                     <p class="text-3xl font-black text-slate-800 mt-2" id="statTotal">0</p>
                 </div>
+                
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 border-b-4 border-b-green-500">
                     <p class="text-green-600 text-xs font-bold uppercase">✅ تم التأكيد</p>
                     <p class="text-3xl font-black text-green-600 mt-2" id="statConfirmed">0</p>
                 </div>
+
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 border-b-4 border-b-purple-500">
+                    <p class="text-purple-600 text-xs font-bold uppercase">📦 تم الإرسال</p>
+                    <p class="text-3xl font-black text-purple-600 mt-2" id="statShipped">0</p>
+                </div>
+
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 border-b-4 border-b-orange-400">
                     <p class="text-orange-500 text-xs font-bold uppercase">⏳ في الانتظار</p>
                     <p class="text-3xl font-black text-orange-500 mt-2" id="statPending">0</p>
                 </div>
+
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 border-b-4 border-b-red-400">
                     <p class="text-red-500 text-xs font-bold uppercase">❌ ملغي / وهمي</p>
                     <p class="text-3xl font-black text-red-500 mt-2" id="statCancelled">0</p>
@@ -219,6 +227,9 @@
                 let phone = String(o.phone).replace(/^'/, '');
                 let waPhone = phone.replace(/\s/g, '').replace(/^0/, '212');
                 
+                // رسالة واتساب
+                const msgText = `السلام عليكم ${o.name.split(' ')[0]} 👋\nمعك فريق التأكيد من متجر Zafir Shop 🛍️\n\nبخصوص طلبيتك: ${o.product}\nالسعر: ${o.price} درهم\n\nبغيت غير نأكد معاك العنوان والوقت المناسب للتوصيل؟ 🚛`;
+                
                 // التاريخ
                 let dateStr = o.date;
                 try {
@@ -278,21 +289,20 @@
         // --- دالة خاصة لفتح واتساب بشكل صحيح ---
         function openWhatsApp(phone, name, product, price) {
             let firstName = name.split(' ')[0];
-            // رسالة مع الرموز والأسطر الجديدة
-            let msg = `مرحباً ${firstName} 👋\nمعك فريق التأكيد من متجر *Zafir Shop* 🛍️\n\nبخصوص طلبيتك: *${product}*\nبسعر: *${price} درهم*\n\nبغيت غير نأكد معاك العنوان والوقت المناسب للتوصيل؟ 🚛`;
+            let msg = `السلام عليكم ${firstName} 👋\nمعك فريق التأكيد من متجر Zafir Shop 🛍️\n\nبخصوص طلبيتك: ${product}\nالسعر: ${price} درهم\n\nبغيت غير نأكد معاك العنوان والوقت المناسب للتوصيل؟ 🚛`;
             
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             
             if (isMobile) {
-                // في الهاتف نستخدم api.whatsapp.com
+                // api.whatsapp.com للهاتف
                 window.location.href = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(msg)}`;
             } else {
-                // في الحاسوب نستخدم web.whatsapp.com مباشرة
+                // web.whatsapp.com للحاسوب
                 window.open(`https://web.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(msg)}`, '_blank');
             }
         }
 
-        // --- وظيفة الفلترة (المحسنة) ---
+        // --- وظيفة الفلترة ---
         function applyFilters() {
             const q = document.getElementById('searchInput').value.toLowerCase();
             const filterType = document.getElementById('filterSelect').value;
@@ -321,21 +331,22 @@
             calcStats(displayedOrders);
         }
 
-        // --- وظيفة التصدير (المؤكدة فقط) ---
+        // --- وظيفة التصدير (المعدلة) ---
         function exportExcel() {
-            const confirmedOnly = globalOrders.filter(o => o.status === 'Confirmed' || o.status === 'Shipped');
+            // نأخذ فقط المؤكدة
+            const confirmedOnly = globalOrders.filter(o => o.status === 'Confirmed');
             
             if(confirmedOnly.length === 0) {
                 alert("⚠️ لا توجد طلبات مؤكدة لتصديرها.");
                 return;
             }
 
-            // الترتيب المطلوب: CODE SUIVI, DESTINATAIRE, TELEPHONE, ADRESSE, PRIX, VILLE, COMMENTAIRE
+            // الترتيب المطلوب بدقة
             let csv = "\uFEFFCODE SUIVI,DESTINATAIRE,TELEPHONE,ADRESSE,PRIX,VILLE,COMMENTAIRE\n";
             
             confirmedOnly.forEach(o => {
                 let p = String(o.phone).replace(/^'/, '');
-                // ملاحظة: الحقل "COMMENTAIRE" سيأخذ قيمة Note من الشيت
+                // وضع الملاحظات في خانة COMMENTAIRE
                 csv += `"${o.order_id}","${o.name}","'${p}","${o.address || ''}",${o.price},"${o.city}","${o.note || ''}"\n`;
             });
 
@@ -347,21 +358,25 @@
             document.body.removeChild(a);
         }
 
-        // --- الحسابات ---
+        // --- الحسابات (معدلة لتشمل "تم الإرسال") ---
         function calcStats(ordersList) {
             const list = ordersList || displayedOrders;
+
             const total = list.length;
-            const confirmed = list.filter(o => o.status === 'Confirmed' || o.status === 'Shipped').length;
+            const confirmed = list.filter(o => o.status === 'Confirmed').length;
+            const shipped = list.filter(o => o.status === 'Shipped').length;
+            // في الانتظار: لا مؤكدة، ولا مرسلة، ولا ملغية
             const pending = list.filter(o => !['Confirmed', 'Shipped', 'Cancelled', 'Fake'].includes(o.status)).length;
             const cancelled = list.filter(o => ['Cancelled', 'Fake'].includes(o.status)).length;
             
             document.getElementById('statTotal').innerText = total;
             document.getElementById('statConfirmed').innerText = confirmed;
+            document.getElementById('statShipped').innerText = shipped;
             document.getElementById('statPending').innerText = pending;
             document.getElementById('statCancelled').innerText = cancelled;
         }
 
-        // باقي الوظائف (تغيير الحالة، التعديل)
+        // باقي الوظائف
         async function changeStatus(idx, select) {
             const newVal = select.value;
             select.className = `w-36 py-2 px-2 rounded-lg text-xs font-bold border-2 outline-none cursor-pointer ${STATUSES.find(s=>s.id===newVal).css} transition-colors mb-2`;
