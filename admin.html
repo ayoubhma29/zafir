@@ -8,17 +8,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Cairo', sans-serif; background-color: #f3f4f6; -webkit-tap-highlight-color: transparent; }
-        
-        /* Scrollbar */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #e5e7eb; }
         ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 10px; }
 
-        /* Status Colors */
+        /* ألوان الحالات */
         .st-New { @apply bg-blue-100 text-blue-800 border-blue-200; }
         .st-NoAnswer { @apply bg-yellow-100 text-yellow-800 border-yellow-200; }
         .st-Confirmed { @apply bg-green-100 text-green-800 border-green-200; }
-        .st-Shipped { @apply bg-purple-100 text-purple-800 border-purple-200; } /* حالة جديدة */
+        .st-Shipped { @apply bg-purple-100 text-purple-800 border-purple-200; }
         .st-Postponed { @apply bg-orange-100 text-orange-800 border-orange-200; }
         .st-Cancelled { @apply bg-red-100 text-red-800 border-red-200; }
         .st-Fake { @apply bg-gray-200 text-gray-600 border-gray-300; }
@@ -74,7 +72,7 @@
                 <div class="flex gap-2">
                     <button onclick="refreshData()" class="p-2 bg-slate-100 rounded-lg hover:bg-orange-100 hover:text-orange-600 transition" title="تحديث">🔄</button>
                     <button onclick="exportExcel()" class="px-4 py-2 bg-green-100 text-green-700 rounded-lg font-bold hover:bg-green-200 transition text-xs flex items-center gap-1">
-                        <span>📥</span> تصدير المؤكد
+                        <span>📥</span> تحميل المؤكدة
                     </button>
                     <button onclick="logout()" class="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition" title="خروج">🚪</button>
                 </div>
@@ -85,7 +83,7 @@
             
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
-                    <p class="text-slate-400 text-xs font-bold uppercase">الكل</p>
+                    <p class="text-slate-400 text-xs font-bold uppercase">العدد الإجمالي</p>
                     <p class="text-3xl font-black text-slate-800 mt-2" id="statTotal">0</p>
                 </div>
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 border-b-4 border-b-green-500">
@@ -104,8 +102,8 @@
 
             <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-100 mb-6 sticky top-20 z-30 flex gap-3 flex-col md:flex-row">
                 <div class="relative w-full md:w-48">
-                    <select id="filterSelect" onchange="filterTable()" class="w-full py-2.5 px-4 bg-slate-100 rounded-xl outline-none text-sm font-bold text-slate-700 cursor-pointer appearance-none border border-transparent focus:border-orange-500">
-                        <option value="All">📋 الكل</option>
+                    <select id="filterSelect" onchange="applyFilters()" class="w-full py-2.5 px-4 bg-slate-100 rounded-xl outline-none text-sm font-bold text-slate-700 cursor-pointer appearance-none border border-transparent focus:border-orange-500">
+                        <option value="All">📋 جميع الطلبات</option>
                         <option value="Today">🔥 طلبات اليوم</option>
                         <option value="New">✨ جديد</option>
                         <option value="Confirmed">✅ تم التأكيد</option>
@@ -115,10 +113,9 @@
                     </select>
                     <div class="absolute left-3 top-3 pointer-events-none text-xs text-slate-500">▼</div>
                 </div>
-
                 <div class="relative flex-1">
                     <span class="absolute right-4 top-3 text-slate-400">🔍</span>
-                    <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="بحث (اسم، هاتف، مدينة)..." class="w-full py-2.5 pr-10 pl-4 bg-slate-50 rounded-xl outline-none text-sm font-bold text-slate-700 focus:bg-white focus:ring-2 focus:ring-orange-100 transition border border-slate-200">
+                    <input type="text" id="searchInput" onkeyup="applyFilters()" placeholder="بحث (اسم، هاتف، مدينة)..." class="w-full py-2.5 pr-10 pl-4 bg-slate-50 rounded-xl outline-none text-sm font-bold text-slate-700 focus:bg-white focus:ring-2 focus:ring-orange-100 transition border border-slate-200">
                 </div>
             </div>
 
@@ -136,7 +133,6 @@
                         <tbody id="ordersBody" class="divide-y divide-slate-100"></tbody>
                     </table>
                 </div>
-                
                 <div id="loader" class="p-10 flex flex-col items-center justify-center">
                     <div class="loader"></div>
                     <p class="text-xs font-bold text-slate-400 mt-3">جاري التحميل...</p>
@@ -150,11 +146,10 @@
     </div>
 
     <script>
-        // ⚠️ رابط السكربت (نفسه)
+        // ⚠️ تأكد من الرابط
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwA46KZgSm6KPD29_THPIUF3_w1L0T57jt65LUCKlPQLaysqiI3oFHbr13GSWOu_IlD/exec"; 
         const PASS_CODE = "Fujitest29";
 
-        // خيارات الحالة (تم إضافة Shipped)
         const STATUSES = [
             { id: "New", text: "✨ جديد", css: "st-New" },
             { id: "NoAnswer1", text: "📞 لا يجيب 1", css: "st-NoAnswer" },
@@ -168,6 +163,7 @@
         ];
 
         let globalOrders = [];
+        let displayedOrders = []; // لتخزين الطلبات المعروضة حالياً وحساب الإحصائيات عليها
 
         window.onload = () => {
             if(localStorage.getItem('zafir_auth') === 'true') showApp();
@@ -201,8 +197,7 @@
                 const data = await res.json();
                 globalOrders = data.reverse();
                 loader.style.display = 'none';
-                renderRows(globalOrders); // عرض الكل افتراضياً
-                calcStats();
+                applyFilters(); // تطبيق الفلترة والحسابات الأولية
             } catch (err) {
                 alert("خطأ في الاتصال");
                 loader.style.display = 'none';
@@ -224,15 +219,14 @@
                 let phone = String(o.phone).replace(/^'/, '');
                 let waPhone = phone.replace(/\s/g, '').replace(/^0/, '212');
                 
-                // رسالة واتساب مشفرة
-                const msgText = `مرحباً ${o.name.split(' ')[0]} 👋\nمعك فريق التأكيد من متجر *Zafir Shop* 🛍️\n\nبخصوص طلبيتك: *${o.product}*\nبسعر: *${o.price} درهم*\n\nبغيت غير نأكد معاك العنوان والوقت المناسب للتوصيل؟ 🚛`;
+                // ✅ رسالة واتساب المبسطة والآمنة (بدون رموز معقدة)
+                const msgText = `السلام عليكم ${o.name.split(' ')[0]} 👋\nمعك فريق التأكيد من متجر Zafir Shop 🛍️\n\nبخصوص طلبيتك: ${o.product}\nالسعر: ${o.price} درهم\n\nبغيت غير نأكد معاك العنوان والوقت المناسب للتوصيل؟ 🚛`;
                 const waLink = `https://wa.me/${waPhone}?text=${encodeURIComponent(msgText)}`;
 
-                // 🗓️ إصلاح تنسيق التاريخ والوقت
+                // التاريخ الكامل
                 let dateStr = o.date;
                 try {
                     let d = new Date(o.date);
-                    // تنسيق: 06/01/2026 14:30
                     let day = String(d.getDate()).padStart(2, '0');
                     let month = String(d.getMonth() + 1).padStart(2, '0');
                     let year = d.getFullYear();
@@ -244,7 +238,7 @@
                 let opts = STATUSES.map(s => `<option value="${s.id}" ${o.status === s.id ? 'selected' : ''}>${s.text}</option>`).join('');
                 let currCss = (STATUSES.find(s => s.id === o.status) || STATUSES[0]).css;
 
-                // ✏️ تكبير خط العنوان والمدينة
+                // تكبير الخط للعنوان والمدينة
                 let addrHtml = (o.address && o.address !== 'غير محدد') ? `<div class="mt-1 text-sm font-semibold text-slate-600 bg-slate-100 px-2 py-1 rounded inline-block max-w-[220px] break-words">🏠 ${o.address}</div>` : '';
                 let noteHtml = o.note ? `<div class="mt-1 text-xs text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-100 inline-block max-w-[180px] truncate">📝 ${o.note}</div>` : '';
 
@@ -286,20 +280,19 @@
             });
         }
 
-        // --- وظائف الفلترة (طلبات اليوم وغيرها) ---
-        function filterTable() {
+        // --- وظيفة الفلترة (المحسنة) ---
+        function applyFilters() {
             const q = document.getElementById('searchInput').value.toLowerCase();
             const filterType = document.getElementById('filterSelect').value;
             
-            // تحديد تاريخ اليوم (بدون وقت) للمقارنة
             const today = new Date();
             today.setHours(0,0,0,0);
 
-            const filteredOrders = globalOrders.filter(o => {
-                // 1. البحث بالنص
+            displayedOrders = globalOrders.filter(o => {
+                // فلتر البحث النصي
                 const textMatch = (o.name + o.phone + o.city).toLowerCase().includes(q);
                 
-                // 2. الفلترة حسب القائمة
+                // فلتر النوع
                 let typeMatch = true;
                 if(filterType === 'Today') {
                     const orderDate = new Date(o.date);
@@ -314,39 +307,53 @@
                 return textMatch && typeMatch;
             });
 
-            renderRows(filteredOrders);
+            // عرض النتائج المفلترة وحساب الإحصائيات *بناءً عليها*
+            renderRows(displayedOrders);
+            calcStats(displayedOrders);
         }
 
-        // --- التصدير الذكي (المؤكد فقط) ---
+        // --- وظيفة التصدير (المؤكدة فقط) حسب طلبك ---
         function exportExcel() {
-            // فلترة الطلبات المؤكدة فقط
-            const confirmedOnly = globalOrders.filter(o => o.status === 'Confirmed' || o.status === 'Shipped'); // نضيف تم الإرسال أيضاً
+            // نأخذ فقط المؤكدة من القائمة الكاملة
+            const confirmedOnly = globalOrders.filter(o => o.status === 'Confirmed');
             
             if(confirmedOnly.length === 0) {
                 alert("⚠️ لا توجد طلبات مؤكدة لتصديرها.");
                 return;
             }
 
-            let csv = "\uFEFFID,Name,Phone,City,Address,Product,Price,Status,Note,Date\n";
+            // ترتيب الأعمدة: CODE SUIVI, DESTINATAIRE, TELEPHONE, ADRESSE, PRIX, VILLE, COMMENTAIRE
+            let csv = "\uFEFFCODE SUIVI,DESTINATAIRE,TELEPHONE,ADRESSE,PRIX,VILLE,COMMENTAIRE\n";
+            
             confirmedOnly.forEach(o => {
                 let p = String(o.phone).replace(/^'/, '');
-                // تنسيق التاريخ ليكون مقروء في اكسل
-                let d = new Date(o.date);
-                let dateStr = `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`;
-                
-                csv += `${o.order_id},"${o.name}","'${p}","${o.city}","${o.address}","${o.product}",${o.price},"${o.status}","${o.note}","${dateStr}"\n`;
+                // Code Suivi هو الـ ID
+                // Destinataire هو الاسم
+                // Telephone هو الهاتف
+                // Adresse هو العنوان
+                // Prix هو السعر
+                // Ville هي المدينة
+                // Commentaire هو الملاحظات
+                csv += `"${o.order_id}","${o.name}","'${p}","${o.address || ''}",${o.price},"${o.city}","${o.note || ''}"\n`;
             });
+
             const a = document.createElement('a');
             a.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
-            a.download = `Zafir_Confirmed_${new Date().toISOString().slice(0,10)}.csv`;
+            a.download = `Zafir_Export_${new Date().toISOString().slice(0,10)}.csv`;
+            document.body.appendChild(a);
             a.click();
+            document.body.removeChild(a);
         }
 
-        function calcStats() {
-            const total = globalOrders.length;
-            const confirmed = globalOrders.filter(o => o.status === 'Confirmed' || o.status === 'Shipped').length;
-            const pending = globalOrders.filter(o => !['Confirmed', 'Shipped', 'Cancelled', 'Fake'].includes(o.status)).length;
-            const cancelled = globalOrders.filter(o => ['Cancelled', 'Fake'].includes(o.status)).length;
+        // --- الحسابات (ديناميكية حسب الفلتر) ---
+        function calcStats(ordersList) {
+            // إذا لم يتم تمرير قائمة، استخدم القائمة المعروضة حالياً
+            const list = ordersList || displayedOrders;
+
+            const total = list.length;
+            const confirmed = list.filter(o => o.status === 'Confirmed').length;
+            const pending = list.filter(o => !['Confirmed', 'Shipped', 'Cancelled', 'Fake'].includes(o.status)).length;
+            const cancelled = list.filter(o => ['Cancelled', 'Fake'].includes(o.status)).length;
             
             document.getElementById('statTotal').innerText = total;
             document.getElementById('statConfirmed').innerText = confirmed;
@@ -354,13 +361,19 @@
             document.getElementById('statCancelled').innerText = cancelled;
         }
 
-        // باقي الوظائف (تغيير الحالة، التعديل) كما هي
+        // باقي الوظائف (تغيير الحالة، التعديل)
         async function changeStatus(idx, select) {
             const newVal = select.value;
             select.className = `w-36 py-2 px-2 rounded-lg text-xs font-bold border-2 outline-none cursor-pointer ${STATUSES.find(s=>s.id===newVal).css} transition-colors mb-2`;
             const fd = new FormData(); fd.append('action', 'update'); fd.append('row_index', idx); fd.append('status', newVal);
             fetch(SCRIPT_URL, { method: 'POST', body: fd, mode: 'no-cors' });
-            const item = globalOrders.find(o => o.row_index === idx); if(item) item.status = newVal; calcStats();
+            
+            // تحديث محلي
+            const item = globalOrders.find(o => o.row_index === idx); 
+            if(item) item.status = newVal;
+            
+            // إعادة الفلترة لتحديث الأرقام فوراً
+            applyFilters();
         }
 
         function editOrder(o) {
@@ -385,9 +398,10 @@
             fd.append('price', document.getElementById('editPrice').value);
             fd.append('note', document.getElementById('editNote').value);
             await fetch(SCRIPT_URL, { method: 'POST', body: fd, mode: 'no-cors' });
-            closeEditModal(); getData(); btn.innerText = 'حفظ'; btn.disabled = false;
+            closeEditModal(); refreshData(); btn.innerText = 'حفظ'; btn.disabled = false;
         }
         function refreshData() { getData(); }
+        function filterTable() { applyFilters(); } // ربط دالة البحث بدالة الفلترة الموحدة
     </script>
 </body>
 </html>
