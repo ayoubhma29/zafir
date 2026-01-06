@@ -220,10 +220,10 @@
         .footer-links { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
         .footer-link { color: var(--primary); text-decoration: none; font-weight: 700; cursor: pointer; }
 
-        /* --- FLOATING TRANSPARENT STICKY BAR (Updated for Small Phone Size) --- */
+        /* --- FLOATING TRANSPARENT STICKY BAR --- */
         .sticky-bar { 
             position: fixed; 
-            bottom: 10px; /* Lowered from 20px */
+            bottom: 10px; 
             left: 0; 
             right: 0; 
             z-index: 100; 
@@ -233,13 +233,14 @@
             justify-content: center;
             pointer-events: none;
         }
+        /* ⚠️ التعديل الأول هنا: إضافة type="button" لمنع الإرسال التلقائي في الهاتف */
         .cta-btn { 
             pointer-events: auto;
             background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); 
             color: white; border: none; width: 100%; max-width: 500px; 
-            padding: 10px 15px; /* Reduced padding (was 15px) */
+            padding: 10px 15px; 
             border-radius: 50px; 
-            font-size: 15px; /* Reduced font size (was 17px) */
+            font-size: 15px; 
             font-weight: 900; 
             box-shadow: 0 8px 25px rgba(234, 88, 12, 0.5); 
             cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; 
@@ -464,7 +465,7 @@
                 <p style="font-size:13px; color:#64748b; margin-top:5px">عرض محدود: 280 درهم - توصيل مجاني</p>
             </div>
 
-            <form id="telegramForm">
+            <form id="telegramForm" onsubmit="return false;">
                 <div class="input-group">
                     <label>الاسم الكامل</label>
                     <div class="input-icon-wrapper">
@@ -518,7 +519,7 @@
     </div>
 
     <div class="sticky-bar">
-        <button class="cta-btn" onclick="submitOrder()">
+        <button type="button" class="cta-btn" onclick="submitOrder()">
             <span>🛒 اضغط للطلب - 280 درهم فقط</span>
         </button>
     </div>
@@ -672,7 +673,7 @@
             const BOT_TOKEN = "8383494745:AAEFXQDJdszeU-EW8AWVn-NwGlQPiquG5xk";
             const CHAT_ID = "819906295";
             
-            // GOOGLE SCRIPT URL
+            // الرابط الذي أرسلته لي (صحيح)
             const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwA46KZgSm6KPD29_THPIUF3_w1L0T57jt65LUCKlPQLaysqiI3oFHbr13GSWOu_IlD/exec";
             
             // --- 1. Prepare Google Sheet Data ---
@@ -764,4 +765,3 @@
     </script>
 </body>
 </html>
-
