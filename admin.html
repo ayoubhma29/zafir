@@ -83,7 +83,7 @@
             
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
-                    <p class="text-slate-400 text-xs font-bold uppercase">العدد الإجمالي</p>
+                    <p class="text-slate-400 text-xs font-bold uppercase">العدد المعروض</p>
                     <p class="text-3xl font-black text-slate-800 mt-2" id="statTotal">0</p>
                 </div>
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 border-b-4 border-b-green-500">
@@ -163,7 +163,7 @@
         ];
 
         let globalOrders = [];
-        let displayedOrders = []; // لتخزين الطلبات المعروضة حالياً وحساب الإحصائيات عليها
+        let displayedOrders = []; 
 
         window.onload = () => {
             if(localStorage.getItem('zafir_auth') === 'true') showApp();
@@ -197,7 +197,7 @@
                 const data = await res.json();
                 globalOrders = data.reverse();
                 loader.style.display = 'none';
-                applyFilters(); // تطبيق الفلترة والحسابات الأولية
+                applyFilters(); 
             } catch (err) {
                 alert("خطأ في الاتصال");
                 loader.style.display = 'none';
@@ -219,11 +219,7 @@
                 let phone = String(o.phone).replace(/^'/, '');
                 let waPhone = phone.replace(/\s/g, '').replace(/^0/, '212');
                 
-                // ✅ رسالة واتساب المبسطة والآمنة (بدون رموز معقدة)
-                const msgText = `السلام عليكم ${o.name.split(' ')[0]} 👋\nمعك فريق التأكيد من متجر Zafir Shop 🛍️\n\nبخصوص طلبيتك: ${o.product}\nالسعر: ${o.price} درهم\n\nبغيت غير نأكد معاك العنوان والوقت المناسب للتوصيل؟ 🚛`;
-                const waLink = `https://wa.me/${waPhone}?text=${encodeURIComponent(msgText)}`;
-
-                // التاريخ الكامل
+                // التاريخ
                 let dateStr = o.date;
                 try {
                     let d = new Date(o.date);
@@ -238,13 +234,13 @@
                 let opts = STATUSES.map(s => `<option value="${s.id}" ${o.status === s.id ? 'selected' : ''}>${s.text}</option>`).join('');
                 let currCss = (STATUSES.find(s => s.id === o.status) || STATUSES[0]).css;
 
-                // تكبير الخط للعنوان والمدينة
                 let addrHtml = (o.address && o.address !== 'غير محدد') ? `<div class="mt-1 text-sm font-semibold text-slate-600 bg-slate-100 px-2 py-1 rounded inline-block max-w-[220px] break-words">🏠 ${o.address}</div>` : '';
                 let noteHtml = o.note ? `<div class="mt-1 text-xs text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-100 inline-block max-w-[180px] truncate">📝 ${o.note}</div>` : '';
 
                 const tr = document.createElement('tr');
                 tr.className = "border-b border-slate-50 hover:bg-slate-50 transition group";
                 
+                // زر الواتساب يستدعي دالة خاصة لضمان عمل الرابط في الحاسوب
                 tr.innerHTML = `
                     <td class="p-4 align-top w-44">
                         <select onchange="changeStatus(${o.row_index}, this)" class="w-36 py-2 px-2 rounded-lg text-xs font-bold border-2 outline-none cursor-pointer ${currCss} transition-colors mb-2">
@@ -270,14 +266,31 @@
                     <td class="p-4 align-top text-center">
                         <div class="flex gap-2 justify-center pt-2">
                             <button onclick='editOrder(${JSON.stringify(o)})' class="w-10 h-10 rounded-xl bg-white border border-slate-200 text-slate-500 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition shadow-sm text-lg">✏️</button>
-                            <a href="${waLink}" target="_blank" class="w-10 h-10 rounded-xl flex items-center justify-center bg-[#25D366] hover:bg-[#20bd5a] transition shadow-md shadow-green-100">
+                            <button onclick='openWhatsApp("${waPhone}", "${o.name}", "${o.product}", "${o.price}")' class="w-10 h-10 rounded-xl flex items-center justify-center bg-[#25D366] hover:bg-[#20bd5a] transition shadow-md shadow-green-100">
                                 <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                            </a>
+                            </button>
                         </div>
                     </td>
                 `;
                 tbody.appendChild(tr);
             });
+        }
+
+        // --- دالة خاصة لفتح واتساب بشكل صحيح على الحاسوب والهاتف ---
+        function openWhatsApp(phone, name, product, price) {
+            let firstName = name.split(' ')[0];
+            // رسالة بسيطة جداً بدون رموز معقدة لضمان التوافق
+            let msg = `السلام عليكم ${firstName} \nمعك فريق التأكيد من متجر Zafir Shop \n\nبخصوص طلبيتك: ${product}\nالسعر: ${price} درهم\n\nبغيت غير نأكد معاك العنوان والوقت المناسب للتوصيل؟`;
+            
+            // استخدام رابط الويب مباشرة للحاسوب
+            let url = `https://web.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(msg)}`;
+            
+            // التحقق إذا كان الجهاز هاتفاً
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+            }
+            
+            window.open(url, '_blank');
         }
 
         // --- وظيفة الفلترة (المحسنة) ---
@@ -289,10 +302,8 @@
             today.setHours(0,0,0,0);
 
             displayedOrders = globalOrders.filter(o => {
-                // فلتر البحث النصي
                 const textMatch = (o.name + o.phone + o.city).toLowerCase().includes(q);
                 
-                // فلتر النوع
                 let typeMatch = true;
                 if(filterType === 'Today') {
                     const orderDate = new Date(o.date);
@@ -307,33 +318,25 @@
                 return textMatch && typeMatch;
             });
 
-            // عرض النتائج المفلترة وحساب الإحصائيات *بناءً عليها*
             renderRows(displayedOrders);
             calcStats(displayedOrders);
         }
 
-        // --- وظيفة التصدير (المؤكدة فقط) حسب طلبك ---
+        // --- وظيفة التصدير (المؤكدة فقط) ---
         function exportExcel() {
-            // نأخذ فقط المؤكدة من القائمة الكاملة
-            const confirmedOnly = globalOrders.filter(o => o.status === 'Confirmed');
+            const confirmedOnly = globalOrders.filter(o => o.status === 'Confirmed' || o.status === 'Shipped');
             
             if(confirmedOnly.length === 0) {
                 alert("⚠️ لا توجد طلبات مؤكدة لتصديرها.");
                 return;
             }
 
-            // ترتيب الأعمدة: CODE SUIVI, DESTINATAIRE, TELEPHONE, ADRESSE, PRIX, VILLE, COMMENTAIRE
+            // الترتيب المطلوب: CODE SUIVI, DESTINATAIRE, TELEPHONE, ADRESSE, PRIX, VILLE, COMMENTAIRE
             let csv = "\uFEFFCODE SUIVI,DESTINATAIRE,TELEPHONE,ADRESSE,PRIX,VILLE,COMMENTAIRE\n";
             
             confirmedOnly.forEach(o => {
                 let p = String(o.phone).replace(/^'/, '');
-                // Code Suivi هو الـ ID
-                // Destinataire هو الاسم
-                // Telephone هو الهاتف
-                // Adresse هو العنوان
-                // Prix هو السعر
-                // Ville هي المدينة
-                // Commentaire هو الملاحظات
+                // ملاحظة: الحقل "COMMENTAIRE" سيأخذ قيمة Note من الشيت
                 csv += `"${o.order_id}","${o.name}","'${p}","${o.address || ''}",${o.price},"${o.city}","${o.note || ''}"\n`;
             });
 
@@ -345,13 +348,11 @@
             document.body.removeChild(a);
         }
 
-        // --- الحسابات (ديناميكية حسب الفلتر) ---
+        // --- الحسابات ---
         function calcStats(ordersList) {
-            // إذا لم يتم تمرير قائمة، استخدم القائمة المعروضة حالياً
             const list = ordersList || displayedOrders;
-
             const total = list.length;
-            const confirmed = list.filter(o => o.status === 'Confirmed').length;
+            const confirmed = list.filter(o => o.status === 'Confirmed' || o.status === 'Shipped').length;
             const pending = list.filter(o => !['Confirmed', 'Shipped', 'Cancelled', 'Fake'].includes(o.status)).length;
             const cancelled = list.filter(o => ['Cancelled', 'Fake'].includes(o.status)).length;
             
@@ -368,11 +369,8 @@
             const fd = new FormData(); fd.append('action', 'update'); fd.append('row_index', idx); fd.append('status', newVal);
             fetch(SCRIPT_URL, { method: 'POST', body: fd, mode: 'no-cors' });
             
-            // تحديث محلي
             const item = globalOrders.find(o => o.row_index === idx); 
             if(item) item.status = newVal;
-            
-            // إعادة الفلترة لتحديث الأرقام فوراً
             applyFilters();
         }
 
@@ -401,7 +399,7 @@
             closeEditModal(); refreshData(); btn.innerText = 'حفظ'; btn.disabled = false;
         }
         function refreshData() { getData(); }
-        function filterTable() { applyFilters(); } // ربط دالة البحث بدالة الفلترة الموحدة
+        function filterTable() { applyFilters(); }
     </script>
 </body>
 </html>
