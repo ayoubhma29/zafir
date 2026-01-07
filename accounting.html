@@ -25,7 +25,7 @@
             </div>
             <div class="flex gap-2">
                 <button onclick="syncWithOrders()" id="syncBtn" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded-lg text-sm font-bold transition flex items-center gap-2 shadow-lg border border-blue-400">
-                    <span>🔄</span> <span class="hidden md:inline" data-i18n="btn_sync">مزامنة</span>
+                    <span>🔄</span> <span class="hidden md:inline" data-i18n="btn_sync">مزامنة ذكية</span>
                 </button>
                 <button onclick="saveData()" id="saveBtn" class="bg-green-600 hover:bg-green-500 text-white px-3 py-1.5 rounded-lg text-sm font-bold transition" data-i18n="btn_save">💾 حفظ</button>
                 <a href="admin.html" class="bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg text-sm font-bold transition flex items-center gap-2">
@@ -78,7 +78,7 @@
                     <h3 class="font-bold text-lg mb-2 text-purple-800" data-i18n="return_title">↩️ تسجيل مرتجع</h3>
                     <p class="text-[10px] text-purple-600 mb-2" data-i18n="return_desc">أضف الكمية العائدة للمخزون (لن يتم الدفع للمورد عنها مرة أخرى).</p>
                     <div class="flex gap-2">
-                        <select id="returnSelect" class="flex-1 p-2 text-sm border rounded-lg"></select>
+                        <select id="returnSelect" class="flex-1 p-2 text-sm border rounded-lg bg-white"></select>
                         <input type="number" id="returnQty" class="w-16 p-2 text-sm border rounded-lg text-center" placeholder="1">
                         <button onclick="addReturn()" class="bg-purple-600 text-white px-3 rounded-lg font-bold">+</button>
                     </div>
@@ -90,12 +90,13 @@
                     <div class="flex justify-between items-center mb-4 border-b pb-3">
                         <div>
                             <h3 class="font-bold text-lg flex items-center gap-2" data-i18n="shipped_title">📦 السلع المرسلة <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">Auto</span></h3>
-                            <p class="text-[10px] text-slate-400" data-i18n="shipped_desc">يتم خصم المرتجع أولاً</p>
+                            <p class="text-[10px] text-slate-400" data-i18n="shipped_desc">يتم خصم المرتجع أولاً عند المزامنة</p>
                         </div>
                         <div class="flex items-center gap-2 bg-orange-50 p-1.5 rounded-lg border border-orange-200">
-                            <label class="text-[10px] font-bold text-orange-700" data-i18n="lbl_pack">تغليف:</label>
-                            <input type="number" id="packCost" onchange="updateDashboard()" class="w-16 p-1 text-xs border rounded text-center font-bold" placeholder="0">
+                            <label class="text-[10px] font-bold text-orange-700" data-i18n="lbl_pack">تغليف (للوحدة):</label>
+                            <input type="number" id="packUnitCost" onchange="updateDashboard()" class="w-16 p-1 text-xs border rounded text-center font-bold" placeholder="0">
                             <span class="text-[10px] text-orange-700">DH</span>
+                            <span id="totalPackDisplay" class="text-[10px] font-bold text-orange-800 ml-1"></span>
                         </div>
                     </div>
                     <table class="w-full text-sm" id="shippedTable">
@@ -152,42 +153,47 @@
     </div>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby-XyjE8UvPrLe1HJTF1siYWwfA4kXvP9fASExfJcKWcySp4xqx7PkMBl-ysQ5ouuim/exec"; 
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby-XyjE8UvPrLe1HJTF1siYWwfA4kXvP9fASExfJcKWcySp4xqx7PkMBl-ysQ5ouuuim/exec"; 
 
         const LANG = {
             ar: {
                 dir: "rtl",
-                btn_sync: "مزامنة", btn_save: "حفظ", btn_back: "عودة",
+                btn_sync: "مزامنة ذكية", btn_save: "حفظ", btn_back: "عودة",
                 card_debt: "ديون المورد", card_expenses: "المصاريف", card_income: "مدخول التوصيل", card_profit: "الربح الصافي",
                 prod_title: "🏷️ إدارة المنتجات", lbl_stock: "مخزون المرتجع (لإعادة البيع)",
                 return_title: "↩️ تسجيل مرتجع", return_desc: "إضافة للمخزون",
-                shipped_title: "📦 السلع المرسلة", shipped_desc: "محسوبة تلقائياً", lbl_pack: "تغليف:",
+                shipped_title: "📦 السلع المرسلة", shipped_desc: "يتم خصم المرتجع أولاً عند المزامنة", lbl_pack: "تغليف (للوحدة):",
                 th_prod: "المنتج", th_total_out: "خرجت", th_from_stock: "من المخزون", th_new_paid: "جديد (دفع)", th_total: "الإجمالي", ft_total_debt: "مجموع الديون:",
                 fin_title: "💰 المالية", lbl_pay_supp: "دفع للمورد", lbl_income: "استلام أموال", btn_add: "أضف",
-                sync_ok: "✅ تمت المزامنة", sync_err: "❌ فشل الاتصال", save_ok: "✅ تم الحفظ", load_ok: "✅ تم التحميل",
-                wait: "لحظة...", no_data: "لا توجد بيانات", payment_desc: "دفعة مورد", income_desc: "مدخول", expense_def: "مصروف"
+                sync_ok: "✅ تمت المزامنة والخصم", sync_err: "❌ فشل الاتصال", save_ok: "✅ تم الحفظ", load_ok: "✅ تم التحميل",
+                wait: "لحظة...", no_data: "لا توجد بيانات محفوظة",
+                payment_desc: "دفعة مورد", income_desc: "مدخول", expense_def: "مصروف"
             },
             en: {
                 dir: "ltr",
-                btn_sync: "Sync", btn_save: "Save", btn_back: "Back",
+                btn_sync: "Smart Sync", btn_save: "Save", btn_back: "Back",
                 card_debt: "Supplier Debt", card_expenses: "Total Expenses", card_income: "Delivery Income", card_profit: "Net Profit",
                 prod_title: "🏷️ Products", lbl_stock: "Return Stock (Resellable)",
                 return_title: "↩️ Add Return", return_desc: "Add to stock",
-                shipped_title: "📦 Shipped Goods", shipped_desc: "Auto-Calculated", lbl_pack: "Pack:",
+                shipped_title: "📦 Shipped Goods", shipped_desc: "Auto-deducts return stock", lbl_pack: "Pack (Unit):",
                 th_prod: "Product", th_total_out: "Total Out", th_from_stock: "From Stock", th_new_paid: "New (Paid)", th_total: "Debt", ft_total_debt: "Total Debt:",
                 fin_title: "💰 Financials", lbl_pay_supp: "Pay Supplier", lbl_income: "Income", btn_add: "Add",
-                sync_ok: "✅ Synced", sync_err: "❌ Error", save_ok: "✅ Saved", load_ok: "✅ Loaded",
+                sync_ok: "✅ Synced & Deducted", sync_err: "❌ Error", save_ok: "✅ Saved", load_ok: "✅ Loaded",
                 wait: "Wait...", no_data: "No Data", payment_desc: "Payment", income_desc: "Income", expense_def: "Expense"
             }
         };
 
         let currentLang = localStorage.getItem('zafir_lang') || 'ar';
-        let data = { products: [], financials: [], shippedStats: {}, packCost: 0 }; 
-        // products array elements: {name, cost, stockReturn}
+        // products array: {name, cost, stockReturn, lastSyncedCount, totalUsedStock}
+        let data = { products: [], financials: [], shippedStats: {}, packUnitCost: 0 }; 
+        let autoSyncInterval;
 
         window.onload = function() {
             applyLanguage(currentLang);
             loadCloudData();
+            autoSyncInterval = setInterval(() => {
+                if(!document.hidden) syncWithOrders(true);
+            }, 30000);
         };
 
         function toggleLang() {
@@ -211,33 +217,62 @@
             document.getElementById('expDesc').placeholder = lang === 'ar' ? 'وصف المصروف...' : 'Description...';
         }
 
-        async function syncWithOrders() {
+        async function syncWithOrders(silent = false) {
             const btn = document.getElementById('syncBtn');
             const originalText = btn.innerHTML;
-            btn.innerHTML = '<span class="loader"></span>';
-            btn.disabled = true;
+            if(!silent) {
+                btn.innerHTML = '<span class="loader"></span>';
+                btn.disabled = true;
+            }
 
             try {
                 const res = await fetch(`${SCRIPT_URL}?action=read`);
                 const orders = await res.json();
                 
                 const shippedOrders = orders.filter(o => o.status === 'Shipped');
-                const counts = {};
+                const currentCounts = {};
                 shippedOrders.forEach(o => {
                     const pName = o.product.trim();
-                    counts[pName] = (counts[pName] || 0) + 1;
+                    currentCounts[pName] = (currentCounts[pName] || 0) + 1;
                 });
 
-                data.shippedStats = counts;
+                // Smart Stock Deduction
+                for (const [prodName, totalShipped] of Object.entries(currentCounts)) {
+                    let prod = data.products.find(p => p.name === prodName);
+                    if (prod) {
+                        const previousShipped = prod.lastSyncedCount || 0;
+                        const newItems = totalShipped - previousShipped;
+
+                        if (newItems > 0) {
+                            if (prod.stockReturn >= newItems) {
+                                prod.stockReturn -= newItems;
+                                prod.totalUsedStock = (prod.totalUsedStock || 0) + newItems;
+                            } else {
+                                const available = prod.stockReturn;
+                                prod.stockReturn = 0;
+                                prod.totalUsedStock = (prod.totalUsedStock || 0) + available;
+                            }
+                            prod.lastSyncedCount = totalShipped;
+                        } else if (newItems < 0) {
+                            prod.lastSyncedCount = totalShipped;
+                        }
+                    }
+                }
+
+                data.shippedStats = currentCounts;
+                renderProducts(); 
                 renderShippedTable();
                 updateDashboard();
-                showStatus(LANG[currentLang].sync_ok, "green");
+                if(!silent) showStatus(LANG[currentLang].sync_ok, "green");
                 saveData(true); 
+
             } catch (e) {
-                showStatus(LANG[currentLang].sync_err, "red");
+                if(!silent) showStatus(LANG[currentLang].sync_err, "red");
             } finally {
-                btn.innerHTML = originalText;
-                btn.disabled = false;
+                if(!silent) {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }
             }
         }
 
@@ -245,12 +280,15 @@
             const name = document.getElementById('prodName').value.trim();
             const cost = parseFloat(document.getElementById('prodCost').value);
             if(!name || !cost) return;
-            // Update or Add
+            
             const existing = data.products.find(p => p.name === name);
             if(existing) {
                 existing.cost = cost;
             } else {
-                data.products.push({name, cost, stockReturn: 0});
+                data.products.push({
+                    name, cost, stockReturn: 0, 
+                    lastSyncedCount: 0, totalUsedStock: 0
+                });
             }
             document.getElementById('prodName').value = '';
             document.getElementById('prodCost').value = '';
@@ -266,9 +304,8 @@
             
             const prod = data.products.find(p => p.name === name);
             if(prod) {
-                prod.stockReturn += qty;
+                prod.stockReturn = (prod.stockReturn || 0) + qty;
                 renderProducts();
-                renderShippedTable(); // Recalculate debt deduction
                 updateDashboard();
             }
         }
@@ -280,7 +317,6 @@
             select.innerHTML = '<option value="">...</option>';
 
             data.products.forEach(p => {
-                // List Item
                 list.innerHTML += `
                     <div class="flex justify-between items-center bg-slate-50 p-2 rounded text-sm border hover:border-blue-300">
                         <div>
@@ -288,12 +324,11 @@
                             <span class="text-[10px] text-slate-400">${p.cost} DH</span>
                         </div>
                         <div class="text-xs font-bold ${p.stockReturn > 0 ? 'text-green-600' : 'text-slate-300'}">
-                            Stock: ${p.stockReturn}
+                            Stock: ${p.stockReturn || 0}
                         </div>
                         <button onclick="removeProduct('${p.name}')" class="text-red-400 font-bold px-2">×</button>
                     </div>
                 `;
-                // Dropdown Option
                 const opt = document.createElement('option');
                 opt.value = p.name;
                 opt.text = p.name;
@@ -302,10 +337,12 @@
         }
 
         function removeProduct(name) {
-            data.products = data.products.filter(p => p.name !== name);
-            renderProducts();
-            renderShippedTable();
-            updateDashboard();
+            if(confirm("Delete product?")) {
+                data.products = data.products.filter(p => p.name !== name);
+                renderProducts();
+                renderShippedTable();
+                updateDashboard();
+            }
         }
 
         function renderShippedTable() {
@@ -315,64 +352,29 @@
             const align = currentLang === 'ar' ? 'text-right' : 'text-left';
             const alignEnd = currentLang === 'ar' ? 'text-left' : 'text-right';
 
-            for (const [prodName, count] of Object.entries(data.shippedStats)) {
+            for (const [prodName, totalShipped] of Object.entries(data.shippedStats)) {
                 const prodDef = data.products.find(p => p.name === prodName);
                 
                 let cost = 0;
-                let fromStock = 0;
-                let newPaid = count; // Default: All new
+                let usedFromStock = 0;
+                let newPaid = totalShipped;
                 let rowTotal = 0;
 
                 if (prodDef) {
                     cost = prodDef.cost;
-                    // Logic: Used Return Stock = Min(Shipped Count, Available Return Stock)
-                    // Note: This logic assumes 'stockReturn' tracks TOTAL returns ever added. 
-                    // To keep it simple based on user request: We consider 'stockReturn' as a credit bucket.
-                    // If Shipped=10 and Stock=2 -> Pay for 8.
-                    // IMPORTANT: The display of 'stockReturn' in the product list is the CURRENT AVAILABLE stock.
-                    // But here, 'count' is TOTAL shipped (synced). 
-                    // This creates a logic conflict if we don't clear shipped history.
-                    // SOLUTION for Level 2: We calculate purely based on current counters.
-                    
-                    // Let's assume 'stockReturn' is what we HAVE NOW to offset FUTURE or CURRENT shipment.
-                    // Since 'count' is total synced shipped, we calculate: 
-                    // Paid = Count. BUT we simulate the deduction here visually.
-                    // Wait, the user wants "Returned items... decrease from stock first".
-                    // Correct approach: We use the 'stockReturn' value to OFFSET the debt.
-                    
-                    // For visualization in this table, we'll show how much debt is generated.
-                    // Real Debt = (Count * Cost) - (Redeemed Stock Value). 
-                    // Redeeming stock requires a transaction. 
-                    // To keep it automated without complex transactions:
-                    // We will just calculate Debt = Count * Cost. 
-                    // AND The user adds "Return Stock" to the product. 
-                    // We treat "Return Stock" as items we HAVE. 
-                    // If we Ship 10, and we have 2 in Stock, we essentially used those 2?
-                    // No, the Sync brings "Total Shipped".
-                    
-                    // Simplified Logic: 
-                    // Debt = Count * Cost.
-                    // However, we subtract (Return Stock Used).
-                    // Let's just allow the user to see the Debt purely based on shipments.
-                    // And the 'Return Stock' acts as 'Free Goods' that shouldn't be here?
-                    // Let's stick to the simplest interpretation:
-                    // Shipped = 10. Cost = 100. Debt = 1000.
-                    // If I add a return of 2, it means I have 2 items back.
-                    // If I ship again, I ship 11.
-                    
-                    // Okay, let's keep it simple: This table shows Total Shipped and Total Cost.
-                    // The "Stock Logic" is hard to perfect with just a simple Sync.
-                    // I will just show: Total Shipped * Cost.
-                    // If the user wants to deduct returns, they should probably add a "Return Credit" transaction in financials, OR just rely on the fact that they don't pay for what they already have.
-                    
-                    rowTotal = count * cost;
+                    usedFromStock = prodDef.totalUsedStock || 0;
+                    newPaid = Math.max(0, totalShipped - usedFromStock);
+                    rowTotal = newPaid * cost;
                 }
+
+                const costDisplay = cost > 0 ? cost : `<span class="text-red-400 text-[10px]">Set Cost!</span>`;
 
                 tbody.innerHTML += `
                     <tr>
                         <td class="p-2 ${align} font-bold text-slate-700">${prodName}</td>
-                        <td class="p-2 font-bold">${count}</td>
-                        <td class="p-2 text-green-600 font-bold text-[10px]">-</td> <td class="p-2 font-bold">${count}</td>
+                        <td class="p-2 font-bold">${totalShipped}</td>
+                        <td class="p-2 text-green-600 font-bold">${usedFromStock}</td>
+                        <td class="p-2 font-bold text-slate-800">${newPaid}</td>
                         <td class="p-2 font-black text-red-600 ${alignEnd}">${rowTotal}</td>
                     </tr>
                 `;
@@ -430,21 +432,16 @@
         function updateDashboard() {
             // 1. Goods Debt
             let goodsDebt = 0;
-            for (const [prodName, count] of Object.entries(data.shippedStats)) {
+            let totalShippedCount = 0;
+            for (const [prodName, totalShipped] of Object.entries(data.shippedStats)) {
+                totalShippedCount += totalShipped;
                 const prodDef = data.products.find(p => p.name === prodName);
-                if (prodDef) goodsDebt += count * prodDef.cost;
+                if (prodDef) {
+                    const usedFromStock = prodDef.totalUsedStock || 0;
+                    const newPaid = Math.max(0, totalShipped - usedFromStock);
+                    goodsDebt += newPaid * prodDef.cost;
+                }
             }
-            
-            // Deduct Returns Value from Debt (Smart Logic Implementation)
-            // Logic: Each item in 'stockReturn' is an item we recovered. 
-            // We shouldn't pay for it if we ship it again.
-            // Simplified: Debt = (Total Shipped * Cost) - (Total Returns Registered * Cost)
-            let returnCredit = 0;
-            data.products.forEach(p => {
-                returnCredit += p.stockReturn * p.cost;
-            });
-            goodsDebt = goodsDebt - returnCredit;
-            if(goodsDebt < 0) goodsDebt = 0; // Can't have negative debt
 
             // 2. Financials
             let totalPaid = 0, totalExpenses = 0, totalRevenue = 0;
@@ -454,10 +451,14 @@
                 if (t.type === 'income') totalRevenue += t.amount;
             });
 
-            // 3. Packaging
-            let pack = parseFloat(document.getElementById('packCost').value) || 0;
-            if(data.packCost !== pack) data.packCost = pack; // update state
-            totalExpenses += pack;
+            // 3. Packaging Calculation
+            let unitPack = parseFloat(document.getElementById('packUnitCost').value) || 0;
+            data.packUnitCost = unitPack; // Save state
+            let totalPackCost = totalShippedCount * unitPack;
+            totalExpenses += totalPackCost;
+            
+            // Show calculated pack cost
+            document.getElementById('totalPackDisplay').innerText = `(= ${totalPackCost.toLocaleString()} DH)`;
 
             const currentDebt = goodsDebt - totalPaid;
             const netProfit = totalRevenue - totalExpenses - goodsDebt;
@@ -477,8 +478,7 @@
                 btn.innerHTML = '<span class="loader"></span>';
                 btn.disabled = true;
             }
-            // Save packCost from input to data object
-            data.packCost = parseFloat(document.getElementById('packCost').value) || 0;
+            data.packUnitCost = parseFloat(document.getElementById('packUnitCost').value) || 0;
 
             const fd = new FormData();
             fd.append('action', 'save_accounting');
@@ -503,9 +503,7 @@
                 const cloudData = await res.json();
                 if (cloudData && cloudData.products) {
                     data = cloudData;
-                    // Restore UI states
-                    if(data.packCost) document.getElementById('packCost').value = data.packCost;
-                    
+                    if(data.packUnitCost) document.getElementById('packUnitCost').value = data.packUnitCost;
                     renderProducts();
                     renderFinancials();
                     renderShippedTable();
