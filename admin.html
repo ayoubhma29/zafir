@@ -14,16 +14,24 @@
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
         
-        .st-badge { padding: 6px 12px; border-radius: 12px; font-size: 11px; font-weight: 800; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }
-        .st-New { background: #eff6ff; color: #2563eb; border-color: #dbeafe; }
-        .st-NoAnswer { background: #fefce8; color: #ca8a04; border-color: #fef9c3; }
-        .st-Confirmed { background: #f0fdf4; color: #16a34a; border-color: #dcfce7; }
-        .st-Shipped { background: #faf5ff; color: #7c3aed; border-color: #f3e8ff; }
-        .st-Postponed { background: #fff7ed; color: #ea580c; border-color: #ffedd5; }
-        .st-Cancelled { background: #fef2f2; color: #dc2626; border-color: #fee2e2; }
+        /* Status Badges */
+        .st-badge { padding: 6px 12px; border-radius: 10px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; width: 100%; transition: all 0.2s; border: 1px solid transparent; }
+        .st-New { background: #eff6ff; color: #2563eb; border-color: #bfdbfe; }
+        .st-NoAnswer { background: #fefce8; color: #a16207; border-color: #fef08a; }
+        .st-Confirmed { background: #f0fdf4; color: #16a34a; border-color: #bbf7d0; }
+        .st-Shipped { background: #faf5ff; color: #7c3aed; border-color: #e9d5ff; }
+        .st-Postponed { background: #fff7ed; color: #c2410c; border-color: #fed7aa; }
+        .st-Cancelled { background: #fef2f2; color: #dc2626; border-color: #fecaca; }
         .st-Fake { background: #f3f4f6; color: #4b5563; border-color: #e5e7eb; }
+
         .loader { width: 24px; height: 24px; border: 3px solid #e2e8f0; border-top-color: #f97316; border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Modal Animation */
+        .modal-enter { animation: fade-in 0.2s ease-out forwards; }
+        .sheet-enter { animation: slide-up 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slide-up { from { transform: translateY(100%); } to { transform: translateY(0); } }
     </style>
 </head>
 <body class="text-slate-800 pb-24 selection:bg-orange-100">
@@ -39,37 +47,38 @@
         </div>
     </div>
 
-    <div id="statusModal" class="hidden fixed inset-0 z-50 flex items-end md:items-center justify-center bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeStatusModal()">
-        <div class="bg-white w-full md:w-96 rounded-t-3xl md:rounded-3xl p-6 shadow-2xl transform transition-transform" onclick="event.stopPropagation()">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="font-bold text-lg text-slate-700" data-i18n="select_status">اختر الحالة</h3>
-                <button onclick="closeStatusModal()" class="text-2xl text-slate-400 hover:text-slate-600">&times;</button>
+    <div id="statusModal" class="hidden fixed inset-0 z-50 flex items-end md:items-center justify-center bg-black/50 backdrop-blur-[2px] transition-opacity modal-enter" onclick="closeStatusModal()">
+        <div class="bg-white w-full md:w-[350px] rounded-t-3xl md:rounded-2xl p-5 shadow-2xl transform transition-transform sheet-enter md:scale-100" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center mb-4 border-b border-slate-100 pb-3">
+                <h3 class="font-bold text-lg text-slate-800" data-i18n="select_status">تغيير الحالة</h3>
+                <button onclick="closeStatusModal()" class="w-8 h-8 rounded-full bg-slate-50 text-slate-400 hover:bg-slate-100 flex items-center justify-center transition">&times;</button>
             </div>
-            <div class="grid grid-cols-1 gap-2" id="statusOptionsGrid"></div>
+            <div class="grid grid-cols-1 gap-2 max-h-[60vh] overflow-y-auto" id="statusOptionsGrid">
+                </div>
         </div>
     </div>
 
-    <div id="editModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm transition-opacity">
+    <div id="editModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden scale-100 border border-white/20">
             <div class="bg-slate-50 p-4 border-b flex justify-between items-center">
                 <h3 class="font-bold text-lg" data-i18n="edit_title">تعديل الطلب</h3>
-                <button onclick="closeEditModal()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-red-50 text-slate-400 hover:text-red-500 transition">&times;</button>
+                <button onclick="closeEditModal()" class="text-2xl text-slate-400 hover:text-red-500">&times;</button>
             </div>
             <div class="p-6 space-y-4 max-h-[65vh] overflow-y-auto">
                 <input type="hidden" id="editRowIndex">
                 <div class="grid grid-cols-2 gap-3">
-                    <div><label class="text-[10px] font-bold text-slate-400 uppercase mb-1 block" data-i18n="name">الاسم</label><input type="text" id="editName" class="w-full p-3 border rounded-xl font-bold bg-slate-50 focus:bg-white focus:border-orange-500 outline-none transition"></div>
-                    <div><label class="text-[10px] font-bold text-slate-400 uppercase mb-1 block" data-i18n="phone">الهاتف</label><input type="tel" id="editPhone" class="w-full p-3 border rounded-xl font-mono font-bold bg-slate-50 focus:bg-white focus:border-orange-500 outline-none transition" dir="ltr"></div>
+                    <input type="text" id="editName" class="w-full p-3 border rounded-xl font-bold bg-slate-50 focus:bg-white outline-none" placeholder="الاسم">
+                    <input type="tel" id="editPhone" class="w-full p-3 border rounded-xl font-mono font-bold bg-slate-50 focus:bg-white outline-none" dir="ltr" placeholder="الهاتف">
                 </div>
                 <div class="grid grid-cols-2 gap-3">
-                    <div><label class="text-[10px] font-bold text-slate-400 uppercase mb-1 block" data-i18n="city">المدينة</label><input type="text" id="editCity" class="w-full p-3 border rounded-xl font-bold bg-slate-50 focus:bg-white focus:border-orange-500 outline-none transition"></div>
-                    <div><label class="text-[10px] font-bold text-slate-400 uppercase mb-1 block" data-i18n="price">السعر</label><input type="number" id="editPrice" class="w-full p-3 border rounded-xl font-bold text-green-600 bg-slate-50 focus:bg-white focus:border-green-500 outline-none transition"></div>
+                    <input type="text" id="editCity" class="w-full p-3 border rounded-xl font-bold bg-slate-50 focus:bg-white outline-none" placeholder="المدينة">
+                    <input type="number" id="editPrice" class="w-full p-3 border rounded-xl font-bold text-green-600 bg-slate-50 focus:bg-white outline-none" placeholder="السعر">
                 </div>
-                <div><label class="text-[10px] font-bold text-slate-400 uppercase mb-1 block" data-i18n="address">العنوان</label><input type="text" id="editAddress" class="w-full p-3 border rounded-xl bg-slate-50 focus:bg-white focus:border-orange-500 outline-none transition"></div>
-                <div><label class="text-[10px] font-bold text-slate-400 uppercase mb-1 block" data-i18n="note">ملاحظات</label><textarea id="editNote" class="w-full p-3 border rounded-xl h-20 bg-amber-50/50 focus:bg-white focus:border-amber-400 outline-none transition"></textarea></div>
+                <input type="text" id="editAddress" class="w-full p-3 border rounded-xl bg-slate-50 focus:bg-white outline-none" placeholder="العنوان">
+                <textarea id="editNote" class="w-full p-3 border rounded-xl h-20 bg-amber-50 focus:bg-white outline-none" placeholder="ملاحظات"></textarea>
             </div>
             <div class="p-4 bg-slate-50 border-t flex gap-3">
-                <button onclick="saveChanges()" class="flex-1 bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700 shadow-lg shadow-green-200 transition" data-i18n="save_btn">حفظ</button>
+                <button onclick="saveChanges()" class="flex-1 bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700 shadow-md transition" data-i18n="save_btn">حفظ</button>
                 <button onclick="closeEditModal()" class="flex-1 bg-white border border-slate-200 py-3 rounded-xl font-bold hover:bg-slate-50 transition" data-i18n="cancel_btn">إلغاء</button>
             </div>
         </div>
@@ -105,7 +114,7 @@
             </div>
 
             <div class="bg-white p-2 rounded-2xl border border-slate-100 shadow-sm mb-6 sticky top-20 z-30 flex gap-2">
-                <select id="filterSelect" onchange="applyFilters()" class="py-3 px-4 bg-slate-50 rounded-xl text-xs font-bold text-slate-700 outline-none cursor-pointer">
+                <select id="filterSelect" onchange="applyFilters()" class="py-3 px-4 bg-slate-50 rounded-xl text-xs font-bold text-slate-700 outline-none cursor-pointer border border-transparent focus:border-orange-200">
                     <option value="All" data-i18n="filter_all">📋 الكل</option>
                     <option value="Today" data-i18n="filter_today">🔥 اليوم</option>
                     <option value="New" data-i18n="filter_new">✨ جديد</option>
@@ -114,7 +123,7 @@
                     <option value="NoAnswer" data-i18n="filter_noanswer">📞 لا يجيب</option>
                     <option value="Cancelled" data-i18n="filter_cancelled">❌ ملغي</option>
                 </select>
-                <input type="text" id="searchInput" onkeyup="applyFilters()" class="flex-1 py-3 px-4 bg-slate-50 rounded-xl text-xs font-bold outline-none focus:bg-white focus:ring-2 focus:ring-orange-100 transition" placeholder="بحث...">
+                <input type="text" id="searchInput" onkeyup="applyFilters()" class="flex-1 py-3 px-4 bg-slate-50 rounded-xl text-xs font-bold outline-none focus:bg-white focus:ring-2 focus:ring-orange-100 transition border border-transparent focus:border-orange-200" placeholder="بحث...">
             </div>
 
             <div id="ordersContainer" class="space-y-4 md:space-y-0"></div>
@@ -124,17 +133,16 @@
     </div>
 
     <script>
-        // ⚠️ FIXED URL FROM USER PROMPT
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby-XyjE8UvPrLe1HJTF1siYWwfA4kXvP9fASExfJcKWcySp4xqx7PkMBl-ysQ5ouuim/exec"; 
         const PASS_CODE = "2911";
         const FIXED_MSG = "مرحباً {name} 👋\nمعك فريق التأكيد من متجر *Zafir Shop* 🛍️\n\nبخصوص طلبيتك: *{product}*\nالسعر: *{price} درهم*\n\nبغيت غير نأكد معاك العنوان والوقت المناسب للتوصيل؟ 🚛";
 
         const LANG = {
-            ar: { dir: "rtl", login_title: "تسجيل الدخول", login_btn: "دخول", nav_accounting: "المحاسبة", nav_excel: "إكسل", stat_total: "العدد", stat_confirmed: "تأكيد", stat_shipped: "إرسال", stat_pending: "انتظار", stat_cancelled: "ملغي", edit_title: "تعديل", name: "الاسم", phone: "الهاتف", city: "المدينة", price: "السعر", address: "العنوان", note: "ملاحظات", save_btn: "حفظ", cancel_btn: "إلغاء", th_status: "الحالة", th_customer: "العميل", th_prod: "المنتج", th_act: "إجراءات", select_status: "تغيير الحالة",
+            ar: { dir: "rtl", login_title: "تسجيل الدخول", login_btn: "دخول", nav_accounting: "المحاسبة", nav_excel: "إكسل", stat_total: "العدد", stat_confirmed: "تأكيد", stat_shipped: "إرسال", stat_pending: "انتظار", stat_cancelled: "ملغي", edit_title: "تعديل", name: "الاسم", phone: "الهاتف", city: "المدينة", price: "السعر", address: "العنوان", note: "ملاحظات", save_btn: "حفظ", cancel_btn: "إلغاء", th_status: "الحالة", th_customer: "العميل", th_prod: "المنتج", th_act: "إجراءات", select_status: "اختر الحالة الجديدة",
             st_New:"✨ جديد", st_NoAnswer:"📞 لا يجيب", st_Confirmed:"✅ تم التأكيد", st_Shipped:"📦 تم الإرسال", st_Postponed:"⏳ مؤجل", st_Cancelled:"❌ ملغي", st_Fake:"🚫 وهمي",
             filter_all:"📋 الكل", filter_today:"🔥 اليوم", filter_new:"✨ جديد", filter_confirmed:"✅ مؤكد", filter_shipped:"📦 مرسل", filter_noanswer:"📞 لا يجيب", filter_cancelled:"❌ ملغي", no_data:"لا توجد طلبات" },
             
-            en: { dir: "ltr", login_title: "Login", login_btn: "Enter", nav_accounting: "Accounting", nav_excel: "Excel", stat_total: "Total", stat_confirmed: "Confirmed", stat_shipped: "Shipped", stat_pending: "Pending", stat_cancelled: "Cancelled", edit_title: "Edit", name: "Name", phone: "Phone", city: "City", price: "Price", address: "Address", note: "Notes", save_btn: "Save", cancel_btn: "Cancel", th_status: "Status", th_customer: "Customer", th_prod: "Product", th_act: "Actions", select_status: "Change Status",
+            en: { dir: "ltr", login_title: "Login", login_btn: "Enter", nav_accounting: "Accounting", nav_excel: "Excel", stat_total: "Total", stat_confirmed: "Confirmed", stat_shipped: "Shipped", stat_pending: "Pending", stat_cancelled: "Cancelled", edit_title: "Edit", name: "Name", phone: "Phone", city: "City", price: "Price", address: "Address", note: "Notes", save_btn: "Save", cancel_btn: "Cancel", th_status: "Status", th_customer: "Customer", th_prod: "Product", th_act: "Actions", select_status: "Select New Status",
             st_New:"✨ New", st_NoAnswer:"📞 No Answer", st_Confirmed:"✅ Confirmed", st_Shipped:"📦 Shipped", st_Postponed:"⏳ Postponed", st_Cancelled:"❌ Cancelled", st_Fake:"🚫 Fake",
             filter_all:"📋 All", filter_today:"🔥 Today", filter_new:"✨ New", filter_confirmed:"✅ Confirmed", filter_shipped:"📦 Shipped", filter_noanswer:"📞 No Answer", filter_cancelled:"❌ Cancelled", no_data:"No Orders Found" }
         };
@@ -143,7 +151,7 @@
         let globalOrders = [];
         let selectedRowIndex = null;
 
-        // AUTH CHECK ON LOAD
+        // AUTH & INIT
         if(localStorage.getItem('zafir_auth') === 'true') {
             document.getElementById('loginSection').classList.add('hidden');
             document.getElementById('dashboardContent').classList.remove('hidden');
@@ -167,13 +175,13 @@
 
         async function getData() {
             try {
-                // Using standard fetch (CORS is default)
+                // Standard GET fetch (Reliable)
                 const res = await fetch(`${SCRIPT_URL}?action=read`);
                 const data = await res.json();
                 globalOrders = data.reverse();
                 document.getElementById('loader').classList.add('hidden');
                 applyFilters();
-            } catch (err) { alert("فشل الاتصال! يرجى التحقق من الرابط أو الانترنت"); }
+            } catch (err) { alert("فشل الاتصال! يرجى تحديث الصفحة"); }
         }
 
         function applyFilters() {
@@ -193,6 +201,7 @@
             calcStats(filtered);
         }
 
+        // --- NEW STATUS MODAL ---
         function openStatusModal(idx, current) {
             selectedRowIndex = idx;
             const grid = document.getElementById('statusOptionsGrid');
@@ -206,8 +215,9 @@
 
             opts.forEach(opt => {
                 const btn = document.createElement('button');
-                btn.className = `w-full p-4 rounded-xl font-bold text-sm transition transform active:scale-95 ${opt.c} ${current===opt.v ? 'ring-2 ring-offset-2 ring-slate-400' : ''}`;
-                btn.innerText = opt.t;
+                // Design: Big clickable blocks
+                btn.className = `w-full p-4 rounded-xl font-bold text-sm transition transform active:scale-95 flex items-center justify-between ${opt.c} ${current===opt.v ? 'ring-2 ring-offset-2 ring-slate-300' : ''}`;
+                btn.innerHTML = `<span>${opt.t}</span> ${current===opt.v ? '<span>✓</span>' : ''}`;
                 btn.onclick = () => confirmStatusChange(opt.v);
                 grid.appendChild(btn);
             });
@@ -218,11 +228,11 @@
 
         async function confirmStatusChange(newStatus) {
             closeStatusModal();
-            // Optimistic UI Update
+            // Optimistic Update
             const item = globalOrders.find(o=>o.row_index===selectedRowIndex); 
             if(item) { item.status = newStatus; applyFilters(); }
             
-            // Send to Server (Using no-cors for stability in updates as requested before)
+            // Send to Server (NO-CORS for stability)
             const fd = new FormData(); fd.append('action','update'); fd.append('row_index', selectedRowIndex); fd.append('status', newStatus);
             await fetch(SCRIPT_URL, {method:'POST', body:fd, mode:'no-cors'});
         }
@@ -260,7 +270,7 @@
                 html += `
                     <tr class="hover:bg-slate-50 transition">
                         <td class="p-4 w-48">
-                            <button onclick="openStatusModal(${o.row_index}, '${o.status}')" class="w-full st-badge justify-center mb-1 ${statusClass}">
+                            <button onclick="openStatusModal(${o.row_index}, '${o.status}')" class="st-badge justify-center mb-1 ${statusClass}">
                                 ${statusLabel}
                             </button>
                             <div class="text-[10px] text-slate-400 font-mono text-center">#${o.order_id} • ${formatDate(o.date)}</div>
@@ -288,7 +298,7 @@
                         <div class="flex justify-between items-start mb-3">
                             <div>
                                 <h3 class="font-bold text-slate-800">${o.name}</h3>
-                                <div class="text-xs text-slate-400 font-mono mt-0.5">${phone}</div>
+                                <a href="tel:${phone}" class="text-xs text-slate-500 font-mono mt-0.5 block hover:text-orange-500">📞 ${phone}</a>
                             </div>
                             <div class="text-right">
                                 <div class="text-emerald-600 font-black">${o.price} DH</div>
@@ -296,12 +306,15 @@
                             </div>
                         </div>
                         
-                        <div class="bg-slate-50 p-2 rounded-xl mb-3 border border-slate-50 flex justify-between items-center">
-                            <span class="text-xs font-bold text-slate-600">${o.product}</span>
-                            <span class="text-[10px] text-slate-400">${o.city}</span>
+                        <div class="bg-slate-50 p-3 rounded-xl mb-3 border border-slate-50">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-xs font-bold text-slate-600">${o.product}</span>
+                                <span class="text-[10px] text-slate-400">📍 ${o.city}</span>
+                            </div>
+                            ${o.address ? `<div class="text-[10px] text-slate-500 border-t border-slate-100 pt-1 mt-1">🏠 ${o.address}</div>` : ''}
                         </div>
 
-                        <button onclick="openStatusModal(${o.row_index}, '${o.status}')" class="w-full st-badge justify-center mb-3 py-3 ${statusClass}">
+                        <button onclick="openStatusModal(${o.row_index}, '${o.status}')" class="st-badge justify-center mb-3 py-3 w-full ${statusClass}">
                             ${statusLabel}
                         </button>
 
@@ -347,7 +360,6 @@
             document.documentElement.dir = t.dir;
             document.querySelectorAll('[data-i18n]').forEach(el => el.innerText = t[el.getAttribute('data-i18n')]);
             document.getElementById('langBtnNav').innerText = lang === 'ar' ? 'EN' : 'AR';
-            // Translate Select
             const sel = document.getElementById('filterSelect');
             sel.options[0].text = t.filter_all; sel.options[1].text = t.filter_today;
             sel.options[2].text = t.filter_new; sel.options[3].text = t.filter_confirmed;
