@@ -14,10 +14,7 @@
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
         
-        /* Status Badges Design */
         .st-badge { padding: 6px 12px; border-radius: 12px; font-size: 11px; font-weight: 800; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }
-        .st-badge:hover { transform: translateY(-1px); shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
-        
         .st-New { background: #eff6ff; color: #2563eb; border-color: #dbeafe; }
         .st-NoAnswer { background: #fefce8; color: #ca8a04; border-color: #fef9c3; }
         .st-Confirmed { background: #f0fdf4; color: #16a34a; border-color: #dcfce7; }
@@ -25,7 +22,6 @@
         .st-Postponed { background: #fff7ed; color: #ea580c; border-color: #ffedd5; }
         .st-Cancelled { background: #fef2f2; color: #dc2626; border-color: #fee2e2; }
         .st-Fake { background: #f3f4f6; color: #4b5563; border-color: #e5e7eb; }
-
         .loader { width: 24px; height: 24px; border: 3px solid #e2e8f0; border-top-color: #f97316; border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
     </style>
@@ -40,18 +36,16 @@
                 <input type="password" id="adminPass" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl text-center text-lg font-bold focus:outline-none focus:border-orange-500 mb-4 transition-all" placeholder="••••">
                 <button type="submit" class="w-full bg-slate-900 text-white p-4 rounded-2xl font-bold hover:bg-orange-600 transition shadow-lg active:scale-95" data-i18n="login_btn">دخول</button>
             </form>
-            <button onclick="toggleLang()" class="mt-6 text-xs font-bold text-slate-400 hover:text-slate-600">Switch Language</button>
         </div>
     </div>
 
     <div id="statusModal" class="hidden fixed inset-0 z-50 flex items-end md:items-center justify-center bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeStatusModal()">
         <div class="bg-white w-full md:w-96 rounded-t-3xl md:rounded-3xl p-6 shadow-2xl transform transition-transform" onclick="event.stopPropagation()">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="font-bold text-lg text-slate-700" data-i18n="select_status">اختر الحالة الجديدة</h3>
+                <h3 class="font-bold text-lg text-slate-700" data-i18n="select_status">اختر الحالة</h3>
                 <button onclick="closeStatusModal()" class="text-2xl text-slate-400 hover:text-slate-600">&times;</button>
             </div>
-            <div class="grid grid-cols-1 gap-2" id="statusOptionsGrid">
-                </div>
+            <div class="grid grid-cols-1 gap-2" id="statusOptionsGrid"></div>
         </div>
     </div>
 
@@ -124,13 +118,13 @@
             </div>
 
             <div id="ordersContainer" class="space-y-4 md:space-y-0"></div>
-            
             <div id="loader" class="p-12 flex justify-center"><div class="loader"></div></div>
             <div id="noData" class="hidden p-16 text-center text-slate-400 font-bold text-sm" data-i18n="no_data">لا توجد طلبات</div>
         </div>
     </div>
 
     <script>
+        // ⚠️ FIXED URL FROM USER PROMPT
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby-XyjE8UvPrLe1HJTF1siYWwfA4kXvP9fASExfJcKWcySp4xqx7PkMBl-ysQ5ouuim/exec"; 
         const PASS_CODE = "2911";
         const FIXED_MSG = "مرحباً {name} 👋\nمعك فريق التأكيد من متجر *Zafir Shop* 🛍️\n\nبخصوص طلبيتك: *{product}*\nالسعر: *{price} درهم*\n\nبغيت غير نأكد معاك العنوان والوقت المناسب للتوصيل؟ 🚛";
@@ -149,7 +143,7 @@
         let globalOrders = [];
         let selectedRowIndex = null;
 
-        // --- AUTH & INIT ---
+        // AUTH CHECK ON LOAD
         if(localStorage.getItem('zafir_auth') === 'true') {
             document.getElementById('loginSection').classList.add('hidden');
             document.getElementById('dashboardContent').classList.remove('hidden');
@@ -171,15 +165,15 @@
             if(confirm("Logout?")) { localStorage.removeItem('zafir_auth'); location.reload(); }
         }
 
-        // --- DATA ---
         async function getData() {
             try {
+                // Using standard fetch (CORS is default)
                 const res = await fetch(`${SCRIPT_URL}?action=read`);
                 const data = await res.json();
                 globalOrders = data.reverse();
                 document.getElementById('loader').classList.add('hidden');
                 applyFilters();
-            } catch (err) { alert("Network Error"); }
+            } catch (err) { alert("فشل الاتصال! يرجى التحقق من الرابط أو الانترنت"); }
         }
 
         function applyFilters() {
@@ -199,7 +193,6 @@
             calcStats(filtered);
         }
 
-        // --- STATUS POPUP (Improved) ---
         function openStatusModal(idx, current) {
             selectedRowIndex = idx;
             const grid = document.getElementById('statusOptionsGrid');
@@ -225,14 +218,15 @@
 
         async function confirmStatusChange(newStatus) {
             closeStatusModal();
-            const fd = new FormData(); fd.append('action','update'); fd.append('row_index', selectedRowIndex); fd.append('status', newStatus);
-            // Optimistic Update
+            // Optimistic UI Update
             const item = globalOrders.find(o=>o.row_index===selectedRowIndex); 
             if(item) { item.status = newStatus; applyFilters(); }
+            
+            // Send to Server (Using no-cors for stability in updates as requested before)
+            const fd = new FormData(); fd.append('action','update'); fd.append('row_index', selectedRowIndex); fd.append('status', newStatus);
             await fetch(SCRIPT_URL, {method:'POST', body:fd, mode:'no-cors'});
         }
 
-        // --- RENDER ---
         function renderData(orders) {
             const container = document.getElementById('ordersContainer');
             const t = LANG[currentLang];
@@ -259,12 +253,10 @@
             orders.forEach(o => {
                 let phone = String(o.phone).replace(/^'/, '');
                 let waPhone = phone.replace(/\s/g, '').replace(/^0/, '212');
-                // Get Translated Label
                 const labelKey = `st_${o.status.startsWith('NoAnswer') ? 'NoAnswer' : o.status}`;
                 const statusLabel = t[labelKey] || o.status;
                 const statusClass = `st-${o.status.startsWith('NoAnswer') ? 'NoAnswer' : o.status}`;
 
-                // Desktop Row
                 html += `
                     <tr class="hover:bg-slate-50 transition">
                         <td class="p-4 w-48">
@@ -276,7 +268,7 @@
                         <td class="p-4">
                             <div class="font-bold text-sm text-slate-800">${o.name}</div>
                             <a href="tel:${phone}" class="text-xs font-mono text-slate-500 block hover:text-orange-500">${phone}</a>
-                            <div class="text-[10px] text-slate-400 mt-1">📍 ${o.city} ${o.address ? '• ' + o.address : ''}</div>
+                            <div class="text-[10px] text-slate-400 mt-1">📍 ${o.city}</div>
                         </td>
                         <td class="p-4">
                             <div class="text-xs font-bold bg-slate-50 px-2 py-1 rounded inline-block border border-slate-100">${o.product}</div>
@@ -291,7 +283,6 @@
                         </td>
                     </tr>`;
 
-                // Mobile Card
                 cards += `
                     <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 relative">
                         <div class="flex justify-between items-start mb-3">
@@ -310,7 +301,7 @@
                             <span class="text-[10px] text-slate-400">${o.city}</span>
                         </div>
 
-                        <button onclick="openStatusModal(${o.row_index}, '${o.status}')" class="w-full st-badge justify-center mb-3 py-2 ${statusClass}">
+                        <button onclick="openStatusModal(${o.row_index}, '${o.status}')" class="w-full st-badge justify-center mb-3 py-3 ${statusClass}">
                             ${statusLabel}
                         </button>
 
@@ -324,9 +315,8 @@
                 `;
             });
 
-            html += `</tbody></table></div>`; // Close Desktop
-            html += mobileHtml + cards + `</div>`; // Add Mobile
-
+            html += `</tbody></table></div>`; 
+            html += mobileHtml + cards + `</div>`; 
             container.innerHTML = html;
         }
 
@@ -357,9 +347,7 @@
             document.documentElement.dir = t.dir;
             document.querySelectorAll('[data-i18n]').forEach(el => el.innerText = t[el.getAttribute('data-i18n')]);
             document.getElementById('langBtnNav').innerText = lang === 'ar' ? 'EN' : 'AR';
-            document.getElementById('langBtnLogin').innerText = lang === 'ar' ? '🇺🇸 English' : '🇲🇦 العربية';
-            
-            // Translate Filter Options
+            // Translate Select
             const sel = document.getElementById('filterSelect');
             sel.options[0].text = t.filter_all; sel.options[1].text = t.filter_today;
             sel.options[2].text = t.filter_new; sel.options[3].text = t.filter_confirmed;
