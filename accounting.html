@@ -40,11 +40,11 @@
 
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             <div class="bg-white p-4 rounded-2xl shadow-sm border-b-4 border-red-500">
-                <p class="text-xs font-bold text-slate-400 uppercase" data-i18n="card_debt">ديون المورد</p>
+                <p class="text-xs font-bold text-slate-400 uppercase" data-i18n="card_debt">ديون المورد (+ تغليف)</p>
                 <p class="text-2xl font-black text-red-600 mt-1"><span id="supplierDebt">0</span> <span class="text-xs">DH</span></p>
             </div>
             <div class="bg-white p-4 rounded-2xl shadow-sm border-b-4 border-orange-400">
-                <p class="text-xs font-bold text-slate-400 uppercase" data-i18n="card_expenses">المصاريف</p>
+                <p class="text-xs font-bold text-slate-400 uppercase" data-i18n="card_expenses">المصاريف (إعلانات)</p>
                 <p class="text-2xl font-black text-orange-500 mt-1"><span id="totalExpenses">0</span> <span class="text-xs">DH</span></p>
             </div>
             <div class="bg-white p-4 rounded-2xl shadow-sm border-b-4 border-green-500">
@@ -92,11 +92,11 @@
                             <h3 class="font-bold text-lg flex items-center gap-2" data-i18n="shipped_title">📦 السلع المرسلة <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">Auto</span></h3>
                             <p class="text-[10px] text-slate-400" data-i18n="shipped_desc">يتم خصم المرتجع أولاً عند المزامنة</p>
                         </div>
-                        <div class="flex items-center gap-2 bg-orange-50 p-1.5 rounded-lg border border-orange-200">
-                            <label class="text-[10px] font-bold text-orange-700" data-i18n="lbl_pack">تغليف (للوحدة):</label>
-                            <input type="number" id="packUnitCost" onchange="updateDashboard()" class="w-16 p-1 text-xs border rounded text-center font-bold" placeholder="0">
-                            <span class="text-[10px] text-orange-700">DH</span>
-                            <span id="totalPackDisplay" class="text-[10px] font-bold text-orange-800 ml-1"></span>
+                        <div class="flex items-center gap-2 bg-red-50 p-1.5 rounded-lg border border-red-200" title="يضاف إلى ديون المورد">
+                            <label class="text-[10px] font-bold text-red-700" data-i18n="lbl_pack">تغليف (للوحدة):</label>
+                            <input type="number" id="packUnitCost" onkeyup="updateDashboard()" onchange="updateDashboard()" class="w-16 p-1 text-xs border rounded text-center font-bold text-red-600" placeholder="0">
+                            <span class="text-[10px] text-red-700">DH</span>
+                            <span id="totalPackDisplay" class="text-[10px] font-bold text-red-800 ml-1"></span>
                         </div>
                     </div>
                     <table class="w-full text-sm" id="shippedTable">
@@ -112,7 +112,7 @@
                         <tbody class="divide-y divide-slate-100 text-center"></tbody>
                         <tfoot class="bg-slate-50 font-bold">
                             <tr>
-                                <td colspan="4" class="p-3 text-start" data-i18n="ft_total_debt">مجموع الديون:</td>
+                                <td colspan="4" class="p-3 text-start" data-i18n="ft_total_debt">مجموع السلع + التغليف:</td>
                                 <td class="p-3 text-red-600 text-end" id="sumProductDebt">0</td>
                             </tr>
                         </tfoot>
@@ -159,11 +159,11 @@
             ar: {
                 dir: "rtl",
                 btn_sync: "مزامنة ذكية", btn_save: "حفظ", btn_back: "عودة",
-                card_debt: "ديون المورد", card_expenses: "المصاريف", card_income: "مدخول التوصيل", card_profit: "الربح الصافي",
+                card_debt: "ديون المورد (+ تغليف)", card_expenses: "المصاريف (إعلانات)", card_income: "مدخول التوصيل", card_profit: "الربح الصافي",
                 prod_title: "🏷️ إدارة المنتجات", lbl_stock: "مخزون المرتجع (لإعادة البيع)",
                 return_title: "↩️ تسجيل مرتجع", return_desc: "إضافة للمخزون",
                 shipped_title: "📦 السلع المرسلة", shipped_desc: "يتم خصم المرتجع أولاً عند المزامنة", lbl_pack: "تغليف (للوحدة):",
-                th_prod: "المنتج", th_total_out: "خرجت", th_from_stock: "من المخزون", th_new_paid: "جديد (دفع)", th_total: "الإجمالي", ft_total_debt: "مجموع الديون:",
+                th_prod: "المنتج", th_total_out: "خرجت", th_from_stock: "من المخزون", th_new_paid: "جديد (دفع)", th_total: "الإجمالي", ft_total_debt: "مجموع السلع + التغليف:",
                 fin_title: "💰 المالية", lbl_pay_supp: "دفع للمورد", lbl_income: "استلام أموال", btn_add: "أضف",
                 sync_ok: "✅ تمت المزامنة والخصم", sync_err: "❌ فشل الاتصال", save_ok: "✅ تم الحفظ", load_ok: "✅ تم التحميل",
                 wait: "لحظة...", no_data: "لا توجد بيانات محفوظة",
@@ -172,11 +172,11 @@
             en: {
                 dir: "ltr",
                 btn_sync: "Smart Sync", btn_save: "Save", btn_back: "Back",
-                card_debt: "Supplier Debt", card_expenses: "Total Expenses", card_income: "Delivery Income", card_profit: "Net Profit",
+                card_debt: "Supplier Debt (+ Pack)", card_expenses: "Expenses (Ads)", card_income: "Delivery Income", card_profit: "Net Profit",
                 prod_title: "🏷️ Products", lbl_stock: "Return Stock (Resellable)",
                 return_title: "↩️ Add Return", return_desc: "Add to stock",
                 shipped_title: "📦 Shipped Goods", shipped_desc: "Auto-deducts return stock", lbl_pack: "Pack (Unit):",
-                th_prod: "Product", th_total_out: "Total Out", th_from_stock: "From Stock", th_new_paid: "New (Paid)", th_total: "Debt", ft_total_debt: "Total Debt:",
+                th_prod: "Product", th_total_out: "Total Out", th_from_stock: "From Stock", th_new_paid: "New (Paid)", th_total: "Debt", ft_total_debt: "Goods + Pack Debt:",
                 fin_title: "💰 Financials", lbl_pay_supp: "Pay Supplier", lbl_income: "Income", btn_add: "Add",
                 sync_ok: "✅ Synced & Deducted", sync_err: "❌ Error", save_ok: "✅ Saved", load_ok: "✅ Loaded",
                 wait: "Wait...", no_data: "No Data", payment_desc: "Payment", income_desc: "Income", expense_def: "Expense"
@@ -184,7 +184,6 @@
         };
 
         let currentLang = localStorage.getItem('zafir_lang') || 'ar';
-        // products array: {name, cost, stockReturn, lastSyncedCount, totalUsedStock}
         let data = { products: [], financials: [], shippedStats: {}, packUnitCost: 0 }; 
         let autoSyncInterval;
 
@@ -217,6 +216,7 @@
             document.getElementById('expDesc').placeholder = lang === 'ar' ? 'وصف المصروف...' : 'Description...';
         }
 
+        // --- SMART SYNC LOGIC ---
         async function syncWithOrders(silent = false) {
             const btn = document.getElementById('syncBtn');
             const originalText = btn.innerHTML;
@@ -236,25 +236,36 @@
                     currentCounts[pName] = (currentCounts[pName] || 0) + 1;
                 });
 
-                // Smart Stock Deduction
+                // Logic: Deduct stock for new shipments
                 for (const [prodName, totalShipped] of Object.entries(currentCounts)) {
                     let prod = data.products.find(p => p.name === prodName);
+                    
                     if (prod) {
-                        const previousShipped = prod.lastSyncedCount || 0;
-                        const newItems = totalShipped - previousShipped;
+                        // Ensure numerical values
+                        const currentTotal = parseInt(totalShipped) || 0;
+                        const previousSynced = parseInt(prod.lastSyncedCount) || 0;
+                        const newItems = currentTotal - previousSynced;
 
                         if (newItems > 0) {
-                            if (prod.stockReturn >= newItems) {
-                                prod.stockReturn -= newItems;
-                                prod.totalUsedStock = (prod.totalUsedStock || 0) + newItems;
+                            // We have new shipments!
+                            let stock = parseInt(prod.stockReturn) || 0;
+                            
+                            if (stock >= newItems) {
+                                // Full cover from stock
+                                stock -= newItems;
+                                prod.totalUsedStock = (parseInt(prod.totalUsedStock) || 0) + newItems;
                             } else {
-                                const available = prod.stockReturn;
-                                prod.stockReturn = 0;
-                                prod.totalUsedStock = (prod.totalUsedStock || 0) + available;
+                                // Partial cover
+                                const used = stock;
+                                stock = 0;
+                                prod.totalUsedStock = (parseInt(prod.totalUsedStock) || 0) + used;
                             }
-                            prod.lastSyncedCount = totalShipped;
-                        } else if (newItems < 0) {
-                            prod.lastSyncedCount = totalShipped;
+                            prod.stockReturn = stock;
+                            prod.lastSyncedCount = currentTotal;
+                        } 
+                        else if (newItems < 0) {
+                            // Sync downwards (rare)
+                            prod.lastSyncedCount = currentTotal;
                         }
                     }
                 }
@@ -304,8 +315,10 @@
             
             const prod = data.products.find(p => p.name === name);
             if(prod) {
-                prod.stockReturn = (prod.stockReturn || 0) + qty;
+                prod.stockReturn = (parseInt(prod.stockReturn) || 0) + qty;
                 renderProducts();
+                // Note: Adding return doesn't change what was already shipped and paid for.
+                // It only affects future deductions.
                 updateDashboard();
             }
         }
@@ -362,7 +375,9 @@
 
                 if (prodDef) {
                     cost = prodDef.cost;
-                    usedFromStock = prodDef.totalUsedStock || 0;
+                    usedFromStock = parseInt(prodDef.totalUsedStock) || 0;
+                    
+                    // Logic: You pay for (Total Shipped - Total covered by stock)
                     newPaid = Math.max(0, totalShipped - usedFromStock);
                     rowTotal = newPaid * cost;
                 }
@@ -380,7 +395,10 @@
                 `;
                 totalDebt += rowTotal;
             }
-            document.getElementById('sumProductDebt').innerText = totalDebt.toLocaleString();
+            
+            // Add Packaging to Total Debt Display here for clarity? 
+            // Or keep it separate? User said pack cost goes to supplier.
+            // Let's rely on updateDashboard for the final numbers.
             return totalDebt;
         }
 
@@ -430,14 +448,14 @@
         }
 
         function updateDashboard() {
-            // 1. Goods Debt
+            // 1. Calculate Goods Debt
             let goodsDebt = 0;
             let totalShippedCount = 0;
             for (const [prodName, totalShipped] of Object.entries(data.shippedStats)) {
                 totalShippedCount += totalShipped;
                 const prodDef = data.products.find(p => p.name === prodName);
                 if (prodDef) {
-                    const usedFromStock = prodDef.totalUsedStock || 0;
+                    const usedFromStock = parseInt(prodDef.totalUsedStock) || 0;
                     const newPaid = Math.max(0, totalShipped - usedFromStock);
                     goodsDebt += newPaid * prodDef.cost;
                 }
@@ -451,18 +469,24 @@
                 if (t.type === 'income') totalRevenue += t.amount;
             });
 
-            // 3. Packaging Calculation
+            // 3. Packaging Calculation (Adding to Supplier Debt)
             let unitPack = parseFloat(document.getElementById('packUnitCost').value) || 0;
-            data.packUnitCost = unitPack; // Save state
-            let totalPackCost = totalShippedCount * unitPack;
-            totalExpenses += totalPackCost;
+            data.packUnitCost = unitPack; 
             
-            // Show calculated pack cost
+            let totalPackCost = totalShippedCount * unitPack;
+            
+            // Show calculated pack cost inside the box
             document.getElementById('totalPackDisplay').innerText = `(= ${totalPackCost.toLocaleString()} DH)`;
 
-            const currentDebt = goodsDebt - totalPaid;
-            const netProfit = totalRevenue - totalExpenses - goodsDebt;
+            // Final Calculations
+            // Supplier Debt = Goods Debt + Packaging Cost - Payments
+            const currentDebt = (goodsDebt + totalPackCost) - totalPaid;
+            
+            // Net Profit = Revenue - Expenses (Ads) - (Goods + Packaging)
+            // Note: Expenses here are purely external (Ads), Packaging is part of COGS (Cost of Goods Sold) which goes to supplier.
+            const netProfit = totalRevenue - totalExpenses - (goodsDebt + totalPackCost);
 
+            document.getElementById('sumProductDebt').innerText = (goodsDebt + totalPackCost).toLocaleString();
             document.getElementById('supplierDebt').innerText = currentDebt.toLocaleString();
             document.getElementById('totalExpenses').innerText = totalExpenses.toLocaleString();
             document.getElementById('totalRevenue').innerText = totalRevenue.toLocaleString();
@@ -528,4 +552,3 @@
     </script>
 </body>
 </html>
-
