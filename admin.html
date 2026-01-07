@@ -155,10 +155,10 @@
     </div>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby-XyjE8UvPrLe1HJTF1siYWwfA4kXvP9fASExfJcKWcySp4xqx7PkMBl-ysQ5ouuim/exec"; 
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby-XyjE8UvPrLe1HJTF1siYWwfA4kXvP9fASExfJcKWcySp4xqx7PkMBl-ysQ5ouuuim/exec"; 
         const PASS_CODE = "2911";
 
-        // الرسالة العربية مثبتة هنا للغتين
+        // ✅ رسالة الواتساب ثابتة بالعربية كما طلبت
         const FIXED_ARABIC_MSG = "مرحباً {name} 👋\nمعك فريق التأكيد من متجر *Zafir Shop* 🛍️\n\nبخصوص طلبيتك: *{product}*\nالسعر: *{price} درهم*\n\nبغيت غير نأكد معاك العنوان والوقت المناسب للتوصيل؟ 🚛";
 
         const LANG = {
@@ -191,10 +191,13 @@
         let currentLang = localStorage.getItem('zafir_lang') || 'ar';
         let globalOrders = [];
         let displayedOrders = [];
+        let autoSyncInterval;
 
         window.onload = () => {
             applyLanguage(currentLang);
-            if(localStorage.getItem('zafir_auth') === 'true') showApp();
+            if(localStorage.getItem('zafir_auth') === 'true') {
+                showApp();
+            }
         };
 
         function toggleLang() {
@@ -225,28 +228,41 @@
             } else { alert("Error Password / كلمة المرور خطأ"); }
         }
         function logout() {
-            if(confirm("Logout?")) { localStorage.removeItem('zafir_auth'); location.reload(); }
+            if(confirm("Logout?")) { 
+                localStorage.removeItem('zafir_auth'); 
+                location.reload(); 
+            }
         }
         function showApp() {
             document.getElementById('loginSection').style.display = 'none';
             document.getElementById('dashboardContent').style.display = 'block';
             getData();
+            startAutoSync();
         }
 
-        async function getData() {
+        function startAutoSync() {
+            if(autoSyncInterval) clearInterval(autoSyncInterval);
+            autoSyncInterval = setInterval(() => {
+                if(!document.hidden) getData(true);
+            }, 15000);
+        }
+
+        async function getData(silent = false) {
             const loader = document.getElementById('loader');
-            loader.style.display = 'flex';
-            document.getElementById('ordersBody').innerHTML = '';
+            if(!silent) loader.style.display = 'flex';
+            if(!silent) document.getElementById('ordersBody').innerHTML = '';
             
             try {
                 const res = await fetch(`${SCRIPT_URL}?action=read`);
                 const data = await res.json();
                 globalOrders = data.reverse();
-                loader.style.display = 'none';
+                if(!silent) loader.style.display = 'none';
                 applyFilters();
             } catch (err) {
-                alert("Connection Error");
-                loader.style.display = 'none';
+                if(!silent) {
+                    alert("Connection Error");
+                    loader.style.display = 'none';
+                }
             }
         }
 
@@ -287,6 +303,12 @@
             orders.forEach(o => {
                 let phone = String(o.phone).replace(/^'/, '');
                 let waPhone = phone.replace(/\s/g, '').replace(/^0/, '212');
+                
+                // رسالة عربية دائماً
+                let msgText = FIXED_ARABIC_MSG
+                    .replace('{name}', o.name.split(' ')[0])
+                    .replace('{product}', o.product)
+                    .replace('{price}', o.price);
                 
                 let dateStr = o.date;
                 try {
@@ -347,7 +369,6 @@
 
         function openWhatsApp(phone, name, product, price) {
             let firstName = name.split(' ')[0];
-            // استخدام الرسالة العربية المثبتة دائماً
             let msg = FIXED_ARABIC_MSG
                 .replace('{name}', firstName)
                 .replace('{product}', product)
@@ -359,7 +380,6 @@
         }
 
         function exportExcel() {
-            // تصدير "المؤكدة" (Confirmed) فقط حسب طلبك
             const confirmedOnly = globalOrders.filter(o => o.status === 'Confirmed');
             if(confirmedOnly.length === 0) return alert(currentLang==='ar' ? "لا توجد طلبات مؤكدة" : "No confirmed orders");
 
