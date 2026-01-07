@@ -22,6 +22,8 @@
         .st-Postponed { @apply bg-orange-100 text-orange-800 border-orange-200; }
         .st-Cancelled { @apply bg-red-100 text-red-800 border-red-200; }
         .st-Fake { @apply bg-gray-200 text-gray-600 border-gray-300; }
+        .live-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; display: inline-block; animation: blink 2s infinite; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
     </style>
 </head>
 <body class="text-slate-800 pb-20 transition-all duration-300">
@@ -69,11 +71,14 @@
     <div id="dashboardContent" class="hidden min-h-screen">
         <nav class="bg-white shadow-sm sticky top-0 z-40 border-b border-slate-200">
             <div class="container mx-auto px-4 h-16 flex justify-between items-center">
-                <div class="flex items-center gap-4">
-                    <div class="text-2xl font-black text-slate-800 tracking-tighter cursor-pointer" onclick="refreshData()">ZAFIR<span class="text-orange-600">.</span></div>
-                    <button onclick="toggleLang()" class="hidden md:block text-[10px] font-bold bg-slate-100 px-2 py-1 rounded border hover:bg-slate-200 transition" id="langBtnNav">EN</button>
+                <div class="flex items-center gap-2">
+                    <div class="text-xl md:text-2xl font-black text-slate-800 tracking-tighter cursor-pointer" onclick="refreshData()">
+                        ZAFIR<span class="text-orange-600">.</span> <span class="live-dot" title="Live"></span>
+                    </div>
+                    <button onclick="toggleLang()" class="text-[10px] font-bold bg-slate-100 px-2 py-1 rounded border hover:bg-slate-200 transition" id="langBtnNav">EN</button>
                 </div>
-                <div class="flex gap-2">
+                
+                <div class="flex gap-1 md:gap-2">
                     <a href="accounting.html" class="p-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition font-bold text-xs flex items-center gap-1">
                         <span class="text-lg">📊</span> <span class="hidden md:inline" data-i18n="nav_accounting">المحاسبة</span>
                     </a>
@@ -86,27 +91,27 @@
             </div>
         </nav>
 
-        <div class="container mx-auto px-4 py-6">
-            <div class="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+        <div class="container mx-auto px-2 md:px-4 py-4 md:py-6">
+            <div class="grid grid-cols-2 lg:grid-cols-5 gap-2 md:gap-4 mb-4 md:mb-6">
+                <div class="bg-white p-3 md:p-4 rounded-2xl shadow-sm border border-slate-100">
                     <p class="text-slate-400 text-[10px] font-bold uppercase" data-i18n="stat_total">العدد المعروض</p>
-                    <p class="text-2xl font-black text-slate-800 mt-1" id="statTotal">0</p>
+                    <p class="text-xl md:text-2xl font-black text-slate-800 mt-1" id="statTotal">0</p>
                 </div>
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 border-b-4 border-b-green-500">
+                <div class="bg-white p-3 md:p-4 rounded-2xl shadow-sm border border-slate-100 border-b-4 border-b-green-500">
                     <p class="text-green-600 text-[10px] font-bold uppercase" data-i18n="stat_confirmed">تم التأكيد</p>
-                    <p class="text-2xl font-black text-green-600 mt-1" id="statConfirmed">0</p>
+                    <p class="text-xl md:text-2xl font-black text-green-600 mt-1" id="statConfirmed">0</p>
                 </div>
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 border-b-4 border-b-purple-500">
+                <div class="bg-white p-3 md:p-4 rounded-2xl shadow-sm border border-slate-100 border-b-4 border-b-purple-500">
                     <p class="text-purple-600 text-[10px] font-bold uppercase" data-i18n="stat_shipped">تم الإرسال</p>
-                    <p class="text-2xl font-black text-purple-600 mt-1" id="statShipped">0</p>
+                    <p class="text-xl md:text-2xl font-black text-purple-600 mt-1" id="statShipped">0</p>
                 </div>
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 border-b-4 border-b-orange-400">
+                <div class="bg-white p-3 md:p-4 rounded-2xl shadow-sm border border-slate-100 border-b-4 border-b-orange-400">
                     <p class="text-orange-500 text-[10px] font-bold uppercase" data-i18n="stat_pending">في الانتظار</p>
-                    <p class="text-2xl font-black text-orange-500 mt-1" id="statPending">0</p>
+                    <p class="text-xl md:text-2xl font-black text-orange-500 mt-1" id="statPending">0</p>
                 </div>
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 border-b-4 border-b-red-400">
+                <div class="bg-white p-3 md:p-4 rounded-2xl shadow-sm border border-slate-100 border-b-4 border-b-red-400">
                     <p class="text-red-500 text-[10px] font-bold uppercase" data-i18n="stat_cancelled">ملغي / وهمي</p>
-                    <p class="text-2xl font-black text-red-500 mt-1" id="statCancelled">0</p>
+                    <p class="text-xl md:text-2xl font-black text-red-500 mt-1" id="statCancelled">0</p>
                 </div>
             </div>
 
@@ -133,10 +138,10 @@
                     <table class="w-full text-right whitespace-nowrap" id="mainTable">
                         <thead class="bg-slate-50 border-b border-slate-200 text-slate-500">
                             <tr>
-                                <th class="p-4 text-[10px] font-extrabold uppercase" data-i18n="th_status">الحالة / التاريخ</th>
-                                <th class="p-4 text-[10px] font-extrabold uppercase" data-i18n="th_customer">بيانات الزبون</th>
-                                <th class="p-4 text-[10px] font-extrabold uppercase" data-i18n="th_product">المنتج</th>
-                                <th class="p-4 text-[10px] font-extrabold uppercase text-center" data-i18n="th_actions">إجراءات</th>
+                                <th class="p-3 md:p-4 text-[10px] font-extrabold uppercase" data-i18n="th_status">الحالة / التاريخ</th>
+                                <th class="p-3 md:p-4 text-[10px] font-extrabold uppercase" data-i18n="th_customer">بيانات الزبون</th>
+                                <th class="p-3 md:p-4 text-[10px] font-extrabold uppercase" data-i18n="th_product">المنتج</th>
+                                <th class="p-3 md:p-4 text-[10px] font-extrabold uppercase text-center" data-i18n="th_actions">إجراءات</th>
                             </tr>
                         </thead>
                         <tbody id="ordersBody" class="divide-y divide-slate-100"></tbody>
@@ -157,8 +162,6 @@
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby-XyjE8UvPrLe1HJTF1siYWwfA4kXvP9fASExfJcKWcySp4xqx7PkMBl-ysQ5ouuim/exec"; 
         const PASS_CODE = "2911";
-
-        // ✅ رسالة الواتساب ثابتة بالعربية كما طلبت
         const FIXED_ARABIC_MSG = "مرحباً {name} 👋\nمعك فريق التأكيد من متجر *Zafir Shop* 🛍️\n\nبخصوص طلبيتك: *{product}*\nالسعر: *{price} درهم*\n\nبغيت غير نأكد معاك العنوان والوقت المناسب للتوصيل؟ 🚛";
 
         const LANG = {
@@ -195,9 +198,7 @@
 
         window.onload = () => {
             applyLanguage(currentLang);
-            if(localStorage.getItem('zafir_auth') === 'true') {
-                showApp();
-            }
+            if(localStorage.getItem('zafir_auth') === 'true') showApp();
         };
 
         function toggleLang() {
@@ -225,7 +226,7 @@
             if(document.getElementById('adminPass').value === PASS_CODE) {
                 localStorage.setItem('zafir_auth', 'true');
                 showApp();
-            } else { alert("Error Password / كلمة المرور خطأ"); }
+            } else { alert("Error Password"); }
         }
         function logout() {
             if(confirm("Logout?")) { 
@@ -303,12 +304,7 @@
             orders.forEach(o => {
                 let phone = String(o.phone).replace(/^'/, '');
                 let waPhone = phone.replace(/\s/g, '').replace(/^0/, '212');
-                
-                // رسالة عربية دائماً
-                let msgText = FIXED_ARABIC_MSG
-                    .replace('{name}', o.name.split(' ')[0])
-                    .replace('{product}', o.product)
-                    .replace('{price}', o.price);
+                let msgText = FIXED_ARABIC_MSG.replace('{name}', o.name.split(' ')[0]).replace('{product}', o.product).replace('{price}', o.price);
                 
                 let dateStr = o.date;
                 try {
@@ -338,23 +334,23 @@
                 const tr = document.createElement('tr');
                 tr.className = "border-b border-slate-50 hover:bg-slate-50 transition group";
                 tr.innerHTML = `
-                    <td class="p-4 align-top w-48">
+                    <td class="p-3 md:p-4 align-top w-full md:w-48 min-w-[140px]">
                         <select onchange="changeStatus(${o.row_index}, this)" class="w-full py-2 px-2 rounded-lg text-xs font-bold border-2 outline-none cursor-pointer mb-2 transition-colors ${stClass}">${opts}</select>
                         <div class="text-[10px] text-slate-400 font-mono">#${o.order_id}</div>
                         <div class="mt-1 leading-tight">${dateStr}</div>
                     </td>
-                    <td class="p-4 align-top">
+                    <td class="p-3 md:p-4 align-top">
                         <div class="font-bold text-slate-800 text-sm">${o.name}</div>
                         <a href="tel:${phone}" class="text-xs font-mono font-bold text-slate-500 hover:text-orange-600 block mt-1 tracking-wider dir-ltr text-right">${phone}</a>
                         <div class="text-xs text-slate-600 font-bold mt-1">📍 ${o.city}</div>
                         ${o.address ? `<div class="mt-1 text-xs bg-slate-100 p-1 rounded inline-block max-w-[200px] truncate text-slate-500">🏠 ${o.address}</div>` : ''}
                     </td>
-                    <td class="p-4 align-top">
+                    <td class="p-3 md:p-4 align-top">
                         <div class="text-xs font-bold text-slate-600 truncate max-w-[120px]">${o.product}</div>
                         <div class="text-green-600 font-black text-sm mt-0.5">${o.price} DH</div>
                         ${o.note ? `<div class="mt-1 text-[10px] text-amber-600 bg-amber-50 p-1 rounded border border-amber-100 max-w-[150px] truncate">📝 ${o.note}</div>` : ''}
                     </td>
-                    <td class="p-4 align-top text-center">
+                    <td class="p-3 md:p-4 align-top text-center">
                         <div class="flex gap-2 justify-center pt-2">
                             <button onclick='editOrder(${JSON.stringify(o)})' class="w-9 h-9 rounded-lg bg-white border border-slate-200 text-slate-500 hover:text-blue-600 hover:border-blue-300 transition shadow-sm">✎</button>
                             <button onclick='openWhatsApp("${waPhone}", "${o.name}", "${o.product}", "${o.price}")' class="w-9 h-9 rounded-lg flex items-center justify-center bg-[#25D366] hover:bg-[#20bd5a] transition shadow-md shadow-green-100 text-white">
@@ -367,38 +363,23 @@
             });
         }
 
+        // ... Same helper functions (openWhatsApp, exportExcel, etc) as before ...
         function openWhatsApp(phone, name, product, price) {
             let firstName = name.split(' ')[0];
-            let msg = FIXED_ARABIC_MSG
-                .replace('{name}', firstName)
-                .replace('{product}', product)
-                .replace('{price}', price);
-            
+            let msg = FIXED_ARABIC_MSG.replace('{name}', firstName).replace('{product}', product).replace('{price}', price);
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             if(isMobile) location.href = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(msg)}`;
             else window.open(`https://web.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(msg)}`, '_blank');
         }
-
         function exportExcel() {
             const confirmedOnly = globalOrders.filter(o => o.status === 'Confirmed');
             if(confirmedOnly.length === 0) return alert(currentLang==='ar' ? "لا توجد طلبات مؤكدة" : "No confirmed orders");
-
-            const data = confirmedOnly.map(o => ({
-                "CODE SUIVI": o.order_id,
-                "DESTINATAIRE": o.name,
-                "TELEPHONE": String(o.phone).replace(/^'/, ''),
-                "ADRESSE": o.address || '',
-                "PRIX": o.price,
-                "VILLE": o.city,
-                "COMMENTAIRE": o.note || ''
-            }));
-
+            const data = confirmedOnly.map(o => ({ "CODE SUIVI": o.order_id, "DESTINATAIRE": o.name, "TELEPHONE": String(o.phone).replace(/^'/, ''), "ADRESSE": o.address || '', "PRIX": o.price, "VILLE": o.city, "COMMENTAIRE": o.note || '' }));
             const ws = XLSX.utils.json_to_sheet(data);
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, "Orders");
             XLSX.writeFile(wb, `Zafir_Confirmed_${new Date().toISOString().split('T')[0]}.xlsx`);
         }
-
         function calcStats(orders) {
             document.getElementById('statTotal').innerText = orders.length;
             document.getElementById('statConfirmed').innerText = orders.filter(o => o.status === 'Confirmed').length;
@@ -406,7 +387,6 @@
             document.getElementById('statPending').innerText = orders.filter(o => !['Confirmed','Shipped','Cancelled','Fake'].includes(o.status)).length;
             document.getElementById('statCancelled').innerText = orders.filter(o => ['Cancelled','Fake'].includes(o.status)).length;
         }
-
         async function changeStatus(idx, select) {
             const fd = new FormData();
             fd.append('action', 'update'); fd.append('row_index', idx); fd.append('status', select.value);
@@ -415,7 +395,6 @@
             if(order) order.status = select.value;
             applyFilters();
         }
-
         function editOrder(o) {
             document.getElementById('editRowIndex').value = o.row_index;
             document.getElementById('editName').value = o.name;
@@ -428,9 +407,7 @@
         }
         function closeEditModal() { document.getElementById('editModal').classList.add('hidden'); }
         async function saveChanges() {
-            const btn = event.target;
-            const originalText = btn.innerText;
-            btn.innerText = "..."; btn.disabled = true;
+            const btn = event.target; btn.innerText = "..."; btn.disabled = true;
             const fd = new FormData(); fd.append('action', 'edit_order');
             fd.append('row_index', document.getElementById('editRowIndex').value);
             fd.append('name', document.getElementById('editName').value);
@@ -440,12 +417,9 @@
             fd.append('price', document.getElementById('editPrice').value);
             fd.append('note', document.getElementById('editNote').value);
             await fetch(SCRIPT_URL, {method: 'POST', body: fd, mode: 'no-cors'});
-            closeEditModal();
-            getData();
-            btn.innerText = originalText; btn.disabled = false;
+            closeEditModal(); getData(); btn.innerText = "حفظ"; btn.disabled = false;
         }
         function refreshData() { getData(); }
     </script>
 </body>
 </html>
-
