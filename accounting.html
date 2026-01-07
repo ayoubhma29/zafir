@@ -5,14 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ZAFIR Auto-Accounting</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #f1f5f9; }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #e2e8f0; }
-        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 10px; }
+        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         
-        .status-badge { font-size: 10px; padding: 4px 10px; border-radius: 20px; font-weight: bold; display: flex; align-items: center; gap: 5px; transition: all 0.3s; }
+        .glass-header { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+        .card-shadow { box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05); }
+
+        .status-badge { font-size: 10px; padding: 4px 12px; border-radius: 20px; font-weight: bold; display: flex; align-items: center; gap: 6px; transition: all 0.3s; }
         .st-loading { background: #e0f2fe; color: #0284c7; }
         .st-saving { background: #fef3c7; color: #d97706; }
         .st-saved { background: #dcfce7; color: #16a34a; }
@@ -21,138 +24,143 @@
         @keyframes pulse-animation { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
     </style>
 </head>
-<body class="text-slate-800 pb-20">
+<body class="text-slate-800 pb-24 selection:bg-orange-100">
 
-    <nav class="bg-slate-900 text-white shadow-lg sticky top-0 z-50">
+    <nav class="glass-header sticky top-0 z-40 border-b border-slate-100">
         <div class="container mx-auto px-4 h-16 flex justify-between items-center">
-            <div class="flex items-center gap-2 md:gap-3">
-                <div class="text-lg md:text-xl font-black tracking-tighter">ZAFIR<span class="text-orange-500">.</span> Compta</div>
+            <div class="flex items-center gap-3">
+                <div class="text-xl md:text-2xl font-black text-slate-800 tracking-tighter">ZAFIR<span class="text-orange-500">.</span> Compta</div>
                 
                 <div id="appStatus" class="status-badge st-loading">
-                    <span class="pulse">●</span> <span id="statusText">...</span>
+                    <span class="pulse text-lg">•</span> <span id="statusText" class="hidden md:inline">اتصال...</span>
                 </div>
             </div>
             
             <div class="flex gap-2">
-                <button onclick="toggleLang()" class="text-[10px] font-bold bg-white/10 px-2 py-1 rounded border border-white/20 hover:bg-white/20 transition" id="langBtnNav">EN</button>
-                <a href="admin.html" class="bg-blue-600 hover:bg-blue-500 px-3 py-1.5 rounded-lg text-sm font-bold transition flex items-center gap-2 shadow-lg shadow-blue-900/50">
-                    <span data-i18n="btn_back">الطلبات</span> 🔙
+                <button onclick="toggleLang()" class="text-[10px] font-bold bg-slate-100 px-2 py-1 rounded border border-slate-200 text-slate-500 hover:bg-slate-200 transition" id="langBtnNav">EN</button>
+                <a href="admin.html" class="bg-slate-900 text-white px-4 py-2 rounded-xl hover:bg-orange-600 transition font-bold text-xs flex items-center gap-2 shadow-lg shadow-slate-200">
+                    <span data-i18n="btn_back">لوحة الطلبات</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                 </a>
             </div>
         </div>
     </nav>
 
-    <div class="container mx-auto px-2 md:px-4 py-4 md:py-6">
+    <div class="container mx-auto px-3 md:px-4 py-6">
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 mb-6">
-            <div class="bg-white p-3 md:p-4 rounded-2xl shadow-sm border-b-4 border-red-500">
-                <p class="text-xs font-bold text-slate-400 uppercase" data-i18n="card_debt">ديون المورد</p>
-                <p class="text-xl md:text-2xl font-black text-red-600 mt-1"><span id="supplierDebt">0</span> <span class="text-xs">DH</span></p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 mb-8">
+            <div class="bg-white p-4 rounded-3xl card-shadow border-b-4 border-red-500 transition hover:-translate-y-1">
+                <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider" data-i18n="card_debt">ديون المورد</p>
+                <p class="text-2xl font-black text-red-600 mt-2"><span id="supplierDebt">0</span> <span class="text-xs text-red-400">DH</span></p>
             </div>
-            <div class="bg-white p-3 md:p-4 rounded-2xl shadow-sm border-b-4 border-orange-400">
-                <p class="text-xs font-bold text-slate-400 uppercase" data-i18n="card_expenses">المصاريف</p>
-                <p class="text-xl md:text-2xl font-black text-orange-500 mt-1"><span id="totalExpenses">0</span> <span class="text-xs">DH</span></p>
+            <div class="bg-white p-4 rounded-3xl card-shadow border-b-4 border-orange-400 transition hover:-translate-y-1">
+                <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider" data-i18n="card_expenses">المصاريف</p>
+                <p class="text-2xl font-black text-orange-500 mt-2"><span id="totalExpenses">0</span> <span class="text-xs text-orange-400">DH</span></p>
             </div>
-            <div class="bg-white p-3 md:p-4 rounded-2xl shadow-sm border-b-4 border-green-500">
-                <p class="text-xs font-bold text-slate-400 uppercase" data-i18n="card_income">مدخول التوصيل</p>
-                <p class="text-xl md:text-2xl font-black text-green-600 mt-1"><span id="totalRevenue">0</span> <span class="text-xs">DH</span></p>
+            <div class="bg-white p-4 rounded-3xl card-shadow border-b-4 border-green-500 transition hover:-translate-y-1">
+                <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider" data-i18n="card_income">مدخول التوصيل</p>
+                <p class="text-2xl font-black text-green-600 mt-2"><span id="totalRevenue">0</span> <span class="text-xs text-green-400">DH</span></p>
             </div>
-            <div class="bg-slate-800 p-3 md:p-4 rounded-2xl shadow-lg relative overflow-hidden">
-                <div class="absolute -right-4 -top-4 text-white opacity-5 text-8xl font-black">$</div>
-                <p class="text-xs font-bold text-slate-400 uppercase" data-i18n="card_profit">الربح الصافي</p>
-                <p class="text-2xl md:text-3xl font-black text-white mt-1" id="netProfit">0 <span class="text-xs">DH</span></p>
+            <div class="bg-slate-900 p-4 rounded-3xl card-shadow relative overflow-hidden transition hover:-translate-y-1">
+                <div class="absolute -right-4 -top-4 text-white opacity-5 text-9xl font-black">$</div>
+                <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider" data-i18n="card_profit">الربح الصافي</p>
+                <p class="text-3xl font-black text-white mt-2" id="netProfit">0 <span class="text-xs text-slate-500">DH</span></p>
             </div>
         </div>
 
         <div class="grid lg:grid-cols-3 gap-6">
             
             <div class="lg:col-span-1 space-y-6">
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
-                    <h3 class="font-bold text-lg mb-4 flex items-center gap-2" data-i18n="prod_title">🏷️ إدارة المنتجات</h3>
-                    <div class="flex gap-2 mb-2">
-                        <input type="text" id="prodName" class="flex-1 p-2 border rounded-lg text-sm outline-none focus:border-blue-500 placeholder:text-gray-400" placeholder="Product Name">
-                        <input type="number" id="prodCost" class="w-20 p-2 border rounded-lg text-sm text-center outline-none focus:border-blue-500 placeholder:text-gray-400" placeholder="Cost">
+                <div class="bg-white p-5 rounded-3xl card-shadow border border-slate-50">
+                    <h3 class="font-bold text-lg mb-4 flex items-center gap-2 text-slate-700" data-i18n="prod_title">
+                        <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
+                        إدارة المنتجات
+                    </h3>
+                    <div class="flex gap-2 mb-3">
+                        <input type="text" id="prodName" class="flex-1 p-3 bg-slate-50 rounded-xl text-sm font-bold border border-transparent focus:bg-white focus:border-orange-500 outline-none transition" placeholder="Product Name">
+                        <input type="number" id="prodCost" class="w-24 p-3 bg-slate-50 rounded-xl text-sm font-bold text-center border border-transparent focus:bg-white focus:border-orange-500 outline-none transition" placeholder="Cost">
                     </div>
-                    <button onclick="addProduct()" class="w-full bg-slate-800 text-white py-2 rounded-lg font-bold text-sm hover:bg-slate-700 btn-press" data-i18n="btn_add_prod">إضافة</button>
-                    <div class="mt-4 border-t pt-2">
-                        <p class="text-[10px] text-slate-400 mb-2 font-bold uppercase" data-i18n="lbl_stock">مخزون المرتجع (لإعادة البيع)</p>
-                        <div id="productsList" class="space-y-2 max-h-60 overflow-y-auto pr-1"></div>
-                    </div>
-                </div>
-                
-                <div class="bg-purple-50 p-5 rounded-2xl shadow-sm border border-purple-100">
-                    <h3 class="font-bold text-lg mb-2 text-purple-800" data-i18n="return_title">↩️ تسجيل مرتجع</h3>
-                    <p class="text-[10px] text-purple-600 mb-2" data-i18n="return_desc">أضف الكمية العائدة للمخزون.</p>
-                    <div class="flex gap-2">
-                        <select id="returnSelect" class="flex-1 p-2 text-sm border rounded-lg bg-white"></select>
-                        <input type="number" id="returnQty" class="w-16 p-2 text-sm border rounded-lg text-center" placeholder="1">
-                        <button onclick="addReturn()" class="bg-purple-600 text-white px-3 rounded-lg font-bold">+</button>
+                    <button onclick="addProduct()" class="w-full bg-slate-800 text-white p-3 rounded-xl font-bold text-sm hover:bg-orange-600 transition shadow-lg btn-press" data-i18n="btn_add_prod">إضافة منتج جديد</button>
+                    
+                    <div class="mt-6 pt-4 border-t border-slate-100">
+                        <p class="text-[10px] text-slate-400 mb-3 font-bold uppercase tracking-widest" data-i18n="lbl_stock">مخزون المرتجع (Stock)</p>
+                        <div id="productsList" class="space-y-3 max-h-[400px] overflow-y-auto pr-1 custom-scrollbar"></div>
                     </div>
                 </div>
             </div>
 
             <div class="lg:col-span-2 space-y-6">
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 border-b pb-3 gap-2">
+                <div class="bg-white p-5 rounded-3xl card-shadow border border-slate-50 relative overflow-hidden">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-5 border-b border-slate-100 pb-4 gap-4">
                         <div>
-                            <h3 class="font-bold text-lg flex items-center gap-2" data-i18n="shipped_title">📦 السلع المرسلة <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">Auto</span></h3>
-                            <p class="text-[10px] text-slate-400" data-i18n="shipped_desc">يتم الخصم تلقائياً من المرتجع</p>
+                            <h3 class="font-bold text-lg flex items-center gap-2 text-slate-700" data-i18n="shipped_title">
+                                <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
+                                السلع المرسلة <span class="text-[10px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full border border-blue-100">Auto-Sync</span>
+                            </h3>
+                            <p class="text-[10px] text-slate-400 mt-1" data-i18n="shipped_desc">يتم حسابها تلقائياً وخصم المرتجع</p>
                         </div>
-                        <div class="flex items-center gap-2 bg-red-50 p-1.5 rounded-lg border border-red-200 w-full md:w-auto">
-                            <label class="text-[10px] font-bold text-red-700 whitespace-nowrap" data-i18n="lbl_pack">تغليف (للوحدة):</label>
-                            <input type="number" id="packUnitCost" oninput="triggerAutoSave(); updateDashboard()" class="w-16 p-1 text-xs border rounded text-center font-bold text-red-600" placeholder="0">
-                            <span class="text-[10px] text-red-700">DH</span>
-                            <span id="totalPackDisplay" class="text-[10px] font-bold text-red-800 ml-1"></span>
+                        
+                        <div class="flex items-center gap-3 bg-red-50 p-2 rounded-xl border border-red-100 w-full md:w-auto">
+                            <label class="text-[10px] font-bold text-red-600 uppercase whitespace-nowrap px-1" data-i18n="lbl_pack">تغليف (للوحدة):</label>
+                            <input type="number" id="packUnitCost" oninput="triggerAutoSave(); updateDashboard()" class="w-16 p-1.5 text-sm bg-white border border-red-200 rounded-lg text-center font-bold text-red-600 focus:outline-none focus:ring-2 focus:ring-red-200" placeholder="0">
+                            <div class="flex flex-col leading-none">
+                                <span class="text-[10px] text-red-400 font-bold">DH</span>
+                                <span id="totalPackDisplay" class="text-[10px] font-black text-red-700">0</span>
+                            </div>
                         </div>
                     </div>
+                    
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm whitespace-nowrap" id="shippedTable">
-                            <thead class="bg-slate-50 text-slate-500 font-bold">
+                            <thead class="bg-slate-50 text-slate-500 font-bold text-[10px] uppercase tracking-wider">
                                 <tr>
-                                    <th class="p-2 text-start" data-i18n="th_prod">المنتج</th>
-                                    <th class="p-2 text-center" data-i18n="th_total_out">خرجت</th>
-                                    <th class="p-2 text-center text-green-600" data-i18n="th_from_stock">من المخزون</th>
-                                    <th class="p-2 text-center" data-i18n="th_new_paid">جديد (دفع)</th>
-                                    <th class="p-2 text-red-600 text-end" data-i18n="th_total">المطلوب</th>
+                                    <th class="p-3 text-start rounded-r-lg" data-i18n="th_prod">المنتج</th>
+                                    <th class="p-3 text-center" data-i18n="th_total_out">خرجت</th>
+                                    <th class="p-3 text-center text-green-600" data-i18n="th_from_stock">من المخزون</th>
+                                    <th class="p-3 text-center" data-i18n="th_new_paid">جديد (دفع)</th>
+                                    <th class="p-3 text-end text-red-600 rounded-l-lg" data-i18n="th_total">المطلوب</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-slate-100 text-center"></tbody>
-                            <tfoot class="bg-slate-50 font-bold">
+                            <tbody class="divide-y divide-slate-50 text-center font-medium text-slate-600"></tbody>
+                            <tfoot class="bg-slate-50/50 font-bold text-slate-800">
                                 <tr>
-                                    <td colspan="4" class="p-3 text-start" data-i18n="ft_total_debt">مجموع السلع + التغليف:</td>
-                                    <td class="p-3 text-red-600 text-end" id="sumProductDebt">0</td>
+                                    <td colspan="4" class="p-4 text-start" data-i18n="ft_total_debt">مجموع السلع + التغليف:</td>
+                                    <td class="p-4 text-end text-red-600 text-base" id="sumProductDebt">0</td>
                                 </tr>
                             </tfoot>
                         </table>
                     </div>
                 </div>
 
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
-                    <h3 class="font-bold text-lg mb-4 border-b pb-3" data-i18n="fin_title">💰 المالية</h3>
+                <div class="bg-white p-5 rounded-3xl card-shadow border border-slate-50">
+                    <h3 class="font-bold text-lg mb-4 flex items-center gap-2 text-slate-700" data-i18n="fin_title">
+                        <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        المالية
+                    </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                        <div class="bg-red-50 p-3 rounded-xl border border-red-100">
-                            <label class="text-xs font-bold text-red-800 block mb-1" data-i18n="lbl_pay_supp">دفع للمورد</label>
+                        <div class="bg-red-50 p-3 rounded-2xl border border-red-100">
+                            <label class="text-[10px] font-bold text-red-400 uppercase block mb-2" data-i18n="lbl_pay_supp">دفع للمورد</label>
                             <div class="flex gap-2">
-                                <input type="number" id="payAmount" class="w-full p-2 border rounded-lg text-sm" placeholder="0">
-                                <button onclick="addTransaction('payment')" class="bg-red-500 text-white px-3 rounded-lg font-bold text-xs" data-i18n="btn_add">أضف</button>
+                                <input type="number" id="payAmount" class="w-full p-2.5 bg-white border border-red-200 rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-red-200" placeholder="0">
+                                <button onclick="addTransaction('payment')" class="bg-red-500 text-white px-4 rounded-xl font-bold text-lg hover:bg-red-600 transition shadow-md shadow-red-200">+</button>
                             </div>
                         </div>
-                        <div class="bg-green-50 p-3 rounded-xl border border-green-100">
-                            <label class="text-xs font-bold text-green-800 block mb-1" data-i18n="lbl_income">استلام أموال</label>
+                        <div class="bg-emerald-50 p-3 rounded-2xl border border-emerald-100">
+                            <label class="text-[10px] font-bold text-emerald-600 uppercase block mb-2" data-i18n="lbl_income">استلام أموال</label>
                             <div class="flex gap-2">
-                                <input type="number" id="incomeAmount" class="w-full p-2 border rounded-lg text-sm" placeholder="0">
-                                <button onclick="addTransaction('income')" class="bg-green-600 text-white px-3 rounded-lg font-bold text-xs" data-i18n="btn_add">أضف</button>
+                                <input type="number" id="incomeAmount" class="w-full p-2.5 bg-white border border-emerald-200 rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-emerald-200" placeholder="0">
+                                <button onclick="addTransaction('income')" class="bg-emerald-500 text-white px-4 rounded-xl font-bold text-lg hover:bg-emerald-600 transition shadow-md shadow-emerald-200">+</button>
                             </div>
                         </div>
                     </div>
-                    <div class="mb-2 flex gap-2">
-                        <input type="text" id="expDesc" class="flex-1 p-2 border rounded-lg text-sm" placeholder="Ads...">
-                        <input type="number" id="expAmount" class="w-24 p-2 border rounded-lg text-sm" placeholder="0">
-                        <button onclick="addTransaction('expense')" class="bg-orange-500 text-white px-4 rounded-lg font-bold text-sm" data-i18n="btn_add">أضف</button>
+                    <div class="mb-3 flex gap-2">
+                        <input type="text" id="expDesc" class="flex-1 p-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:bg-white focus:border-orange-300 transition" placeholder="Ads...">
+                        <input type="number" id="expAmount" class="w-24 p-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-center outline-none focus:bg-white focus:border-orange-300 transition" placeholder="0">
+                        <button onclick="addTransaction('expense')" class="bg-orange-500 text-white px-4 rounded-xl font-bold text-sm hover:bg-orange-600 transition shadow-md btn-press" data-i18n="btn_add">أضف</button>
                     </div>
-                    <div class="max-h-40 overflow-y-auto">
+                    <div class="max-h-[200px] overflow-y-auto custom-scrollbar">
                         <table class="w-full text-xs" id="finTable">
-                            <tbody class="divide-y divide-slate-100"></tbody>
+                            <tbody class="divide-y divide-slate-50"></tbody>
                         </table>
                     </div>
                 </div>
@@ -168,26 +176,26 @@
                 dir: "rtl",
                 btn_back: "لوحة الطلبات",
                 card_debt: "ديون المورد (+ تغليف)", card_expenses: "المصاريف (إعلانات)", card_income: "مدخول التوصيل", card_profit: "الربح الصافي",
-                prod_title: "🏷️ إدارة المنتجات", lbl_stock: "مخزون المرتجع (لإعادة البيع)",
-                return_title: "↩️ تسجيل مرتجع", return_desc: "إضافة للمخزون",
+                prod_title: "🏷️ إدارة المنتجات", lbl_stock: "مخزون المرتجع (Stock)",
+                return_title: "↩️ تسجيل مرتجع", return_desc: "أضف الكمية العائدة للمخزون.",
                 shipped_title: "📦 السلع المرسلة", shipped_desc: "يتم خصم المرتجع أولاً عند المزامنة", lbl_pack: "تغليف (للوحدة):",
                 th_prod: "المنتج", th_total_out: "خرجت", th_from_stock: "من المخزون", th_new_paid: "جديد (دفع)", th_total: "الإجمالي", ft_total_debt: "مجموع السلع + التغليف:",
                 fin_title: "💰 المالية", lbl_pay_supp: "دفع للمورد", lbl_income: "استلام أموال", btn_add: "أضف",
                 st_saved: "تم الحفظ ✅", st_saving: "جاري الحفظ...", st_sync: "جاري المزامنة...", st_error: "خطأ في الاتصال!",
-                btn_add_prod: "إضافة",
+                btn_add_prod: "إضافة منتج جديد",
                 payment_desc: "دفعة مورد", income_desc: "مدخول", expense_def: "مصروف"
             },
             en: {
                 dir: "ltr",
                 btn_back: "Orders Panel",
                 card_debt: "Supplier Debt (+ Pack)", card_expenses: "Expenses (Ads)", card_income: "Delivery Income", card_profit: "Net Profit",
-                prod_title: "🏷️ Products", lbl_stock: "Return Stock (Resellable)",
-                return_title: "↩️ Add Return", return_desc: "Add to stock",
-                shipped_title: "📦 Shipped Goods", shipped_desc: "Auto-deducts return stock", lbl_pack: "Pack (Unit):",
+                prod_title: "🏷️ Products Manager", lbl_stock: "Return Stock (Resellable)",
+                return_title: "↩️ Add Return", return_desc: "Add items back to stock.",
+                shipped_title: "📦 Shipped Goods", shipped_desc: "Auto-deducts return stock on sync", lbl_pack: "Pack (Unit):",
                 th_prod: "Product", th_total_out: "Total Out", th_from_stock: "From Stock", th_new_paid: "New (Paid)", th_total: "Debt", ft_total_debt: "Goods + Pack Debt:",
                 fin_title: "💰 Financials", lbl_pay_supp: "Pay Supplier", lbl_income: "Income", btn_add: "Add",
                 st_saved: "Saved ✅", st_saving: "Saving...", st_sync: "Syncing...", st_error: "Connection Error!",
-                btn_add_prod: "Add",
+                btn_add_prod: "Add New Product",
                 payment_desc: "Payment", income_desc: "Income", expense_def: "Expense"
             }
         };
@@ -195,57 +203,39 @@
         let currentLang = localStorage.getItem('zafir_lang') || 'ar';
         let data = { products: [], financials: [], shippedStats: {}, packUnitCost: 0 }; 
         let saveTimeout;
+        let autoSyncInterval;
 
-        // --- نقطة الانطلاق: عند تحميل الصفحة ---
         window.onload = async function() {
             applyLanguage(currentLang);
-            updateStatus('sync'); // عرض حالة المزامنة
-            
-            // 1. جلب البيانات المحفوظة أولاً (المنتجات، الحسابات القديمة)
+            updateStatus('sync');
             await loadCloudData(); 
-            
-            // 2. مزامنة فورية مع صفحة الطلبات (لجلب الجديد وحساب المخزون)
             await syncWithOrders();
+            autoSyncInterval = setInterval(() => {
+                if(!document.hidden) syncWithOrders(true);
+            }, 30000); // 30s Loop
         };
 
-        // --- إدارة الحالة (UI) ---
         function updateStatus(state) {
             const el = document.getElementById('appStatus');
             const txt = document.getElementById('statusText');
             const t = LANG[currentLang];
-
-            if(state === 'sync') {
-                el.className = 'status-badge st-loading';
-                txt.innerText = t.st_sync;
-            } else if (state === 'saving') {
-                el.className = 'status-badge st-saving';
-                txt.innerText = t.st_saving;
-            } else if (state === 'saved') {
-                el.className = 'status-badge st-saved';
-                txt.innerText = t.st_saved;
-            } else if (state === 'error') {
-                el.className = 'status-badge st-error';
-                txt.innerText = t.st_error;
-            }
+            if(state === 'sync') { el.className = 'status-badge st-loading'; txt.innerText = t.st_sync; }
+            else if (state === 'saving') { el.className = 'status-badge st-saving'; txt.innerText = t.st_saving; }
+            else if (state === 'saved') { el.className = 'status-badge st-saved'; txt.innerText = t.st_saved; }
+            else if (state === 'error') { el.className = 'status-badge st-error'; txt.innerText = t.st_error; }
         }
 
-        // --- الحفظ التلقائي (Auto Save) ---
-        // يتم استدعاؤها عند أي تعديل (input/click)
         function triggerAutoSave() {
             updateStatus('saving');
             clearTimeout(saveTimeout);
-            // الانتظار 1.5 ثانية بعد التوقف عن الكتابة ثم الحفظ
-            saveTimeout = setTimeout(() => {
-                saveData();
-            }, 1500); 
+            saveTimeout = setTimeout(() => { saveData(); }, 1500); 
         }
 
         function toggleLang() {
             currentLang = currentLang === 'ar' ? 'en' : 'ar';
             localStorage.setItem('zafir_lang', currentLang);
             applyLanguage(currentLang);
-            renderShippedTable();
-            renderFinancials();
+            renderShippedTable(); renderFinancials(); renderProducts();
         }
 
         function applyLanguage(lang) {
@@ -261,147 +251,116 @@
             document.getElementById('expDesc').placeholder = lang === 'ar' ? 'وصف المصروف...' : 'Description...';
         }
 
-        // --- CORE: المزامنة الذكية مع الطلبات ---
-        async function syncWithOrders() {
+        async function syncWithOrders(silent = false) {
+            if(!silent) updateStatus('sync');
             try {
-                // جلب الطلبات من جوجل شيت
                 const res = await fetch(`${SCRIPT_URL}?action=read`);
                 const orders = await res.json();
-                
                 const shippedOrders = orders.filter(o => o.status === 'Shipped');
                 const currentCounts = {};
-                shippedOrders.forEach(o => {
-                    const pName = o.product.trim();
-                    currentCounts[pName] = (currentCounts[pName] || 0) + 1;
-                });
+                shippedOrders.forEach(o => { const pName = o.product.trim(); currentCounts[pName] = (currentCounts[pName] || 0) + 1; });
 
-                // منطق خصم المخزون
-                let changesDetected = false;
+                let changes = false;
                 for (const [prodName, totalShipped] of Object.entries(currentCounts)) {
                     let prod = data.products.find(p => p.name === prodName);
                     if (prod) {
                         const currentTotal = parseInt(totalShipped) || 0;
                         const previousSynced = parseInt(prod.lastSyncedCount) || 0;
                         const newItems = currentTotal - previousSynced;
-
-                        if (newItems !== 0) {
-                            if (newItems > 0) {
-                                let stock = parseInt(prod.stockReturn) || 0;
-                                if (stock >= newItems) {
-                                    stock -= newItems;
-                                    prod.totalUsedStock = (parseInt(prod.totalUsedStock) || 0) + newItems;
-                                } else {
-                                    const used = stock;
-                                    stock = 0;
-                                    prod.totalUsedStock = (parseInt(prod.totalUsedStock) || 0) + used;
-                                }
-                                prod.stockReturn = stock;
-                            }
-                            prod.lastSyncedCount = currentTotal;
-                            changesDetected = true;
-                        }
+                        if (newItems > 0) {
+                            let stock = parseInt(prod.stockReturn) || 0;
+                            if (stock >= newItems) { stock -= newItems; prod.totalUsedStock = (parseInt(prod.totalUsedStock) || 0) + newItems; }
+                            else { const used = stock; stock = 0; prod.totalUsedStock = (parseInt(prod.totalUsedStock) || 0) + used; }
+                            prod.stockReturn = stock; prod.lastSyncedCount = currentTotal; changes = true;
+                        } else if (newItems < 0) { prod.lastSyncedCount = currentTotal; changes = true; }
                     }
                 }
-
                 data.shippedStats = currentCounts;
-                
-                // تحديث الواجهة
-                renderProducts(); 
-                renderShippedTable();
-                updateDashboard();
-                
-                // إذا تغيرت الأرقام، نحفظ في السحابة فوراً
-                if(changesDetected) {
-                    await saveData(); 
-                } else {
-                    updateStatus('saved');
-                }
-
-            } catch (e) {
-                console.error(e);
-                updateStatus('error');
-            }
+                renderProducts(); renderShippedTable(); updateDashboard();
+                if(changes) await saveData(); 
+                else if(!silent) updateStatus('saved');
+            } catch (e) { if(!silent) updateStatus('error'); }
         }
 
-        // --- CLOUD OPERATIONS ---
         async function saveData(silent = false) {
             data.packUnitCost = parseFloat(document.getElementById('packUnitCost').value) || 0;
-            const fd = new FormData();
-            fd.append('action', 'save_accounting');
-            fd.append('data', JSON.stringify(data));
-            try {
-                await fetch(SCRIPT_URL, { method: 'POST', body: fd, mode: 'no-cors' });
-                if(!silent) setCloudStatus('saved');
-            } catch (e) {
-                if(!silent) setCloudStatus('error');
-            }
+            const fd = new FormData(); fd.append('action', 'save_accounting'); fd.append('data', JSON.stringify(data));
+            try { await fetch(SCRIPT_URL, { method: 'POST', body: fd, mode: 'no-cors' }); if(!silent) updateStatus('saved'); } 
+            catch (e) { if(!silent) updateStatus('error'); }
         }
 
         async function loadCloudData() {
-            updateStatus('sync');
             try {
                 const res = await fetch(`${SCRIPT_URL}?action=get_accounting`);
                 const cloudData = await res.json();
                 if (cloudData && cloudData.products) {
                     data = cloudData;
                     if(data.packUnitCost) document.getElementById('packUnitCost').value = data.packUnitCost;
-                    
-                    renderProducts();
-                    renderFinancials();
-                    renderShippedTable();
-                    updateDashboard();
-                    updateStatus('saved');
+                    renderProducts(); renderFinancials(); renderShippedTable(); updateDashboard();
                 }
-            } catch (e) {
-                updateStatus('error');
-            }
+            } catch (e) { updateStatus('error'); }
         }
 
-        // --- ACTIONS (With Auto Save) ---
         function addProduct() {
             const name = document.getElementById('prodName').value.trim();
             const cost = parseFloat(document.getElementById('prodCost').value);
             if(!name || !cost) return;
-            
             const existing = data.products.find(p => p.name === name);
-            if(existing) {
-                existing.cost = cost;
-            } else {
-                data.products.push({
-                    name, cost, stockReturn: 0, 
-                    lastSyncedCount: 0, totalUsedStock: 0
-                });
-            }
-            document.getElementById('prodName').value = '';
-            document.getElementById('prodCost').value = '';
-            renderProducts();
-            renderShippedTable();
-            updateDashboard();
-            triggerAutoSave();
+            if(existing) { existing.cost = cost; } 
+            else { data.products.push({ name, cost, stockReturn: 0, lastSyncedCount: 0, totalUsedStock: 0 }); }
+            document.getElementById('prodName').value = ''; document.getElementById('prodCost').value = '';
+            renderProducts(); renderShippedTable(); updateDashboard(); triggerAutoSave();
         }
 
-        function addReturn() {
-            const name = document.getElementById('returnSelect').value;
-            const qty = parseInt(document.getElementById('returnQty').value) || 1;
-            if(!name) return;
-            
+        // New Manual Adjustment Logic
+        function modifyStock(name, delta) {
             const prod = data.products.find(p => p.name === name);
             if(prod) {
-                prod.stockReturn = (parseInt(prod.stockReturn) || 0) + qty;
-                renderProducts();
-                updateDashboard();
-                triggerAutoSave();
+                let current = parseInt(prod.stockReturn) || 0;
+                let newVal = current + delta;
+                if(newVal < 0) newVal = 0; // Prevent negative stock
+                prod.stockReturn = newVal;
+                renderProducts(); updateDashboard(); triggerAutoSave();
             }
         }
 
         function removeProduct(name) {
             if(confirm("Delete product?")) {
                 data.products = data.products.filter(p => p.name !== name);
-                renderProducts();
-                renderShippedTable();
-                updateDashboard();
-                triggerAutoSave();
+                renderProducts(); renderShippedTable(); updateDashboard(); triggerAutoSave();
             }
+        }
+
+        function renderProducts() {
+            const list = document.getElementById('productsList');
+            const select = document.getElementById('returnSelect'); // For old dropdown if needed, keeping for compatibility
+            list.innerHTML = '';
+            // Only update select if it exists
+            if(select) select.innerHTML = '<option value="">...</option>';
+
+            data.products.forEach(p => {
+                const stock = parseInt(p.stockReturn) || 0;
+                list.innerHTML += `
+                    <div class="flex justify-between items-center bg-white p-3 rounded-2xl text-sm border border-slate-100 hover:border-slate-200 transition shadow-sm">
+                        <div>
+                            <span class="font-bold text-slate-700 block text-xs md:text-sm">${p.name}</span>
+                            <span class="text-[10px] text-slate-400 font-mono">${p.cost} DH</span>
+                        </div>
+                        
+                        <div class="flex items-center gap-3">
+                            <div class="flex items-center gap-1 bg-slate-50 rounded-lg p-1 border border-slate-100">
+                                <button onclick="modifyStock('${p.name}', -1)" class="w-6 h-6 flex items-center justify-center bg-white text-slate-500 rounded hover:bg-red-50 hover:text-red-500 transition shadow-sm font-bold text-xs">-</button>
+                                <span class="w-8 text-center text-xs font-black ${stock > 0 ? 'text-green-600' : 'text-slate-300'}">${stock}</span>
+                                <button onclick="modifyStock('${p.name}', 1)" class="w-6 h-6 flex items-center justify-center bg-white text-slate-500 rounded hover:bg-green-50 hover:text-green-600 transition shadow-sm font-bold text-xs">+</button>
+                            </div>
+                            <button onclick="removeProduct('${p.name}')" class="w-6 h-6 flex items-center justify-center text-slate-300 hover:text-red-400 transition">&times;</button>
+                        </div>
+                    </div>
+                `;
+                if(select) {
+                    const opt = document.createElement('option'); opt.value = p.name; opt.text = p.name; select.appendChild(opt);
+                }
+            });
         }
 
         function addTransaction(type) {
@@ -422,45 +381,28 @@
                 document.getElementById('expDesc').value = '';
             }
             if(!amount) return;
-            
             data.financials.unshift({type, amount, desc, date: new Date().toLocaleDateString()});
-            renderFinancials();
-            updateDashboard();
-            triggerAutoSave();
+            renderFinancials(); updateDashboard(); triggerAutoSave();
         }
 
         function removeFin(index) {
-            data.financials.splice(index, 1);
-            renderFinancials();
-            updateDashboard();
-            triggerAutoSave();
+            data.financials.splice(index, 1); renderFinancials(); updateDashboard(); triggerAutoSave();
         }
 
-        // --- RENDERING & CALCULATIONS ---
-        function renderProducts() {
-            const list = document.getElementById('productsList');
-            const select = document.getElementById('returnSelect');
-            list.innerHTML = '';
-            select.innerHTML = '<option value="">...</option>';
-
-            data.products.forEach(p => {
-                list.innerHTML += `
-                    <div class="flex justify-between items-center bg-slate-50 p-2 rounded text-sm border hover:border-blue-300">
-                        <div>
-                            <span class="font-bold text-slate-700 block">${p.name}</span>
-                            <span class="text-[10px] text-slate-400">${p.cost} DH</span>
-                        </div>
-                        <div class="text-xs font-bold ${p.stockReturn > 0 ? 'text-green-600' : 'text-slate-300'}">
-                            Stock: ${p.stockReturn || 0}
-                        </div>
-                        <button onclick="removeProduct('${p.name}')" class="text-red-400 font-bold px-2">×</button>
-                    </div>
+        function renderFinancials() {
+            const tbody = document.querySelector('#finTable tbody');
+            const align = currentLang === 'ar' ? 'text-right' : 'text-left';
+            tbody.innerHTML = data.financials.map((t, i) => {
+                let color = t.type === 'income' ? 'text-emerald-600' : (t.type === 'payment' ? 'text-red-600' : 'text-orange-500');
+                let icon = t.type === 'income' ? '💵' : (t.type === 'payment' ? '🤝' : '📉');
+                return `
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="p-3 ${align} text-slate-600 font-medium text-[11px]">${icon} ${t.desc} <span class="text-[9px] text-slate-400 block">${t.date}</span></td>
+                        <td class="p-3 font-black ${color} text-center text-xs dir-ltr">${t.amount}</td>
+                        <td class="p-3 text-center"><button onclick="removeFin(${i})" class="text-slate-300 hover:text-red-500 font-bold">&times;</button></td>
+                    </tr>
                 `;
-                const opt = document.createElement('option');
-                opt.value = p.name;
-                opt.text = p.name;
-                select.appendChild(opt);
-            });
+            }).join('');
         }
 
         function renderShippedTable() {
@@ -472,27 +414,20 @@
 
             for (const [prodName, totalShipped] of Object.entries(data.shippedStats)) {
                 const prodDef = data.products.find(p => p.name === prodName);
-                
-                let cost = 0;
-                let usedFromStock = 0;
-                let newPaid = totalShipped;
-                let rowTotal = 0;
-
+                let cost = 0, usedFromStock = 0, newPaid = totalShipped, rowTotal = 0;
                 if (prodDef) {
                     cost = prodDef.cost;
                     usedFromStock = parseInt(prodDef.totalUsedStock) || 0;
-                    // Logic: New Paid = Total Shipped - Covered by Stock
                     newPaid = Math.max(0, totalShipped - usedFromStock);
                     rowTotal = newPaid * cost;
                 }
-
                 tbody.innerHTML += `
-                    <tr>
-                        <td class="p-2 ${align} font-bold text-slate-700">${prodName}</td>
-                        <td class="p-2 font-bold">${totalShipped}</td>
-                        <td class="p-2 text-green-600 font-bold">${usedFromStock}</td>
-                        <td class="p-2 font-bold text-slate-800">${newPaid}</td>
-                        <td class="p-2 font-black text-red-600 ${alignEnd}">${rowTotal}</td>
+                    <tr class="hover:bg-slate-50 transition border-b border-slate-50">
+                        <td class="p-3 ${align} font-bold text-slate-700 text-xs">${prodName}</td>
+                        <td class="p-3 font-bold text-xs bg-slate-50/50">${totalShipped}</td>
+                        <td class="p-3 text-emerald-600 font-black text-xs">${usedFromStock}</td>
+                        <td class="p-3 font-bold text-slate-800 text-xs bg-orange-50/30">${newPaid}</td>
+                        <td class="p-3 font-black text-red-500 ${alignEnd} text-xs">${rowTotal}</td>
                     </tr>
                 `;
                 totalDebt += rowTotal;
@@ -501,25 +436,8 @@
             return totalDebt;
         }
 
-        function renderFinancials() {
-            const tbody = document.querySelector('#finTable tbody');
-            const align = currentLang === 'ar' ? 'text-right' : 'text-left';
-            tbody.innerHTML = data.financials.map((t, i) => {
-                let color = t.type === 'income' ? 'text-green-600' : (t.type === 'payment' ? 'text-red-600' : 'text-orange-500');
-                let icon = t.type === 'income' ? '💵' : (t.type === 'payment' ? '🤝' : '📉');
-                return `
-                    <tr>
-                        <td class="p-2 ${align} text-slate-600">${icon} ${t.desc} <span class="text-[10px] text-slate-400 block">${t.date}</span></td>
-                        <td class="p-2 font-bold ${color} text-center">${t.amount}</td>
-                        <td class="p-2 text-center"><button onclick="removeFin(${i})" class="text-red-400 font-bold">×</button></td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
         function updateDashboard() {
-            let goodsDebt = 0;
-            let totalShippedCount = 0;
+            let goodsDebt = 0, totalShippedCount = 0;
             for (const [prodName, totalShipped] of Object.entries(data.shippedStats)) {
                 totalShippedCount += totalShipped;
                 const prodDef = data.products.find(p => p.name === prodName);
@@ -529,22 +447,17 @@
                     goodsDebt += newPaid * prodDef.cost;
                 }
             }
-
             let totalPaid = 0, totalExpenses = 0, totalRevenue = 0;
             data.financials.forEach(t => {
                 if (t.type === 'payment') totalPaid += t.amount;
                 if (t.type === 'expense') totalExpenses += t.amount;
                 if (t.type === 'income') totalRevenue += t.amount;
             });
-
-            // Packaging
             let unitPack = parseFloat(document.getElementById('packUnitCost').value) || 0;
+            data.packUnitCost = unitPack; 
             let totalPackCost = totalShippedCount * unitPack;
-            // Pack cost is added to supplier debt (as you requested)
-            
-            document.getElementById('totalPackDisplay').innerText = `(= ${totalPackCost.toLocaleString()} DH)`;
+            document.getElementById('totalPackDisplay').innerText = `${totalPackCost.toLocaleString()}`;
 
-            // Final
             const currentDebt = (goodsDebt + totalPackCost) - totalPaid;
             const netProfit = totalRevenue - totalExpenses - (goodsDebt + totalPackCost);
 
@@ -552,10 +465,9 @@
             document.getElementById('supplierDebt').innerText = currentDebt.toLocaleString();
             document.getElementById('totalExpenses').innerText = totalExpenses.toLocaleString();
             document.getElementById('totalRevenue').innerText = totalRevenue.toLocaleString();
-            
             const el = document.getElementById('netProfit');
             el.innerText = netProfit.toLocaleString();
-            el.className = `text-3xl font-black mt-1 ${netProfit >= 0 ? 'text-green-500' : 'text-red-500'}`;
+            el.className = `text-2xl md:text-3xl font-black mt-2 ${netProfit >= 0 ? 'text-emerald-400' : 'text-red-400'}`;
         }
     </script>
 </body>
