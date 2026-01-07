@@ -11,47 +11,38 @@
         ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
         
-        .glass-header { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
-        .card-shadow { box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05); }
-
-        .status-badge { font-size: 10px; padding: 4px 12px; border-radius: 20px; font-weight: bold; display: flex; align-items: center; gap: 6px; transition: all 0.3s; }
-        .st-loading { background: #e0f2fe; color: #0284c7; }
-        .st-saving { background: #fef3c7; color: #d97706; }
-        .st-saved { background: #dcfce7; color: #16a34a; }
-        .st-error { background: #fee2e2; color: #dc2626; }
-        .pulse { animation: pulse-animation 1.5s infinite; }
-        @keyframes pulse-animation { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+        .st-loading { background: #3b82f6; animation: pulse 1s infinite; }
+        .st-saved { background: #22c55e; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
     </style>
 </head>
 <body class="text-slate-800 pb-24 selection:bg-orange-100">
 
     <div id="loginSection" class="fixed inset-0 bg-slate-900/95 z-50 flex items-center justify-center p-4 transition-all duration-300">
         <div class="bg-white w-full max-w-sm p-8 rounded-3xl shadow-2xl text-center">
-            <div class="mb-6 flex justify-center"><span class="text-4xl">🔐</span></div>
-            <h2 class="text-2xl font-black text-slate-800 mb-6" data-i18n="login_title">تسجيل الدخول</h2>
+            <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl">🔐</div>
+            <h2 class="text-2xl font-black text-slate-800 mb-6">ZAFIR Accounting</h2>
             <form onsubmit="event.preventDefault(); attemptLogin();">
                 <input type="password" id="adminPass" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl text-center text-lg font-bold focus:outline-none focus:border-orange-500 mb-4 transition-all" placeholder="••••">
-                <button type="submit" class="w-full bg-slate-900 text-white p-4 rounded-2xl font-bold hover:bg-orange-600 transition-all active:scale-95" data-i18n="login_btn">دخول</button>
+                <button type="submit" class="w-full bg-slate-900 text-white p-4 rounded-2xl font-bold hover:bg-orange-600 transition shadow-lg active:scale-95">دخول</button>
             </form>
-            <button onclick="toggleLang()" class="mt-6 text-xs font-bold text-slate-400 hover:text-slate-600">Switch Language</button>
         </div>
     </div>
 
     <div id="dashboardContent" class="hidden min-h-screen">
-        <nav class="glass-header sticky top-0 z-40 border-b border-slate-100">
+        <nav class="glass sticky top-0 z-40 border-b border-slate-200">
             <div class="container mx-auto px-4 h-16 flex justify-between items-center">
                 <div class="flex items-center gap-3">
-                    <div class="text-xl md:text-2xl font-black text-slate-800 tracking-tighter">ZAFIR<span class="text-orange-500">.</span> Compta</div>
-                    <div id="appStatus" class="status-badge st-loading">
-                        <span class="pulse text-lg">•</span> <span id="statusText" class="hidden md:inline">اتصال...</span>
-                    </div>
+                    <div class="text-xl font-black tracking-tighter text-slate-800">ZAFIR<span class="text-orange-500">.</span> Compta</div>
+                    <div class="status-dot st-loading" id="syncStatus" title="Status"></div>
                 </div>
-                
                 <div class="flex gap-2">
-                    <button onclick="toggleLang()" class="text-[10px] font-bold bg-slate-100 px-2 py-1 rounded border border-slate-200 text-slate-500 hover:bg-slate-200 transition" id="langBtnNav">EN</button>
-                    <a href="admin.html" class="bg-slate-900 text-white px-4 py-2 rounded-xl hover:bg-orange-600 transition font-bold text-xs flex items-center gap-2 shadow-lg shadow-slate-200">
-                        <span data-i18n="btn_back">لوحة الطلبات</span>
+                    <button onclick="toggleLang()" class="text-[10px] font-bold bg-slate-100 px-2 py-1 rounded border hover:bg-slate-200 transition">EN/AR</button>
+                    <a href="admin.html" class="bg-slate-900 text-white px-4 py-2 rounded-xl hover:bg-orange-600 transition font-bold text-xs flex items-center gap-2 shadow-lg">
+                        <span data-i18n="btn_back">الطلبات</span>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                     </a>
                 </div>
@@ -60,122 +51,77 @@
 
         <div class="container mx-auto px-3 md:px-4 py-6">
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 mb-8">
-                <div class="bg-white p-4 rounded-3xl card-shadow border-b-4 border-red-500 transition hover:-translate-y-1">
-                    <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider" data-i18n="card_debt">ديون المورد</p>
-                    <p class="text-2xl font-black text-red-600 mt-2"><span id="supplierDebt">0</span> <span class="text-xs text-red-400">DH</span></p>
-                </div>
-                <div class="bg-white p-4 rounded-3xl card-shadow border-b-4 border-orange-400 transition hover:-translate-y-1">
-                    <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider" data-i18n="card_expenses">المصاريف</p>
-                    <p class="text-2xl font-black text-orange-500 mt-2"><span id="totalExpenses">0</span> <span class="text-xs text-orange-400">DH</span></p>
-                </div>
-                <div class="bg-white p-4 rounded-3xl card-shadow border-b-4 border-green-500 transition hover:-translate-y-1">
-                    <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider" data-i18n="card_income">مدخول التوصيل</p>
-                    <p class="text-2xl font-black text-green-600 mt-2"><span id="totalRevenue">0</span> <span class="text-xs text-green-400">DH</span></p>
-                </div>
-                <div class="bg-slate-900 p-4 rounded-3xl card-shadow relative overflow-hidden transition hover:-translate-y-1">
-                    <div class="absolute -right-4 -top-4 text-white opacity-5 text-9xl font-black">$</div>
-                    <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider" data-i18n="card_profit">الربح الصافي</p>
-                    <p class="text-3xl font-black text-white mt-2" id="netProfit">0 <span class="text-xs text-slate-500">DH</span></p>
-                </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+                <div class="bg-white p-4 rounded-2xl border-b-4 border-red-500 shadow-sm"><p class="text-[10px] text-slate-400 font-bold uppercase" data-i18n="card_debt">ديون المورد</p><p class="text-2xl font-black text-red-600" id="supplierDebt">0</p></div>
+                <div class="bg-white p-4 rounded-2xl border-b-4 border-orange-400 shadow-sm"><p class="text-[10px] text-slate-400 font-bold uppercase" data-i18n="card_expenses">المصاريف</p><p class="text-2xl font-black text-orange-500" id="totalExpenses">0</p></div>
+                <div class="bg-white p-4 rounded-2xl border-b-4 border-green-500 shadow-sm"><p class="text-[10px] text-slate-400 font-bold uppercase" data-i18n="card_income">المدخول</p><p class="text-2xl font-black text-green-600" id="totalRevenue">0</p></div>
+                <div class="bg-slate-900 p-4 rounded-2xl shadow-lg"><p class="text-[10px] text-slate-400 font-bold uppercase" data-i18n="card_profit">الربح</p><p class="text-3xl font-black text-white" id="netProfit">0</p></div>
             </div>
 
             <div class="grid lg:grid-cols-3 gap-6">
                 
-                <div class="lg:col-span-1 space-y-6">
-                    <div class="bg-white p-5 rounded-3xl card-shadow border border-slate-50">
-                        <h3 class="font-bold text-lg mb-4 flex items-center gap-2 text-slate-700" data-i18n="prod_title">
-                            <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
-                            إدارة المنتجات
-                        </h3>
+                <div class="lg:col-span-1 space-y-4">
+                    <div class="bg-white p-5 rounded-3xl border border-slate-100 shadow-sm">
+                        <h3 class="font-bold text-lg mb-4 text-slate-700" data-i18n="prod_title">إدارة المنتجات</h3>
                         <div class="flex gap-2 mb-3">
-                            <input type="text" id="prodName" class="flex-1 p-3 bg-slate-50 rounded-xl text-sm font-bold border border-transparent focus:bg-white focus:border-orange-500 outline-none transition" placeholder="Product Name">
-                            <input type="number" id="prodCost" class="w-24 p-3 bg-slate-50 rounded-xl text-sm font-bold text-center border border-transparent focus:bg-white focus:border-orange-500 outline-none transition" placeholder="Cost">
+                            <input type="text" id="prodName" class="flex-1 p-3 bg-slate-50 rounded-xl text-sm font-bold outline-none focus:bg-white border border-transparent focus:border-orange-200 transition" placeholder="Product">
+                            <input type="number" id="prodCost" class="w-20 p-3 bg-slate-50 rounded-xl text-sm text-center outline-none focus:bg-white border border-transparent focus:border-orange-200 transition" placeholder="Cost">
                         </div>
-                        <button onclick="addProduct()" class="w-full bg-slate-800 text-white p-3 rounded-xl font-bold text-sm hover:bg-orange-600 transition shadow-lg btn-press" data-i18n="btn_add_prod">إضافة منتج جديد</button>
+                        <button onclick="addProduct()" class="w-full bg-slate-800 text-white p-3 rounded-xl font-bold text-sm hover:bg-orange-600 transition shadow-lg" data-i18n="btn_add_prod">إضافة</button>
                         
-                        <div class="mt-6 pt-4 border-t border-slate-100">
-                            <p class="text-[10px] text-slate-400 mb-3 font-bold uppercase tracking-widest" data-i18n="lbl_stock">مخزون المرتجع (Stock)</p>
-                            <div id="productsList" class="space-y-3 max-h-[400px] overflow-y-auto pr-1 custom-scrollbar"></div>
+                        <div class="mt-4 pt-4 border-t border-slate-50">
+                            <p class="text-[10px] text-slate-400 font-bold uppercase mb-2" data-i18n="lbl_stock">مخزون المرتجع</p>
+                            <div id="productsList" class="space-y-2 max-h-[300px] overflow-y-auto pr-1"></div>
                         </div>
                     </div>
                 </div>
 
                 <div class="lg:col-span-2 space-y-6">
-                    <div class="bg-white p-5 rounded-3xl card-shadow border border-slate-50 relative overflow-hidden">
-                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-5 border-b border-slate-100 pb-4 gap-4">
+                    
+                    <div class="bg-white p-5 rounded-3xl border border-slate-100 shadow-sm">
+                        <div class="flex flex-wrap justify-between items-center mb-4 gap-3">
                             <div>
-                                <h3 class="font-bold text-lg flex items-center gap-2 text-slate-700" data-i18n="shipped_title">
-                                    <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
-                                    السلع المرسلة <span class="text-[10px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full border border-blue-100">Auto-Sync</span>
-                                </h3>
-                                <p class="text-[10px] text-slate-400 mt-1" data-i18n="shipped_desc">يتم حسابها تلقائياً وخصم المرتجع</p>
+                                <h3 class="font-bold text-lg text-slate-700" data-i18n="shipped_title">السلع المرسلة</h3>
+                                <p class="text-[10px] text-slate-400" data-i18n="shipped_desc">Auto Sync</p>
                             </div>
-                            
-                            <div class="flex items-center gap-3 bg-red-50 p-2 rounded-xl border border-red-100 w-full md:w-auto">
-                                <label class="text-[10px] font-bold text-red-600 uppercase whitespace-nowrap px-1" data-i18n="lbl_pack">تغليف (للوحدة):</label>
-                                <input type="number" id="packUnitCost" oninput="triggerAutoSave(); updateDashboard()" class="w-16 p-1.5 text-sm bg-white border border-red-200 rounded-lg text-center font-bold text-red-600 focus:outline-none focus:ring-2 focus:ring-red-200" placeholder="0">
-                                <div class="flex flex-col leading-none">
-                                    <span class="text-[10px] text-red-400 font-bold">DH</span>
-                                    <span id="totalPackDisplay" class="text-[10px] font-black text-red-700">0</span>
-                                </div>
+                            <div class="flex items-center gap-2 bg-red-50 p-2 rounded-xl border border-red-100">
+                                <label class="text-[10px] font-bold text-red-600 whitespace-nowrap" data-i18n="lbl_pack">تغليف:</label>
+                                <input type="number" id="packUnitCost" oninput="triggerAutoSave(); updateDashboard()" class="w-12 p-1 text-sm bg-white border border-red-200 rounded text-center font-bold text-red-600 outline-none" placeholder="0">
+                                <span class="text-[10px] text-red-400 font-bold" id="totalPackDisplay">0 DH</span>
                             </div>
                         </div>
                         
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-sm whitespace-nowrap" id="shippedTable">
-                                <thead class="bg-slate-50 text-slate-500 font-bold text-[10px] uppercase tracking-wider">
-                                    <tr>
-                                        <th class="p-3 text-start rounded-r-lg" data-i18n="th_prod">المنتج</th>
-                                        <th class="p-3 text-center" data-i18n="th_total_out">خرجت</th>
-                                        <th class="p-3 text-center text-green-600" data-i18n="th_from_stock">من المخزون</th>
-                                        <th class="p-3 text-center" data-i18n="th_new_paid">جديد (دفع)</th>
-                                        <th class="p-3 text-end text-red-600 rounded-l-lg" data-i18n="th_total">المطلوب</th>
-                                    </tr>
+                        <div class="hidden md:block overflow-x-auto">
+                            <table class="w-full text-sm text-right whitespace-nowrap">
+                                <thead class="bg-slate-50 text-[10px] uppercase font-bold text-slate-500">
+                                    <tr><th class="p-3 rounded-r-lg" data-i18n="th_prod">المنتج</th><th class="p-3 text-center" data-i18n="th_total_out">خرجت</th><th class="p-3 text-center text-green-600" data-i18n="th_from_stock">من المخزون</th><th class="p-3 text-center" data-i18n="th_new_paid">جديد</th><th class="p-3 text-left rounded-l-lg text-red-600" data-i18n="th_total">المطلوب</th></tr>
                                 </thead>
-                                <tbody class="divide-y divide-slate-50 text-center font-medium text-slate-600"></tbody>
-                                <tfoot class="bg-slate-50/50 font-bold text-slate-800">
-                                    <tr>
-                                        <td colspan="4" class="p-4 text-start" data-i18n="ft_total_debt">مجموع السلع + التغليف:</td>
-                                        <td class="p-4 text-end text-red-600 text-base" id="sumProductDebt">0</td>
-                                    </tr>
-                                </tfoot>
+                                <tbody id="shippedTableBody" class="divide-y divide-slate-50"></tbody>
                             </table>
                         </div>
+                        <div id="shippedMobile" class="md:hidden space-y-2"></div>
                     </div>
 
-                    <div class="bg-white p-5 rounded-3xl card-shadow border border-slate-50">
-                        <h3 class="font-bold text-lg mb-4 flex items-center gap-2 text-slate-700" data-i18n="fin_title">
-                            <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            المالية
-                        </h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                            <div class="bg-red-50 p-3 rounded-2xl border border-red-100">
-                                <label class="text-[10px] font-bold text-red-400 uppercase block mb-2" data-i18n="lbl_pay_supp">دفع للمورد</label>
-                                <div class="flex gap-2">
-                                    <input type="number" id="payAmount" class="w-full p-2.5 bg-white border border-red-200 rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-red-200" placeholder="0">
-                                    <button onclick="addTransaction('payment')" class="bg-red-500 text-white px-4 rounded-xl font-bold text-lg hover:bg-red-600 transition shadow-md shadow-red-200">+</button>
-                                </div>
+                    <div class="bg-white p-5 rounded-3xl border border-slate-100 shadow-sm">
+                        <h3 class="font-bold text-lg mb-4 text-slate-700" data-i18n="fin_title">المالية</h3>
+                        <div class="grid grid-cols-2 gap-3 mb-3">
+                            <div class="bg-red-50 p-3 rounded-xl border border-red-100">
+                                <label class="text-[10px] font-bold text-red-400 block mb-1" data-i18n="lbl_pay_supp">دفع للمورد</label>
+                                <div class="flex gap-1"><input type="number" id="payAmount" class="w-full p-2 rounded-lg text-sm outline-none" placeholder="0"><button onclick="addTransaction('payment')" class="bg-red-500 text-white px-3 rounded-lg text-lg font-bold">+</button></div>
                             </div>
-                            <div class="bg-emerald-50 p-3 rounded-2xl border border-emerald-100">
-                                <label class="text-[10px] font-bold text-emerald-600 uppercase block mb-2" data-i18n="lbl_income">استلام أموال</label>
-                                <div class="flex gap-2">
-                                    <input type="number" id="incomeAmount" class="w-full p-2.5 bg-white border border-emerald-200 rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-emerald-200" placeholder="0">
-                                    <button onclick="addTransaction('income')" class="bg-emerald-500 text-white px-4 rounded-xl font-bold text-lg hover:bg-emerald-600 transition shadow-md shadow-emerald-200">+</button>
-                                </div>
+                            <div class="bg-green-50 p-3 rounded-xl border border-green-100">
+                                <label class="text-[10px] font-bold text-green-600 block mb-1" data-i18n="lbl_income">استلام أموال</label>
+                                <div class="flex gap-1"><input type="number" id="incomeAmount" class="w-full p-2 rounded-lg text-sm outline-none" placeholder="0"><button onclick="addTransaction('income')" class="bg-green-500 text-white px-3 rounded-lg text-lg font-bold">+</button></div>
                             </div>
                         </div>
-                        <div class="mb-3 flex gap-2">
-                            <input type="text" id="expDesc" class="flex-1 p-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:bg-white focus:border-orange-300 transition" placeholder="Ads...">
-                            <input type="number" id="expAmount" class="w-24 p-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-center outline-none focus:bg-white focus:border-orange-300 transition" placeholder="0">
-                            <button onclick="addTransaction('expense')" class="bg-orange-500 text-white px-4 rounded-xl font-bold text-sm hover:bg-orange-600 transition shadow-md btn-press" data-i18n="btn_add">أضف</button>
+                        <div class="flex gap-2 mb-3">
+                            <input type="text" id="expDesc" class="flex-1 p-2 bg-slate-50 rounded-lg text-sm outline-none" placeholder="Ads...">
+                            <input type="number" id="expAmount" class="w-20 p-2 bg-slate-50 rounded-lg text-sm text-center outline-none" placeholder="0">
+                            <button onclick="addTransaction('expense')" class="bg-orange-500 text-white px-3 rounded-lg text-sm font-bold" data-i18n="btn_add">أضف</button>
                         </div>
-                        <div class="max-h-[200px] overflow-y-auto custom-scrollbar">
-                            <table class="w-full text-xs" id="finTable">
-                                <tbody class="divide-y divide-slate-50"></tbody>
-                            </table>
-                        </div>
+                        <div class="max-h-[150px] overflow-y-auto pr-1 space-y-1" id="finList"></div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -186,75 +132,38 @@
         const PASS_CODE = "2911";
 
         const LANG = {
-            ar: {
-                dir: "rtl",
-                login_title: "تسجيل الدخول", login_btn: "دخول",
-                btn_back: "لوحة الطلبات",
-                card_debt: "ديون المورد (+ تغليف)", card_expenses: "المصاريف (إعلانات)", card_income: "مدخول التوصيل", card_profit: "الربح الصافي",
-                prod_title: "🏷️ إدارة المنتجات", lbl_stock: "مخزون المرتجع (Stock)",
-                shipped_title: "📦 السلع المرسلة", shipped_desc: "يتم خصم المرتجع أولاً عند المزامنة", lbl_pack: "تغليف (للوحدة):",
-                th_prod: "المنتج", th_total_out: "خرجت", th_from_stock: "من المخزون", th_new_paid: "جديد (دفع)", th_total: "الإجمالي", ft_total_debt: "مجموع السلع + التغليف:",
-                fin_title: "💰 المالية", lbl_pay_supp: "دفع للمورد", lbl_income: "استلام أموال", btn_add: "أضف",
-                st_saved: "تم الحفظ ✅", st_saving: "جاري الحفظ...", st_sync: "جاري المزامنة...", st_error: "خطأ في الاتصال!",
-                btn_add_prod: "إضافة منتج جديد",
-                payment_desc: "دفعة مورد", income_desc: "مدخول", expense_def: "مصروف"
-            },
-            en: {
-                dir: "ltr",
-                login_title: "Login", login_btn: "Enter",
-                btn_back: "Orders Panel",
-                card_debt: "Supplier Debt (+ Pack)", card_expenses: "Expenses (Ads)", card_income: "Delivery Income", card_profit: "Net Profit",
-                prod_title: "🏷️ Products Manager", lbl_stock: "Return Stock (Resellable)",
-                shipped_title: "📦 Shipped Goods", shipped_desc: "Auto-deducts return stock on sync", lbl_pack: "Pack (Unit):",
-                th_prod: "Product", th_total_out: "Total Out", th_from_stock: "From Stock", th_new_paid: "New (Paid)", th_total: "Debt", ft_total_debt: "Goods + Pack Debt:",
-                fin_title: "💰 Financials", lbl_pay_supp: "Pay Supplier", lbl_income: "Income", btn_add: "Add",
-                st_saved: "Saved ✅", st_saving: "Saving...", st_sync: "Syncing...", st_error: "Connection Error!",
-                btn_add_prod: "Add New Product",
-                payment_desc: "Payment", income_desc: "Income", expense_def: "Expense"
-            }
+            ar: { dir:"rtl", login_title:"تسجيل الدخول", login_btn:"دخول", btn_back:"الطلبات", card_debt:"ديون المورد", card_expenses:"المصاريف", card_income:"المدخول", card_profit:"الربح", prod_title:"إدارة المنتجات", lbl_stock:"مخزون المرتجع", shipped_title:"السلع المرسلة", shipped_desc:"Auto Sync", lbl_pack:"تغليف:", th_prod:"المنتج", th_total_out:"خرجت", th_from_stock:"من المخزون", th_new_paid:"جديد", th_total:"المطلوب", fin_title:"المالية", lbl_pay_supp:"دفع للمورد", lbl_income:"استلام", btn_add:"أضف", btn_add_prod:"إضافة منتج" },
+            en: { dir:"ltr", login_title:"Login", login_btn:"Enter", btn_back:"Orders", card_debt:"Supplier Debt", card_expenses:"Expenses", card_income:"Income", card_profit:"Profit", prod_title:"Products", lbl_stock:"Return Stock", shipped_title:"Shipped Goods", shipped_desc:"Auto Sync", lbl_pack:"Pack:", th_prod:"Product", th_total_out:"Total Out", th_from_stock:"From Stock", th_new_paid:"New", th_total:"Debt", fin_title:"Financials", lbl_pay_supp:"Pay Supplier", lbl_income:"Income", btn_add:"Add", btn_add_prod:"Add Product" }
         };
 
         let currentLang = localStorage.getItem('zafir_lang') || 'ar';
-        let data = { products: [], financials: [], shippedStats: {}, packUnitCost: 0 }; 
-        let saveTimeout;
-        let autoSyncInterval;
+        let data = { products: [], financials: [], shippedStats: {}, packUnitCost: 0 };
+        let saveTimeout, autoSyncInterval;
 
-        window.onload = async function() {
+        if(localStorage.getItem('zafir_auth') === 'true') {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('dashboardContent').classList.remove('hidden');
+        }
+
+        window.onload = async () => {
             applyLanguage(currentLang);
-            if(localStorage.getItem('zafir_auth') === 'true') showApp();
+            if(localStorage.getItem('zafir_auth') === 'true') {
+                await loadCloudData(); await syncWithOrders();
+                autoSyncInterval = setInterval(() => { if(!document.hidden) syncWithOrders(true); }, 30000);
+            }
         };
 
         function attemptLogin() {
             if(document.getElementById('adminPass').value === PASS_CODE) {
                 localStorage.setItem('zafir_auth', 'true');
-                showApp();
-            } else { alert("Error Password"); }
-        }
-
-        function showApp() {
-            document.getElementById('loginSection').style.display = 'none';
-            document.getElementById('dashboardContent').style.display = 'block';
-            updateStatus('sync');
-            loadCloudData().then(() => {
-                syncWithOrders();
-                autoSyncInterval = setInterval(() => { if(!document.hidden) syncWithOrders(true); }, 30000);
-            });
-        }
-
-        function updateStatus(state) {
-            const el = document.getElementById('appStatus');
-            const txt = document.getElementById('statusText');
-            const t = LANG[currentLang];
-            if(state === 'sync') { el.className = 'status-badge st-loading'; txt.innerText = t.st_sync; }
-            else if (state === 'saving') { el.className = 'status-badge st-saving'; txt.innerText = t.st_saving; }
-            else if (state === 'saved') { el.className = 'status-badge st-saved'; txt.innerText = t.st_saved; }
-            else if (state === 'error') { el.className = 'status-badge st-error'; txt.innerText = t.st_error; }
+                location.reload();
+            } else { alert("رمز خاطئ"); }
         }
 
         function triggerAutoSave() {
-            updateStatus('saving');
+            document.getElementById('syncStatus').className = "status-dot st-loading";
             clearTimeout(saveTimeout);
-            saveTimeout = setTimeout(() => { saveData(); }, 1500); 
+            saveTimeout = setTimeout(saveData, 1500);
         }
 
         function toggleLang() {
@@ -267,224 +176,158 @@
         function applyLanguage(lang) {
             const t = LANG[lang];
             document.documentElement.dir = t.dir;
-            document.documentElement.lang = lang;
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if(t[key]) el.innerText = t[key];
-            });
-            document.getElementById('langBtnNav').innerText = lang === 'ar' ? 'EN' : 'AR';
-            document.getElementById('prodName').placeholder = lang === 'ar' ? 'اسم المنتج' : 'Product Name';
-            document.getElementById('expDesc').placeholder = lang === 'ar' ? 'وصف المصروف...' : 'Description...';
+            document.querySelectorAll('[data-i18n]').forEach(el => el.innerText = t[el.getAttribute('data-i18n')]);
         }
 
         async function syncWithOrders(silent = false) {
-            if(!silent) updateStatus('sync');
+            if(!silent) document.getElementById('syncStatus').className = "status-dot st-loading";
             try {
                 const res = await fetch(`${SCRIPT_URL}?action=read`);
                 const orders = await res.json();
                 const shippedOrders = orders.filter(o => o.status === 'Shipped');
-                const currentCounts = {};
-                shippedOrders.forEach(o => { const pName = o.product.trim(); currentCounts[pName] = (currentCounts[pName] || 0) + 1; });
+                const counts = {};
+                shippedOrders.forEach(o => { const pName = o.product.trim(); counts[pName] = (counts[pName] || 0) + 1; });
 
-                let changes = false;
-                for (const [prodName, totalShipped] of Object.entries(currentCounts)) {
-                    let prod = data.products.find(p => p.name === prodName);
+                let change = false;
+                for (const [pName, total] of Object.entries(counts)) {
+                    let prod = data.products.find(p => p.name === pName);
                     if (prod) {
-                        const currentTotal = parseInt(totalShipped) || 0;
-                        const previousSynced = parseInt(prod.lastSyncedCount) || 0;
-                        const newItems = currentTotal - previousSynced;
-                        if (newItems > 0) {
-                            let stock = parseInt(prod.stockReturn) || 0;
-                            if (stock >= newItems) { stock -= newItems; prod.totalUsedStock = (parseInt(prod.totalUsedStock) || 0) + newItems; }
-                            else { const used = stock; stock = 0; prod.totalUsedStock = (parseInt(prod.totalUsedStock) || 0) + used; }
-                            prod.stockReturn = stock; prod.lastSyncedCount = currentTotal; changes = true;
-                        } else if (newItems < 0) { prod.lastSyncedCount = currentTotal; changes = true; }
+                        const cur = parseInt(total)||0; const prev = parseInt(prod.lastSyncedCount)||0;
+                        const diff = cur - prev;
+                        if(diff > 0) {
+                            let stock = parseInt(prod.stockReturn)||0;
+                            if(stock >= diff) { stock -= diff; prod.totalUsedStock = (parseInt(prod.totalUsedStock)||0) + diff; }
+                            else { const used = stock; stock = 0; prod.totalUsedStock = (parseInt(prod.totalUsedStock)||0) + used; }
+                            prod.stockReturn = stock; prod.lastSyncedCount = cur; change = true;
+                        } else if(diff < 0) { prod.lastSyncedCount = cur; change = true; }
                     }
                 }
-                data.shippedStats = currentCounts;
+                data.shippedStats = counts;
                 renderProducts(); renderShippedTable(); updateDashboard();
-                if(changes) await saveData(); 
-                else if(!silent) updateStatus('saved');
-            } catch (e) { if(!silent) updateStatus('error'); }
+                if(change) await saveData(); 
+                else if(!silent) document.getElementById('syncStatus').className = "status-dot st-saved";
+            } catch(e) { if(!silent) document.getElementById('syncStatus').style.backgroundColor = "red"; }
         }
 
-        async function saveData(silent = false) {
+        async function saveData() {
             data.packUnitCost = parseFloat(document.getElementById('packUnitCost').value) || 0;
             const fd = new FormData(); fd.append('action', 'save_accounting'); fd.append('data', JSON.stringify(data));
-            try { await fetch(SCRIPT_URL, { method: 'POST', body: fd, mode: 'no-cors' }); if(!silent) updateStatus('saved'); } 
-            catch (e) { if(!silent) updateStatus('error'); }
+            try { await fetch(SCRIPT_URL, { method: 'POST', body: fd, mode: 'no-cors' }); document.getElementById('syncStatus').className = "status-dot st-saved"; } catch(e){}
         }
 
         async function loadCloudData() {
             try {
                 const res = await fetch(`${SCRIPT_URL}?action=get_accounting`);
-                const cloudData = await res.json();
-                if (cloudData && cloudData.products) {
-                    data = cloudData;
-                    if(data.packUnitCost) document.getElementById('packUnitCost').value = data.packUnitCost;
-                    renderProducts(); renderFinancials(); renderShippedTable(); updateDashboard();
-                }
-            } catch (e) { updateStatus('error'); }
+                const cloud = await res.json();
+                if(cloud && cloud.products) { data = cloud; if(data.packUnitCost) document.getElementById('packUnitCost').value = data.packUnitCost; }
+                renderProducts(); renderFinancials(); renderShippedTable(); updateDashboard();
+            } catch(e){}
         }
 
         function addProduct() {
-            const name = document.getElementById('prodName').value.trim();
-            const cost = parseFloat(document.getElementById('prodCost').value);
+            const name = document.getElementById('prodName').value.trim(); const cost = parseFloat(document.getElementById('prodCost').value);
             if(!name || !cost) return;
-            const existing = data.products.find(p => p.name === name);
-            if(existing) { existing.cost = cost; } 
-            else { data.products.push({ name, cost, stockReturn: 0, lastSyncedCount: 0, totalUsedStock: 0 }); }
-            document.getElementById('prodName').value = ''; document.getElementById('prodCost').value = '';
+            const ex = data.products.find(p=>p.name===name); if(ex) ex.cost=cost; else data.products.push({name, cost, stockReturn:0, lastSyncedCount:0, totalUsedStock:0});
+            document.getElementById('prodName').value=''; document.getElementById('prodCost').value='';
             renderProducts(); renderShippedTable(); updateDashboard(); triggerAutoSave();
         }
 
         function modifyStock(name, delta) {
-            const prod = data.products.find(p => p.name === name);
-            if(prod) {
-                let current = parseInt(prod.stockReturn) || 0;
-                let newVal = current + delta;
-                if(newVal < 0) newVal = 0; 
-                prod.stockReturn = newVal;
-                renderProducts(); updateDashboard(); triggerAutoSave();
-            }
-        }
-
-        function removeProduct(name) {
-            if(confirm("Delete product?")) {
-                data.products = data.products.filter(p => p.name !== name);
-                renderProducts(); renderShippedTable(); updateDashboard(); triggerAutoSave();
-            }
+            const p = data.products.find(p=>p.name===name);
+            if(p) { let n = (parseInt(p.stockReturn)||0)+delta; p.stockReturn = n<0?0:n; renderProducts(); updateDashboard(); triggerAutoSave(); }
         }
 
         function renderProducts() {
-            const list = document.getElementById('productsList');
-            list.innerHTML = '';
+            const list = document.getElementById('productsList'); list.innerHTML = '';
             data.products.forEach(p => {
-                const stock = parseInt(p.stockReturn) || 0;
+                const s = parseInt(p.stockReturn)||0;
                 list.innerHTML += `
-                    <div class="flex justify-between items-center bg-white p-3 rounded-2xl text-sm border border-slate-100 hover:border-slate-200 transition shadow-sm">
-                        <div>
-                            <span class="font-bold text-slate-700 block text-xs md:text-sm">${p.name}</span>
-                            <span class="text-[10px] text-slate-400 font-mono">${p.cost} DH</span>
+                    <div class="flex justify-between items-center bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                        <div><div class="font-bold text-slate-700 text-xs">${p.name}</div><div class="text-[10px] text-slate-400 font-mono">${p.cost} DH</div></div>
+                        <div class="flex items-center gap-1 bg-white border rounded-xl p-1 shadow-sm">
+                            <button onclick="modifyStock('${p.name}', -1)" class="w-6 h-6 bg-slate-50 text-slate-400 rounded-lg hover:bg-red-50 hover:text-red-500 font-bold">-</button>
+                            <span class="w-6 text-center text-xs font-black text-slate-700">${s}</span>
+                            <button onclick="modifyStock('${p.name}', 1)" class="w-6 h-6 bg-slate-50 text-slate-400 rounded-lg hover:bg-green-50 hover:text-green-500 font-bold">+</button>
                         </div>
-                        <div class="flex items-center gap-3">
-                            <div class="flex items-center gap-1 bg-slate-50 rounded-lg p-1 border border-slate-100">
-                                <button onclick="modifyStock('${p.name}', -1)" class="w-6 h-6 flex items-center justify-center bg-white text-slate-500 rounded hover:bg-red-50 hover:text-red-500 transition shadow-sm font-bold text-xs">-</button>
-                                <span class="w-8 text-center text-xs font-black ${stock > 0 ? 'text-green-600' : 'text-slate-300'}">${stock}</span>
-                                <button onclick="modifyStock('${p.name}', 1)" class="w-6 h-6 flex items-center justify-center bg-white text-slate-500 rounded hover:bg-green-50 hover:text-green-600 transition shadow-sm font-bold text-xs">+</button>
-                            </div>
-                            <button onclick="removeProduct('${p.name}')" class="w-6 h-6 flex items-center justify-center text-slate-300 hover:text-red-400 transition">&times;</button>
-                        </div>
-                    </div>
-                `;
+                    </div>`;
             });
-        }
-
-        function addTransaction(type) {
-            let amount = 0, desc = "";
-            const t = LANG[currentLang];
-            if(type === 'payment') {
-                amount = parseFloat(document.getElementById('payAmount').value);
-                desc = t.payment_desc;
-                document.getElementById('payAmount').value = '';
-            } else if (type === 'income') {
-                amount = parseFloat(document.getElementById('incomeAmount').value);
-                desc = t.income_desc;
-                document.getElementById('incomeAmount').value = '';
-            } else {
-                amount = parseFloat(document.getElementById('expAmount').value);
-                desc = document.getElementById('expDesc').value || t.expense_def;
-                document.getElementById('expAmount').value = '';
-                document.getElementById('expDesc').value = '';
-            }
-            if(!amount) return;
-            data.financials.unshift({type, amount, desc, date: new Date().toLocaleDateString()});
-            renderFinancials(); updateDashboard(); triggerAutoSave();
-        }
-
-        function removeFin(index) {
-            data.financials.splice(index, 1); renderFinancials(); updateDashboard(); triggerAutoSave();
-        }
-
-        function renderFinancials() {
-            const tbody = document.querySelector('#finTable tbody');
-            const align = currentLang === 'ar' ? 'text-right' : 'text-left';
-            tbody.innerHTML = data.financials.map((t, i) => {
-                let color = t.type === 'income' ? 'text-emerald-600' : (t.type === 'payment' ? 'text-red-600' : 'text-orange-500');
-                let icon = t.type === 'income' ? '💵' : (t.type === 'payment' ? '🤝' : '📉');
-                return `
-                    <tr class="hover:bg-slate-50 transition">
-                        <td class="p-3 ${align} text-slate-600 font-medium text-[11px]">${icon} ${t.desc} <span class="text-[9px] text-slate-400 block">${t.date}</span></td>
-                        <td class="p-3 font-black ${color} text-center text-xs dir-ltr">${t.amount}</td>
-                        <td class="p-3 text-center"><button onclick="removeFin(${i})" class="text-slate-300 hover:text-red-500 font-bold">&times;</button></td>
-                    </tr>
-                `;
-            }).join('');
         }
 
         function renderShippedTable() {
-            const tbody = document.querySelector('#shippedTable tbody');
-            tbody.innerHTML = '';
+            const body = document.getElementById('shippedTableBody'); const mob = document.getElementById('shippedMobile');
+            body.innerHTML = ''; mob.innerHTML = '';
             let totalDebt = 0;
-            const align = currentLang === 'ar' ? 'text-right' : 'text-left';
-            const alignEnd = currentLang === 'ar' ? 'text-left' : 'text-right';
 
-            for (const [prodName, totalShipped] of Object.entries(data.shippedStats)) {
-                const prodDef = data.products.find(p => p.name === prodName);
-                let cost = 0, usedFromStock = 0, newPaid = totalShipped, rowTotal = 0;
-                if (prodDef) {
-                    cost = prodDef.cost;
-                    usedFromStock = parseInt(prodDef.totalUsedStock) || 0;
-                    newPaid = Math.max(0, totalShipped - usedFromStock);
-                    rowTotal = newPaid * cost;
-                }
-                tbody.innerHTML += `
-                    <tr class="hover:bg-slate-50 transition border-b border-slate-50">
-                        <td class="p-3 ${align} font-bold text-slate-700 text-xs">${prodName}</td>
-                        <td class="p-3 font-bold text-xs bg-slate-50/50">${totalShipped}</td>
-                        <td class="p-3 text-emerald-600 font-black text-xs">${usedFromStock}</td>
-                        <td class="p-3 font-bold text-slate-800 text-xs bg-orange-50/30">${newPaid}</td>
-                        <td class="p-3 font-black text-red-500 ${alignEnd} text-xs">${rowTotal}</td>
-                    </tr>
-                `;
-                totalDebt += rowTotal;
+            for (const [pName, total] of Object.entries(data.shippedStats)) {
+                const p = data.products.find(p=>p.name===pName);
+                let cost = 0, used = 0, paid = total, rowT = 0;
+                if(p) { cost = p.cost; used = parseInt(p.totalUsedStock)||0; paid = Math.max(0, total-used); rowT = paid*cost; }
+                
+                // Desktop
+                body.innerHTML += `<tr class="hover:bg-slate-50 transition border-b border-slate-50"><td class="p-3 font-bold text-slate-700">${pName}</td><td class="p-3 text-center font-bold">${total}</td><td class="p-3 text-center text-green-600 font-bold">${used}</td><td class="p-3 text-center font-bold text-slate-800">${paid}</td><td class="p-3 text-left font-black text-red-500">${rowT}</td></tr>`;
+                
+                // Mobile
+                mob.innerHTML += `
+                    <div class="bg-slate-50 p-3 rounded-2xl border border-slate-100 flex justify-between items-center">
+                        <div>
+                            <div class="font-bold text-xs text-slate-700">${pName}</div>
+                            <div class="text-[10px] text-slate-400 mt-1">خرجت: <b>${total}</b> | مخزون: <span class="text-green-600">${used}</span></div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-black text-red-500 text-sm">${rowT} DH</div>
+                            <div class="text-[10px] text-slate-400">(${paid} جديد)</div>
+                        </div>
+                    </div>`;
+                totalDebt += rowT;
             }
             document.getElementById('sumProductDebt').innerText = totalDebt.toLocaleString();
-            return totalDebt;
+        }
+
+        function addTransaction(type) {
+            let val = parseFloat(document.getElementById(type==='payment'?'payAmount':(type==='income'?'incomeAmount':'expAmount')).value);
+            if(!val) return;
+            let desc = type==='expense' ? document.getElementById('expDesc').value : (type==='payment'?'Payment':'Income');
+            data.financials.unshift({type, amount:val, desc, date: new Date().toLocaleDateString()});
+            document.querySelectorAll('input[type=number]').forEach(i => i.value='');
+            document.getElementById('expDesc').value='';
+            renderFinancials(); updateDashboard(); triggerAutoSave();
+        }
+
+        function renderFinancials() {
+            const list = document.getElementById('finList'); list.innerHTML = '';
+            data.financials.forEach((t, i) => {
+                let col = t.type==='income'?'text-emerald-500':(t.type==='payment'?'text-red-500':'text-orange-500');
+                list.innerHTML += `
+                    <div class="flex justify-between items-center bg-slate-50 p-2 rounded-xl text-xs border border-slate-100">
+                        <div class="text-slate-600 font-bold">${t.desc} <span class="text-[9px] text-slate-400 font-normal block">${t.date}</span></div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-black ${col}">${t.amount}</span>
+                            <button onclick="data.financials.splice(${i},1);renderFinancials();updateDashboard();triggerAutoSave()" class="text-slate-300 hover:text-red-500">&times;</button>
+                        </div>
+                    </div>`;
+            });
         }
 
         function updateDashboard() {
-            let goodsDebt = 0, totalShippedCount = 0;
-            for (const [prodName, totalShipped] of Object.entries(data.shippedStats)) {
-                totalShippedCount += totalShipped;
-                const prodDef = data.products.find(p => p.name === prodName);
-                if (prodDef) {
-                    const usedFromStock = parseInt(prodDef.totalUsedStock) || 0;
-                    const newPaid = Math.max(0, totalShipped - usedFromStock);
-                    goodsDebt += newPaid * prodDef.cost;
-                }
+            let goods=0, count=0;
+            for(const [n, t] of Object.entries(data.shippedStats)) {
+                count += t;
+                const p = data.products.find(x=>x.name===n);
+                if(p) goods += Math.max(0, t-(parseInt(p.totalUsedStock)||0)) * p.cost;
             }
-            let totalPaid = 0, totalExpenses = 0, totalRevenue = 0;
-            data.financials.forEach(t => {
-                if (t.type === 'payment') totalPaid += t.amount;
-                if (t.type === 'expense') totalExpenses += t.amount;
-                if (t.type === 'income') totalRevenue += t.amount;
-            });
-            let unitPack = parseFloat(document.getElementById('packUnitCost').value) || 0;
-            data.packUnitCost = unitPack; 
-            let totalPackCost = totalShippedCount * unitPack;
-            document.getElementById('totalPackDisplay').innerText = `${totalPackCost.toLocaleString()}`;
+            let paid=0, exp=0, inc=0;
+            data.financials.forEach(t => { if(t.type==='payment') paid+=t.amount; else if(t.type==='expense') exp+=t.amount; else inc+=t.amount; });
+            
+            let pack = (parseFloat(document.getElementById('packUnitCost').value)||0) * count;
+            document.getElementById('totalPackDisplay').innerText = pack.toLocaleString();
 
-            const currentDebt = (goodsDebt + totalPackCost) - totalPaid;
-            const netProfit = totalRevenue - totalExpenses - (goodsDebt + totalPackCost);
+            const debt = (goods + pack) - paid;
+            const prof = inc - exp - (goods + pack);
 
-            document.getElementById('sumProductDebt').innerText = (goodsDebt + totalPackCost).toLocaleString();
-            document.getElementById('supplierDebt').innerText = currentDebt.toLocaleString();
-            document.getElementById('totalExpenses').innerText = totalExpenses.toLocaleString();
-            document.getElementById('totalRevenue').innerText = totalRevenue.toLocaleString();
-            const el = document.getElementById('netProfit');
-            el.innerText = netProfit.toLocaleString();
-            el.className = `text-2xl md:text-3xl font-black mt-2 ${netProfit >= 0 ? 'text-emerald-400' : 'text-red-400'}`;
+            document.getElementById('supplierDebt').innerText = debt.toLocaleString();
+            document.getElementById('totalExpenses').innerText = (exp + pack).toLocaleString(); // Pack added to expenses view? Or just goods cost? Usually pack is expense.
+            document.getElementById('totalRevenue').innerText = inc.toLocaleString();
+            document.getElementById('netProfit').innerText = prof.toLocaleString();
         }
     </script>
 </body>
