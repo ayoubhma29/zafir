@@ -12,7 +12,6 @@
         ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        
         .glass-header { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
         .card-shadow { box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05); }
         
@@ -25,13 +24,15 @@
         .st-Cancelled { @apply bg-red-50 text-red-700 border-red-100; }
         .st-Fake { @apply bg-gray-100 text-gray-600 border-gray-200; }
         
-        .loader { width: 20px; height: 20px; border: 2px solid #e2e8f0; border-top-color: #f97316; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        .loader { width: 24px; height: 24px; border: 3px solid #e2e8f0; border-top-color: #f97316; border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
+        .live-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; display: inline-block; animation: blink 2s infinite; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
     </style>
 </head>
 <body class="text-slate-800 pb-24 selection:bg-orange-100">
 
-    <div id="loginSection" class="fixed inset-0 bg-slate-900/95 z-50 flex items-center justify-center p-4">
+    <div id="loginSection" class="fixed inset-0 bg-slate-900/95 z-50 flex items-center justify-center p-4 transition-all duration-300">
         <div class="bg-white w-full max-w-sm p-8 rounded-3xl shadow-2xl text-center">
             <div class="mb-6 flex justify-center"><span class="text-4xl">🔐</span></div>
             <h2 class="text-2xl font-black text-slate-800 mb-6" data-i18n="login_title">تسجيل الدخول</h2>
@@ -74,7 +75,9 @@
         <nav class="glass-header sticky top-0 z-40 border-b border-slate-100">
             <div class="container mx-auto px-4 h-16 flex justify-between items-center">
                 <div class="flex items-center gap-3">
-                    <div class="text-xl md:text-2xl font-black text-slate-800 tracking-tighter cursor-pointer" onclick="refreshData()">ZAFIR<span class="text-orange-500">.</span></div>
+                    <div class="text-xl md:text-2xl font-black text-slate-800 tracking-tighter cursor-pointer" onclick="refreshData()">
+                        ZAFIR<span class="text-orange-500">.</span> <span class="live-dot" title="Live"></span>
+                    </div>
                     <button onclick="toggleLang()" class="text-[10px] font-bold bg-slate-100 px-2 py-1 rounded border border-slate-200 text-slate-500 hover:bg-slate-200 transition" id="langBtnNav">EN</button>
                 </div>
                 <div class="flex gap-2">
@@ -146,7 +149,6 @@
                         <tbody id="ordersBody" class="divide-y divide-slate-50"></tbody>
                     </table>
                 </div>
-                
                 <div id="loader" class="p-12 flex flex-col items-center justify-center">
                     <div class="loader mb-3"></div>
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest" data-i18n="loading">Loading...</p>
@@ -198,7 +200,9 @@
 
         window.onload = () => {
             applyLanguage(currentLang);
-            if(localStorage.getItem('zafir_auth') === 'true') showApp();
+            if(localStorage.getItem('zafir_auth') === 'true') {
+                showApp();
+            }
         };
 
         function toggleLang() {
@@ -252,6 +256,7 @@
             const loader = document.getElementById('loader');
             if(!silent) loader.style.display = 'flex';
             if(!silent) document.getElementById('ordersBody').innerHTML = '';
+            
             try {
                 const res = await fetch(`${SCRIPT_URL}?action=read`);
                 const data = await res.json();
@@ -259,7 +264,9 @@
                 if(!silent) loader.style.display = 'none';
                 applyFilters();
             } catch (err) {
-                if(!silent) { loader.style.display = 'none'; }
+                if(!silent) {
+                    loader.style.display = 'none';
+                }
             }
         }
 
