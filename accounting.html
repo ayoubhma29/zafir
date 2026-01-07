@@ -54,7 +54,7 @@
 
         <div class="container mx-auto px-3 md:px-4 py-6">
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 mb-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
                 <div class="bg-white p-4 rounded-3xl card-shadow border-b-4 border-red-500 hover:-translate-y-1 transition"><p class="text-[10px] text-slate-400 font-bold uppercase" data-i18n="card_debt">ديون المورد</p><p class="text-2xl font-black text-red-600 mt-2" id="supplierDebt">0</p></div>
                 <div class="bg-white p-4 rounded-3xl card-shadow border-b-4 border-orange-400 hover:-translate-y-1 transition"><p class="text-[10px] text-slate-400 font-bold uppercase" data-i18n="card_expenses">المصاريف</p><p class="text-2xl font-black text-orange-500 mt-2" id="totalExpenses">0</p></div>
                 <div class="bg-white p-4 rounded-3xl card-shadow border-b-4 border-green-500 hover:-translate-y-1 transition"><p class="text-[10px] text-slate-400 font-bold uppercase" data-i18n="card_income">المدخول</p><p class="text-2xl font-black text-green-600 mt-2" id="totalRevenue">0</p></div>
@@ -94,7 +94,7 @@
                             </div>
                         </div>
                         
-                        <div class="overflow-x-auto">
+                        <div class="hidden md:block overflow-x-auto">
                             <table class="w-full text-sm whitespace-nowrap text-right">
                                 <thead class="bg-slate-50 text-[10px] uppercase font-bold text-slate-500">
                                     <tr><th class="p-3 rounded-r-lg" data-i18n="th_prod">المنتج</th><th class="p-3 text-center" data-i18n="th_total_out">خرجت</th><th class="p-3 text-center text-green-600" data-i18n="th_from_stock">من المخزون</th><th class="p-3 text-center" data-i18n="th_new_paid">جديد</th><th class="p-3 text-left rounded-l-lg text-red-600" data-i18n="th_total">المطلوب</th></tr>
@@ -102,6 +102,8 @@
                                 <tbody id="shippedTableBody" class="divide-y divide-slate-50"></tbody>
                             </table>
                         </div>
+
+                        <div class="md:hidden space-y-3" id="shippedMobileContainer"></div>
                     </div>
 
                     <div class="bg-white p-5 rounded-3xl border border-slate-100 shadow-sm">
@@ -130,7 +132,6 @@
     </div>
 
     <script>
-        // ⚠️ FIXED URL FROM USER
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby-XyjE8UvPrLe1HJTF1siYWwfA4kXvP9fASExfJcKWcySp4xqx7PkMBl-ysQ5ouuim/exec"; 
         const PASS_CODE = "2911";
 
@@ -143,7 +144,7 @@
         let data = { products: [], financials: [], shippedStats: {}, packUnitCost: 0 };
         let saveTimeout, autoSyncInterval;
 
-        // AUTH CHECK
+        // AUTH
         if(localStorage.getItem('zafir_auth') === 'true') {
             document.getElementById('loginSection').classList.add('hidden');
             document.getElementById('dashboardContent').classList.remove('hidden');
@@ -153,11 +154,8 @@
             applyLanguage(currentLang);
             if(localStorage.getItem('zafir_auth') === 'true') {
                 updateStatus('sync');
-                // 1. Get saved data
                 await loadCloudData(); 
-                // 2. Sync orders
                 await syncWithOrders();
-                // 3. Start loop
                 autoSyncInterval = setInterval(() => { if(!document.hidden) syncWithOrders(true); }, 30000);
             }
         };
@@ -198,7 +196,7 @@
         async function syncWithOrders(silent = false) {
             if(!silent) updateStatus('loading');
             try {
-                // Using standard GET (CORS enabled on Google Scripts by default)
+                // Using standard GET
                 const res = await fetch(`${SCRIPT_URL}?action=read`);
                 const orders = await res.json();
                 const shippedOrders = orders.filter(o => o.status === 'Shipped');
@@ -229,7 +227,7 @@
         async function saveData() {
             data.packUnitCost = parseFloat(document.getElementById('packUnitCost').value) || 0;
             const fd = new FormData(); fd.append('action', 'save_accounting'); fd.append('data', JSON.stringify(data));
-            // Using NO-CORS for POST to ensure it reaches GAS without browser blocking response reading
+            // NO-CORS for stable saving
             try { await fetch(SCRIPT_URL, { method: 'POST', body: fd, mode: 'no-cors' }); updateStatus('saved'); } catch(e){ updateStatus('error'); }
         }
 
@@ -267,12 +265,12 @@
             data.products.forEach(p => {
                 const s = parseInt(p.stockReturn)||0;
                 list.innerHTML += `
-                    <div class="flex justify-between items-center bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                    <div class="flex justify-between items-center bg-white p-3 rounded-2xl text-sm border border-slate-100 hover:border-slate-200 transition shadow-sm">
                         <div><div class="font-bold text-slate-700 text-xs">${p.name}</div><div class="text-[10px] text-slate-400 font-mono">${p.cost} DH</div></div>
-                        <div class="flex items-center gap-1 bg-white border rounded-xl p-1 shadow-sm">
-                            <button onclick="modifyStock('${p.name}', -1)" class="w-6 h-6 bg-slate-50 text-slate-400 rounded-lg hover:bg-red-50 hover:text-red-500 font-bold">-</button>
+                        <div class="flex items-center gap-1 bg-slate-50 border rounded-xl p-1 shadow-sm">
+                            <button onclick="modifyStock('${p.name}', -1)" class="w-6 h-6 bg-white text-slate-400 rounded-lg hover:bg-red-50 hover:text-red-500 font-bold">-</button>
                             <span class="w-6 text-center text-xs font-black text-slate-700">${s}</span>
-                            <button onclick="modifyStock('${p.name}', 1)" class="w-6 h-6 bg-slate-50 text-slate-400 rounded-lg hover:bg-green-50 hover:text-green-500 font-bold">+</button>
+                            <button onclick="modifyStock('${p.name}', 1)" class="w-6 h-6 bg-white text-slate-400 rounded-lg hover:bg-green-50 hover:text-green-500 font-bold">+</button>
                         </div>
                     </div>`;
             });
@@ -308,7 +306,9 @@
         }
 
         function renderShippedTable() {
-            const body = document.getElementById('shippedTableBody'); body.innerHTML = '';
+            const body = document.getElementById('shippedTableBody'); 
+            const mobile = document.getElementById('shippedMobileContainer');
+            body.innerHTML = ''; mobile.innerHTML = '';
             let totalDebt = 0;
             const align = currentLang === 'ar' ? 'text-right' : 'text-left';
             const alignEnd = currentLang === 'ar' ? 'text-left' : 'text-right';
@@ -318,10 +318,27 @@
                 let cost = 0, used = 0, paid = total, rowT = 0;
                 if(p) { cost = p.cost; used = parseInt(p.totalUsedStock)||0; paid = Math.max(0, total-used); rowT = paid*cost; }
                 
-                body.innerHTML += `<tr class="hover:bg-slate-50 transition border-b border-slate-50"><td class="p-3 ${align} font-bold text-slate-700 text-xs">${pName}</td><td class="p-3 text-center font-bold text-xs">${total}</td><td class="p-3 text-center text-green-600 font-black text-xs">${used}</td><td class="p-3 text-center font-bold text-slate-800 text-xs">${paid}</td><td class="p-3 font-black text-red-500 ${alignEnd} text-xs">${rowT}</td></tr>`;
+                // Desktop
+                body.innerHTML += `<tr class="hover:bg-slate-50 transition border-b border-slate-50"><td class="p-3 ${align} font-bold text-slate-700 text-xs">${pName}</td><td class="p-3 text-center font-bold text-xs">${total}</td><td class="p-3 text-center text-green-600 font-black text-xs">${used}</td><td class="p-3 text-center font-bold text-slate-800 text-xs">${paid}</td><td class="p-3 ${alignEnd} font-black text-red-500 text-xs">${rowT}</td></tr>`;
+                
+                // Mobile Card View (Fix)
+                mobile.innerHTML += `
+                    <div class="bg-white p-3 rounded-2xl border border-slate-100 flex justify-between items-center shadow-sm">
+                        <div>
+                            <div class="font-bold text-slate-800 text-xs">${pName}</div>
+                            <div class="text-[10px] text-slate-400 mt-1">
+                                خرجت: <b class="text-slate-700">${total}</b> | مخزون: <b class="text-green-600">${used}</b>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-black text-red-500 text-sm">${rowT} <span class="text-[9px]">DH</span></div>
+                            <div class="text-[10px] text-slate-400">جديد: ${paid}</div>
+                        </div>
+                    </div>`;
+                
                 totalDebt += rowT;
             }
-            // Sum debt, adding pack cost is done in dashboard
+            document.getElementById('sumProductDebt').innerText = totalDebt.toLocaleString();
         }
 
         function updateDashboard() {
