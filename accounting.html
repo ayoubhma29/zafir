@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ZAFIR Auto-Accounting</title>
+    <title>ZAFIR Accounting</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
@@ -12,10 +12,13 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
-        
+        .card-shadow { box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05); }
+
         .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
         .st-loading { background: #3b82f6; animation: pulse 1s infinite; }
+        .st-saving { background: #f59e0b; animation: pulse 0.5s infinite; }
         .st-saved { background: #22c55e; }
+        .st-error { background: #ef4444; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
     </style>
 </head>
@@ -24,10 +27,10 @@
     <div id="loginSection" class="fixed inset-0 bg-slate-900/95 z-50 flex items-center justify-center p-4 transition-all duration-300">
         <div class="bg-white w-full max-w-sm p-8 rounded-3xl shadow-2xl text-center">
             <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl">🔐</div>
-            <h2 class="text-2xl font-black text-slate-800 mb-6">ZAFIR Accounting</h2>
+            <h2 class="text-2xl font-black text-slate-800 mb-6" data-i18n="login_title">تسجيل الدخول</h2>
             <form onsubmit="event.preventDefault(); attemptLogin();">
                 <input type="password" id="adminPass" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl text-center text-lg font-bold focus:outline-none focus:border-orange-500 mb-4 transition-all" placeholder="••••">
-                <button type="submit" class="w-full bg-slate-900 text-white p-4 rounded-2xl font-bold hover:bg-orange-600 transition shadow-lg active:scale-95">دخول</button>
+                <button type="submit" class="w-full bg-slate-900 text-white p-4 rounded-2xl font-bold hover:bg-orange-600 transition shadow-lg active:scale-95" data-i18n="login_btn">دخول</button>
             </form>
         </div>
     </div>
@@ -40,9 +43,9 @@
                     <div class="status-dot st-loading" id="syncStatus" title="Status"></div>
                 </div>
                 <div class="flex gap-2">
-                    <button onclick="toggleLang()" class="text-[10px] font-bold bg-slate-100 px-2 py-1 rounded border hover:bg-slate-200 transition">EN/AR</button>
+                    <button onclick="toggleLang()" class="text-[10px] font-bold bg-slate-100 px-2 py-1 rounded border hover:bg-slate-200 transition" id="langBtnNav">EN</button>
                     <a href="admin.html" class="bg-slate-900 text-white px-4 py-2 rounded-xl hover:bg-orange-600 transition font-bold text-xs flex items-center gap-2 shadow-lg">
-                        <span data-i18n="btn_back">الطلبات</span>
+                        <span data-i18n="btn_back">لوحة الطلبات</span>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                     </a>
                 </div>
@@ -51,11 +54,11 @@
 
         <div class="container mx-auto px-3 md:px-4 py-6">
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-                <div class="bg-white p-4 rounded-2xl border-b-4 border-red-500 shadow-sm"><p class="text-[10px] text-slate-400 font-bold uppercase" data-i18n="card_debt">ديون المورد</p><p class="text-2xl font-black text-red-600" id="supplierDebt">0</p></div>
-                <div class="bg-white p-4 rounded-2xl border-b-4 border-orange-400 shadow-sm"><p class="text-[10px] text-slate-400 font-bold uppercase" data-i18n="card_expenses">المصاريف</p><p class="text-2xl font-black text-orange-500" id="totalExpenses">0</p></div>
-                <div class="bg-white p-4 rounded-2xl border-b-4 border-green-500 shadow-sm"><p class="text-[10px] text-slate-400 font-bold uppercase" data-i18n="card_income">المدخول</p><p class="text-2xl font-black text-green-600" id="totalRevenue">0</p></div>
-                <div class="bg-slate-900 p-4 rounded-2xl shadow-lg"><p class="text-[10px] text-slate-400 font-bold uppercase" data-i18n="card_profit">الربح</p><p class="text-3xl font-black text-white" id="netProfit">0</p></div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 mb-8">
+                <div class="bg-white p-4 rounded-3xl card-shadow border-b-4 border-red-500 hover:-translate-y-1 transition"><p class="text-[10px] text-slate-400 font-bold uppercase" data-i18n="card_debt">ديون المورد</p><p class="text-2xl font-black text-red-600 mt-2" id="supplierDebt">0</p></div>
+                <div class="bg-white p-4 rounded-3xl card-shadow border-b-4 border-orange-400 hover:-translate-y-1 transition"><p class="text-[10px] text-slate-400 font-bold uppercase" data-i18n="card_expenses">المصاريف</p><p class="text-2xl font-black text-orange-500 mt-2" id="totalExpenses">0</p></div>
+                <div class="bg-white p-4 rounded-3xl card-shadow border-b-4 border-green-500 hover:-translate-y-1 transition"><p class="text-[10px] text-slate-400 font-bold uppercase" data-i18n="card_income">المدخول</p><p class="text-2xl font-black text-green-600 mt-2" id="totalRevenue">0</p></div>
+                <div class="bg-slate-900 p-4 rounded-3xl card-shadow relative overflow-hidden hover:-translate-y-1 transition"><div class="absolute -right-4 -top-4 text-white opacity-5 text-9xl font-black">$</div><p class="text-[10px] text-slate-400 font-bold uppercase" data-i18n="card_profit">الربح</p><p class="text-3xl font-black text-white mt-2" id="netProfit">0</p></div>
             </div>
 
             <div class="grid lg:grid-cols-3 gap-6">
@@ -67,7 +70,7 @@
                             <input type="text" id="prodName" class="flex-1 p-3 bg-slate-50 rounded-xl text-sm font-bold outline-none focus:bg-white border border-transparent focus:border-orange-200 transition" placeholder="Product">
                             <input type="number" id="prodCost" class="w-20 p-3 bg-slate-50 rounded-xl text-sm text-center outline-none focus:bg-white border border-transparent focus:border-orange-200 transition" placeholder="Cost">
                         </div>
-                        <button onclick="addProduct()" class="w-full bg-slate-800 text-white p-3 rounded-xl font-bold text-sm hover:bg-orange-600 transition shadow-lg" data-i18n="btn_add_prod">إضافة</button>
+                        <button onclick="addProduct()" class="w-full bg-slate-800 text-white p-3 rounded-xl font-bold text-sm hover:bg-orange-600 transition shadow-lg active:scale-95" data-i18n="btn_add_prod">إضافة</button>
                         
                         <div class="mt-4 pt-4 border-t border-slate-50">
                             <p class="text-[10px] text-slate-400 font-bold uppercase mb-2" data-i18n="lbl_stock">مخزون المرتجع</p>
@@ -91,15 +94,14 @@
                             </div>
                         </div>
                         
-                        <div class="hidden md:block overflow-x-auto">
-                            <table class="w-full text-sm text-right whitespace-nowrap">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm whitespace-nowrap text-right">
                                 <thead class="bg-slate-50 text-[10px] uppercase font-bold text-slate-500">
                                     <tr><th class="p-3 rounded-r-lg" data-i18n="th_prod">المنتج</th><th class="p-3 text-center" data-i18n="th_total_out">خرجت</th><th class="p-3 text-center text-green-600" data-i18n="th_from_stock">من المخزون</th><th class="p-3 text-center" data-i18n="th_new_paid">جديد</th><th class="p-3 text-left rounded-l-lg text-red-600" data-i18n="th_total">المطلوب</th></tr>
                                 </thead>
                                 <tbody id="shippedTableBody" class="divide-y divide-slate-50"></tbody>
                             </table>
                         </div>
-                        <div id="shippedMobile" class="md:hidden space-y-2"></div>
                     </div>
 
                     <div class="bg-white p-5 rounded-3xl border border-slate-100 shadow-sm">
@@ -107,17 +109,17 @@
                         <div class="grid grid-cols-2 gap-3 mb-3">
                             <div class="bg-red-50 p-3 rounded-xl border border-red-100">
                                 <label class="text-[10px] font-bold text-red-400 block mb-1" data-i18n="lbl_pay_supp">دفع للمورد</label>
-                                <div class="flex gap-1"><input type="number" id="payAmount" class="w-full p-2 rounded-lg text-sm outline-none" placeholder="0"><button onclick="addTransaction('payment')" class="bg-red-500 text-white px-3 rounded-lg text-lg font-bold">+</button></div>
+                                <div class="flex gap-1"><input type="number" id="payAmount" class="w-full p-2 rounded-lg text-sm outline-none" placeholder="0"><button onclick="addTransaction('payment')" class="bg-red-500 text-white px-3 rounded-lg text-lg font-bold hover:bg-red-600 transition shadow-md">+</button></div>
                             </div>
                             <div class="bg-green-50 p-3 rounded-xl border border-green-100">
                                 <label class="text-[10px] font-bold text-green-600 block mb-1" data-i18n="lbl_income">استلام أموال</label>
-                                <div class="flex gap-1"><input type="number" id="incomeAmount" class="w-full p-2 rounded-lg text-sm outline-none" placeholder="0"><button onclick="addTransaction('income')" class="bg-green-500 text-white px-3 rounded-lg text-lg font-bold">+</button></div>
+                                <div class="flex gap-1"><input type="number" id="incomeAmount" class="w-full p-2 rounded-lg text-sm outline-none" placeholder="0"><button onclick="addTransaction('income')" class="bg-green-500 text-white px-3 rounded-lg text-lg font-bold hover:bg-green-600 transition shadow-md">+</button></div>
                             </div>
                         </div>
                         <div class="flex gap-2 mb-3">
                             <input type="text" id="expDesc" class="flex-1 p-2 bg-slate-50 rounded-lg text-sm outline-none" placeholder="Ads...">
                             <input type="number" id="expAmount" class="w-20 p-2 bg-slate-50 rounded-lg text-sm text-center outline-none" placeholder="0">
-                            <button onclick="addTransaction('expense')" class="bg-orange-500 text-white px-3 rounded-lg text-sm font-bold" data-i18n="btn_add">أضف</button>
+                            <button onclick="addTransaction('expense')" class="bg-orange-500 text-white px-3 rounded-lg text-sm font-bold hover:bg-orange-600 transition shadow-md" data-i18n="btn_add">أضف</button>
                         </div>
                         <div class="max-h-[150px] overflow-y-auto pr-1 space-y-1" id="finList"></div>
                     </div>
@@ -140,6 +142,7 @@
         let data = { products: [], financials: [], shippedStats: {}, packUnitCost: 0 };
         let saveTimeout, autoSyncInterval;
 
+        // --- AUTH ---
         if(localStorage.getItem('zafir_auth') === 'true') {
             document.getElementById('loginSection').classList.add('hidden');
             document.getElementById('dashboardContent').classList.remove('hidden');
@@ -148,7 +151,10 @@
         window.onload = async () => {
             applyLanguage(currentLang);
             if(localStorage.getItem('zafir_auth') === 'true') {
-                await loadCloudData(); await syncWithOrders();
+                updateStatus('sync');
+                // Ensure data is loaded properly before starting sync
+                await loadCloudData(); 
+                await syncWithOrders();
                 autoSyncInterval = setInterval(() => { if(!document.hidden) syncWithOrders(true); }, 30000);
             }
         };
@@ -161,7 +167,7 @@
         }
 
         function triggerAutoSave() {
-            document.getElementById('syncStatus').className = "status-dot st-loading";
+            document.getElementById('syncStatus').className = "status-dot st-saving";
             clearTimeout(saveTimeout);
             saveTimeout = setTimeout(saveData, 1500);
         }
@@ -176,11 +182,20 @@
         function applyLanguage(lang) {
             const t = LANG[lang];
             document.documentElement.dir = t.dir;
+            document.documentElement.lang = lang;
             document.querySelectorAll('[data-i18n]').forEach(el => el.innerText = t[el.getAttribute('data-i18n')]);
+            document.getElementById('langBtnNav').innerText = lang === 'ar' ? 'EN' : 'AR';
+            // Translations for dynamic inputs
+            document.getElementById('prodName').placeholder = lang === 'ar' ? 'اسم المنتج' : 'Product Name';
+            document.getElementById('expDesc').placeholder = lang === 'ar' ? 'وصف' : 'Description';
+        }
+
+        function updateStatus(status) {
+            document.getElementById('syncStatus').className = `status-dot st-${status}`;
         }
 
         async function syncWithOrders(silent = false) {
-            if(!silent) document.getElementById('syncStatus').className = "status-dot st-loading";
+            if(!silent) updateStatus('loading');
             try {
                 const res = await fetch(`${SCRIPT_URL}?action=read`);
                 const orders = await res.json();
@@ -205,14 +220,14 @@
                 data.shippedStats = counts;
                 renderProducts(); renderShippedTable(); updateDashboard();
                 if(change) await saveData(); 
-                else if(!silent) document.getElementById('syncStatus').className = "status-dot st-saved";
-            } catch(e) { if(!silent) document.getElementById('syncStatus').style.backgroundColor = "red"; }
+                else if(!silent) updateStatus('saved');
+            } catch(e) { if(!silent) updateStatus('error'); }
         }
 
         async function saveData() {
             data.packUnitCost = parseFloat(document.getElementById('packUnitCost').value) || 0;
             const fd = new FormData(); fd.append('action', 'save_accounting'); fd.append('data', JSON.stringify(data));
-            try { await fetch(SCRIPT_URL, { method: 'POST', body: fd, mode: 'no-cors' }); document.getElementById('syncStatus').className = "status-dot st-saved"; } catch(e){}
+            try { await fetch(SCRIPT_URL, { method: 'POST', body: fd, mode: 'no-cors' }); updateStatus('saved'); } catch(e){ updateStatus('error'); }
         }
 
         async function loadCloudData() {
@@ -221,7 +236,7 @@
                 const cloud = await res.json();
                 if(cloud && cloud.products) { data = cloud; if(data.packUnitCost) document.getElementById('packUnitCost').value = data.packUnitCost; }
                 renderProducts(); renderFinancials(); renderShippedTable(); updateDashboard();
-            } catch(e){}
+            } catch(e){ updateStatus('error'); }
         }
 
         function addProduct() {
@@ -235,6 +250,13 @@
         function modifyStock(name, delta) {
             const p = data.products.find(p=>p.name===name);
             if(p) { let n = (parseInt(p.stockReturn)||0)+delta; p.stockReturn = n<0?0:n; renderProducts(); updateDashboard(); triggerAutoSave(); }
+        }
+
+        function removeProduct(name) {
+            if(confirm("Delete product?")) {
+                data.products = data.products.filter(p => p.name !== name);
+                renderProducts(); renderShippedTable(); updateDashboard(); triggerAutoSave();
+            }
         }
 
         function renderProducts() {
@@ -253,36 +275,6 @@
             });
         }
 
-        function renderShippedTable() {
-            const body = document.getElementById('shippedTableBody'); const mob = document.getElementById('shippedMobile');
-            body.innerHTML = ''; mob.innerHTML = '';
-            let totalDebt = 0;
-
-            for (const [pName, total] of Object.entries(data.shippedStats)) {
-                const p = data.products.find(p=>p.name===pName);
-                let cost = 0, used = 0, paid = total, rowT = 0;
-                if(p) { cost = p.cost; used = parseInt(p.totalUsedStock)||0; paid = Math.max(0, total-used); rowT = paid*cost; }
-                
-                // Desktop
-                body.innerHTML += `<tr class="hover:bg-slate-50 transition border-b border-slate-50"><td class="p-3 font-bold text-slate-700">${pName}</td><td class="p-3 text-center font-bold">${total}</td><td class="p-3 text-center text-green-600 font-bold">${used}</td><td class="p-3 text-center font-bold text-slate-800">${paid}</td><td class="p-3 text-left font-black text-red-500">${rowT}</td></tr>`;
-                
-                // Mobile
-                mob.innerHTML += `
-                    <div class="bg-slate-50 p-3 rounded-2xl border border-slate-100 flex justify-between items-center">
-                        <div>
-                            <div class="font-bold text-xs text-slate-700">${pName}</div>
-                            <div class="text-[10px] text-slate-400 mt-1">خرجت: <b>${total}</b> | مخزون: <span class="text-green-600">${used}</span></div>
-                        </div>
-                        <div class="text-right">
-                            <div class="font-black text-red-500 text-sm">${rowT} DH</div>
-                            <div class="text-[10px] text-slate-400">(${paid} جديد)</div>
-                        </div>
-                    </div>`;
-                totalDebt += rowT;
-            }
-            document.getElementById('sumProductDebt').innerText = totalDebt.toLocaleString();
-        }
-
         function addTransaction(type) {
             let val = parseFloat(document.getElementById(type==='payment'?'payAmount':(type==='income'?'incomeAmount':'expAmount')).value);
             if(!val) return;
@@ -291,6 +283,10 @@
             document.querySelectorAll('input[type=number]').forEach(i => i.value='');
             document.getElementById('expDesc').value='';
             renderFinancials(); updateDashboard(); triggerAutoSave();
+        }
+
+        function removeFin(index) {
+            data.financials.splice(index, 1); renderFinancials(); updateDashboard(); triggerAutoSave();
         }
 
         function renderFinancials() {
@@ -306,6 +302,23 @@
                         </div>
                     </div>`;
             });
+        }
+
+        function renderShippedTable() {
+            const body = document.getElementById('shippedTableBody'); body.innerHTML = '';
+            let totalDebt = 0;
+            const align = currentLang === 'ar' ? 'text-right' : 'text-left';
+            const alignEnd = currentLang === 'ar' ? 'text-left' : 'text-right';
+
+            for (const [pName, total] of Object.entries(data.shippedStats)) {
+                const p = data.products.find(p=>p.name===pName);
+                let cost = 0, used = 0, paid = total, rowT = 0;
+                if(p) { cost = p.cost; used = parseInt(p.totalUsedStock)||0; paid = Math.max(0, total-used); rowT = paid*cost; }
+                
+                body.innerHTML += `<tr class="hover:bg-slate-50 transition border-b border-slate-50"><td class="p-3 ${align} font-bold text-slate-700 text-xs">${pName}</td><td class="p-3 text-center font-bold text-xs">${total}</td><td class="p-3 text-center text-green-600 font-black text-xs">${used}</td><td class="p-3 text-center font-bold text-slate-800 text-xs">${paid}</td><td class="p-3 ${alignEnd} font-black text-red-500 text-xs">${rowT}</td></tr>`;
+                totalDebt += rowT;
+            }
+            document.getElementById('sumProductDebt').innerText = totalDebt.toLocaleString();
         }
 
         function updateDashboard() {
@@ -325,7 +338,7 @@
             const prof = inc - exp - (goods + pack);
 
             document.getElementById('supplierDebt').innerText = debt.toLocaleString();
-            document.getElementById('totalExpenses').innerText = (exp + pack).toLocaleString(); // Pack added to expenses view? Or just goods cost? Usually pack is expense.
+            document.getElementById('totalExpenses').innerText = exp.toLocaleString(); // Only Ads
             document.getElementById('totalRevenue').innerText = inc.toLocaleString();
             document.getElementById('netProfit').innerText = prof.toLocaleString();
         }
