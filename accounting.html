@@ -26,142 +26,155 @@
 </head>
 <body class="text-slate-800 pb-24 selection:bg-orange-100">
 
-    <nav class="glass-header sticky top-0 z-40 border-b border-slate-100">
-        <div class="container mx-auto px-4 h-16 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="text-xl md:text-2xl font-black text-slate-800 tracking-tighter">ZAFIR<span class="text-orange-500">.</span> Compta</div>
+    <div id="loginSection" class="fixed inset-0 bg-slate-900/95 z-50 flex items-center justify-center p-4 transition-all duration-300">
+        <div class="bg-white w-full max-w-sm p-8 rounded-3xl shadow-2xl text-center">
+            <div class="mb-6 flex justify-center"><span class="text-4xl">🔐</span></div>
+            <h2 class="text-2xl font-black text-slate-800 mb-6" data-i18n="login_title">تسجيل الدخول</h2>
+            <form onsubmit="event.preventDefault(); attemptLogin();">
+                <input type="password" id="adminPass" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl text-center text-lg font-bold focus:outline-none focus:border-orange-500 mb-4 transition-all" placeholder="••••">
+                <button type="submit" class="w-full bg-slate-900 text-white p-4 rounded-2xl font-bold hover:bg-orange-600 transition-all active:scale-95" data-i18n="login_btn">دخول</button>
+            </form>
+            <button onclick="toggleLang()" class="mt-6 text-xs font-bold text-slate-400 hover:text-slate-600">Switch Language</button>
+        </div>
+    </div>
+
+    <div id="dashboardContent" class="hidden min-h-screen">
+        <nav class="glass-header sticky top-0 z-40 border-b border-slate-100">
+            <div class="container mx-auto px-4 h-16 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div class="text-xl md:text-2xl font-black text-slate-800 tracking-tighter">ZAFIR<span class="text-orange-500">.</span> Compta</div>
+                    <div id="appStatus" class="status-badge st-loading">
+                        <span class="pulse text-lg">•</span> <span id="statusText" class="hidden md:inline">اتصال...</span>
+                    </div>
+                </div>
                 
-                <div id="appStatus" class="status-badge st-loading">
-                    <span class="pulse text-lg">•</span> <span id="statusText" class="hidden md:inline">اتصال...</span>
+                <div class="flex gap-2">
+                    <button onclick="toggleLang()" class="text-[10px] font-bold bg-slate-100 px-2 py-1 rounded border border-slate-200 text-slate-500 hover:bg-slate-200 transition" id="langBtnNav">EN</button>
+                    <a href="admin.html" class="bg-slate-900 text-white px-4 py-2 rounded-xl hover:bg-orange-600 transition font-bold text-xs flex items-center gap-2 shadow-lg shadow-slate-200">
+                        <span data-i18n="btn_back">لوحة الطلبات</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    </a>
                 </div>
             </div>
-            
-            <div class="flex gap-2">
-                <button onclick="toggleLang()" class="text-[10px] font-bold bg-slate-100 px-2 py-1 rounded border border-slate-200 text-slate-500 hover:bg-slate-200 transition" id="langBtnNav">EN</button>
-                <a href="admin.html" class="bg-slate-900 text-white px-4 py-2 rounded-xl hover:bg-orange-600 transition font-bold text-xs flex items-center gap-2 shadow-lg shadow-slate-200">
-                    <span data-i18n="btn_back">لوحة الطلبات</span>
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                </a>
-            </div>
-        </div>
-    </nav>
+        </nav>
 
-    <div class="container mx-auto px-3 md:px-4 py-6">
+        <div class="container mx-auto px-3 md:px-4 py-6">
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 mb-8">
-            <div class="bg-white p-4 rounded-3xl card-shadow border-b-4 border-red-500 transition hover:-translate-y-1">
-                <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider" data-i18n="card_debt">ديون المورد</p>
-                <p class="text-2xl font-black text-red-600 mt-2"><span id="supplierDebt">0</span> <span class="text-xs text-red-400">DH</span></p>
-            </div>
-            <div class="bg-white p-4 rounded-3xl card-shadow border-b-4 border-orange-400 transition hover:-translate-y-1">
-                <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider" data-i18n="card_expenses">المصاريف</p>
-                <p class="text-2xl font-black text-orange-500 mt-2"><span id="totalExpenses">0</span> <span class="text-xs text-orange-400">DH</span></p>
-            </div>
-            <div class="bg-white p-4 rounded-3xl card-shadow border-b-4 border-green-500 transition hover:-translate-y-1">
-                <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider" data-i18n="card_income">مدخول التوصيل</p>
-                <p class="text-2xl font-black text-green-600 mt-2"><span id="totalRevenue">0</span> <span class="text-xs text-green-400">DH</span></p>
-            </div>
-            <div class="bg-slate-900 p-4 rounded-3xl card-shadow relative overflow-hidden transition hover:-translate-y-1">
-                <div class="absolute -right-4 -top-4 text-white opacity-5 text-9xl font-black">$</div>
-                <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider" data-i18n="card_profit">الربح الصافي</p>
-                <p class="text-3xl font-black text-white mt-2" id="netProfit">0 <span class="text-xs text-slate-500">DH</span></p>
-            </div>
-        </div>
-
-        <div class="grid lg:grid-cols-3 gap-6">
-            
-            <div class="lg:col-span-1 space-y-6">
-                <div class="bg-white p-5 rounded-3xl card-shadow border border-slate-50">
-                    <h3 class="font-bold text-lg mb-4 flex items-center gap-2 text-slate-700" data-i18n="prod_title">
-                        <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
-                        إدارة المنتجات
-                    </h3>
-                    <div class="flex gap-2 mb-3">
-                        <input type="text" id="prodName" class="flex-1 p-3 bg-slate-50 rounded-xl text-sm font-bold border border-transparent focus:bg-white focus:border-orange-500 outline-none transition" placeholder="Product Name">
-                        <input type="number" id="prodCost" class="w-24 p-3 bg-slate-50 rounded-xl text-sm font-bold text-center border border-transparent focus:bg-white focus:border-orange-500 outline-none transition" placeholder="Cost">
-                    </div>
-                    <button onclick="addProduct()" class="w-full bg-slate-800 text-white p-3 rounded-xl font-bold text-sm hover:bg-orange-600 transition shadow-lg btn-press" data-i18n="btn_add_prod">إضافة منتج جديد</button>
-                    
-                    <div class="mt-6 pt-4 border-t border-slate-100">
-                        <p class="text-[10px] text-slate-400 mb-3 font-bold uppercase tracking-widest" data-i18n="lbl_stock">مخزون المرتجع (Stock)</p>
-                        <div id="productsList" class="space-y-3 max-h-[400px] overflow-y-auto pr-1 custom-scrollbar"></div>
-                    </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 mb-8">
+                <div class="bg-white p-4 rounded-3xl card-shadow border-b-4 border-red-500 transition hover:-translate-y-1">
+                    <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider" data-i18n="card_debt">ديون المورد</p>
+                    <p class="text-2xl font-black text-red-600 mt-2"><span id="supplierDebt">0</span> <span class="text-xs text-red-400">DH</span></p>
+                </div>
+                <div class="bg-white p-4 rounded-3xl card-shadow border-b-4 border-orange-400 transition hover:-translate-y-1">
+                    <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider" data-i18n="card_expenses">المصاريف</p>
+                    <p class="text-2xl font-black text-orange-500 mt-2"><span id="totalExpenses">0</span> <span class="text-xs text-orange-400">DH</span></p>
+                </div>
+                <div class="bg-white p-4 rounded-3xl card-shadow border-b-4 border-green-500 transition hover:-translate-y-1">
+                    <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider" data-i18n="card_income">مدخول التوصيل</p>
+                    <p class="text-2xl font-black text-green-600 mt-2"><span id="totalRevenue">0</span> <span class="text-xs text-green-400">DH</span></p>
+                </div>
+                <div class="bg-slate-900 p-4 rounded-3xl card-shadow relative overflow-hidden transition hover:-translate-y-1">
+                    <div class="absolute -right-4 -top-4 text-white opacity-5 text-9xl font-black">$</div>
+                    <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider" data-i18n="card_profit">الربح الصافي</p>
+                    <p class="text-3xl font-black text-white mt-2" id="netProfit">0 <span class="text-xs text-slate-500">DH</span></p>
                 </div>
             </div>
 
-            <div class="lg:col-span-2 space-y-6">
-                <div class="bg-white p-5 rounded-3xl card-shadow border border-slate-50 relative overflow-hidden">
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-5 border-b border-slate-100 pb-4 gap-4">
-                        <div>
-                            <h3 class="font-bold text-lg flex items-center gap-2 text-slate-700" data-i18n="shipped_title">
-                                <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
-                                السلع المرسلة <span class="text-[10px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full border border-blue-100">Auto-Sync</span>
-                            </h3>
-                            <p class="text-[10px] text-slate-400 mt-1" data-i18n="shipped_desc">يتم حسابها تلقائياً وخصم المرتجع</p>
+            <div class="grid lg:grid-cols-3 gap-6">
+                
+                <div class="lg:col-span-1 space-y-6">
+                    <div class="bg-white p-5 rounded-3xl card-shadow border border-slate-50">
+                        <h3 class="font-bold text-lg mb-4 flex items-center gap-2 text-slate-700" data-i18n="prod_title">
+                            <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
+                            إدارة المنتجات
+                        </h3>
+                        <div class="flex gap-2 mb-3">
+                            <input type="text" id="prodName" class="flex-1 p-3 bg-slate-50 rounded-xl text-sm font-bold border border-transparent focus:bg-white focus:border-orange-500 outline-none transition" placeholder="Product Name">
+                            <input type="number" id="prodCost" class="w-24 p-3 bg-slate-50 rounded-xl text-sm font-bold text-center border border-transparent focus:bg-white focus:border-orange-500 outline-none transition" placeholder="Cost">
+                        </div>
+                        <button onclick="addProduct()" class="w-full bg-slate-800 text-white p-3 rounded-xl font-bold text-sm hover:bg-orange-600 transition shadow-lg btn-press" data-i18n="btn_add_prod">إضافة منتج جديد</button>
+                        
+                        <div class="mt-6 pt-4 border-t border-slate-100">
+                            <p class="text-[10px] text-slate-400 mb-3 font-bold uppercase tracking-widest" data-i18n="lbl_stock">مخزون المرتجع (Stock)</p>
+                            <div id="productsList" class="space-y-3 max-h-[400px] overflow-y-auto pr-1 custom-scrollbar"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="bg-white p-5 rounded-3xl card-shadow border border-slate-50 relative overflow-hidden">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-5 border-b border-slate-100 pb-4 gap-4">
+                            <div>
+                                <h3 class="font-bold text-lg flex items-center gap-2 text-slate-700" data-i18n="shipped_title">
+                                    <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
+                                    السلع المرسلة <span class="text-[10px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full border border-blue-100">Auto-Sync</span>
+                                </h3>
+                                <p class="text-[10px] text-slate-400 mt-1" data-i18n="shipped_desc">يتم حسابها تلقائياً وخصم المرتجع</p>
+                            </div>
+                            
+                            <div class="flex items-center gap-3 bg-red-50 p-2 rounded-xl border border-red-100 w-full md:w-auto">
+                                <label class="text-[10px] font-bold text-red-600 uppercase whitespace-nowrap px-1" data-i18n="lbl_pack">تغليف (للوحدة):</label>
+                                <input type="number" id="packUnitCost" oninput="triggerAutoSave(); updateDashboard()" class="w-16 p-1.5 text-sm bg-white border border-red-200 rounded-lg text-center font-bold text-red-600 focus:outline-none focus:ring-2 focus:ring-red-200" placeholder="0">
+                                <div class="flex flex-col leading-none">
+                                    <span class="text-[10px] text-red-400 font-bold">DH</span>
+                                    <span id="totalPackDisplay" class="text-[10px] font-black text-red-700">0</span>
+                                </div>
+                            </div>
                         </div>
                         
-                        <div class="flex items-center gap-3 bg-red-50 p-2 rounded-xl border border-red-100 w-full md:w-auto">
-                            <label class="text-[10px] font-bold text-red-600 uppercase whitespace-nowrap px-1" data-i18n="lbl_pack">تغليف (للوحدة):</label>
-                            <input type="number" id="packUnitCost" oninput="triggerAutoSave(); updateDashboard()" class="w-16 p-1.5 text-sm bg-white border border-red-200 rounded-lg text-center font-bold text-red-600 focus:outline-none focus:ring-2 focus:ring-red-200" placeholder="0">
-                            <div class="flex flex-col leading-none">
-                                <span class="text-[10px] text-red-400 font-bold">DH</span>
-                                <span id="totalPackDisplay" class="text-[10px] font-black text-red-700">0</span>
-                            </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm whitespace-nowrap" id="shippedTable">
+                                <thead class="bg-slate-50 text-slate-500 font-bold text-[10px] uppercase tracking-wider">
+                                    <tr>
+                                        <th class="p-3 text-start rounded-r-lg" data-i18n="th_prod">المنتج</th>
+                                        <th class="p-3 text-center" data-i18n="th_total_out">خرجت</th>
+                                        <th class="p-3 text-center text-green-600" data-i18n="th_from_stock">من المخزون</th>
+                                        <th class="p-3 text-center" data-i18n="th_new_paid">جديد (دفع)</th>
+                                        <th class="p-3 text-end text-red-600 rounded-l-lg" data-i18n="th_total">المطلوب</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-50 text-center font-medium text-slate-600"></tbody>
+                                <tfoot class="bg-slate-50/50 font-bold text-slate-800">
+                                    <tr>
+                                        <td colspan="4" class="p-4 text-start" data-i18n="ft_total_debt">مجموع السلع + التغليف:</td>
+                                        <td class="p-4 text-end text-red-600 text-base" id="sumProductDebt">0</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
                         </div>
                     </div>
-                    
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-sm whitespace-nowrap" id="shippedTable">
-                            <thead class="bg-slate-50 text-slate-500 font-bold text-[10px] uppercase tracking-wider">
-                                <tr>
-                                    <th class="p-3 text-start rounded-r-lg" data-i18n="th_prod">المنتج</th>
-                                    <th class="p-3 text-center" data-i18n="th_total_out">خرجت</th>
-                                    <th class="p-3 text-center text-green-600" data-i18n="th_from_stock">من المخزون</th>
-                                    <th class="p-3 text-center" data-i18n="th_new_paid">جديد (دفع)</th>
-                                    <th class="p-3 text-end text-red-600 rounded-l-lg" data-i18n="th_total">المطلوب</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-50 text-center font-medium text-slate-600"></tbody>
-                            <tfoot class="bg-slate-50/50 font-bold text-slate-800">
-                                <tr>
-                                    <td colspan="4" class="p-4 text-start" data-i18n="ft_total_debt">مجموع السلع + التغليف:</td>
-                                    <td class="p-4 text-end text-red-600 text-base" id="sumProductDebt">0</td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
 
-                <div class="bg-white p-5 rounded-3xl card-shadow border border-slate-50">
-                    <h3 class="font-bold text-lg mb-4 flex items-center gap-2 text-slate-700" data-i18n="fin_title">
-                        <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        المالية
-                    </h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                        <div class="bg-red-50 p-3 rounded-2xl border border-red-100">
-                            <label class="text-[10px] font-bold text-red-400 uppercase block mb-2" data-i18n="lbl_pay_supp">دفع للمورد</label>
-                            <div class="flex gap-2">
-                                <input type="number" id="payAmount" class="w-full p-2.5 bg-white border border-red-200 rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-red-200" placeholder="0">
-                                <button onclick="addTransaction('payment')" class="bg-red-500 text-white px-4 rounded-xl font-bold text-lg hover:bg-red-600 transition shadow-md shadow-red-200">+</button>
+                    <div class="bg-white p-5 rounded-3xl card-shadow border border-slate-50">
+                        <h3 class="font-bold text-lg mb-4 flex items-center gap-2 text-slate-700" data-i18n="fin_title">
+                            <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            المالية
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div class="bg-red-50 p-3 rounded-2xl border border-red-100">
+                                <label class="text-[10px] font-bold text-red-400 uppercase block mb-2" data-i18n="lbl_pay_supp">دفع للمورد</label>
+                                <div class="flex gap-2">
+                                    <input type="number" id="payAmount" class="w-full p-2.5 bg-white border border-red-200 rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-red-200" placeholder="0">
+                                    <button onclick="addTransaction('payment')" class="bg-red-500 text-white px-4 rounded-xl font-bold text-lg hover:bg-red-600 transition shadow-md shadow-red-200">+</button>
+                                </div>
+                            </div>
+                            <div class="bg-emerald-50 p-3 rounded-2xl border border-emerald-100">
+                                <label class="text-[10px] font-bold text-emerald-600 uppercase block mb-2" data-i18n="lbl_income">استلام أموال</label>
+                                <div class="flex gap-2">
+                                    <input type="number" id="incomeAmount" class="w-full p-2.5 bg-white border border-emerald-200 rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-emerald-200" placeholder="0">
+                                    <button onclick="addTransaction('income')" class="bg-emerald-500 text-white px-4 rounded-xl font-bold text-lg hover:bg-emerald-600 transition shadow-md shadow-emerald-200">+</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="bg-emerald-50 p-3 rounded-2xl border border-emerald-100">
-                            <label class="text-[10px] font-bold text-emerald-600 uppercase block mb-2" data-i18n="lbl_income">استلام أموال</label>
-                            <div class="flex gap-2">
-                                <input type="number" id="incomeAmount" class="w-full p-2.5 bg-white border border-emerald-200 rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-emerald-200" placeholder="0">
-                                <button onclick="addTransaction('income')" class="bg-emerald-500 text-white px-4 rounded-xl font-bold text-lg hover:bg-emerald-600 transition shadow-md shadow-emerald-200">+</button>
-                            </div>
+                        <div class="mb-3 flex gap-2">
+                            <input type="text" id="expDesc" class="flex-1 p-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:bg-white focus:border-orange-300 transition" placeholder="Ads...">
+                            <input type="number" id="expAmount" class="w-24 p-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-center outline-none focus:bg-white focus:border-orange-300 transition" placeholder="0">
+                            <button onclick="addTransaction('expense')" class="bg-orange-500 text-white px-4 rounded-xl font-bold text-sm hover:bg-orange-600 transition shadow-md btn-press" data-i18n="btn_add">أضف</button>
                         </div>
-                    </div>
-                    <div class="mb-3 flex gap-2">
-                        <input type="text" id="expDesc" class="flex-1 p-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold outline-none focus:bg-white focus:border-orange-300 transition" placeholder="Ads...">
-                        <input type="number" id="expAmount" class="w-24 p-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-center outline-none focus:bg-white focus:border-orange-300 transition" placeholder="0">
-                        <button onclick="addTransaction('expense')" class="bg-orange-500 text-white px-4 rounded-xl font-bold text-sm hover:bg-orange-600 transition shadow-md btn-press" data-i18n="btn_add">أضف</button>
-                    </div>
-                    <div class="max-h-[200px] overflow-y-auto custom-scrollbar">
-                        <table class="w-full text-xs" id="finTable">
-                            <tbody class="divide-y divide-slate-50"></tbody>
-                        </table>
+                        <div class="max-h-[200px] overflow-y-auto custom-scrollbar">
+                            <table class="w-full text-xs" id="finTable">
+                                <tbody class="divide-y divide-slate-50"></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -170,14 +183,15 @@
 
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby-XyjE8UvPrLe1HJTF1siYWwfA4kXvP9fASExfJcKWcySp4xqx7PkMBl-ysQ5ouuim/exec"; 
+        const PASS_CODE = "2911";
 
         const LANG = {
             ar: {
                 dir: "rtl",
+                login_title: "تسجيل الدخول", login_btn: "دخول",
                 btn_back: "لوحة الطلبات",
                 card_debt: "ديون المورد (+ تغليف)", card_expenses: "المصاريف (إعلانات)", card_income: "مدخول التوصيل", card_profit: "الربح الصافي",
                 prod_title: "🏷️ إدارة المنتجات", lbl_stock: "مخزون المرتجع (Stock)",
-                return_title: "↩️ تسجيل مرتجع", return_desc: "أضف الكمية العائدة للمخزون.",
                 shipped_title: "📦 السلع المرسلة", shipped_desc: "يتم خصم المرتجع أولاً عند المزامنة", lbl_pack: "تغليف (للوحدة):",
                 th_prod: "المنتج", th_total_out: "خرجت", th_from_stock: "من المخزون", th_new_paid: "جديد (دفع)", th_total: "الإجمالي", ft_total_debt: "مجموع السلع + التغليف:",
                 fin_title: "💰 المالية", lbl_pay_supp: "دفع للمورد", lbl_income: "استلام أموال", btn_add: "أضف",
@@ -187,10 +201,10 @@
             },
             en: {
                 dir: "ltr",
+                login_title: "Login", login_btn: "Enter",
                 btn_back: "Orders Panel",
                 card_debt: "Supplier Debt (+ Pack)", card_expenses: "Expenses (Ads)", card_income: "Delivery Income", card_profit: "Net Profit",
                 prod_title: "🏷️ Products Manager", lbl_stock: "Return Stock (Resellable)",
-                return_title: "↩️ Add Return", return_desc: "Add items back to stock.",
                 shipped_title: "📦 Shipped Goods", shipped_desc: "Auto-deducts return stock on sync", lbl_pack: "Pack (Unit):",
                 th_prod: "Product", th_total_out: "Total Out", th_from_stock: "From Stock", th_new_paid: "New (Paid)", th_total: "Debt", ft_total_debt: "Goods + Pack Debt:",
                 fin_title: "💰 Financials", lbl_pay_supp: "Pay Supplier", lbl_income: "Income", btn_add: "Add",
@@ -207,13 +221,25 @@
 
         window.onload = async function() {
             applyLanguage(currentLang);
-            updateStatus('sync');
-            await loadCloudData(); 
-            await syncWithOrders();
-            autoSyncInterval = setInterval(() => {
-                if(!document.hidden) syncWithOrders(true);
-            }, 30000); // 30s Loop
+            if(localStorage.getItem('zafir_auth') === 'true') showApp();
         };
+
+        function attemptLogin() {
+            if(document.getElementById('adminPass').value === PASS_CODE) {
+                localStorage.setItem('zafir_auth', 'true');
+                showApp();
+            } else { alert("Error Password"); }
+        }
+
+        function showApp() {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('dashboardContent').style.display = 'block';
+            updateStatus('sync');
+            loadCloudData().then(() => {
+                syncWithOrders();
+                autoSyncInterval = setInterval(() => { if(!document.hidden) syncWithOrders(true); }, 30000);
+            });
+        }
 
         function updateStatus(state) {
             const el = document.getElementById('appStatus');
@@ -312,13 +338,12 @@
             renderProducts(); renderShippedTable(); updateDashboard(); triggerAutoSave();
         }
 
-        // New Manual Adjustment Logic
         function modifyStock(name, delta) {
             const prod = data.products.find(p => p.name === name);
             if(prod) {
                 let current = parseInt(prod.stockReturn) || 0;
                 let newVal = current + delta;
-                if(newVal < 0) newVal = 0; // Prevent negative stock
+                if(newVal < 0) newVal = 0; 
                 prod.stockReturn = newVal;
                 renderProducts(); updateDashboard(); triggerAutoSave();
             }
@@ -333,11 +358,7 @@
 
         function renderProducts() {
             const list = document.getElementById('productsList');
-            const select = document.getElementById('returnSelect'); // For old dropdown if needed, keeping for compatibility
             list.innerHTML = '';
-            // Only update select if it exists
-            if(select) select.innerHTML = '<option value="">...</option>';
-
             data.products.forEach(p => {
                 const stock = parseInt(p.stockReturn) || 0;
                 list.innerHTML += `
@@ -346,7 +367,6 @@
                             <span class="font-bold text-slate-700 block text-xs md:text-sm">${p.name}</span>
                             <span class="text-[10px] text-slate-400 font-mono">${p.cost} DH</span>
                         </div>
-                        
                         <div class="flex items-center gap-3">
                             <div class="flex items-center gap-1 bg-slate-50 rounded-lg p-1 border border-slate-100">
                                 <button onclick="modifyStock('${p.name}', -1)" class="w-6 h-6 flex items-center justify-center bg-white text-slate-500 rounded hover:bg-red-50 hover:text-red-500 transition shadow-sm font-bold text-xs">-</button>
@@ -357,9 +377,6 @@
                         </div>
                     </div>
                 `;
-                if(select) {
-                    const opt = document.createElement('option'); opt.value = p.name; opt.text = p.name; select.appendChild(opt);
-                }
             });
         }
 
