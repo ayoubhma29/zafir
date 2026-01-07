@@ -1,18 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ZAFIR - Accounting Level 2</title>
+    <title>ZAFIR Accounting</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Cairo', sans-serif; background-color: #f1f5f9; }
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #e2e8f0; }
         ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 10px; }
-        .loader { border: 2px solid #f3f3f3; border-top: 2px solid #3498db; border-radius: 50%; width: 14px; height: 14px; animation: spin 1s linear infinite; display: inline-block; }
+        .loader { width: 14px; height: 14px; border: 2px solid #fff; border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; display: inline-block; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
@@ -20,37 +19,41 @@
 
     <nav class="bg-slate-900 text-white shadow-lg sticky top-0 z-50">
         <div class="container mx-auto px-4 h-16 flex justify-between items-center">
-            <div class="text-xl font-black tracking-tighter">ZAFIR<span class="text-orange-500">.</span> Auto</div>
+            <div class="flex items-center gap-4">
+                <div class="text-xl font-black tracking-tighter">ZAFIR<span class="text-orange-500">.</span> Compta</div>
+                <button onclick="toggleLang()" class="hidden md:block text-[10px] font-bold bg-white/10 px-2 py-1 rounded border border-white/20 hover:bg-white/20 transition" id="langBtnNav">EN</button>
+            </div>
             <div class="flex gap-2">
                 <button onclick="syncWithOrders()" id="syncBtn" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded-lg text-sm font-bold transition flex items-center gap-2 shadow-lg border border-blue-400">
-                    <span>🔄</span> <span class="hidden md:inline">Sync Orders (Shipped)</span>
+                    <span>🔄</span> <span class="hidden md:inline" data-i18n="btn_sync">مزامنة</span>
                 </button>
-                <button onclick="saveData()" id="saveBtn" class="bg-green-600 hover:bg-green-500 text-white px-3 py-1.5 rounded-lg text-sm font-bold transition">💾 Save</button>
-                <a href="admin.html" class="bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg text-sm font-bold transition">🔙 Admin</a>
+                <button onclick="saveData()" id="saveBtn" class="bg-green-600 hover:bg-green-500 text-white px-3 py-1.5 rounded-lg text-sm font-bold transition" data-i18n="btn_save">💾 حفظ</button>
+                <a href="admin.html" class="bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg text-sm font-bold transition flex items-center gap-2">
+                    <span data-i18n="btn_back">عودة</span>
+                </a>
             </div>
         </div>
     </nav>
 
     <div class="container mx-auto px-4 py-6">
-
         <div id="statusMsg" class="hidden mb-4 p-3 rounded-lg text-center font-bold text-sm"></div>
 
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             <div class="bg-white p-4 rounded-2xl shadow-sm border-b-4 border-red-500">
-                <p class="text-xs font-bold text-slate-400 uppercase">Supplier Debt</p>
+                <p class="text-xs font-bold text-slate-400 uppercase" data-i18n="card_debt">ديون المورد</p>
                 <p class="text-2xl font-black text-red-600 mt-1"><span id="supplierDebt">0</span> <span class="text-xs">DH</span></p>
             </div>
             <div class="bg-white p-4 rounded-2xl shadow-sm border-b-4 border-orange-400">
-                <p class="text-xs font-bold text-slate-400 uppercase">Total Expenses</p>
+                <p class="text-xs font-bold text-slate-400 uppercase" data-i18n="card_expenses">المصاريف</p>
                 <p class="text-2xl font-black text-orange-500 mt-1"><span id="totalExpenses">0</span> <span class="text-xs">DH</span></p>
             </div>
             <div class="bg-white p-4 rounded-2xl shadow-sm border-b-4 border-green-500">
-                <p class="text-xs font-bold text-slate-400 uppercase">Delivery Income</p>
+                <p class="text-xs font-bold text-slate-400 uppercase" data-i18n="card_income">مدخول التوصيل</p>
                 <p class="text-2xl font-black text-green-600 mt-1"><span id="totalRevenue">0</span> <span class="text-xs">DH</span></p>
             </div>
             <div class="bg-slate-800 p-4 rounded-2xl shadow-lg relative overflow-hidden">
                 <div class="absolute -right-4 -top-4 text-white opacity-5 text-8xl font-black">$</div>
-                <p class="text-xs font-bold text-slate-400 uppercase">Net Profit</p>
+                <p class="text-xs font-bold text-slate-400 uppercase" data-i18n="card_profit">الربح الصافي</p>
                 <p class="text-3xl font-black text-white mt-1" id="netProfit">0 <span class="text-xs">DH</span></p>
             </div>
         </div>
@@ -59,123 +62,152 @@
             
             <div class="lg:col-span-1 space-y-6">
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
-                    <h3 class="font-bold text-lg mb-4 flex items-center gap-2">🏷️ Products & Cost</h3>
-                    <p class="text-xs text-slate-400 mb-2">Define your products here so the system knows the cost.</p>
+                    <h3 class="font-bold text-lg mb-4 flex items-center gap-2" data-i18n="prod_title">🏷️ إدارة المنتجات</h3>
+                    <p class="text-xs text-slate-400 mb-2" data-i18n="prod_desc">أدخل اسم المنتج كما هو في الطلبات.</p>
                     <div class="flex gap-2 mb-2">
-                        <input type="text" id="prodName" placeholder="Exact Product Name" class="flex-1 p-2 border rounded-lg text-sm outline-none focus:border-blue-500">
-                        <input type="number" id="prodCost" placeholder="Cost" class="w-20 p-2 border rounded-lg text-sm text-center outline-none focus:border-blue-500">
+                        <input type="text" id="prodName" class="flex-1 p-2 border rounded-lg text-sm outline-none focus:border-blue-500 placeholder:text-gray-400" placeholder="Product Name">
+                        <input type="number" id="prodCost" class="w-20 p-2 border rounded-lg text-sm text-center outline-none focus:border-blue-500 placeholder:text-gray-400" placeholder="Cost">
                     </div>
-                    <button onclick="addProduct()" class="w-full bg-slate-800 text-white py-2 rounded-lg font-bold text-sm hover:bg-slate-700">Add Product</button>
-                    
+                    <button onclick="addProduct()" class="w-full bg-slate-800 text-white py-2 rounded-lg font-bold text-sm hover:bg-slate-700 btn-press" data-i18n="btn_add_prod">إضافة</button>
                     <div id="productsList" class="mt-4 space-y-2 max-h-60 overflow-y-auto pr-1"></div>
                 </div>
             </div>
 
             <div class="lg:col-span-2 space-y-6">
-                
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
                     <div class="flex justify-between items-center mb-4 border-b pb-3">
                         <div>
-                            <h3 class="font-bold text-lg flex items-center gap-2">📦 Shipped Orders <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">Auto</span></h3>
-                            <p class="text-[10px] text-slate-400">Calculated automatically from 'Shipped' orders.</p>
+                            <h3 class="font-bold text-lg flex items-center gap-2" data-i18n="shipped_title">📦 السلع المرسلة <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">Auto</span></h3>
+                            <p class="text-[10px] text-slate-400" data-i18n="shipped_desc">يتم حسابها تلقائياً من زر المزامنة</p>
                         </div>
                     </div>
-                    <table class="w-full text-sm text-right" id="shippedTable">
+                    <table class="w-full text-sm" id="shippedTable">
                         <thead class="bg-slate-50 text-slate-500 font-bold">
                             <tr>
-                                <th class="p-2 text-left">Product</th>
-                                <th class="p-2">Count (Shipped)</th>
-                                <th class="p-2">Unit Cost</th>
-                                <th class="p-2 text-red-600">Total Debt</th>
+                                <th class="p-2 text-start" data-i18n="th_prod">المنتج</th>
+                                <th class="p-2" data-i18n="th_qty">العدد</th>
+                                <th class="p-2" data-i18n="th_cost">التكلفة</th>
+                                <th class="p-2 text-red-600" data-i18n="th_total">الإجمالي</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-100"></tbody>
+                        <tbody class="divide-y divide-slate-100 text-center"></tbody>
                         <tfoot class="bg-slate-50 font-bold">
                             <tr>
-                                <td colspan="3" class="p-3 text-left">Total Debt to Supplier:</td>
-                                <td class="p-3 text-red-600" id="sumProductDebt">0</td>
+                                <td colspan="3" class="p-3 text-start" data-i18n="ft_total_debt">مجموع الديون:</td>
+                                <td class="p-3 text-red-600 text-center" id="sumProductDebt">0</td>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
 
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
-                    <h3 class="font-bold text-lg mb-4 border-b pb-3">💰 Financials</h3>
-                    
+                    <h3 class="font-bold text-lg mb-4 border-b pb-3" data-i18n="fin_title">💰 المالية</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div class="bg-red-50 p-3 rounded-xl border border-red-100">
-                            <label class="text-xs font-bold text-red-800 block mb-1">Pay Supplier</label>
+                            <label class="text-xs font-bold text-red-800 block mb-1" data-i18n="lbl_pay_supp">دفع للمورد</label>
                             <div class="flex gap-2">
-                                <input type="number" id="payAmount" class="w-full p-2 border rounded-lg text-sm" placeholder="Amount">
-                                <button onclick="addTransaction('payment')" class="bg-red-500 text-white px-3 rounded-lg font-bold text-xs">Add</button>
+                                <input type="number" id="payAmount" class="w-full p-2 border rounded-lg text-sm" placeholder="0">
+                                <button onclick="addTransaction('payment')" class="bg-red-500 text-white px-3 rounded-lg font-bold text-xs" data-i18n="btn_add">أضف</button>
                             </div>
                         </div>
                         <div class="bg-green-50 p-3 rounded-xl border border-green-100">
-                            <label class="text-xs font-bold text-green-800 block mb-1">Delivery Income</label>
+                            <label class="text-xs font-bold text-green-800 block mb-1" data-i18n="lbl_income">استلام أموال</label>
                             <div class="flex gap-2">
-                                <input type="number" id="incomeAmount" class="w-full p-2 border rounded-lg text-sm" placeholder="Amount">
-                                <button onclick="addTransaction('income')" class="bg-green-600 text-white px-3 rounded-lg font-bold text-xs">Add</button>
+                                <input type="number" id="incomeAmount" class="w-full p-2 border rounded-lg text-sm" placeholder="0">
+                                <button onclick="addTransaction('income')" class="bg-green-600 text-white px-3 rounded-lg font-bold text-xs" data-i18n="btn_add">أضف</button>
                             </div>
                         </div>
                     </div>
-
                     <div class="mb-2 flex gap-2">
-                        <input type="text" id="expDesc" placeholder="Expense (Ads, Packaging...)" class="flex-1 p-2 border rounded-lg text-sm">
-                        <input type="number" id="expAmount" placeholder="Cost" class="w-24 p-2 border rounded-lg text-sm">
-                        <button onclick="addTransaction('expense')" class="bg-orange-500 text-white px-4 rounded-lg font-bold text-sm">Add</button>
+                        <input type="text" id="expDesc" class="flex-1 p-2 border rounded-lg text-sm" placeholder="Ads, Packaging...">
+                        <input type="number" id="expAmount" class="w-24 p-2 border rounded-lg text-sm" placeholder="0">
+                        <button onclick="addTransaction('expense')" class="bg-orange-500 text-white px-4 rounded-lg font-bold text-sm" data-i18n="btn_add">أضف</button>
                     </div>
-
                     <div class="max-h-40 overflow-y-auto">
-                        <table class="w-full text-xs text-right" id="finTable">
-                            <thead class="bg-slate-50 text-slate-500">
-                                <tr>
-                                    <th class="p-2 text-left">Type</th>
-                                    <th class="p-2">Amount</th>
-                                    <th class="p-2">Action</th>
-                                </tr>
-                            </thead>
+                        <table class="w-full text-xs" id="finTable">
                             <tbody class="divide-y divide-slate-100"></tbody>
                         </table>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 
     <script>
-        // ⚠️ رابط السكربت الجديد
+        // ⚙️ CONFIG
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby-XyjE8UvPrLe1HJTF1siYWwfA4kXvP9fASExfJcKWcySp4xqx7PkMBl-ysQ5ouuim/exec"; 
 
-        let data = {
-            products: [], // {name, cost}
-            financials: [], // {type: 'payment'|'income'|'expense', amount, desc, date}
-            shippedStats: {} // {productName: count} (Calculated from sync)
+        const LANG = {
+            ar: {
+                dir: "rtl",
+                btn_sync: "مزامنة", btn_save: "حفظ", btn_back: "عودة",
+                card_debt: "ديون المورد", card_expenses: "المصاريف", card_income: "مدخول التوصيل", card_profit: "الربح الصافي",
+                prod_title: "🏷️ إدارة المنتجات", prod_desc: "أدخل اسم المنتج كما هو في الطلبات", btn_add_prod: "إضافة",
+                shipped_title: "📦 السلع المرسلة", shipped_desc: "محسوبة تلقائياً من المزامنة",
+                th_prod: "المنتج", th_qty: "العدد", th_cost: "التكلفة", th_total: "الإجمالي", ft_total_debt: "مجموع الديون:",
+                fin_title: "💰 المالية", lbl_pay_supp: "دفع للمورد", lbl_income: "استلام أموال", btn_add: "أضف",
+                sync_ok: "✅ تمت المزامنة بنجاح", sync_err: "❌ فشل الاتصال", save_ok: "✅ تم الحفظ", load_ok: "✅ تم التحميل",
+                wait: "لحظة...", no_data: "لا توجد بيانات محفوظة",
+                payment_desc: "دفعة مورد", income_desc: "مدخول", expense_def: "مصروف"
+            },
+            en: {
+                dir: "ltr",
+                btn_sync: "Sync Orders", btn_save: "Save", btn_back: "Back",
+                card_debt: "Supplier Debt", card_expenses: "Total Expenses", card_income: "Delivery Income", card_profit: "Net Profit",
+                prod_title: "🏷️ Product Manager", prod_desc: "Enter product name exactly as in orders", btn_add_prod: "Add",
+                shipped_title: "📦 Shipped Goods", shipped_desc: "Auto-calculated from Sync",
+                th_prod: "Product", th_qty: "Qty", th_cost: "Cost", th_total: "Total", ft_total_debt: "Total Debt:",
+                fin_title: "💰 Financials", lbl_pay_supp: "Pay Supplier", lbl_income: "Receive Income", btn_add: "Add",
+                sync_ok: "✅ Sync Successful", sync_err: "❌ Sync Failed", save_ok: "✅ Saved", load_ok: "✅ Loaded",
+                wait: "Wait...", no_data: "No saved data",
+                payment_desc: "Supplier Payment", income_desc: "Income", expense_def: "Expense"
+            }
         };
+
+        let currentLang = localStorage.getItem('zafir_lang') || 'ar';
+        let data = { products: [], financials: [], shippedStats: {} };
 
         window.onload = function() {
-            loadData();
+            applyLanguage(currentLang);
+            loadCloudData();
         };
 
-        // --- 1. Sync & Logic ---
+        function toggleLang() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            localStorage.setItem('zafir_lang', currentLang);
+            applyLanguage(currentLang);
+            renderShippedTable(); // Re-render to fix alignment
+            renderFinancials();
+        }
+
+        function applyLanguage(lang) {
+            const t = LANG[lang];
+            document.documentElement.dir = t.dir;
+            document.documentElement.lang = lang;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(t[key]) el.innerText = t[key];
+            });
+            document.getElementById('langBtnNav').innerText = lang === 'ar' ? 'EN' : 'AR';
+            // Placeholder updates
+            document.getElementById('prodName').placeholder = lang === 'ar' ? 'اسم المنتج' : 'Product Name';
+            document.getElementById('expDesc').placeholder = lang === 'ar' ? 'وصف المصروف...' : 'Ads, Packaging...';
+        }
+
+        // --- CORE LOGIC ---
         async function syncWithOrders() {
             const btn = document.getElementById('syncBtn');
-            btn.innerHTML = '<span class="loader"></span> Syncing...';
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<span class="loader"></span>';
             btn.disabled = true;
 
             try {
-                // Fetch ALL orders from Sheet1
                 const res = await fetch(`${SCRIPT_URL}?action=read`);
                 const orders = await res.json();
                 
-                // Filter 'Shipped' orders only
                 const shippedOrders = orders.filter(o => o.status === 'Shipped');
-                
-                // Aggregate by Product Name
-                // We use a Map to count: { "Watch": 5, "Headphone": 2 }
                 const counts = {};
                 shippedOrders.forEach(o => {
-                    // Clean product name (trim spaces)
                     const pName = o.product.trim();
                     counts[pName] = (counts[pName] || 0) + 1;
                 });
@@ -183,33 +215,26 @@
                 data.shippedStats = counts;
                 renderShippedTable();
                 updateDashboard();
-                showStatus("✅ Synced successfully with " + shippedOrders.length + " shipped orders.", "green");
-                
-                // Auto-save the synced stats
+                showStatus(LANG[currentLang].sync_ok, "green");
                 saveData(true); 
-
             } catch (e) {
-                showStatus("❌ Sync failed. Check internet.", "red");
+                showStatus(LANG[currentLang].sync_err, "red");
             } finally {
-                btn.innerHTML = '<span>🔄</span> <span class="hidden md:inline">Sync Orders (Shipped)</span>';
+                btn.innerHTML = originalText;
                 btn.disabled = false;
             }
         }
 
-        // --- 2. Products Management ---
         function addProduct() {
             const name = document.getElementById('prodName').value.trim();
             const cost = parseFloat(document.getElementById('prodCost').value);
             if(!name || !cost) return;
-            
-            // Remove existing if any (update)
             data.products = data.products.filter(p => p.name !== name);
             data.products.push({name, cost});
-            
             document.getElementById('prodName').value = '';
             document.getElementById('prodCost').value = '';
             renderProducts();
-            renderShippedTable(); // Update table because cost might change
+            renderShippedTable();
             updateDashboard();
         }
 
@@ -218,7 +243,7 @@
             list.innerHTML = data.products.map(p => `
                 <div class="flex justify-between items-center bg-slate-50 p-2 rounded text-sm border hover:border-blue-300">
                     <span class="font-bold text-slate-700">${p.name}</span>
-                    <span class="text-xs bg-slate-200 px-2 py-1 rounded">Cost: ${p.cost} DH</span>
+                    <span class="text-xs bg-slate-200 px-2 py-1 rounded">${p.cost} DH</span>
                     <button onclick="removeProduct('${p.name}')" class="text-red-400 hover:text-red-600 font-bold">×</button>
                 </div>
             `).join('');
@@ -231,25 +256,22 @@
             updateDashboard();
         }
 
-        // --- 3. Shipped Table Render ---
         function renderShippedTable() {
             const tbody = document.querySelector('#shippedTable tbody');
             tbody.innerHTML = '';
             let totalDebt = 0;
+            const align = currentLang === 'ar' ? 'text-right' : 'text-left';
 
-            // Loop through the synced stats
             for (const [prodName, count] of Object.entries(data.shippedStats)) {
-                // Find cost from product definitions
                 const prodDef = data.products.find(p => p.name === prodName);
                 const cost = prodDef ? prodDef.cost : 0; 
                 const totalRow = count * cost;
                 totalDebt += totalRow;
-
-                const costDisplay = cost > 0 ? cost : `<span class="text-red-500 font-bold">Set Cost!</span>`;
+                const costDisplay = cost > 0 ? cost : `<span class="text-red-400 text-[10px]">Set Cost!</span>`;
 
                 tbody.innerHTML += `
                     <tr>
-                        <td class="p-2 text-left font-bold text-slate-700">${prodName}</td>
+                        <td class="p-2 ${align} font-bold text-slate-700">${prodName}</td>
                         <td class="p-2 font-bold">${count}</td>
                         <td class="p-2 text-slate-500">${costDisplay}</td>
                         <td class="p-2 font-black text-red-600">${totalRow}</td>
@@ -260,24 +282,23 @@
             return totalDebt;
         }
 
-        // --- 4. Financials ---
         function addTransaction(type) {
             let amount = 0, desc = "";
+            const t = LANG[currentLang];
             if(type === 'payment') {
                 amount = parseFloat(document.getElementById('payAmount').value);
-                desc = "Supplier Payment";
+                desc = t.payment_desc;
                 document.getElementById('payAmount').value = '';
             } else if (type === 'income') {
                 amount = parseFloat(document.getElementById('incomeAmount').value);
-                desc = "Delivery Income";
+                desc = t.income_desc;
                 document.getElementById('incomeAmount').value = '';
             } else {
                 amount = parseFloat(document.getElementById('expAmount').value);
-                desc = document.getElementById('expDesc').value || "Expense";
+                desc = document.getElementById('expDesc').value || t.expense_def;
                 document.getElementById('expAmount').value = '';
                 document.getElementById('expDesc').value = '';
             }
-
             if(!amount) return;
             data.financials.unshift({type, amount, desc, date: new Date().toLocaleDateString()});
             renderFinancials();
@@ -286,14 +307,15 @@
 
         function renderFinancials() {
             const tbody = document.querySelector('#finTable tbody');
+            const align = currentLang === 'ar' ? 'text-right' : 'text-left';
             tbody.innerHTML = data.financials.map((t, i) => {
                 let color = t.type === 'income' ? 'text-green-600' : (t.type === 'payment' ? 'text-red-600' : 'text-orange-500');
                 let icon = t.type === 'income' ? '💵' : (t.type === 'payment' ? '🤝' : '📉');
                 return `
                     <tr>
-                        <td class="p-2 text-left text-slate-600">${icon} ${t.desc} <span class="text-[10px] text-slate-400 block">${t.date}</span></td>
-                        <td class="p-2 font-bold ${color}">${t.amount}</td>
-                        <td class="p-2"><button onclick="removeFin(${i})" class="text-red-400 font-bold">×</button></td>
+                        <td class="p-2 ${align} text-slate-600">${icon} ${t.desc} <span class="text-[10px] text-slate-400 block">${t.date}</span></td>
+                        <td class="p-2 font-bold ${color} text-center">${t.amount}</td>
+                        <td class="p-2 text-center"><button onclick="removeFin(${i})" class="text-red-400 font-bold">×</button></td>
                     </tr>
                 `;
             }).join('');
@@ -305,27 +327,19 @@
             updateDashboard();
         }
 
-        // --- 5. Dashboard & Cloud ---
         function updateDashboard() {
-            // 1. Calculate Total Debt from Goods
             let goodsDebt = 0;
             for (const [prodName, count] of Object.entries(data.shippedStats)) {
                 const prodDef = data.products.find(p => p.name === prodName);
                 if (prodDef) goodsDebt += count * prodDef.cost;
             }
-
-            // 2. Calculate Financials
-            let totalPaid = 0;
-            let totalExpenses = 0;
-            let totalRevenue = 0;
-
+            let totalPaid = 0, totalExpenses = 0, totalRevenue = 0;
             data.financials.forEach(t => {
                 if (t.type === 'payment') totalPaid += t.amount;
                 if (t.type === 'expense') totalExpenses += t.amount;
                 if (t.type === 'income') totalRevenue += t.amount;
             });
 
-            // 3. Logic
             const currentDebt = goodsDebt - totalPaid;
             const netProfit = totalRevenue - totalExpenses - goodsDebt;
 
@@ -344,27 +358,24 @@
                 btn.innerHTML = '<span class="loader"></span>';
                 btn.disabled = true;
             }
-
             const fd = new FormData();
             fd.append('action', 'save_accounting');
             fd.append('data', JSON.stringify(data));
-
             try {
                 await fetch(SCRIPT_URL, { method: 'POST', body: fd, mode: 'no-cors' });
-                if(!silent) showStatus("✅ Data Saved to Cloud", "green");
+                if(!silent) showStatus(LANG[currentLang].save_ok, "green");
             } catch (e) {
-                if(!silent) showStatus("❌ Save failed", "red");
+                if(!silent) showStatus("Error Saving", "red");
             } finally {
                 if(!silent) {
-                    const btn = document.getElementById('saveBtn');
-                    btn.innerHTML = '💾 Save';
-                    btn.disabled = false;
+                    document.getElementById('saveBtn').innerHTML = LANG[currentLang].btn_save;
+                    document.getElementById('saveBtn').disabled = false;
                 }
             }
         }
 
-        async function loadData() {
-            showStatus("⏳ Loading from Cloud...", "blue");
+        async function loadCloudData() {
+            showStatus(LANG[currentLang].wait, "blue");
             try {
                 const res = await fetch(`${SCRIPT_URL}?action=get_accounting`);
                 const cloudData = await res.json();
@@ -372,15 +383,15 @@
                     data = cloudData;
                     renderProducts();
                     renderFinancials();
-                    renderShippedTable(); // Will use saved stats
+                    renderShippedTable();
                     updateDashboard();
-                    showStatus("✅ Loaded successfully", "green");
-                    setTimeout(() => showStatus("", ""), 3000);
+                    showStatus(LANG[currentLang].load_ok, "green");
+                    setTimeout(() => showStatus("", ""), 2000);
                 } else {
-                    showStatus("⚠️ No saved data found. Start adding products.", "orange");
+                    showStatus(LANG[currentLang].no_data, "orange");
                 }
             } catch (e) {
-                showStatus("❌ Network error", "red");
+                showStatus("Network Error", "red");
             }
         }
 
@@ -393,5 +404,4 @@
         }
     </script>
 </body>
-
 </html>
