@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ZAFIR - Accounting Level 2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #f1f5f9; }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #e2e8f0; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 10px; }
+        .loader { border: 2px solid #f3f3f3; border-top: 2px solid #3498db; border-radius: 50%; width: 14px; height: 14px; animation: spin 1s linear infinite; display: inline-block; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="text-slate-800 pb-20">
+
+    <nav class="bg-slate-900 text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 h-16 flex justify-between items-center">
+            <div class="text-xl font-black tracking-tighter">ZAFIR<span class="text-orange-500">.</span> Auto</div>
+            <div class="flex gap-2">
+                <button onclick="syncWithOrders()" id="syncBtn" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded-lg text-sm font-bold transition flex items-center gap-2 shadow-lg border border-blue-400">
+                    <span>🔄</span> <span class="hidden md:inline">Sync Orders (Shipped)</span>
+                </button>
+                <button onclick="saveData()" id="saveBtn" class="bg-green-600 hover:bg-green-500 text-white px-3 py-1.5 rounded-lg text-sm font-bold transition">💾 Save</button>
+                <a href="admin.html" class="bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg text-sm font-bold transition">🔙 Admin</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-6">
+
+        <div id="statusMsg" class="hidden mb-4 p-3 rounded-lg text-center font-bold text-sm"></div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white p-4 rounded-2xl shadow-sm border-b-4 border-red-500">
+                <p class="text-xs font-bold text-slate-400 uppercase">Supplier Debt</p>
+                <p class="text-2xl font-black text-red-600 mt-1"><span id="supplierDebt">0</span> <span class="text-xs">DH</span></p>
+            </div>
+            <div class="bg-white p-4 rounded-2xl shadow-sm border-b-4 border-orange-400">
+                <p class="text-xs font-bold text-slate-400 uppercase">Total Expenses</p>
+                <p class="text-2xl font-black text-orange-500 mt-1"><span id="totalExpenses">0</span> <span class="text-xs">DH</span></p>
+            </div>
+            <div class="bg-white p-4 rounded-2xl shadow-sm border-b-4 border-green-500">
+                <p class="text-xs font-bold text-slate-400 uppercase">Delivery Income</p>
+                <p class="text-2xl font-black text-green-600 mt-1"><span id="totalRevenue">0</span> <span class="text-xs">DH</span></p>
+            </div>
+            <div class="bg-slate-800 p-4 rounded-2xl shadow-lg relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 text-white opacity-5 text-8xl font-black">$</div>
+                <p class="text-xs font-bold text-slate-400 uppercase">Net Profit</p>
+                <p class="text-3xl font-black text-white mt-1" id="netProfit">0 <span class="text-xs">DH</span></p>
+            </div>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-6">
+            
+            <div class="lg:col-span-1 space-y-6">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-lg mb-4 flex items-center gap-2">🏷️ Products & Cost</h3>
+                    <p class="text-xs text-slate-400 mb-2">Define your products here so the system knows the cost.</p>
+                    <div class="flex gap-2 mb-2">
+                        <input type="text" id="prodName" placeholder="Exact Product Name" class="flex-1 p-2 border rounded-lg text-sm outline-none focus:border-blue-500">
+                        <input type="number" id="prodCost" placeholder="Cost" class="w-20 p-2 border rounded-lg text-sm text-center outline-none focus:border-blue-500">
+                    </div>
+                    <button onclick="addProduct()" class="w-full bg-slate-800 text-white py-2 rounded-lg font-bold text-sm hover:bg-slate-700">Add Product</button>
+                    
+                    <div id="productsList" class="mt-4 space-y-2 max-h-60 overflow-y-auto pr-1"></div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2 space-y-6">
+                
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+                    <div class="flex justify-between items-center mb-4 border-b pb-3">
+                        <div>
+                            <h3 class="font-bold text-lg flex items-center gap-2">📦 Shipped Orders <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">Auto</span></h3>
+                            <p class="text-[10px] text-slate-400">Calculated automatically from 'Shipped' orders.</p>
+                        </div>
+                    </div>
+                    <table class="w-full text-sm text-right" id="shippedTable">
+                        <thead class="bg-slate-50 text-slate-500 font-bold">
+                            <tr>
+                                <th class="p-2 text-left">Product</th>
+                                <th class="p-2">Count (Shipped)</th>
+                                <th class="p-2">Unit Cost</th>
+                                <th class="p-2 text-red-600">Total Debt</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100"></tbody>
+                        <tfoot class="bg-slate-50 font-bold">
+                            <tr>
+                                <td colspan="3" class="p-3 text-left">Total Debt to Supplier:</td>
+                                <td class="p-3 text-red-600" id="sumProductDebt">0</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-lg mb-4 border-b pb-3">💰 Financials</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div class="bg-red-50 p-3 rounded-xl border border-red-100">
+                            <label class="text-xs font-bold text-red-800 block mb-1">Pay Supplier</label>
+                            <div class="flex gap-2">
+                                <input type="number" id="payAmount" class="w-full p-2 border rounded-lg text-sm" placeholder="Amount">
+                                <button onclick="addTransaction('payment')" class="bg-red-500 text-white px-3 rounded-lg font-bold text-xs">Add</button>
+                            </div>
+                        </div>
+                        <div class="bg-green-50 p-3 rounded-xl border border-green-100">
+                            <label class="text-xs font-bold text-green-800 block mb-1">Delivery Income</label>
+                            <div class="flex gap-2">
+                                <input type="number" id="incomeAmount" class="w-full p-2 border rounded-lg text-sm" placeholder="Amount">
+                                <button onclick="addTransaction('income')" class="bg-green-600 text-white px-3 rounded-lg font-bold text-xs">Add</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-2 flex gap-2">
+                        <input type="text" id="expDesc" placeholder="Expense (Ads, Packaging...)" class="flex-1 p-2 border rounded-lg text-sm">
+                        <input type="number" id="expAmount" placeholder="Cost" class="w-24 p-2 border rounded-lg text-sm">
+                        <button onclick="addTransaction('expense')" class="bg-orange-500 text-white px-4 rounded-lg font-bold text-sm">Add</button>
+                    </div>
+
+                    <div class="max-h-40 overflow-y-auto">
+                        <table class="w-full text-xs text-right" id="finTable">
+                            <thead class="bg-slate-50 text-slate-500">
+                                <tr>
+                                    <th class="p-2 text-left">Type</th>
+                                    <th class="p-2">Amount</th>
+                                    <th class="p-2">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ⚠️ رابط السكربت الجديد
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwQ9Z_NEW_DEPLOYMENT_URL_HERE/exec"; 
+
+        let data = {
+            products: [], // {name, cost}
+            financials: [], // {type: 'payment'|'income'|'expense', amount, desc, date}
+            shippedStats: {} // {productName: count} (Calculated from sync)
+        };
+
+        window.onload = function() {
+            loadData();
+        };
+
+        // --- 1. Sync & Logic ---
+        async function syncWithOrders() {
+            const btn = document.getElementById('syncBtn');
+            btn.innerHTML = '<span class="loader"></span> Syncing...';
+            btn.disabled = true;
+
+            try {
+                // Fetch ALL orders from Sheet1
+                const res = await fetch(`${SCRIPT_URL}?action=read`);
+                const orders = await res.json();
+                
+                // Filter 'Shipped' orders only
+                const shippedOrders = orders.filter(o => o.status === 'Shipped');
+                
+                // Aggregate by Product Name
+                // We use a Map to count: { "Watch": 5, "Headphone": 2 }
+                const counts = {};
+                shippedOrders.forEach(o => {
+                    // Clean product name (trim spaces)
+                    const pName = o.product.trim();
+                    counts[pName] = (counts[pName] || 0) + 1;
+                });
+
+                data.shippedStats = counts;
+                renderShippedTable();
+                updateDashboard();
+                showStatus("✅ Synced successfully with " + shippedOrders.length + " shipped orders.", "green");
+                
+                // Auto-save the synced stats
+                saveData(true); 
+
+            } catch (e) {
+                showStatus("❌ Sync failed. Check internet.", "red");
+            } finally {
+                btn.innerHTML = '<span>🔄</span> <span class="hidden md:inline">Sync Orders (Shipped)</span>';
+                btn.disabled = false;
+            }
+        }
+
+        // --- 2. Products Management ---
+        function addProduct() {
+            const name = document.getElementById('prodName').value.trim();
+            const cost = parseFloat(document.getElementById('prodCost').value);
+            if(!name || !cost) return;
+            
+            // Remove existing if any (update)
+            data.products = data.products.filter(p => p.name !== name);
+            data.products.push({name, cost});
+            
+            document.getElementById('prodName').value = '';
+            document.getElementById('prodCost').value = '';
+            renderProducts();
+            renderShippedTable(); // Update table because cost might change
+            updateDashboard();
+        }
+
+        function renderProducts() {
+            const list = document.getElementById('productsList');
+            list.innerHTML = data.products.map(p => `
+                <div class="flex justify-between items-center bg-slate-50 p-2 rounded text-sm border hover:border-blue-300">
+                    <span class="font-bold text-slate-700">${p.name}</span>
+                    <span class="text-xs bg-slate-200 px-2 py-1 rounded">Cost: ${p.cost} DH</span>
+                    <button onclick="removeProduct('${p.name}')" class="text-red-400 hover:text-red-600 font-bold">×</button>
+                </div>
+            `).join('');
+        }
+
+        function removeProduct(name) {
+            data.products = data.products.filter(p => p.name !== name);
+            renderProducts();
+            renderShippedTable();
+            updateDashboard();
+        }
+
+        // --- 3. Shipped Table Render ---
+        function renderShippedTable() {
+            const tbody = document.querySelector('#shippedTable tbody');
+            tbody.innerHTML = '';
+            let totalDebt = 0;
+
+            // Loop through the synced stats
+            for (const [prodName, count] of Object.entries(data.shippedStats)) {
+                // Find cost from product definitions
+                const prodDef = data.products.find(p => p.name === prodName);
+                const cost = prodDef ? prodDef.cost : 0; 
+                const totalRow = count * cost;
+                totalDebt += totalRow;
+
+                const costDisplay = cost > 0 ? cost : `<span class="text-red-500 font-bold">Set Cost!</span>`;
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="p-2 text-left font-bold text-slate-700">${prodName}</td>
+                        <td class="p-2 font-bold">${count}</td>
+                        <td class="p-2 text-slate-500">${costDisplay}</td>
+                        <td class="p-2 font-black text-red-600">${totalRow}</td>
+                    </tr>
+                `;
+            }
+            document.getElementById('sumProductDebt').innerText = totalDebt.toLocaleString();
+            return totalDebt;
+        }
+
+        // --- 4. Financials ---
+        function addTransaction(type) {
+            let amount = 0, desc = "";
+            if(type === 'payment') {
+                amount = parseFloat(document.getElementById('payAmount').value);
+                desc = "Supplier Payment";
+                document.getElementById('payAmount').value = '';
+            } else if (type === 'income') {
+                amount = parseFloat(document.getElementById('incomeAmount').value);
+                desc = "Delivery Income";
+                document.getElementById('incomeAmount').value = '';
+            } else {
+                amount = parseFloat(document.getElementById('expAmount').value);
+                desc = document.getElementById('expDesc').value || "Expense";
+                document.getElementById('expAmount').value = '';
+                document.getElementById('expDesc').value = '';
+            }
+
+            if(!amount) return;
+            data.financials.unshift({type, amount, desc, date: new Date().toLocaleDateString()});
+            renderFinancials();
+            updateDashboard();
+        }
+
+        function renderFinancials() {
+            const tbody = document.querySelector('#finTable tbody');
+            tbody.innerHTML = data.financials.map((t, i) => {
+                let color = t.type === 'income' ? 'text-green-600' : (t.type === 'payment' ? 'text-red-600' : 'text-orange-500');
+                let icon = t.type === 'income' ? '💵' : (t.type === 'payment' ? '🤝' : '📉');
+                return `
+                    <tr>
+                        <td class="p-2 text-left text-slate-600">${icon} ${t.desc} <span class="text-[10px] text-slate-400 block">${t.date}</span></td>
+                        <td class="p-2 font-bold ${color}">${t.amount}</td>
+                        <td class="p-2"><button onclick="removeFin(${i})" class="text-red-400 font-bold">×</button></td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function removeFin(index) {
+            data.financials.splice(index, 1);
+            renderFinancials();
+            updateDashboard();
+        }
+
+        // --- 5. Dashboard & Cloud ---
+        function updateDashboard() {
+            // 1. Calculate Total Debt from Goods
+            let goodsDebt = 0;
+            for (const [prodName, count] of Object.entries(data.shippedStats)) {
+                const prodDef = data.products.find(p => p.name === prodName);
+                if (prodDef) goodsDebt += count * prodDef.cost;
+            }
+
+            // 2. Calculate Financials
+            let totalPaid = 0;
+            let totalExpenses = 0;
+            let totalRevenue = 0;
+
+            data.financials.forEach(t => {
+                if (t.type === 'payment') totalPaid += t.amount;
+                if (t.type === 'expense') totalExpenses += t.amount;
+                if (t.type === 'income') totalRevenue += t.amount;
+            });
+
+            // 3. Logic
+            const currentDebt = goodsDebt - totalPaid;
+            const netProfit = totalRevenue - totalExpenses - goodsDebt;
+
+            document.getElementById('supplierDebt').innerText = currentDebt.toLocaleString();
+            document.getElementById('totalExpenses').innerText = totalExpenses.toLocaleString();
+            document.getElementById('totalRevenue').innerText = totalRevenue.toLocaleString();
+            
+            const el = document.getElementById('netProfit');
+            el.innerText = netProfit.toLocaleString();
+            el.className = `text-3xl font-black mt-1 ${netProfit >= 0 ? 'text-green-500' : 'text-red-500'}`;
+        }
+
+        async function saveData(silent = false) {
+            if(!silent) {
+                const btn = document.getElementById('saveBtn');
+                btn.innerHTML = '<span class="loader"></span>';
+                btn.disabled = true;
+            }
+
+            const fd = new FormData();
+            fd.append('action', 'save_accounting');
+            fd.append('data', JSON.stringify(data));
+
+            try {
+                await fetch(SCRIPT_URL, { method: 'POST', body: fd, mode: 'no-cors' });
+                if(!silent) showStatus("✅ Data Saved to Cloud", "green");
+            } catch (e) {
+                if(!silent) showStatus("❌ Save failed", "red");
+            } finally {
+                if(!silent) {
+                    const btn = document.getElementById('saveBtn');
+                    btn.innerHTML = '💾 Save';
+                    btn.disabled = false;
+                }
+            }
+        }
+
+        async function loadData() {
+            showStatus("⏳ Loading from Cloud...", "blue");
+            try {
+                const res = await fetch(`${SCRIPT_URL}?action=get_accounting`);
+                const cloudData = await res.json();
+                if (cloudData && cloudData.products) {
+                    data = cloudData;
+                    renderProducts();
+                    renderFinancials();
+                    renderShippedTable(); // Will use saved stats
+                    updateDashboard();
+                    showStatus("✅ Loaded successfully", "green");
+                    setTimeout(() => showStatus("", ""), 3000);
+                } else {
+                    showStatus("⚠️ No saved data found. Start adding products.", "orange");
+                }
+            } catch (e) {
+                showStatus("❌ Network error", "red");
+            }
+        }
+
+        function showStatus(msg, color) {
+            const el = document.getElementById('statusMsg');
+            if (!msg) { el.classList.add('hidden'); return; }
+            el.className = `mb-4 p-3 rounded-lg text-center font-bold text-sm bg-${color}-100 text-${color}-700 border border-${color}-200`;
+            el.innerText = msg;
+            el.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
