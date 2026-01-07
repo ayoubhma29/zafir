@@ -54,7 +54,7 @@
 
         <div class="container mx-auto px-3 md:px-4 py-6">
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 mb-8">
                 <div class="bg-white p-4 rounded-3xl card-shadow border-b-4 border-red-500 hover:-translate-y-1 transition"><p class="text-[10px] text-slate-400 font-bold uppercase" data-i18n="card_debt">ديون المورد</p><p class="text-2xl font-black text-red-600 mt-2" id="supplierDebt">0</p></div>
                 <div class="bg-white p-4 rounded-3xl card-shadow border-b-4 border-orange-400 hover:-translate-y-1 transition"><p class="text-[10px] text-slate-400 font-bold uppercase" data-i18n="card_expenses">المصاريف</p><p class="text-2xl font-black text-orange-500 mt-2" id="totalExpenses">0</p></div>
                 <div class="bg-white p-4 rounded-3xl card-shadow border-b-4 border-green-500 hover:-translate-y-1 transition"><p class="text-[10px] text-slate-400 font-bold uppercase" data-i18n="card_income">المدخول</p><p class="text-2xl font-black text-green-600 mt-2" id="totalRevenue">0</p></div>
@@ -102,7 +102,7 @@
                                 <tbody id="shippedTableBody" class="divide-y divide-slate-50"></tbody>
                             </table>
                         </div>
-
+                        
                         <div class="md:hidden space-y-3" id="shippedMobileContainer"></div>
                     </div>
 
@@ -144,7 +144,7 @@
         let data = { products: [], financials: [], shippedStats: {}, packUnitCost: 0 };
         let saveTimeout, autoSyncInterval;
 
-        // AUTH
+        // AUTH CHECK
         if(localStorage.getItem('zafir_auth') === 'true') {
             document.getElementById('loginSection').classList.add('hidden');
             document.getElementById('dashboardContent').classList.remove('hidden');
@@ -154,8 +154,11 @@
             applyLanguage(currentLang);
             if(localStorage.getItem('zafir_auth') === 'true') {
                 updateStatus('sync');
+                // 1. Get saved data
                 await loadCloudData(); 
+                // 2. Sync orders
                 await syncWithOrders();
+                // 3. Start loop
                 autoSyncInterval = setInterval(() => { if(!document.hidden) syncWithOrders(true); }, 30000);
             }
         };
@@ -163,7 +166,7 @@
         function attemptLogin() {
             if(document.getElementById('adminPass').value === PASS_CODE) {
                 localStorage.setItem('zafir_auth', 'true');
-                location.reload();
+                location.reload(); 
             } else { alert("رمز خاطئ"); }
         }
 
@@ -196,7 +199,7 @@
         async function syncWithOrders(silent = false) {
             if(!silent) updateStatus('loading');
             try {
-                // Using standard GET
+                // Using standard GET (CORS enabled on Google Scripts by default)
                 const res = await fetch(`${SCRIPT_URL}?action=read`);
                 const orders = await res.json();
                 const shippedOrders = orders.filter(o => o.status === 'Shipped');
@@ -227,7 +230,7 @@
         async function saveData() {
             data.packUnitCost = parseFloat(document.getElementById('packUnitCost').value) || 0;
             const fd = new FormData(); fd.append('action', 'save_accounting'); fd.append('data', JSON.stringify(data));
-            // NO-CORS for stable saving
+            // Using NO-CORS for POST stability
             try { await fetch(SCRIPT_URL, { method: 'POST', body: fd, mode: 'no-cors' }); updateStatus('saved'); } catch(e){ updateStatus('error'); }
         }
 
@@ -318,12 +321,12 @@
                 let cost = 0, used = 0, paid = total, rowT = 0;
                 if(p) { cost = p.cost; used = parseInt(p.totalUsedStock)||0; paid = Math.max(0, total-used); rowT = paid*cost; }
                 
-                // Desktop
+                // Desktop Row
                 body.innerHTML += `<tr class="hover:bg-slate-50 transition border-b border-slate-50"><td class="p-3 ${align} font-bold text-slate-700 text-xs">${pName}</td><td class="p-3 text-center font-bold text-xs">${total}</td><td class="p-3 text-center text-green-600 font-black text-xs">${used}</td><td class="p-3 text-center font-bold text-slate-800 text-xs">${paid}</td><td class="p-3 ${alignEnd} font-black text-red-500 text-xs">${rowT}</td></tr>`;
                 
-                // Mobile Card View (Fix)
+                // Mobile Card
                 mobile.innerHTML += `
-                    <div class="bg-white p-3 rounded-2xl border border-slate-100 flex justify-between items-center shadow-sm">
+                    <div class="bg-slate-50 p-3 rounded-2xl border border-slate-100 flex justify-between items-center shadow-sm">
                         <div>
                             <div class="font-bold text-slate-800 text-xs">${pName}</div>
                             <div class="text-[10px] text-slate-400 mt-1">
