@@ -8,391 +8,326 @@
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; }
-        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        body { font-family: 'Cairo', sans-serif; background-color: #f1f5f9; }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        .glass-header { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
-        .card-shadow { box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05); }
+        .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
         
-        /* Status Colors */
-        .st-New { @apply bg-blue-50 text-blue-700 border-blue-100; }
-        .st-NoAnswer { @apply bg-yellow-50 text-yellow-700 border-yellow-100; }
-        .st-Confirmed { @apply bg-emerald-50 text-emerald-700 border-emerald-100; }
-        .st-Shipped { @apply bg-violet-50 text-violet-700 border-violet-100; }
-        .st-Postponed { @apply bg-orange-50 text-orange-700 border-orange-100; }
-        .st-Cancelled { @apply bg-red-50 text-red-700 border-red-100; }
-        .st-Fake { @apply bg-gray-100 text-gray-600 border-gray-200; }
+        /* Status Badges */
+        .st-badge { padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; display: inline-block; }
+        .st-New { background: #eff6ff; color: #1d4ed8; border: 1px solid #dbeafe; }
+        .st-NoAnswer { background: #fefce8; color: #a16207; border: 1px solid #fef9c3; }
+        .st-Confirmed { background: #f0fdf4; color: #15803d; border: 1px solid #dcfce7; }
+        .st-Shipped { background: #f5f3ff; color: #6d28d9; border: 1px solid #ede9fe; }
+        .st-Cancelled { background: #fef2f2; color: #b91c1c; border: 1px solid #fee2e2; }
         
         .loader { width: 24px; height: 24px; border: 3px solid #e2e8f0; border-top-color: #f97316; border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .live-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; display: inline-block; animation: blink 2s infinite; }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
     </style>
 </head>
 <body class="text-slate-800 pb-24 selection:bg-orange-100">
 
-    <div id="loginSection" class="fixed inset-0 bg-slate-900/95 z-50 flex items-center justify-center p-4 transition-all duration-300">
+    <div id="loginSection" class="fixed inset-0 bg-slate-900 z-50 flex items-center justify-center p-4 transition-opacity duration-300">
         <div class="bg-white w-full max-w-sm p-8 rounded-3xl shadow-2xl text-center">
-            <div class="mb-6 flex justify-center"><span class="text-4xl">🔐</span></div>
-            <h2 class="text-2xl font-black text-slate-800 mb-6" data-i18n="login_title">تسجيل الدخول</h2>
+            <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl">🔐</div>
+            <h2 class="text-2xl font-black text-slate-800 mb-1" data-i18n="login_title">تسجيل الدخول</h2>
+            <p class="text-slate-400 text-xs mb-6">ZAFIR Control Panel</p>
             <form onsubmit="event.preventDefault(); attemptLogin();">
-                <input type="password" id="adminPass" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl text-center text-lg font-bold focus:outline-none focus:border-orange-500 mb-4 transition-all" placeholder="••••">
-                <button type="submit" class="w-full bg-slate-900 text-white p-4 rounded-2xl font-bold hover:bg-orange-600 transition-all active:scale-95" data-i18n="login_btn">دخول</button>
+                <input type="password" id="adminPass" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl text-center text-lg font-bold focus:border-orange-500 outline-none transition mb-4" placeholder="••••">
+                <button type="submit" class="w-full bg-slate-900 text-white p-4 rounded-2xl font-bold hover:bg-orange-600 transition shadow-lg active:scale-95" data-i18n="login_btn">دخول</button>
             </form>
-            <button onclick="toggleLang()" class="mt-6 text-xs font-bold text-slate-400 hover:text-slate-600">Switch Language</button>
         </div>
     </div>
 
-    <div id="editModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm transition-opacity">
-        <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden scale-100 border border-white/20">
+    <div id="editModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden scale-100">
             <div class="bg-slate-50 p-4 border-b flex justify-between items-center">
                 <h3 class="font-bold text-lg" data-i18n="edit_title">تعديل الطلب</h3>
-                <button onclick="closeEditModal()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-red-50 text-slate-400 hover:text-red-500 transition">&times;</button>
+                <button onclick="closeEditModal()" class="w-8 h-8 rounded-full hover:bg-red-100 text-slate-400 hover:text-red-500 transition">&times;</button>
             </div>
-            <div class="p-6 space-y-4 max-h-[65vh] overflow-y-auto">
+            <div class="p-6 space-y-4 max-h-[60vh] overflow-y-auto">
                 <input type="hidden" id="editRowIndex">
                 <div class="grid grid-cols-2 gap-3">
-                    <div><label class="text-[10px] font-bold text-slate-400 uppercase mb-1 block" data-i18n="name">الاسم</label><input type="text" id="editName" class="w-full p-3 border rounded-xl font-bold bg-slate-50 focus:bg-white focus:border-orange-500 outline-none transition"></div>
-                    <div><label class="text-[10px] font-bold text-slate-400 uppercase mb-1 block" data-i18n="phone">الهاتف</label><input type="tel" id="editPhone" class="w-full p-3 border rounded-xl font-mono font-bold bg-slate-50 focus:bg-white focus:border-orange-500 outline-none transition" dir="ltr"></div>
+                    <input type="text" id="editName" class="p-3 border rounded-xl font-bold bg-slate-50 focus:bg-white outline-none" placeholder="الاسم">
+                    <input type="tel" id="editPhone" class="p-3 border rounded-xl font-mono font-bold bg-slate-50 focus:bg-white outline-none" dir="ltr" placeholder="الهاتف">
                 </div>
                 <div class="grid grid-cols-2 gap-3">
-                    <div><label class="text-[10px] font-bold text-slate-400 uppercase mb-1 block" data-i18n="city">المدينة</label><input type="text" id="editCity" class="w-full p-3 border rounded-xl font-bold bg-slate-50 focus:bg-white focus:border-orange-500 outline-none transition"></div>
-                    <div><label class="text-[10px] font-bold text-slate-400 uppercase mb-1 block" data-i18n="price">السعر</label><input type="number" id="editPrice" class="w-full p-3 border rounded-xl font-bold text-green-600 bg-slate-50 focus:bg-white focus:border-green-500 outline-none transition"></div>
+                    <input type="text" id="editCity" class="p-3 border rounded-xl font-bold bg-slate-50 focus:bg-white outline-none" placeholder="المدينة">
+                    <input type="number" id="editPrice" class="p-3 border rounded-xl font-bold text-green-600 bg-slate-50 focus:bg-white outline-none" placeholder="السعر">
                 </div>
-                <div><label class="text-[10px] font-bold text-slate-400 uppercase mb-1 block" data-i18n="address">العنوان</label><input type="text" id="editAddress" class="w-full p-3 border rounded-xl bg-slate-50 focus:bg-white focus:border-orange-500 outline-none transition"></div>
-                <div><label class="text-[10px] font-bold text-slate-400 uppercase mb-1 block" data-i18n="note">ملاحظات</label><textarea id="editNote" class="w-full p-3 border rounded-xl h-20 bg-amber-50/50 focus:bg-white focus:border-amber-400 outline-none transition"></textarea></div>
+                <input type="text" id="editAddress" class="w-full p-3 border rounded-xl bg-slate-50 focus:bg-white outline-none" placeholder="العنوان">
+                <textarea id="editNote" class="w-full p-3 border rounded-xl h-24 bg-amber-50 focus:bg-white outline-none" placeholder="ملاحظات..."></textarea>
             </div>
             <div class="p-4 bg-slate-50 border-t flex gap-3">
-                <button onclick="saveChanges()" class="flex-1 bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700 shadow-lg shadow-green-200 transition" data-i18n="save_btn">حفظ</button>
-                <button onclick="closeEditModal()" class="flex-1 bg-white border border-slate-200 py-3 rounded-xl font-bold hover:bg-slate-50 transition" data-i18n="cancel_btn">إلغاء</button>
+                <button onclick="saveChanges()" class="flex-1 bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700 shadow-lg transition" data-i18n="save_btn">حفظ التغييرات</button>
             </div>
         </div>
     </div>
 
     <div id="dashboardContent" class="hidden min-h-screen">
         
-        <nav class="glass-header sticky top-0 z-40 border-b border-slate-100">
+        <nav class="glass sticky top-0 z-40 border-b border-slate-200">
             <div class="container mx-auto px-4 h-16 flex justify-between items-center">
                 <div class="flex items-center gap-3">
-                    <div class="text-xl md:text-2xl font-black text-slate-800 tracking-tighter cursor-pointer" onclick="refreshData()">
-                        ZAFIR<span class="text-orange-500">.</span> <span class="live-dot" title="Live"></span>
+                    <div class="text-2xl font-black text-slate-800 tracking-tighter cursor-pointer" onclick="refreshData()">
+                        ZAFIR<span class="text-orange-500">.</span>
                     </div>
-                    <button onclick="toggleLang()" class="text-[10px] font-bold bg-slate-100 px-2 py-1 rounded border border-slate-200 text-slate-500 hover:bg-slate-200 transition" id="langBtnNav">EN</button>
+                    <button onclick="toggleLang()" class="text-[10px] font-bold bg-slate-100 px-2 py-1 rounded border hover:bg-slate-200 transition">EN/AR</button>
                 </div>
                 <div class="flex gap-2">
-                    <a href="accounting.html" class="bg-blue-50 text-blue-600 px-3 py-2 rounded-xl hover:bg-blue-100 transition font-bold text-xs flex items-center gap-2">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                    <a href="accounting.html" class="p-2 bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-100 transition font-bold text-xs flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 4h6m-6 4h6M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                         <span class="hidden md:inline" data-i18n="nav_accounting">المحاسبة</span>
                     </a>
-                    <button onclick="refreshData()" class="w-9 h-9 flex items-center justify-center bg-slate-100 rounded-xl hover:bg-orange-100 hover:text-orange-600 transition"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg></button>
-                    <button onclick="exportExcel()" class="w-9 h-9 flex items-center justify-center bg-green-100 text-green-700 rounded-xl hover:bg-green-200 transition"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg></button>
-                    <button onclick="logout()" class="w-9 h-9 flex items-center justify-center bg-red-50 text-red-600 rounded-xl hover:bg-red-100 transition"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg></button>
+                    <button onclick="exportExcel()" class="p-2 bg-green-50 text-green-600 rounded-xl hover:bg-green-100 transition"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg></button>
+                    <button onclick="logout()" class="p-2 bg-red-50 text-red-600 rounded-xl hover:bg-red-100 transition"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg></button>
                 </div>
             </div>
         </nav>
 
-        <div class="container mx-auto px-3 md:px-4 py-6">
+        <div class="container mx-auto px-4 py-6">
             
             <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
-                <div class="bg-white p-4 rounded-2xl card-shadow border border-slate-50">
-                    <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider" data-i18n="stat_total">الكل</p>
-                    <p class="text-2xl font-black text-slate-800 mt-1" id="statTotal">0</p>
-                </div>
-                <div class="bg-white p-4 rounded-2xl card-shadow border-b-4 border-emerald-400">
-                    <p class="text-emerald-600 text-[10px] font-bold uppercase tracking-wider" data-i18n="stat_confirmed">تأكيد</p>
-                    <p class="text-2xl font-black text-emerald-600 mt-1" id="statConfirmed">0</p>
-                </div>
-                <div class="bg-white p-4 rounded-2xl card-shadow border-b-4 border-violet-400">
-                    <p class="text-violet-600 text-[10px] font-bold uppercase tracking-wider" data-i18n="stat_shipped">إرسال</p>
-                    <p class="text-2xl font-black text-violet-600 mt-1" id="statShipped">0</p>
-                </div>
-                <div class="bg-white p-4 rounded-2xl card-shadow border-b-4 border-orange-400">
-                    <p class="text-orange-500 text-[10px] font-bold uppercase tracking-wider" data-i18n="stat_pending">انتظار</p>
-                    <p class="text-2xl font-black text-orange-500 mt-1" id="statPending">0</p>
-                </div>
-                <div class="bg-white p-4 rounded-2xl card-shadow border-b-4 border-red-400">
-                    <p class="text-red-500 text-[10px] font-bold uppercase tracking-wider" data-i18n="stat_cancelled">ملغي</p>
-                    <p class="text-2xl font-black text-red-500 mt-1" id="statCancelled">0</p>
-                </div>
+                <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm"><p class="text-[10px] text-slate-400 font-bold uppercase" data-i18n="stat_total">العدد</p><p class="text-2xl font-black text-slate-800" id="statTotal">0</p></div>
+                <div class="bg-white p-4 rounded-2xl border border-emerald-100 border-b-4 border-b-emerald-500 shadow-sm"><p class="text-[10px] text-emerald-600 font-bold uppercase" data-i18n="stat_confirmed">تأكيد</p><p class="text-2xl font-black text-emerald-600" id="statConfirmed">0</p></div>
+                <div class="bg-white p-4 rounded-2xl border border-violet-100 border-b-4 border-b-violet-500 shadow-sm"><p class="text-[10px] text-violet-600 font-bold uppercase" data-i18n="stat_shipped">إرسال</p><p class="text-2xl font-black text-violet-600" id="statShipped">0</p></div>
+                <div class="bg-white p-4 rounded-2xl border border-orange-100 border-b-4 border-b-orange-400 shadow-sm"><p class="text-[10px] text-orange-500 font-bold uppercase" data-i18n="stat_pending">انتظار</p><p class="text-2xl font-black text-orange-500" id="statPending">0</p></div>
+                <div class="bg-white p-4 rounded-2xl border border-red-100 border-b-4 border-b-red-400 shadow-sm"><p class="text-[10px] text-red-500 font-bold uppercase" data-i18n="stat_cancelled">ملغي</p><p class="text-2xl font-black text-red-500" id="statCancelled">0</p></div>
             </div>
 
-            <div class="bg-white p-3 rounded-2xl card-shadow border border-slate-50 mb-6 sticky top-20 z-30 flex gap-3 flex-col md:flex-row">
-                <div class="relative w-full md:w-56">
-                    <select id="filterSelect" onchange="applyFilters()" class="w-full py-3 px-4 bg-slate-50 hover:bg-slate-100 rounded-xl outline-none text-xs font-bold text-slate-700 appearance-none transition cursor-pointer">
-                        <option value="All" data-i18n="filter_all">📋 جميع الطلبات</option>
-                        <option value="Today" data-i18n="filter_today">🔥 طلبات اليوم</option>
-                        <option value="New" data-i18n="filter_new">✨ جديد</option>
-                        <option value="Confirmed" data-i18n="filter_confirmed">✅ تم التأكيد</option>
-                        <option value="Shipped" data-i18n="filter_shipped">📦 تم الإرسال</option>
-                        <option value="NoAnswer" data-i18n="filter_noanswer">📞 لا يجيب</option>
-                        <option value="Cancelled" data-i18n="filter_cancelled">❌ ملغي</option>
-                    </select>
-                    <div class="absolute top-3.5 pointer-events-none text-xs text-slate-400 rtl:left-4 ltr:right-4">▼</div>
-                </div>
-                <div class="relative flex-1">
-                    <input type="text" id="searchInput" onkeyup="applyFilters()" class="w-full py-3 px-4 bg-slate-50 rounded-xl outline-none text-xs font-bold text-slate-700 focus:bg-white focus:ring-2 focus:ring-orange-100 transition border border-transparent focus:border-orange-200 placeholder:text-slate-400">
-                </div>
+            <div class="bg-white p-2 rounded-2xl border border-slate-100 shadow-sm mb-6 sticky top-20 z-30 flex gap-2">
+                <select id="filterSelect" onchange="applyFilters()" class="py-3 px-4 bg-slate-50 rounded-xl text-xs font-bold text-slate-700 outline-none cursor-pointer">
+                    <option value="All">📋 الكل</option>
+                    <option value="Today">🔥 اليوم</option>
+                    <option value="New">✨ جديد</option>
+                    <option value="Confirmed">✅ مؤكد</option>
+                    <option value="Shipped">📦 مرسل</option>
+                    <option value="NoAnswer">📞 لا يجيب</option>
+                    <option value="Cancelled">❌ ملغي</option>
+                </select>
+                <input type="text" id="searchInput" onkeyup="applyFilters()" class="flex-1 py-3 px-4 bg-slate-50 rounded-xl text-xs font-bold outline-none focus:bg-white focus:ring-2 focus:ring-orange-100 transition" placeholder="بحث...">
             </div>
 
-            <div class="bg-white rounded-2xl card-shadow border border-slate-50 overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-right whitespace-nowrap" id="mainTable">
-                        <thead class="bg-slate-50/50 border-b border-slate-100 text-slate-400">
-                            <tr>
-                                <th class="p-4 text-[10px] font-extrabold uppercase tracking-wide" data-i18n="th_status">الحالة / التاريخ</th>
-                                <th class="p-4 text-[10px] font-extrabold uppercase tracking-wide" data-i18n="th_customer">العميل</th>
-                                <th class="p-4 text-[10px] font-extrabold uppercase tracking-wide" data-i18n="th_product">المنتج</th>
-                                <th class="p-4 text-[10px] font-extrabold uppercase tracking-wide text-center" data-i18n="th_actions">إجراءات</th>
-                            </tr>
-                        </thead>
-                        <tbody id="ordersBody" class="divide-y divide-slate-50"></tbody>
-                    </table>
+            <div id="ordersContainer" class="space-y-4 md:space-y-0">
                 </div>
-                <div id="loader" class="p-12 flex flex-col items-center justify-center">
-                    <div class="loader mb-3"></div>
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest" data-i18n="loading">Loading...</p>
-                </div>
-                <div id="noData" class="hidden p-16 text-center">
-                    <div class="text-4xl mb-3 opacity-20 grayscale">📦</div>
-                    <p class="text-xs font-bold text-slate-400" data-i18n="no_data">لا توجد بيانات</p>
-                </div>
-            </div>
+            
+            <div id="loader" class="p-12 flex justify-center"><div class="loader"></div></div>
+            <div id="noData" class="hidden p-16 text-center text-slate-400 font-bold text-sm">لا توجد طلبات</div>
         </div>
     </div>
 
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby-XyjE8UvPrLe1HJTF1siYWwfA4kXvP9fASExfJcKWcySp4xqx7PkMBl-ysQ5ouuim/exec"; 
         const PASS_CODE = "2911";
-        const FIXED_ARABIC_MSG = "مرحباً {name} 👋\nمعك فريق التأكيد من متجر *Zafir Shop* 🛍️\n\nبخصوص طلبيتك: *{product}*\nالسعر: *{price} درهم*\n\nبغيت غير نأكد معاك العنوان والوقت المناسب للتوصيل؟ 🚛";
+        const FIXED_MSG = "مرحباً {name} 👋\nمعك فريق التأكيد من متجر *Zafir Shop* 🛍️\n\nبخصوص طلبيتك: *{product}*\nالسعر: *{price} درهم*\n\nبغيت غير نأكد معاك العنوان والوقت المناسب للتوصيل؟ 🚛";
 
         const LANG = {
-            ar: {
-                dir: "rtl",
-                login_title: "تسجيل الدخول", login_btn: "دخول",
-                nav_accounting: "المحاسبة", nav_excel: "إكسل",
-                stat_total: "العدد المعروض", stat_confirmed: "تم التأكيد", stat_shipped: "تم الإرسال", stat_pending: "في الانتظار", stat_cancelled: "ملغي / وهمي",
-                filter_all: "📋 جميع الطلبات", filter_today: "🔥 طلبات اليوم", filter_new: "✨ جديد", filter_confirmed: "✅ تم التأكيد", filter_shipped: "📦 تم الإرسال", filter_noanswer: "📞 لا يجيب", filter_cancelled: "❌ ملغي",
-                th_status: "الحالة / التاريخ", th_customer: "بيانات الزبون", th_product: "المنتج", th_actions: "إجراءات",
-                loading: "جاري التحميل...", no_data: "لا توجد طلبات مطابقة",
-                edit_title: "تعديل الطلب", name: "الاسم", phone: "الهاتف", city: "المدينة", price: "السعر", address: "العنوان", note: "ملاحظات", save_btn: "حفظ", cancel_btn: "إلغاء",
-                search_ph: "بحث (اسم، هاتف، مدينة)...",
-                st_New: "✨ جديد", st_NoAnswer: "📞 لا يجيب", st_Confirmed: "✅ تم التأكيد", st_Shipped: "📦 تم الإرسال", st_Postponed: "⏳ مؤجل", st_Cancelled: "❌ ملغي", st_Fake: "🚫 وهمي"
-            },
-            en: {
-                dir: "ltr",
-                login_title: "Login", login_btn: "Enter",
-                nav_accounting: "Accounting", nav_excel: "Excel",
-                stat_total: "Displayed Orders", stat_confirmed: "Confirmed", stat_shipped: "Shipped", stat_pending: "Pending", stat_cancelled: "Cancelled/Fake",
-                filter_all: "📋 All Orders", filter_today: "🔥 Today's Orders", filter_new: "✨ New", filter_confirmed: "✅ Confirmed", filter_shipped: "📦 Shipped", filter_noanswer: "📞 No Answer", filter_cancelled: "❌ Cancelled",
-                th_status: "Status / Date", th_customer: "Customer Info", th_product: "Product", th_actions: "Actions",
-                loading: "Loading...", no_data: "No matching orders found",
-                edit_title: "Edit Order", name: "Name", phone: "Phone", city: "City", price: "Price", address: "Address", note: "Notes", save_btn: "Save", cancel_btn: "Cancel",
-                search_ph: "Search (Name, Phone, City)...",
-                st_New: "✨ New", st_NoAnswer: "📞 No Answer", st_Confirmed: "✅ Confirmed", st_Shipped: "📦 Shipped", st_Postponed: "⏳ Postponed", st_Cancelled: "❌ Cancelled", st_Fake: "🚫 Fake"
-            }
+            ar: { dir: "rtl", login_title: "تسجيل الدخول", login_btn: "دخول", nav_accounting: "المحاسبة", nav_excel: "إكسل", stat_total: "العدد", stat_confirmed: "تأكيد", stat_shipped: "إرسال", stat_pending: "انتظار", stat_cancelled: "ملغي", edit_title: "تعديل", name: "الاسم", phone: "الهاتف", city: "المدينة", price: "السعر", address: "العنوان", note: "ملاحظات", save_btn: "حفظ", cancel_btn: "إلغاء", th_status: "الحالة", th_customer: "العميل", th_prod: "المنتج", th_act: "إجراءات" },
+            en: { dir: "ltr", login_title: "Login", login_btn: "Enter", nav_accounting: "Accounting", nav_excel: "Excel", stat_total: "Total", stat_confirmed: "Confirmed", stat_shipped: "Shipped", stat_pending: "Pending", stat_cancelled: "Cancelled", edit_title: "Edit", name: "Name", phone: "Phone", city: "City", price: "Price", address: "Address", note: "Notes", save_btn: "Save", cancel_btn: "Cancel", th_status: "Status", th_customer: "Customer", th_prod: "Product", th_act: "Actions" }
         };
 
         let currentLang = localStorage.getItem('zafir_lang') || 'ar';
         let globalOrders = [];
-        let displayedOrders = [];
-        let autoSyncInterval;
+
+        // --- AUTH & INIT ---
+        // Immediate check to prevent login flash
+        if(localStorage.getItem('zafir_auth') === 'true') {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('dashboardContent').classList.remove('hidden');
+        }
 
         window.onload = () => {
             applyLanguage(currentLang);
-            if(localStorage.getItem('zafir_auth') === 'true') {
-                showApp();
-            }
+            if(localStorage.getItem('zafir_auth') === 'true') getData();
         };
-
-        function toggleLang() {
-            currentLang = currentLang === 'ar' ? 'en' : 'ar';
-            localStorage.setItem('zafir_lang', currentLang);
-            applyLanguage(currentLang);
-            if(globalOrders.length > 0) applyFilters(); 
-        }
-
-        function applyLanguage(lang) {
-            const t = LANG[lang];
-            document.documentElement.dir = t.dir;
-            document.documentElement.lang = lang;
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if(t[key]) el.innerText = t[key];
-            });
-            document.getElementById('searchInput').placeholder = t.search_ph;
-            document.getElementById('langBtnLogin').innerText = lang === 'ar' ? '🇺🇸 English' : '🇲🇦 العربية';
-            document.getElementById('langBtnNav').innerText = lang === 'ar' ? 'EN' : 'AR';
-            document.getElementById('mainTable').className = `w-full whitespace-nowrap ${lang === 'ar' ? 'text-right' : 'text-left'}`;
-        }
 
         function attemptLogin() {
             if(document.getElementById('adminPass').value === PASS_CODE) {
                 localStorage.setItem('zafir_auth', 'true');
-                showApp();
-            } else { alert("Error Password"); }
+                location.reload(); // Reload to apply clean state
+            } else { alert("رمز خاطئ"); }
         }
+
         function logout() {
-            if(confirm("Logout?")) { 
-                localStorage.removeItem('zafir_auth'); 
-                location.reload(); 
-            }
-        }
-        function showApp() {
-            document.getElementById('loginSection').style.display = 'none';
-            document.getElementById('dashboardContent').style.display = 'block';
-            getData();
-            startAutoSync();
+            if(confirm("Logout?")) { localStorage.removeItem('zafir_auth'); location.reload(); }
         }
 
-        function startAutoSync() {
-            if(autoSyncInterval) clearInterval(autoSyncInterval);
-            autoSyncInterval = setInterval(() => {
-                if(!document.hidden) getData(true);
-            }, 15000);
-        }
-
-        async function getData(silent = false) {
-            const loader = document.getElementById('loader');
-            if(!silent) loader.style.display = 'flex';
-            if(!silent) document.getElementById('ordersBody').innerHTML = '';
-            
+        // --- DATA & RENDER ---
+        async function getData() {
             try {
                 const res = await fetch(`${SCRIPT_URL}?action=read`);
                 const data = await res.json();
                 globalOrders = data.reverse();
-                if(!silent) loader.style.display = 'none';
+                document.getElementById('loader').classList.add('hidden');
                 applyFilters();
-            } catch (err) {
-                if(!silent) {
-                    loader.style.display = 'none';
-                }
-            }
+            } catch (err) { alert("Network Error"); }
         }
 
         function applyFilters() {
             const q = document.getElementById('searchInput').value.toLowerCase();
-            const filterType = document.getElementById('filterSelect').value;
+            const filter = document.getElementById('filterSelect').value;
             const today = new Date(); today.setHours(0,0,0,0);
 
-            displayedOrders = globalOrders.filter(o => {
-                const textMatch = (o.name + o.phone + o.city).toLowerCase().includes(q);
-                let typeMatch = true;
-                if(filterType === 'Today') {
-                    const d = new Date(o.date); d.setHours(0,0,0,0);
-                    typeMatch = d.getTime() === today.getTime();
-                } else if(filterType === 'NoAnswer') {
-                    typeMatch = o.status.startsWith('NoAnswer');
-                } else if(filterType !== 'All') {
-                    typeMatch = o.status === filterType;
-                }
-                return textMatch && typeMatch;
+            const filtered = globalOrders.filter(o => {
+                const txt = (o.name+o.phone+o.city).toLowerCase().includes(q);
+                let type = true;
+                if(filter === 'Today') { const d = new Date(o.date); d.setHours(0,0,0,0); type = d.getTime() === today.getTime(); }
+                else if(filter === 'NoAnswer') type = o.status.startsWith('NoAnswer');
+                else if(filter !== 'All') type = o.status === filter;
+                return txt && type;
             });
-            renderRows(displayedOrders);
-            calcStats(displayedOrders);
+
+            renderData(filtered);
+            calcStats(filtered);
         }
 
-        function renderRows(orders) {
-            const tbody = document.getElementById('ordersBody');
-            tbody.innerHTML = '';
+        function renderData(orders) {
+            const container = document.getElementById('ordersContainer');
             const t = LANG[currentLang];
-
+            
             if(orders.length === 0) {
-                document.getElementById('noData').style.display = 'block';
+                container.innerHTML = '';
+                document.getElementById('noData').classList.remove('hidden');
                 return;
             }
-            document.getElementById('noData').style.display = 'none';
+            document.getElementById('noData').classList.add('hidden');
+
+            // Responsive HTML: Table for Desktop, Cards for Mobile
+            let html = `
+            <div class="hidden md:block bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm">
+                <table class="w-full text-right">
+                    <thead class="bg-slate-50 text-slate-400 text-[10px] uppercase font-bold">
+                        <tr><th class="p-4">${t.th_status}</th><th class="p-4">${t.th_customer}</th><th class="p-4">${t.th_prod}</th><th class="p-4 text-center">${t.th_act}</th></tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-50">
+            `;
+
+            const mobileHtml = `<div class="md:hidden space-y-3">`;
+            let cards = "";
 
             orders.forEach(o => {
                 let phone = String(o.phone).replace(/^'/, '');
                 let waPhone = phone.replace(/\s/g, '').replace(/^0/, '212');
-                let dateStr = o.date;
-                try {
-                    let d = new Date(o.date);
-                    let day = String(d.getDate()).padStart(2,'0');
-                    let month = String(d.getMonth()+1).padStart(2,'0');
-                    let year = d.getFullYear();
-                    let time = `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
-                    dateStr = `<span class="font-bold text-slate-700 block text-xs md:text-sm">${day}/${month}/${year}</span><span class="text-[10px] text-slate-400 dir-ltr">${time}</span>`;
-                } catch(e){}
+                let stClass = o.status === 'New' ? 'st-New' : (o.status === 'Confirmed' ? 'st-Confirmed' : (o.status === 'Shipped' ? 'st-Shipped' : (o.status.includes('NoAnswer') ? 'st-NoAnswer' : 'st-Cancelled')));
+                
+                // Desktop Row
+                html += `
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="p-4 w-48">
+                            <select onchange="changeStatus(${o.row_index}, this)" class="w-full py-1.5 px-2 rounded-lg text-xs font-bold border outline-none cursor-pointer mb-1 ${stClass}">
+                                ${getStatusOpts(o.status)}
+                            </select>
+                            <div class="text-[10px] text-slate-400 font-mono">#${o.order_id} • ${formatDate(o.date)}</div>
+                        </td>
+                        <td class="p-4">
+                            <div class="font-bold text-sm text-slate-800">${o.name}</div>
+                            <a href="tel:${phone}" class="text-xs font-mono text-slate-500 block hover:text-orange-500">${phone}</a>
+                            <div class="text-[10px] text-slate-400 mt-1">📍 ${o.city} ${o.address ? '• ' + o.address : ''}</div>
+                        </td>
+                        <td class="p-4">
+                            <div class="text-xs font-bold bg-slate-50 px-2 py-1 rounded inline-block border border-slate-100">${o.product}</div>
+                            <div class="text-emerald-600 font-black text-sm mt-1">${o.price} DH</div>
+                            ${o.note ? `<div class="mt-1 text-[10px] text-amber-600">📝 ${o.note}</div>` : ''}
+                        </td>
+                        <td class="p-4 text-center">
+                            <div class="flex gap-2 justify-center">
+                                <button onclick='editOrder(${JSON.stringify(o)})' class="w-8 h-8 rounded-lg border border-slate-200 text-slate-400 hover:border-blue-300 hover:text-blue-500 transition flex items-center justify-center">✎</button>
+                                <button onclick='openWhatsApp("${waPhone}", "${o.name}", "${o.product}", "${o.price}")' class="w-8 h-8 rounded-lg bg-green-500 text-white hover:bg-green-600 transition flex items-center justify-center shadow-lg shadow-green-100"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+                            </div>
+                        </td>
+                    </tr>`;
 
-                const statusOptions = [
-                    {val:"New", lbl: t.st_New}, {val:"NoAnswer1", lbl: t.st_NoAnswer + " 1"}, 
-                    {val:"NoAnswer2", lbl: t.st_NoAnswer + " 2"}, {val:"NoAnswer3", lbl: t.st_NoAnswer + " 3"},
-                    {val:"Postponed", lbl: t.st_Postponed}, {val:"Confirmed", lbl: t.st_Confirmed}, 
-                    {val:"Shipped", lbl: t.st_Shipped}, {val:"Cancelled", lbl: t.st_Cancelled}, {val:"Fake", lbl: t.st_Fake}
-                ];
-
-                let opts = statusOptions.map(s => `<option value="${s.val}" ${o.status === s.val ? 'selected' : ''}>${s.lbl}</option>`).join('');
-                let stClass = "bg-white border-slate-200 text-slate-600";
-                if(o.status === 'New') stClass = "st-New";
-                if(o.status.includes('NoAnswer')) stClass = "st-NoAnswer";
-                if(o.status === 'Confirmed') stClass = "st-Confirmed";
-                if(o.status === 'Shipped') stClass = "st-Shipped";
-                if(o.status === 'Cancelled' || o.status === 'Fake') stClass = "st-Cancelled";
-
-                const tr = document.createElement('tr');
-                tr.className = "border-b border-slate-50 hover:bg-slate-50 transition group";
-                tr.innerHTML = `
-                    <td class="p-4 align-top min-w-[150px]">
-                        <select onchange="changeStatus(${o.row_index}, this)" class="w-full py-2 px-2 rounded-lg text-xs font-bold border outline-none cursor-pointer mb-1 transition-all ${stClass}">${opts}</select>
-                        <div class="flex justify-between items-center mt-1">
-                            <span class="text-[10px] text-slate-400 font-mono bg-slate-100 px-1 rounded">#${o.order_id}</span>
-                            <div class="text-right leading-tight">${dateStr}</div>
+                // Mobile Card
+                cards += `
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 relative">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <h3 class="font-bold text-slate-800">${o.name}</h3>
+                                <div class="text-xs text-slate-400 font-mono mt-0.5">${phone}</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-emerald-600 font-black">${o.price} DH</div>
+                                <div class="text-[10px] text-slate-400 font-mono">#${o.order_id}</div>
+                            </div>
                         </div>
-                    </td>
-                    <td class="p-4 align-top">
-                        <div class="font-bold text-slate-800 text-sm mb-1">${o.name}</div>
-                        <a href="tel:${phone}" class="inline-block text-[11px] font-mono font-bold text-slate-500 bg-slate-100 hover:bg-orange-100 hover:text-orange-600 px-2 py-0.5 rounded transition dir-ltr">${phone}</a>
-                        <div class="text-xs text-slate-500 font-bold mt-2 flex items-center gap-1"><span class="opacity-50">📍</span> ${o.city}</div>
-                        ${o.address ? `<div class="mt-1 text-[10px] text-slate-400 truncate max-w-[150px]">${o.address}</div>` : ''}
-                    </td>
-                    <td class="p-4 align-top">
-                        <div class="text-xs font-bold text-slate-700 truncate max-w-[120px] bg-white border border-slate-100 px-2 py-1 rounded shadow-sm inline-block">${o.product}</div>
-                        <div class="text-emerald-600 font-black text-sm mt-1">${o.price} DH</div>
-                        ${o.note ? `<div class="mt-2 text-[10px] text-amber-600 bg-amber-50 p-1.5 rounded border border-amber-100 max-w-[160px] leading-tight">📝 ${o.note}</div>` : ''}
-                    </td>
-                    <td class="p-4 align-top text-center">
-                        <div class="flex gap-2 justify-center pt-2">
-                            <button onclick='editOrder(${JSON.stringify(o)})' class="w-8 h-8 flex items-center justify-center rounded-lg bg-white border border-slate-200 text-slate-400 hover:text-blue-600 hover:border-blue-300 transition shadow-sm"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg></button>
-                            <button onclick='openWhatsApp("${waPhone}", "${o.name}", "${o.product}", "${o.price}")' class="w-8 h-8 flex items-center justify-center rounded-lg bg-[#25D366] hover:bg-[#20bd5a] text-white transition shadow-md shadow-green-100"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
+                        
+                        <div class="bg-slate-50 p-2 rounded-xl mb-3 border border-slate-50 flex justify-between items-center">
+                            <span class="text-xs font-bold text-slate-600">${o.product}</span>
+                            <span class="text-[10px] text-slate-400">${o.city}</span>
                         </div>
-                    </td>
+
+                        <select onchange="changeStatus(${o.row_index}, this)" class="w-full py-2 px-3 rounded-xl text-xs font-bold border outline-none mb-3 appearance-none ${stClass}">
+                            ${getStatusOpts(o.status)}
+                        </select>
+
+                        <div class="flex gap-2">
+                            <button onclick='editOrder(${JSON.stringify(o)})' class="flex-1 py-2 bg-slate-100 text-slate-600 rounded-xl font-bold text-xs hover:bg-slate-200 transition">تعديل</button>
+                            <button onclick='openWhatsApp("${waPhone}", "${o.name}", "${o.product}", "${o.price}")' class="flex-1 py-2 bg-green-500 text-white rounded-xl font-bold text-xs hover:bg-green-600 transition shadow-lg shadow-green-100 flex items-center justify-center gap-2">
+                                <span>WhatsApp</span>
+                            </button>
+                        </div>
+                    </div>
                 `;
-                tbody.appendChild(tr);
             });
+
+            html += `</tbody></table></div>`; // Close Desktop
+            html += mobileHtml + cards + `</div>`; // Add Mobile
+
+            container.innerHTML = html;
         }
 
-        function openWhatsApp(phone, name, product, price) {
-            let firstName = name.split(' ')[0];
-            let msg = FIXED_ARABIC_MSG.replace('{name}', firstName).replace('{product}', product).replace('{price}', price);
-            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            if(isMobile) location.href = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(msg)}`;
-            else window.open(`https://web.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(msg)}`, '_blank');
+        function getStatusOpts(curr) {
+            const opts = [
+                {v:"New",t:"✨ جديد"}, {v:"NoAnswer1",t:"📞 لا يجيب 1"}, {v:"NoAnswer2",t:"📞 لا يجيب 2"}, 
+                {v:"Confirmed",t:"✅ تم التأكيد"}, {v:"Shipped",t:"📦 تم الإرسال"}, {v:"Cancelled",t:"❌ ملغي"}, {v:"Fake",t:"🚫 وهمي"}
+            ];
+            return opts.map(o => `<option value="${o.v}" ${curr===o.v?'selected':''}>${o.t}</option>`).join('');
         }
-        function exportExcel() {
-            const confirmedOnly = globalOrders.filter(o => o.status === 'Confirmed');
-            if(confirmedOnly.length === 0) return alert(currentLang==='ar' ? "لا توجد طلبات مؤكدة" : "No confirmed orders");
-            const data = confirmedOnly.map(o => ({ "CODE SUIVI": o.order_id, "DESTINATAIRE": o.name, "TELEPHONE": String(o.phone).replace(/^'/, ''), "ADRESSE": o.address || '', "PRIX": o.price, "VILLE": o.city, "COMMENTAIRE": o.note || '' }));
-            const ws = XLSX.utils.json_to_sheet(data);
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Orders");
-            XLSX.writeFile(wb, `Zafir_Confirmed_${new Date().toISOString().split('T')[0]}.xlsx`);
+
+        function formatDate(d) {
+            try {
+                let date = new Date(d);
+                return `${date.getDate()}/${date.getMonth()+1}`;
+            } catch(e) { return ''; }
         }
+
         function calcStats(orders) {
             document.getElementById('statTotal').innerText = orders.length;
-            document.getElementById('statConfirmed').innerText = orders.filter(o => o.status === 'Confirmed').length;
-            document.getElementById('statShipped').innerText = orders.filter(o => o.status === 'Shipped').length;
-            document.getElementById('statPending').innerText = orders.filter(o => !['Confirmed','Shipped','Cancelled','Fake'].includes(o.status)).length;
-            document.getElementById('statCancelled').innerText = orders.filter(o => ['Cancelled','Fake'].includes(o.status)).length;
+            document.getElementById('statConfirmed').innerText = orders.filter(o=>o.status==='Confirmed').length;
+            document.getElementById('statShipped').innerText = orders.filter(o=>o.status==='Shipped').length;
+            document.getElementById('statPending').innerText = orders.filter(o=>!['Confirmed','Shipped','Cancelled','Fake'].includes(o.status)).length;
+            document.getElementById('statCancelled').innerText = orders.filter(o=>['Cancelled','Fake'].includes(o.status)).length;
         }
+
+        // Functions reused from previous version (changeStatus, editOrder, etc.)
         async function changeStatus(idx, select) {
-            const fd = new FormData();
-            fd.append('action', 'update'); fd.append('row_index', idx); fd.append('status', select.value);
-            fetch(SCRIPT_URL, {method: 'POST', body: fd, mode: 'no-cors'});
-            const order = globalOrders.find(o => o.row_index === idx);
-            if(order) order.status = select.value;
+            const fd = new FormData(); fd.append('action','update'); fd.append('row_index',idx); fd.append('status',select.value);
+            fetch(SCRIPT_URL, {method:'POST', body:fd, mode:'no-cors'});
+            const item = globalOrders.find(o=>o.row_index===idx); if(item) item.status = select.value;
             applyFilters();
+        }
+        function toggleLang() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            localStorage.setItem('zafir_lang', currentLang);
+            applyLanguage(currentLang);
+            renderData(globalOrders); // Re-render for table alignment
+        }
+        function applyLanguage(lang) {
+            const t = LANG[lang];
+            document.documentElement.dir = t.dir;
+            document.querySelectorAll('[data-i18n]').forEach(el => el.innerText = t[el.getAttribute('data-i18n')]);
+        }
+        function openWhatsApp(phone, name, product, price) {
+            let msg = FIXED_MSG.replace('{name}', name.split(' ')[0]).replace('{product}', product).replace('{price}', price);
+            const url = /Android|iPhone/i.test(navigator.userAgent) ? `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(msg)}` : `https://web.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(msg)}`;
+            window.open(url, '_blank');
+        }
+        function exportExcel() {
+            const data = globalOrders.filter(o=>o.status==='Confirmed').map(o=>({"CODE":o.order_id, "NAME":o.name, "TEL":String(o.phone).replace(/'/,''), "ADDR":o.address, "PRICE":o.price, "CITY":o.city, "NOTE":o.note}));
+            if(!data.length) return alert("لا توجد طلبات مؤكدة");
+            const ws = XLSX.utils.json_to_sheet(data); const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Orders"); XLSX.writeFile(wb, "Zafir_Orders.xlsx");
         }
         function editOrder(o) {
             document.getElementById('editRowIndex').value = o.row_index;
@@ -408,13 +343,7 @@
         async function saveChanges() {
             const btn = event.target; btn.innerText = "..."; btn.disabled = true;
             const fd = new FormData(); fd.append('action', 'edit_order');
-            fd.append('row_index', document.getElementById('editRowIndex').value);
-            fd.append('name', document.getElementById('editName').value);
-            fd.append('phone', document.getElementById('editPhone').value);
-            fd.append('city', document.getElementById('editCity').value);
-            fd.append('address', document.getElementById('editAddress').value);
-            fd.append('price', document.getElementById('editPrice').value);
-            fd.append('note', document.getElementById('editNote').value);
+            ['editRowIndex','editName','editPhone','editCity','editAddress','editPrice','editNote'].forEach(id => fd.append(id.replace('edit','').toLowerCase().replace('rowindex','row_index'), document.getElementById(id).value));
             await fetch(SCRIPT_URL, {method: 'POST', body: fd, mode: 'no-cors'});
             closeEditModal(); getData(); btn.innerText = "حفظ"; btn.disabled = false;
         }
