@@ -33,7 +33,6 @@
             </div>
             <div class="text-6xl mb-4">🔐</div>
             <h2 class="text-2xl font-black text-slate-800 mb-2" data-i18n="login_title">تسجيل الدخول</h2>
-            <p class="text-slate-400 text-sm mb-6" data-i18n="login_subtitle">لوحة إدارة الطلبات</p>
             <form onsubmit="event.preventDefault(); attemptLogin();">
                 <input type="password" id="adminPass" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl text-center text-lg font-bold focus:outline-none focus:border-orange-500 mb-4 transition" placeholder="****">
                 <button type="submit" class="w-full bg-gradient-to-r from-orange-600 to-orange-500 text-white p-3 rounded-xl font-bold hover:shadow-lg transition transform active:scale-95" data-i18n="login_btn">دخول</button>
@@ -156,14 +155,16 @@
     </div>
 
     <script>
-        // --- ⚙️ CONFIG & TRANSLATIONS ---
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby-XyjE8UvPrLe1HJTF1siYWwfA4kXvP9fASExfJcKWcySp4xqx7PkMBl-ysQ5ouuim/exec"; 
         const PASS_CODE = "2911";
+
+        // الرسالة العربية مثبتة هنا للغتين
+        const FIXED_ARABIC_MSG = "مرحباً {name} 👋\nمعك فريق التأكيد من متجر *Zafir Shop* 🛍️\n\nبخصوص طلبيتك: *{product}*\nالسعر: *{price} درهم*\n\nبغيت غير نأكد معاك العنوان والوقت المناسب للتوصيل؟ 🚛";
 
         const LANG = {
             ar: {
                 dir: "rtl",
-                login_title: "تسجيل الدخول", login_subtitle: "لوحة إدارة الطلبات", login_btn: "دخول",
+                login_title: "تسجيل الدخول", login_btn: "دخول",
                 nav_accounting: "المحاسبة", nav_excel: "إكسل",
                 stat_total: "العدد المعروض", stat_confirmed: "تم التأكيد", stat_shipped: "تم الإرسال", stat_pending: "في الانتظار", stat_cancelled: "ملغي / وهمي",
                 filter_all: "📋 جميع الطلبات", filter_today: "🔥 طلبات اليوم", filter_new: "✨ جديد", filter_confirmed: "✅ تم التأكيد", filter_shipped: "📦 تم الإرسال", filter_noanswer: "📞 لا يجيب", filter_cancelled: "❌ ملغي",
@@ -171,12 +172,11 @@
                 loading: "جاري التحميل...", no_data: "لا توجد طلبات مطابقة",
                 edit_title: "تعديل الطلب", name: "الاسم", phone: "الهاتف", city: "المدينة", price: "السعر", address: "العنوان", note: "ملاحظات", save_btn: "حفظ", cancel_btn: "إلغاء",
                 search_ph: "بحث (اسم، هاتف، مدينة)...",
-                wa_msg: "مرحباً {name} 👋\nمعك فريق التأكيد من متجر *Zafir Shop* 🛍️\n\nبخصوص طلبيتك: *{product}*\nالسعر: *{price} درهم*\n\nبغيت غير نأكد معاك العنوان والوقت المناسب للتوصيل؟ 🚛",
                 st_New: "✨ جديد", st_NoAnswer: "📞 لا يجيب", st_Confirmed: "✅ تم التأكيد", st_Shipped: "📦 تم الإرسال", st_Postponed: "⏳ مؤجل", st_Cancelled: "❌ ملغي", st_Fake: "🚫 وهمي"
             },
             en: {
                 dir: "ltr",
-                login_title: "Login", login_subtitle: "Order Management Panel", login_btn: "Enter",
+                login_title: "Login", login_btn: "Enter",
                 nav_accounting: "Accounting", nav_excel: "Excel",
                 stat_total: "Displayed Orders", stat_confirmed: "Confirmed", stat_shipped: "Shipped", stat_pending: "Pending", stat_cancelled: "Cancelled/Fake",
                 filter_all: "📋 All Orders", filter_today: "🔥 Today's Orders", filter_new: "✨ New", filter_confirmed: "✅ Confirmed", filter_shipped: "📦 Shipped", filter_noanswer: "📞 No Answer", filter_cancelled: "❌ Cancelled",
@@ -184,7 +184,6 @@
                 loading: "Loading...", no_data: "No matching orders found",
                 edit_title: "Edit Order", name: "Name", phone: "Phone", city: "City", price: "Price", address: "Address", note: "Notes", save_btn: "Save", cancel_btn: "Cancel",
                 search_ph: "Search (Name, Phone, City)...",
-                wa_msg: "Hello {name} 👋\nThis is the confirmation team from *Zafir Shop* 🛍️\n\nRegarding your order: *{product}*\nPrice: *{price} DH*\n\nWe just want to confirm your address and delivery time? 🚛",
                 st_New: "✨ New", st_NoAnswer: "📞 No Answer", st_Confirmed: "✅ Confirmed", st_Shipped: "📦 Shipped", st_Postponed: "⏳ Postponed", st_Cancelled: "❌ Cancelled", st_Fake: "🚫 Fake"
             }
         };
@@ -193,7 +192,6 @@
         let globalOrders = [];
         let displayedOrders = [];
 
-        // --- INIT ---
         window.onload = () => {
             applyLanguage(currentLang);
             if(localStorage.getItem('zafir_auth') === 'true') showApp();
@@ -203,7 +201,6 @@
             currentLang = currentLang === 'ar' ? 'en' : 'ar';
             localStorage.setItem('zafir_lang', currentLang);
             applyLanguage(currentLang);
-            // Re-render to update texts inside JS rendered elements
             if(globalOrders.length > 0) applyFilters(); 
         }
 
@@ -211,26 +208,16 @@
             const t = LANG[lang];
             document.documentElement.dir = t.dir;
             document.documentElement.lang = lang;
-            
-            // Update static elements
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if(t[key]) el.innerText = t[key];
             });
-            
-            // Update placeholders
             document.getElementById('searchInput').placeholder = t.search_ph;
-            
-            // Update button texts
-            const btnLabel = lang === 'ar' ? '🇺🇸 English' : '🇲🇦 العربية';
-            document.getElementById('langBtnLogin').innerText = btnLabel;
+            document.getElementById('langBtnLogin').innerText = lang === 'ar' ? '🇺🇸 English' : '🇲🇦 العربية';
             document.getElementById('langBtnNav').innerText = lang === 'ar' ? 'EN' : 'AR';
-            
-            // Update table alignment
             document.getElementById('mainTable').className = `w-full whitespace-nowrap ${lang === 'ar' ? 'text-right' : 'text-left'}`;
         }
 
-        // --- AUTH ---
         function attemptLogin() {
             if(document.getElementById('adminPass').value === PASS_CODE) {
                 localStorage.setItem('zafir_auth', 'true');
@@ -246,7 +233,6 @@
             getData();
         }
 
-        // --- DATA LOGIC ---
         async function getData() {
             const loader = document.getElementById('loader');
             loader.style.display = 'flex';
@@ -272,7 +258,6 @@
             displayedOrders = globalOrders.filter(o => {
                 const textMatch = (o.name + o.phone + o.city).toLowerCase().includes(q);
                 let typeMatch = true;
-                
                 if(filterType === 'Today') {
                     const d = new Date(o.date); d.setHours(0,0,0,0);
                     typeMatch = d.getTime() === today.getTime();
@@ -303,12 +288,6 @@
                 let phone = String(o.phone).replace(/^'/, '');
                 let waPhone = phone.replace(/\s/g, '').replace(/^0/, '212');
                 
-                // Translated WhatsApp Message
-                let msgText = t.wa_msg
-                    .replace('{name}', o.name.split(' ')[0])
-                    .replace('{product}', o.product)
-                    .replace('{price}', o.price);
-                
                 let dateStr = o.date;
                 try {
                     let d = new Date(o.date);
@@ -319,7 +298,6 @@
                     dateStr = `<span class="font-bold text-slate-700 block text-sm">${day}/${month}/${year}</span><span class="text-xs text-slate-400 dir-ltr">${time}</span>`;
                 } catch(e){}
 
-                // Map statuses to translated labels
                 const statusOptions = [
                     {val:"New", lbl: t.st_New}, {val:"NoAnswer1", lbl: t.st_NoAnswer + " 1"}, 
                     {val:"NoAnswer2", lbl: t.st_NoAnswer + " 2"}, {val:"NoAnswer3", lbl: t.st_NoAnswer + " 3"},
@@ -328,7 +306,6 @@
                 ];
 
                 let opts = statusOptions.map(s => `<option value="${s.val}" ${o.status === s.val ? 'selected' : ''}>${s.lbl}</option>`).join('');
-                // Define classes based on internal value, not translation
                 let stClass = "border-gray-200 bg-white";
                 if(o.status === 'New') stClass = "bg-blue-50 text-blue-700 border-blue-200";
                 if(o.status.includes('NoAnswer')) stClass = "bg-yellow-50 text-yellow-700 border-yellow-200";
@@ -368,10 +345,10 @@
             });
         }
 
-        // --- ACTIONS ---
         function openWhatsApp(phone, name, product, price) {
             let firstName = name.split(' ')[0];
-            let msg = LANG[currentLang].wa_msg
+            // استخدام الرسالة العربية المثبتة دائماً
+            let msg = FIXED_ARABIC_MSG
                 .replace('{name}', firstName)
                 .replace('{product}', product)
                 .replace('{price}', price);
@@ -382,6 +359,7 @@
         }
 
         function exportExcel() {
+            // تصدير "المؤكدة" (Confirmed) فقط حسب طلبك
             const confirmedOnly = globalOrders.filter(o => o.status === 'Confirmed');
             if(confirmedOnly.length === 0) return alert(currentLang==='ar' ? "لا توجد طلبات مؤكدة" : "No confirmed orders");
 
@@ -413,13 +391,11 @@
             const fd = new FormData();
             fd.append('action', 'update'); fd.append('row_index', idx); fd.append('status', select.value);
             fetch(SCRIPT_URL, {method: 'POST', body: fd, mode: 'no-cors'});
-            
             const order = globalOrders.find(o => o.row_index === idx);
             if(order) order.status = select.value;
             applyFilters();
         }
 
-        // Edit Functions
         function editOrder(o) {
             document.getElementById('editRowIndex').value = o.row_index;
             document.getElementById('editName').value = o.name;
@@ -435,7 +411,6 @@
             const btn = event.target;
             const originalText = btn.innerText;
             btn.innerText = "..."; btn.disabled = true;
-            
             const fd = new FormData(); fd.append('action', 'edit_order');
             fd.append('row_index', document.getElementById('editRowIndex').value);
             fd.append('name', document.getElementById('editName').value);
@@ -444,7 +419,6 @@
             fd.append('address', document.getElementById('editAddress').value);
             fd.append('price', document.getElementById('editPrice').value);
             fd.append('note', document.getElementById('editNote').value);
-            
             await fetch(SCRIPT_URL, {method: 'POST', body: fd, mode: 'no-cors'});
             closeEditModal();
             getData();
