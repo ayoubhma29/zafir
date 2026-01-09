@@ -199,8 +199,8 @@
         async function syncWithOrders(silent = false) {
             if(!silent) updateStatus('loading');
             try {
-                // Using standard GET (CORS enabled on Google Scripts by default)
-                const res = await fetch(`${SCRIPT_URL}?action=read`);
+                // ADDED: timestamp to prevent caching
+                const res = await fetch(`${SCRIPT_URL}?action=read&t=${new Date().getTime()}`);
                 const orders = await res.json();
                 const shippedOrders = orders.filter(o => o.status === 'Shipped');
                 const counts = {};
@@ -236,7 +236,8 @@
 
         async function loadCloudData() {
             try {
-                const res = await fetch(`${SCRIPT_URL}?action=get_accounting`);
+                // ADDED: timestamp to prevent caching
+                const res = await fetch(`${SCRIPT_URL}?action=get_accounting&t=${new Date().getTime()}`);
                 const cloud = await res.json();
                 if(cloud && cloud.products) { data = cloud; if(data.packUnitCost) document.getElementById('packUnitCost').value = data.packUnitCost; }
                 renderProducts(); renderFinancials(); renderShippedTable(); updateDashboard();
@@ -341,7 +342,6 @@
                 
                 totalDebt += rowT;
             }
-            document.getElementById('sumProductDebt').innerText = totalDebt.toLocaleString();
         }
 
         function updateDashboard() {
