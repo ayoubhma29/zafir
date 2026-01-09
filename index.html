@@ -2,9 +2,9 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="iRed W10 Pro Max - العرض الحصري" />
-    <meta property="og:description" content="العرض الهربة! ساعة ذكية + سماعات + باور بانك بـ 280 درهم. التوصيل فابور لجميع المدن والدفع عند الاستلام." />
-    <meta property="og:image" content="https://i.imgur.com/YOUR_IMAGE_LINK.png" />
+    <meta property="og:title" content="Ensemble Lacoste - الأناقة والراحة" />
+    <meta property="og:description" content="أحسن أونسومبل لهذا الموسم! قطن ممتاز وتصميم أنيق. التوصيل فابور لجميع المدن والدفع عند الاستلام." />
+    <meta property="og:image" content="https://zafir.shop/1.jpg" />
     <meta property="og:url" content="https://zafir.shop" />
     <meta name="twitter:card" content="summary_large_image">
 
@@ -22,7 +22,7 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>iRed W10 Pro Max - العرض الحصري</title>
+    <title>Ensemble Lacoste - عرض خاص</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     
     <style>
@@ -80,7 +80,7 @@
         @keyframes scroll-seamless { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
 
         /* Gallery */
-        .gallery-area { position: relative; background: #fff; margin-bottom: 10px; }
+        .gallery-area { position: relative; background: #fff; margin-bottom: 5px; }
         .discount-badge { 
             position: absolute; top: 15px; left: 15px; 
             background: var(--danger); color: white; 
@@ -92,11 +92,11 @@
         @keyframes pulse-red { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
         
         .main-image-frame { 
-            height: 360px; 
+            height: 400px; 
             display: flex; align-items: center; justify-content: center; 
-            overflow: hidden; padding: 10px; position: relative;
+            overflow: hidden; padding: 5px; position: relative;
         }
-        .main-image-frame img { max-width: 100%; max-height: 100%; object-fit: contain; transition: opacity 0.2s ease; }
+        .main-image-frame img { max-width: 100%; max-height: 100%; object-fit: cover; transition: opacity 0.2s ease; border-radius: 4px;}
         
         .nav-arrow { 
             position: absolute; top: 50%; transform: translateY(-50%); 
@@ -115,7 +115,7 @@
         }
         .thumbnails-row::-webkit-scrollbar { display: none; }
         .thumb-item { 
-            width: 55px; height: 55px; border-radius: 8px; 
+            width: 60px; height: 60px; border-radius: 8px; 
             border: 1px solid #e2e8f0; cursor: pointer; object-fit: cover; 
             flex-shrink: 0; 
         }
@@ -123,7 +123,7 @@
 
         /* Info Section */
         .info-section { padding: 15px; }
-        .title-area h1 { font-size: 19px; font-weight: 800; margin: 0 0 10px 0; line-height: 1.4; color: var(--primary); }
+        .title-area h1 { font-size: 20px; font-weight: 800; margin: 0 0 10px 0; line-height: 1.4; color: var(--primary); }
         .social-proof-text { 
             font-size: 11px; color: var(--danger); font-weight: 700; 
             margin-bottom: 15px; display: flex; align-items: center; gap: 6px; 
@@ -133,35 +133,72 @@
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
         .price-box { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
-        .current-price { font-size: 30px; font-weight: 900; color: var(--accent); }
-        .old-price { font-size: 15px; color: #94a3b8; text-decoration: line-through; margin-top: 5px; }
+        .current-price { font-size: 32px; font-weight: 900; color: var(--accent); }
+        .old-price { font-size: 16px; color: #94a3b8; text-decoration: line-through; margin-top: 5px; }
         .free-delivery-tag { background: #dcfce7; color: #166534; font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 4px; }
 
-        /* --- FIXED COUNTDOWN TIMER (LTR Direction) --- */
-        .countdown-timer {
-            background: #fff7ed; border: 1px solid #ffedd5;
-            color: #c2410c; padding: 8px; border-radius: 8px;
-            text-align: center; font-weight: 700; font-size: 13px;
-            margin-bottom: 20px; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            gap: 10px;
+        /* --- STYLED OPTIONS SELECTOR (SQUARES) --- */
+        .options-container { margin-bottom: 20px; }
+        .option-label { font-size: 16px; font-weight: 800; color: #1e293b; margin-bottom: 10px; display: block; text-align: right; }
+        
+        .size-grid { display: flex; gap: 10px; flex-wrap: wrap; direction: ltr; justify-content: flex-end; }
+        .size-btn { 
+            width: 45px; height: 45px; 
+            border: 1px solid #cbd5e1; border-radius: 4px; 
+            background: white; color: #1e293b; 
+            font-weight: 700; font-size: 14px; cursor: pointer; 
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
         }
-        .timer-ltr-wrapper {
-            direction: ltr; 
-            display: flex; 
-            align-items: center; 
-            gap: 4px;
+        .size-btn:hover { border-color: var(--accent); }
+        .size-btn.active { border: 2px solid var(--accent); color: var(--accent); font-weight: 900; background: #fff7ed; }
+
+        .color-grid { display: flex; gap: 10px; flex-wrap: wrap; direction: ltr; justify-content: flex-end; }
+        .color-btn { 
+            width: 40px; height: 40px; border-radius: 4px; 
+            border: 1px solid #e2e8f0; cursor: pointer; 
+            position: relative; transition: all 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
-        .timer-digits { background: white; padding: 2px 6px; border-radius: 4px; border: 1px solid #fdba74; font-family: monospace; font-size: 16px; color: #c2410c; }
+        .color-btn.active { border: 2px solid var(--primary); transform: scale(1.05); }
+        .color-btn.active::after { 
+            content: '✔'; color: white; position: absolute; 
+            top: 50%; left: 50%; transform: translate(-50%, -50%); 
+            font-size: 14px; text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+        /* Color Swatches */
+        .bg-black { background: #1a1a1a; }
+        .bg-white-opt { background: #ffffff; }
+        .bg-blue { background: #2563eb; }
+        .bg-yellow { background: #facc15; }
+        .bg-pink { background: #fb7185; }
+
+        /* Form Styles Updated */
+        .form-wrapper { background: white; padding: 20px 15px; margin: 0 15px 25px 15px; border-radius: 12px; border: 2px solid #e2e8f0; box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
+        .input-group { margin-bottom: 12px; text-align: right; position: relative; }
+        .input-group label { display: block; font-size: 12px; font-weight: 800; margin-bottom: 6px; color: #1e293b; }
+        .input-icon-wrapper { position: relative; }
+        .input-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 16px; pointer-events: none; }
+        .custom-input { width: 100%; padding: 12px 35px 12px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: 'Cairo'; font-size: 15px; background: #f8fafc; transition: all 0.3s; }
+        .custom-input:focus { border-color: var(--accent); background: white; outline: none; }
+
+        /* New Static Button Style */
+        .static-btn {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            color: white; border: none; width: 100%; padding: 14px;
+            border-radius: 8px; font-size: 16px; font-weight: 900;
+            box-shadow: 0 4px 15px rgba(234, 88, 12, 0.3);
+            cursor: pointer; margin-top: 10px; display: flex;
+            align-items: center; justify-content: center; gap: 8px;
+            transition: transform 0.2s;
+        }
+        .static-btn:active { transform: scale(0.98); }
 
         .trust-box {
             background: #f0fdf4; border: 1px dashed #16a34a;
             color: #14532d; padding: 12px; border-radius: 8px;
             margin-bottom: 25px; font-size: 12px; line-height: 1.5;
         }
-        .trust-title { font-weight: 800; display: flex; align-items: center; gap: 6px; margin-bottom: 6px; font-size: 13px; color: #15803d; }
         .trust-list { list-style: none; padding: 0; margin: 0; }
         .trust-list li { margin-bottom: 4px; display: flex; align-items: flex-start; gap: 6px; }
 
@@ -190,13 +227,6 @@
         .box-list li { margin-bottom: 6px; display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 12px; color: #334155; }
         .box-list li::before { content: "✔"; color: var(--accent); }
 
-        .faq-section { margin-top: 30px; margin-bottom: 20px; }
-        .faq-item { background: white; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 8px; overflow: hidden; }
-        .faq-question { width: 100%; text-align: right; padding: 12px; background: #f8fafc; border: none; font-family: 'Cairo'; font-weight: 700; font-size: 12px; color: var(--primary); display: flex; justify-content: space-between; align-items: center; }
-        .faq-question::after { content: '+'; font-weight: 900; color: var(--accent); font-size: 16px; margin-right: 10px; }
-        .faq-answer { display: block; background: white; }
-        .faq-answer p { margin: 0; padding: 12px; font-size: 12px; color: #64748b; line-height: 1.6; }
-
         .reviews-section { margin-top: 30px; }
         .section-heading { text-align: center; margin-bottom: 15px; font-size: 16px; font-weight: 900; color: var(--primary); }
         .rating-summary { background: #fffbeb; border: 1px solid #fcd34d; padding: 10px; text-align: center; border-radius: 6px; font-size: 12px; font-weight: 700; color: #92400e; margin-bottom: 15px; }
@@ -206,15 +236,6 @@
         .verified-badge { background: #dcfce7; color: #166534; font-size: 10px; padding: 2px 5px; border-radius: 4px; font-weight: 700; }
         .stars { color: #fbbf24; font-size: 12px; }
         .review-text { font-size: 12px; color: #475569; line-height: 1.5; background: #f8fafc; padding: 10px; border-radius: 6px; font-style: italic; }
-        .review-photo { width: 100%; height: auto; max-height: 300px; object-fit: cover; border-radius: 6px; margin-top: 8px; border: 1px solid #e2e8f0; }
-
-        .form-wrapper { background: white; padding: 20px 15px; margin: 15px 0; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
-        .input-group { margin-bottom: 12px; text-align: right; position: relative; }
-        .input-group label { display: block; font-size: 12px; font-weight: 800; margin-bottom: 6px; color: #1e293b; }
-        .input-icon-wrapper { position: relative; }
-        .input-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 16px; pointer-events: none; }
-        .custom-input { width: 100%; padding: 12px 35px 12px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: 'Cairo'; font-size: 16px; background: #f8fafc; transition: all 0.3s; }
-        .custom-input:focus { border-color: var(--accent); background: white; outline: none; }
 
         .site-footer { background: #f8fafc; padding: 30px 15px; text-align: center; border-top: 1px solid #e2e8f0; font-size: 11px; color: #64748b; margin-top: 30px; }
         .footer-links { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
@@ -233,7 +254,6 @@
             justify-content: center;
             pointer-events: none;
         }
-        /* ⚠️ التعديل الأول هنا: إضافة type="button" لمنع الإرسال التلقائي في الهاتف */
         .cta-btn { 
             pointer-events: auto;
             background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); 
@@ -285,192 +305,75 @@
     <div class="main-wrapper">
         
         <div class="gallery-area" id="galleryBox">
-            <span class="discount-badge">عرض خاص -45%</span>
+            <span class="discount-badge">عرض خاص -35%</span>
             <div class="main-image-frame">
                 <div class="nav-arrow prev-arrow" onclick="prevSlide()">&#10094;</div>
                 <div class="nav-arrow next-arrow" onclick="nextSlide()">&#10095;</div>
-                <img id="currentImg" src="1.png" alt="iRed W10 Pro Max">
+                <img id="currentImg" src="1.jpg" alt="Ensemble Lacoste">
             </div>
             <div class="thumbnails-row">
-                <img src="1.png" class="thumb-item selected" onclick="setImg(0)">
-                <img src="2.png" class="thumb-item" onclick="setImg(1)">
-                <img src="3.png" class="thumb-item" onclick="setImg(2)">
-                <img src="4.png" class="thumb-item" onclick="setImg(3)">
-                <img src="5.png" class="thumb-item" onclick="setImg(4)">
-                <img src="6.png" class="thumb-item" onclick="setImg(5)">
+                <img src="1.jpg" class="thumb-item selected" onclick="setImg(0)">
+                <img src="2.jpg" class="thumb-item" onclick="setImg(1)">
+                <img src="3.jpg" class="thumb-item" onclick="setImg(2)">
+                <img src="4.jpg" class="thumb-item" onclick="setImg(3)">
+                <img src="5.jpg" class="thumb-item" onclick="setImg(4)">
             </div>
         </div>
 
         <div class="info-section">
             <div class="title-area">
-                <h1>iRed W10 Pro Max - الباقة الذهبية (ساعة + سماعات + باور بانك)</h1>
+                <h1>Ensemble Lacoste (Sweat + Pantalon) - الجودة العالية</h1>
                 <div class="social-proof-text">
                     <div class="pulse-dot"></div>
-                    تم بيع 21 قطعة في آخر ساعة
+                    تم بيع 45 قطعة في آخر ساعة
                 </div>
             </div>
 
             <div class="price-box">
-                <div class="current-price">280 درهم</div>
-                <div class="old-price">499 درهم</div>
+                <div class="current-price">229 درهم</div>
+                <div class="old-price">350 درهم</div>
                 <div class="free-delivery-tag">🚀 توصيل مجاني</div>
             </div>
-
-            <div class="countdown-timer">
-                <span>⏳ ينتهي العرض خلال:</span>
-                <div class="timer-ltr-wrapper">
-                    <span class="timer-digits" id="t-hours">04</span> : 
-                    <span class="timer-digits" id="t-minutes">59</span> : 
-                    <span class="timer-digits" id="t-seconds">30</span>
-                </div>
-            </div>
-
-            <div class="trust-box">
-                <div class="trust-title">🛡️ تسوق بكل ثقة وأمان!</div>
-                <ul class="trust-list">
-                    <li>
-                        <span style="font-size:18px">✅</span>
-                        <span><strong>افتح وجرب قبل الدفع:</strong> من حقك فتح الطرد والتأكد من جودة المنتج وتشغيله قبل أن تدفع درهماً واحداً للمندوب.</span>
-                    </li>
-                    <li>
-                        <span style="font-size:18px">✅</span>
-                        <span><strong>ضمان استرجاع 7 أيام:</strong> نضمن لك استعادة أموالك بالكامل في حال ظهر أي عيب أو لم تكن راضياً عن المنتج خلال 7 أيام.</span>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="features-grid">
-                <div class="feat-card">
-                    <span style="font-size:22px">🕒</span>
-                    <p class="feat-title">شاشة AMOLED</p>
-                </div>
-                <div class="feat-card">
-                    <span style="font-size:22px">🔋</span>
-                    <p class="feat-title">شاحن 10000mAh</p>
-                </div>
-                <div class="feat-card">
-                    <span style="font-size:22px">🎧</span>
-                    <p class="feat-title">صوت نقي HD</p>
-                </div>
-                <div class="feat-card">
-                    <span style="font-size:22px">🎁</span>
-                    <p class="feat-title">تصميم فاخر</p>
-                </div>
-            </div>
-
-            <div class="rich-content">
-                <p class="desc-intro">
-                    استمتع بتجربة ذكية وعصرية مع هذه الباقة المتكاملة!<br>
-                    باقة <strong>W10 Pro Max</strong> من iRed تقدم لك 3 منتجات أساسية في عرض واحد، بجودة عالية وأداء موثوق.
-                </p>
-
-                <div class="benefit-row">
-                    <div class="check-icon">✓</div>
-                    <div class="benefit-text">
-                        <h3>🕒 Smart Watch Série 10</h3>
-                        <p>ساعة ذكية أنيقة بشاشة AMOLED، تقيس نبضات القلب، تراقب جودة النوم والخطوات، وتستقبل إشعارات المكالمات والتطبيقات.</p>
-                    </div>
-                </div>
-                <div class="benefit-row">
-                    <div class="check-icon">✓</div>
-                    <div class="benefit-text">
-                        <h3>🔋 Power Bank 20W</h3>
-                        <p>لا داعي للقلق من نفاد البطارية! شاحن متنقل قوي بسعة 10000mAh يغطي احتياجاتك اليومية، خفيف الوزن وسهل الحمل.</p>
-                    </div>
-                </div>
-                <div class="benefit-row">
-                    <div class="check-icon">✓</div>
-                    <div class="benefit-text">
-                        <h3>🎧 سماعات بلوتوث</h3>
-                        <p>سماعات لاسلكية بصوت نقي وتصميم مريح، مثالية لإجراء المكالمات والاستماع للموسيقى طوال اليوم.</p>
-                    </div>
-                </div>
-
-                <h3 style="margin-top:25px; color:var(--primary); font-size:15px; font-weight: 800;">⚙️ المواصفات التقنية:</h3>
-                <table class="specs-table">
-                    <tr><td class="spec-label">الشاشة</td><td class="spec-val">AMOLED (سلسة وواضحة)</td></tr>
-                    <tr><td class="spec-label">قوة الشحن</td><td class="spec-val">20 واط (شحن سريع)</td></tr>
-                    <tr><td class="spec-label">السعة</td><td class="spec-val">10000mAh (للباور بانك)</td></tr>
-                    <tr><td class="spec-label">التوافق</td><td class="spec-val">Android & iOS</td></tr>
-                </table>
-
-                <div class="box-contents">
-                    <span class="box-title">📦 محتويات العلبة الفاخرة:</span>
-                    <ul class="box-list">
-                        <li>ساعة ذكية iRed W10 Pro Max</li>
-                        <li>سماعات بلوتوث لاسلكية</li>
-                        <li>شاحن متنقل (Power Bank 10000mAh)</li>
-                        <li>سوارين أنيقين (2 Straps) لتغيير المظهر</li>
-                        <li>كابل الشحن + دليل الاستخدام</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="faq-section">
-                <div class="section-heading">🤔 أسئلة شائعة</div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">هل تعمل المنتجات مع جميع الهواتف؟</div>
-                    <div class="faq-answer"><p>نعم، الساعة والسماعات تتصل بكفاءة عالية مع جميع هواتف الأندرويد والآيفون عبر البلوتوث.</p></div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-question">هل يدعم الباور بانك الشحن السريع؟</div>
-                    <div class="faq-answer"><p>نعم، يأتي بقوة 20 واط مما يضمن لك شحناً سريعاً وآمناً لهاتفك في أي وقت.</p></div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-question">هل يتوفر ضمان للمنتج؟</div>
-                    <div class="faq-answer"><p>بالتأكيد، نقدم ضمان الجودة وخدمة ما بعد البيع، ويمكنك فحص المنتج والتأكد منه عند الاستلام.</p></div>
-                </div>
-            </div>
-
-            <div class="reviews-section">
-                <div class="section-heading">💬 آراء الزبائن</div>
-                
-                <div class="rating-summary">⭐ 4.9/5 بناءً على آراء الزبائن الراضين</div>
-
-                <div class="review-card">
-                    <div class="review-header">
-                        <span class="reviewer-name">ياسين (الدار البيضاء) <span class="verified-badge">شراء مؤكد</span></span>
-                        <div class="stars">★★★★★</div>
-                    </div>
-                    <div class="review-text">"صراحة الباك واعر بزاف 😍 الصوت فالسماعات نقي والباور بانك كينفعني ديما فالخروج. شكراً على المصداقية."</div>
-                    <img src="review1.jpeg" class="review-photo" alt="صورة العميل">
-                </div>
-
-                <div class="review-card">
-                    <div class="review-header">
-                        <span class="reviewer-name">أحمد (طنجة) <span class="verified-badge">شراء مؤكد</span></span>
-                        <div class="stars">★★★★★</div>
-                    </div>
-                    <div class="review-text" dir="ltr" style="text-align: left;">"Je l'ai acheté comme cadeau et ça leur a beaucoup plu. La livraison était rapide et le produit a l'air luxueux."</div>
-                    <img src="review2.webp" class="review-photo" alt="صورة العميل">
-                </div>
-
-                <div class="review-card">
-                    <div class="review-header">
-                        <span class="reviewer-name">سارة (الرباط) <span class="verified-badge">شراء مؤكد</span></span>
-                        <div class="stars">★★★★☆</div>
-                    </div>
-                    <div class="review-text" dir="ltr" style="text-align: left;">"Le son des écouteurs est très pur, et le power bank est pratique. Une expérience d'achat réussie."</div>
-                </div>
-            </div>
-
         </div>
 
         <div class="form-wrapper" id="orderFormSection">
             <div style="text-align:center; margin-bottom:20px">
-                <h2 style="margin:0; color:var(--primary); font-size:22px; font-weight:900">📝 اطلب الباقة الكاملة الآن</h2>
-                <p style="font-size:13px; color:#64748b; margin-top:5px">عرض محدود: 280 درهم - توصيل مجاني</p>
+                <h2 style="margin:0; color:var(--primary); font-size:18px; font-weight:900">📝 املأ الاستمارة للطلب</h2>
+                <p style="font-size:12px; color:#64748b; margin-top:5px">الدفع عند الاستلام والتوصيل مجاني</p>
             </div>
 
             <form id="telegramForm" onsubmit="return false;">
+                
+                <div class="options-container">
+                    <label class="option-label">القياس</label>
+                    <div class="size-grid">
+                        <div class="size-btn" onclick="selectSize(this, 'S')">S</div>
+                        <div class="size-btn" onclick="selectSize(this, 'M')">M</div>
+                        <div class="size-btn selected" onclick="selectSize(this, 'L')">L</div>
+                        <div class="size-btn" onclick="selectSize(this, 'XL')">XL</div>
+                        <div class="size-btn" onclick="selectSize(this, 'XXL')">XXL</div>
+                    </div>
+                    <input type="hidden" id="selectedSize" value="L">
+                </div>
+
+                <div class="options-container">
+                    <label class="option-label">اللون</label>
+                    <div class="color-grid">
+                        <div class="color-btn bg-black selected" onclick="selectColor(this, 'أسود')"></div>
+                        <div class="color-btn bg-white-opt" onclick="selectColor(this, 'أبيض')"></div>
+                        <div class="color-btn bg-blue" onclick="selectColor(this, 'أزرق')"></div>
+                        <div class="color-btn bg-yellow" onclick="selectColor(this, 'أصفر')"></div>
+                        <div class="color-btn bg-pink" onclick="selectColor(this, 'وردي')"></div>
+                    </div>
+                    <input type="hidden" id="selectedColor" value="أسود">
+                </div>
+                <hr style="border:0; border-top:1px dashed #e2e8f0; margin:15px 0;">
+
                 <div class="input-group">
                     <label>الاسم الكامل</label>
                     <div class="input-icon-wrapper">
                         <span class="input-icon">👤</span>
-                        <input type="text" id="name" class="custom-input" placeholder="مثال: محمد العلوي" required>
+                        <input type="text" id="name" class="custom-input" placeholder="الاسم والنسب" required>
                     </div>
                 </div>
 
@@ -494,11 +397,128 @@
                     <label>العنوان (اختياري)</label>
                     <div class="input-icon-wrapper">
                         <span class="input-icon">📍</span>
-                        <input type="text" id="address" class="custom-input" placeholder="رقم المنزل، الحي...">
+                        <input type="text" id="address" class="custom-input" placeholder="الحي، رقم المنزل...">
                     </div>
                 </div>
-                <button type="submit" style="display:none;"></button>
+
+                <button type="button" class="static-btn" onclick="submitOrder()">
+                    🛒 اضغط هنا للطلب - 229 درهم
+                </button>
+
             </form>
+        </div>
+
+        <div class="info-section">
+
+            <div class="trust-box">
+                <div class="trust-title">🛡️ تسوق بكل ثقة وأمان!</div>
+                <ul class="trust-list">
+                    <li>
+                        <span style="font-size:18px">✅</span>
+                        <span><strong>افتح وجرب قبل الدفع:</strong> من حقك فتح الطرد، التأكد من القماش والمقاس (La Taille) قبل الدفع للمندوب.</span>
+                    </li>
+                    <li>
+                        <span style="font-size:18px">✅</span>
+                        <span><strong>ضمان الجودة:</strong> صور حقيقية 100%، ما تراه هو ما ستحصل عليه.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="features-grid">
+                <div class="feat-card">
+                    <span style="font-size:22px">👕</span>
+                    <p class="feat-title">قطن ممتاز</p>
+                </div>
+                <div class="feat-card">
+                    <span style="font-size:22px">❄️</span>
+                    <p class="feat-title">مثالي للشتاء</p>
+                </div>
+                <div class="feat-card">
+                    <span style="font-size:22px">🎨</span>
+                    <p class="feat-title">ألوان متعددة</p>
+                </div>
+                <div class="feat-card">
+                    <span style="font-size:22px">✨</span>
+                    <p class="feat-title">تصميم أنيق</p>
+                </div>
+            </div>
+
+            <div class="rich-content">
+                <p class="desc-intro">
+                    جدد ستايلك مع هذا الأونسومبل الرائع!<br>
+                    مزيج مثالي بين الراحة والأناقة، مصنوع من قماش قطني عالي الجودة ليدوم طويلاً ويمنحك الدفء.
+                </p>
+
+                <div class="benefit-row">
+                    <div class="check-icon">✓</div>
+                    <div class="benefit-text">
+                        <h3>🔥 جودة ممتازة (Premier Choix)</h3>
+                        <p>مصنوع من ثوب المليح (Coton) الذي لا ينكمش ولا يتغير لونه مع الغسيل. خياطة متقنة وتفاصيل دقيقة.</p>
+                    </div>
+                </div>
+                <div class="benefit-row">
+                    <div class="check-icon">✓</div>
+                    <div class="benefit-text">
+                        <h3>👟 ستايل كاجوال ورياضي</h3>
+                        <p>مناسب للارتداء اليومي، للخرجات، أو للرياضة. يمنحك مظهراً جذاباً ومريحاً في نفس الوقت.</p>
+                    </div>
+                </div>
+                <div class="benefit-row">
+                    <div class="check-icon">✓</div>
+                    <div class="benefit-text">
+                        <h3>📐 مقاسات مضبوطة (Standard Fit)</h3>
+                        <p>متوفر بجميع المقاسات ليناسب جميع الأجسام، مع قصة (Coupe) عصرية تبرز جمالية المظهر.</p>
+                    </div>
+                </div>
+
+                <h3 style="margin-top:25px; color:var(--primary); font-size:15px; font-weight: 800;">⚙️ المواصفات:</h3>
+                <table class="specs-table">
+                    <tr><td class="spec-label">نوع القماش</td><td class="spec-val">Coton (قطن)</td></tr>
+                    <tr><td class="spec-label">القطع</td><td class="spec-val">سويت شيرت + سروال</td></tr>
+                    <tr><td class="spec-label">المقاسات</td><td class="spec-val">S, M, L, XL, XXL</td></tr>
+                    <tr><td class="spec-label">الألوان</td><td class="spec-val">أسود، أبيض، أزرق، أصفر، وردي</td></tr>
+                </table>
+
+                <div class="box-contents">
+                    <span class="box-title">📦 ستتوصل بـ:</span>
+                    <ul class="box-list">
+                        <li>1x سويت شيرت (Sweatshirt)</li>
+                        <li>1x سروال رياضي (Pantalon Jogging)</li>
+                        <li>هدية: التوصيل مجاني لباب المنزل</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="reviews-section">
+                <div class="section-heading">💬 آراء الزبائن</div>
+                
+                <div class="rating-summary">⭐ 4.8/5 بناءً على آراء الزبائن الراضين</div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="reviewer-name">سفيان (الدار البيضاء) <span class="verified-badge">شراء مؤكد</span></span>
+                        <div class="stars">★★★★★</div>
+                    </div>
+                    <div class="review-text">"صراحة الثوب مليح بزاف وسخون، خديت الأسود وجاني هو هذاك فالقياس. شكراً على التعامل."</div>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="reviewer-name">مراد (طنجة) <span class="verified-badge">شراء مؤكد</span></span>
+                        <div class="stars">★★★★★</div>
+                    </div>
+                    <div class="review-text" dir="ltr" style="text-align: left;">"Très bonne qualité, le coton est excellent et la livraison était rapide. Je recommande vivement !"</div>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="reviewer-name">حمزة (أكادير) <span class="verified-badge">شراء مؤكد</span></span>
+                        <div class="stars">★★★★☆</div>
+                    </div>
+                    <div class="review-text">"السلعة نقية واللون طلع كيما فالصورة. الله يسر ليكم."</div>
+                </div>
+            </div>
+
         </div>
 
         <footer class="site-footer">
@@ -520,7 +540,7 @@
 
     <div class="sticky-bar">
         <button type="button" class="cta-btn" onclick="submitOrder()">
-            <span>🛒 اضغط للطلب - 280 درهم فقط</span>
+            <span>🛒 اضغط للطلب - 229 درهم</span>
         </button>
     </div>
 
@@ -530,10 +550,8 @@
             <div class="modal-title">♻️ سياسة الاسترجاع</div>
             <div class="modal-text">
                 <p>نحن في ZAFIR نضمن لك الرضا الكامل عن منتجاتنا. إذا لم تكن راضياً بنسبة 100%، يمكنك استرجاع المنتج أو استبداله بسهولة.</p>
-                <p><strong>مدة الاسترجاع:</strong> لديك 7 أيام كاملة من تاريخ استلام الطلب لتجربة المنتج وتقرير ما إذا كان يناسبك.</p>
-                <p><strong>استرجاع الأموال:</strong> نعم، يمكنك استرداد أموالك بالكامل في حال لم يعجبك المنتج. لا توجد رسوم خفية.</p>
-                <p><strong>تكاليف الشحن:</strong> نحن نتحمل كافة مصاريف شحن الإرجاع. لن تدفع أي درهم إضافي.</p>
-                <p><strong>كيف أطلب الإرجاع؟</strong> فقط تواصل معنا عبر الواتساب، وسنرسل لك المندوب لاستلام المنتج.</p>
+                <p><strong>مدة الاسترجاع:</strong> لديك 7 أيام كاملة من تاريخ استلام الطلب.</p>
+                <p><strong>كيف أطلب الإرجاع؟</strong> فقط تواصل معنا عبر الواتساب.</p>
             </div>
         </div>
     </div>
@@ -544,12 +562,7 @@
             <div class="modal-title">🚚 الشحن والتوصيل</div>
             <div class="modal-text">
                 <p><strong>هل التوصيل مجاني؟</strong> نعم، التوصيل مجاني 100% لجميع المدن المغربية.</p>
-                <p><strong>مدة التوصيل:</strong></p>
-                <ul>
-                    <li>المدن الكبرى (الدار البيضاء، الرباط، طنجة...): خلال 24 ساعة (يوم واحد).</li>
-                    <li>باقي المدن: خلال 48 ساعة (يومين).</li>
-                </ul>
-                <p><strong>متى أدفع؟</strong> الدفع يكون عند الاستلام فقط (Cash on Delivery). لا نطلب أي دفع مسبق. يمكنك فتح الطرد والتأكد من طلبيتك قبل الدفع للمندوب.</p>
+                <p><strong>متى أدفع؟</strong> الدفع يكون عند الاستلام فقط (Cash on Delivery).</p>
             </div>
         </div>
     </div>
@@ -559,10 +572,7 @@
             <div class="modal-close" onclick="closeModal('contactModal')">✕</div>
             <div class="modal-title">📞 اتصل بنا</div>
             <div class="modal-text">
-                <p>فريق خدمة العملاء جاهز للإجابة على جميع استفساراتكم.</p>
                 <p><strong>رقم الواتساب / الهاتف:</strong> <br> <span style="font-size:16px; font-weight:bold; color:var(--accent)">0784386140</span></p>
-                <p><strong>أوقات العمل:</strong><br>من الإثنين إلى السبت<br>من الساعة 9:00 صباحاً حتى 6:00 مساءً.</p>
-                <p>نحن نسعى للرد على جميع الرسائل في أسرع وقت ممكن.</p>
             </div>
         </div>
     </div>
@@ -573,9 +583,6 @@
             <div class="modal-title">🔒 سياسة الخصوصية</div>
             <div class="modal-text">
                 <p>نحن نحترم خصوصيتك ونلتزم بحماية بياناتك الشخصية.</p>
-                <p><strong>المعلومات التي نجمعها:</strong> نجمع فقط المعلومات الضرورية لإتمام طلبك (الاسم، رقم الهاتف، والعنوان).</p>
-                <p><strong>كيف نستخدم معلوماتك؟</strong> نستخدم هذه المعلومات فقط لتوصيل طلبك والتواصل معك بخصوص حالة الطلب. لا نقوم بمشاركة بياناتك مع أي طرف ثالث لأغراض تسويقية.</p>
-                <p>تصفحك للموقع يعني موافقتك على سياسة الخصوصية هذه.</p>
             </div>
         </div>
     </div>
@@ -583,7 +590,7 @@
     <script>
         // --- IMAGE GALLERY LOGIC ---
         let currentIndex = 0;
-        const images = ['1.png', '2.png', '3.png', '4.png', '5.png', '6.png'];
+        const images = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg'];
         const mainImg = document.getElementById('currentImg');
         const thumbs = document.querySelectorAll('.thumb-item');
 
@@ -600,41 +607,39 @@
                 t.classList.remove('selected');
                 if(i === currentIndex) t.classList.add('selected');
             });
-            
             thumbs[currentIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
         }
         function setImg(index) { updateGallery(index); }
         function prevSlide() { updateGallery(currentIndex - 1); }
         function nextSlide() { updateGallery(currentIndex + 1); }
 
-        // --- MOBILE SWIPE LOGIC (Corrected RTL) ---
+        // --- MOBILE SWIPE LOGIC ---
         let touchStartX = 0;
         let touchEndX = 0;
         const galleryArea = document.getElementById('galleryBox');
-
-        galleryArea.addEventListener('touchstart', e => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, {passive: true});
-
-        galleryArea.addEventListener('touchend', e => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, {passive: true});
-
+        galleryArea.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, {passive: true});
+        galleryArea.addEventListener('touchend', e => { touchEndX = e.changedTouches[0].screenX; handleSwipe(); }, {passive: true});
         function handleSwipe() {
             if (touchEndX < touchStartX - 50) prevSlide(); 
             if (touchEndX > touchStartX + 50) nextSlide(); 
         }
 
+        // --- SELECTORS LOGIC (With Square Style) ---
+        function selectSize(el, size) {
+            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById('selectedSize').value = size;
+        }
+        
+        function selectColor(el, color) {
+            document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById('selectedColor').value = color;
+        }
+
         // --- MODAL LOGIC ---
-        function openModal(id) {
-            document.getElementById(id).style.display = 'flex';
-            document.body.style.overflow = 'hidden'; 
-        }
-        function closeModal(id) {
-            document.getElementById(id).style.display = 'none';
-            document.body.style.overflow = 'auto'; 
-        }
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; document.body.style.overflow = 'auto'; }
 
         // --- ORDER SUBMISSION LOGIC ---
         function submitOrder() {
@@ -642,6 +647,8 @@
             const phone = document.getElementById('phone').value;
             const city = document.getElementById('city').value;
             const address = document.getElementById('address').value || "غير محدد";
+            const size = document.getElementById('selectedSize').value;
+            const color = document.getElementById('selectedColor').value;
             
             if(!name || !phone || !city) {
                 document.getElementById('orderFormSection').scrollIntoView({ behavior: 'smooth' });
@@ -664,70 +671,59 @@
             document.getElementById('phone').style.borderColor = "#cbd5e1";
             document.getElementById('phone').style.backgroundColor = "#f8fafc";
 
-            const btn = document.querySelector('.cta-btn');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = "جاري تأكيد الطلب...";
-            btn.style.background = "#94a3b8";
-            btn.disabled = true;
+            // Update BOTH buttons
+            const btns = document.querySelectorAll('.cta-btn, .static-btn');
+            btns.forEach(btn => {
+                btn.innerHTML = "جاري تأكيد الطلب...";
+                btn.style.background = "#94a3b8";
+                btn.disabled = true;
+            });
 
             const BOT_TOKEN = "8383494745:AAEFXQDJdszeU-EW8AWVn-NwGlQPiquG5xk";
             const CHAT_ID = "819906295";
+            // UPDATED URL
+            const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyt8iEy7Dc8mmWAbSKkBXUd310oz6aArHo4hFVjfXrJ7m7j9GwObtMVOJw0lt0jjMIW/exec";
             
-            // الرابط الذي أرسلته لي (صحيح)
-            const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby-XyjE8UvPrLe1HJTF1siYWwfA4kXvP9fASExfJcKWcySp4xqx7PkMBl-ysQ5ouuim/exec";
-            
-            // --- 1. Prepare Google Sheet Data ---
+            // --- SMART PRODUCT NAME (Workaround for empty Note) ---
+            const productWithDetails = `Ensemble Lacoste [${size} | ${color}]`;
+
+            // --- Google Sheet Data ---
             let sheetData = new FormData();
             sheetData.append('action', 'add'); 
             sheetData.append('name', name);
             sheetData.append('phone', cleanPhone);
             sheetData.append('city', city);
             sheetData.append('address', address);
-            sheetData.append('product', 'ساعة + سماعات + باور بانك');
-            sheetData.append('price', '280');
+            sheetData.append('product', productWithDetails); // Combined name
+            sheetData.append('price', '229');
             sheetData.append('status', 'New');
-            sheetData.append('note', '');
+            // Sending Note as well
+            sheetData.append('note', `المقاس: ${size} | اللون: ${color}`);
 
-            // --- 2. Prepare Telegram Data ---
+            // --- Telegram Data ---
             const telegramText = `
-🔥 *طلب جديد (iRed W10 Pro Max - 280 DH)*
+👕 *طلب جديد (Ensemble Lacoste - 229 DH)*
 ------------------
 👤 *العميل:* ${name}
 📱 *الهاتف:* ${cleanPhone}
 🏙 *المدينة:* ${city}
 📍 *العنوان:* ${address}
-💰 *السعر:* 280 درهم (شحن مجاني)
+📏 *المقاس:* ${size}
+🎨 *اللون:* ${color}
+💰 *السعر:* 229 درهم
 ------------------
 ⏰ ${new Date().toLocaleString('ar-MA')}
             `;
 
-            const doRedirect = () => {
-                window.location.href = "thankyou.html";
-            };
+            const doRedirect = () => { window.location.href = "thankyou.html"; };
+            const timeoutID = setTimeout(() => { doRedirect(); }, 3000);
 
-            // Failsafe timeout
-            const timeoutID = setTimeout(() => {
-                doRedirect();
-            }, 3000);
-
-            // Send Telegram -> Then Sheet -> Then Redirect
             fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(telegramText)}&parse_mode=Markdown`)
             .then(() => {
-                return fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    body: sheetData,
-                    mode: 'no-cors'
-                });
+                return fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: sheetData, mode: 'no-cors' });
             })
-            .then(() => {
-                clearTimeout(timeoutID);
-                doRedirect();
-            })
-            .catch(err => {
-                console.log("Error occurred but redirecting anyway:", err);
-                clearTimeout(timeoutID);
-                doRedirect();
-            });
+            .then(() => { clearTimeout(timeoutID); doRedirect(); })
+            .catch(err => { clearTimeout(timeoutID); doRedirect(); });
         }
 
         function shakeForm() {
@@ -737,33 +733,6 @@
             setTimeout(() => form.style.transform = "translateX(-5px)", 200);
             setTimeout(() => form.style.transform = "translateX(0)", 300);
         }
-
-        // --- COUNTDOWN TIMER LOGIC ---
-        function startCountdown(duration) {
-            let timer = duration, hours, minutes, seconds;
-            const hourElem = document.getElementById('t-hours');
-            const minElem = document.getElementById('t-minutes');
-            const secElem = document.getElementById('t-seconds');
-            
-            setInterval(function () {
-                hours = parseInt(timer / 3600, 10);
-                minutes = parseInt((timer % 3600) / 60, 10);
-                seconds = parseInt(timer % 60, 10);
-
-                hourElem.textContent = hours < 10 ? "0" + hours : hours;
-                minElem.textContent = minutes < 10 ? "0" + minutes : minutes;
-                secElem.textContent = seconds < 10 ? "0" + seconds : seconds;
-
-                if (--timer < 0) {
-                    timer = duration; 
-                }
-            }, 1000);
-        }
-
-        startCountdown(17970); 
-
     </script>
 </body>
 </html>
-
-
