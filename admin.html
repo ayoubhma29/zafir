@@ -302,12 +302,10 @@
                 grid.appendChild(btn);
             });
 
-            // Position Logic - Same for Mobile and Desktop
+            // Position Logic - Fixed for both mobile and desktop (Popup style)
             const rect = event.currentTarget.getBoundingClientRect();
-            // Default top position
             let topPos = rect.bottom + window.scrollY + 5;
             
-            // Adjust left/right
             if(currentLang === 'ar') {
                 dropdown.style.left = 'auto'; 
                 dropdown.style.right = (document.body.clientWidth - rect.right) + 'px';
@@ -435,8 +433,6 @@
 
             // Combine HTML
             const textAlign = currentLang === 'ar' ? 'text-right' : 'text-left';
-            
-            // FIX: Using string concatenation properly instead of undefined mobileHtml variable
             container.innerHTML = `
                 <div class="hidden md:block bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm">
                     <table class="w-full ${textAlign}">
