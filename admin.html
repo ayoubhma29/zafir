@@ -174,7 +174,7 @@
 
         async function getData() {
             try {
-                // ADDED: timestamp to prevent caching
+                // منع التخزين المؤقت (Caching)
                 const res = await fetch(`${SCRIPT_URL}?action=read&t=${new Date().getTime()}`);
                 const data = await res.json();
                 globalOrders = data.reverse();
@@ -200,7 +200,6 @@
             calcStats(filtered);
         }
 
-        // --- UPDATED STATUS MODAL FOR COMPACT LOOK ---
         function openStatusModal(idx, current) {
             selectedRowIndex = idx;
             const grid = document.getElementById('statusOptionsGrid');
@@ -214,7 +213,6 @@
 
             opts.forEach(opt => {
                 const btn = document.createElement('button');
-                // MODIFIED: Reduced padding (p-4 -> py-3 px-4), added text-xs for tighter look if needed
                 btn.className = `w-full py-3 px-4 rounded-xl font-bold text-sm transition transform active:scale-95 flex items-center justify-between ${opt.c} ${current===opt.v ? 'ring-2 ring-offset-2 ring-slate-300' : ''}`;
                 btn.innerHTML = `<span>${opt.t}</span> ${current===opt.v ? '<span>✓</span>' : ''}`;
                 btn.onclick = () => confirmStatusChange(opt.v);
@@ -237,6 +235,8 @@
         function renderData(orders) {
             const container = document.getElementById('ordersContainer');
             const t = LANG[currentLang];
+            // تحديد محاذاة النص ديناميكياً (يمين للعربية، يسار للإنجليزية)
+            const textAlign = currentLang === 'ar' ? 'text-right' : 'text-left';
             
             if(orders.length === 0) {
                 container.innerHTML = '';
@@ -245,10 +245,9 @@
             }
             document.getElementById('noData').classList.add('hidden');
 
-            // Desktop view remains largely same, just updated Call button logic if needed
             let html = `
             <div class="hidden md:block bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm">
-                <table class="w-full text-right">
+                <table class="w-full ${textAlign}">
                     <thead class="bg-slate-50 text-slate-400 text-[10px] uppercase font-bold">
                         <tr><th class="p-4">${t.th_status}</th><th class="p-4">${t.th_customer}</th><th class="p-4">${t.th_prod}</th><th class="p-4 text-center">${t.th_act}</th></tr>
                     </thead>
@@ -260,14 +259,13 @@
 
             orders.forEach(o => {
                 let phone = String(o.phone).replace(/^'/, '');
-                let cleanPhone = phone.replace(/\s/g, ''); // For calling
-                let waPhone = cleanPhone.replace(/^0/, '212'); // For WhatsApp
+                let cleanPhone = phone.replace(/\s/g, ''); 
+                let waPhone = cleanPhone.replace(/^0/, '212'); 
                 
                 const labelKey = `st_${o.status.startsWith('NoAnswer') ? 'NoAnswer' : o.status}`;
                 const statusLabel = t[labelKey] || o.status;
                 const statusClass = `st-${o.status.startsWith('NoAnswer') ? 'NoAnswer' : o.status}`;
 
-                // Desktop Row
                 html += `
                     <tr class="hover:bg-slate-50 transition">
                         <td class="p-4 w-48">
@@ -294,7 +292,6 @@
                         </td>
                     </tr>`;
 
-                // Mobile Card View - ADDED CALL BUTTON HERE
                 cards += `
                     <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 relative">
                         <div class="flex justify-between items-start mb-3">
