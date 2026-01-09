@@ -48,13 +48,13 @@
     </div>
 
     <div id="statusModal" class="hidden fixed inset-0 z-50 flex items-end md:items-center justify-center bg-black/50 backdrop-blur-[2px] transition-opacity modal-enter" onclick="closeStatusModal()">
-        <div class="bg-white w-full md:w-[350px] rounded-t-3xl md:rounded-2xl p-5 shadow-2xl transform transition-transform sheet-enter md:scale-100" onclick="event.stopPropagation()">
-            <div class="flex justify-between items-center mb-4 border-b border-slate-100 pb-3">
+        <div class="bg-white w-full md:w-[350px] rounded-t-3xl md:rounded-2xl p-4 shadow-2xl transform transition-transform sheet-enter md:scale-100" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center mb-3 border-b border-slate-100 pb-3">
                 <h3 class="font-bold text-lg text-slate-800" data-i18n="select_status">تغيير الحالة</h3>
                 <button onclick="closeStatusModal()" class="w-8 h-8 rounded-full bg-slate-50 text-slate-400 hover:bg-slate-100 flex items-center justify-center transition">&times;</button>
             </div>
-            <div class="grid grid-cols-1 gap-2 max-h-[60vh] overflow-y-auto" id="statusOptionsGrid">
-                </div>
+            <div class="grid grid-cols-1 gap-1 max-h-[60vh] overflow-y-auto" id="statusOptionsGrid">
+            </div>
         </div>
     </div>
 
@@ -151,7 +151,6 @@
         let globalOrders = [];
         let selectedRowIndex = null;
 
-        // AUTH & INIT
         if(localStorage.getItem('zafir_auth') === 'true') {
             document.getElementById('loginSection').classList.add('hidden');
             document.getElementById('dashboardContent').classList.remove('hidden');
@@ -175,8 +174,8 @@
 
         async function getData() {
             try {
-                // Standard GET fetch (Reliable)
-                const res = await fetch(`${SCRIPT_URL}?action=read`);
+                // ADDED: timestamp to prevent caching
+                const res = await fetch(`${SCRIPT_URL}?action=read&t=${new Date().getTime()}`);
                 const data = await res.json();
                 globalOrders = data.reverse();
                 document.getElementById('loader').classList.add('hidden');
@@ -201,7 +200,7 @@
             calcStats(filtered);
         }
 
-        // --- NEW STATUS MODAL ---
+        // --- UPDATED STATUS MODAL FOR COMPACT LOOK ---
         function openStatusModal(idx, current) {
             selectedRowIndex = idx;
             const grid = document.getElementById('statusOptionsGrid');
@@ -215,8 +214,8 @@
 
             opts.forEach(opt => {
                 const btn = document.createElement('button');
-                // Design: Big clickable blocks
-                btn.className = `w-full p-4 rounded-xl font-bold text-sm transition transform active:scale-95 flex items-center justify-between ${opt.c} ${current===opt.v ? 'ring-2 ring-offset-2 ring-slate-300' : ''}`;
+                // MODIFIED: Reduced padding (p-4 -> py-3 px-4), added text-xs for tighter look if needed
+                btn.className = `w-full py-3 px-4 rounded-xl font-bold text-sm transition transform active:scale-95 flex items-center justify-between ${opt.c} ${current===opt.v ? 'ring-2 ring-offset-2 ring-slate-300' : ''}`;
                 btn.innerHTML = `<span>${opt.t}</span> ${current===opt.v ? '<span>✓</span>' : ''}`;
                 btn.onclick = () => confirmStatusChange(opt.v);
                 grid.appendChild(btn);
@@ -228,11 +227,9 @@
 
         async function confirmStatusChange(newStatus) {
             closeStatusModal();
-            // Optimistic Update
             const item = globalOrders.find(o=>o.row_index===selectedRowIndex); 
             if(item) { item.status = newStatus; applyFilters(); }
             
-            // Send to Server (NO-CORS for stability)
             const fd = new FormData(); fd.append('action','update'); fd.append('row_index', selectedRowIndex); fd.append('status', newStatus);
             await fetch(SCRIPT_URL, {method:'POST', body:fd, mode:'no-cors'});
         }
@@ -248,6 +245,7 @@
             }
             document.getElementById('noData').classList.add('hidden');
 
+            // Desktop view remains largely same, just updated Call button logic if needed
             let html = `
             <div class="hidden md:block bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm">
                 <table class="w-full text-right">
@@ -262,11 +260,14 @@
 
             orders.forEach(o => {
                 let phone = String(o.phone).replace(/^'/, '');
-                let waPhone = phone.replace(/\s/g, '').replace(/^0/, '212');
+                let cleanPhone = phone.replace(/\s/g, ''); // For calling
+                let waPhone = cleanPhone.replace(/^0/, '212'); // For WhatsApp
+                
                 const labelKey = `st_${o.status.startsWith('NoAnswer') ? 'NoAnswer' : o.status}`;
                 const statusLabel = t[labelKey] || o.status;
                 const statusClass = `st-${o.status.startsWith('NoAnswer') ? 'NoAnswer' : o.status}`;
 
+                // Desktop Row
                 html += `
                     <tr class="hover:bg-slate-50 transition">
                         <td class="p-4 w-48">
@@ -277,7 +278,7 @@
                         </td>
                         <td class="p-4">
                             <div class="font-bold text-sm text-slate-800">${o.name}</div>
-                            <a href="tel:${phone}" class="text-xs font-mono text-slate-500 block hover:text-orange-500">${phone}</a>
+                            <a href="tel:${cleanPhone}" class="text-xs font-mono text-slate-500 block hover:text-orange-500">${phone}</a>
                             <div class="text-[10px] text-slate-400 mt-1">📍 ${o.city}</div>
                         </td>
                         <td class="p-4">
@@ -293,12 +294,13 @@
                         </td>
                     </tr>`;
 
+                // Mobile Card View - ADDED CALL BUTTON HERE
                 cards += `
                     <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 relative">
                         <div class="flex justify-between items-start mb-3">
                             <div>
                                 <h3 class="font-bold text-slate-800">${o.name}</h3>
-                                <a href="tel:${phone}" class="text-xs text-slate-500 font-mono mt-0.5 block hover:text-orange-500">📞 ${phone}</a>
+                                <a href="tel:${cleanPhone}" class="text-xs text-slate-500 font-mono mt-0.5 block hover:text-orange-500">📞 ${phone}</a>
                             </div>
                             <div class="text-right">
                                 <div class="text-emerald-600 font-black">${o.price} DH</div>
@@ -319,7 +321,12 @@
                         </button>
 
                         <div class="flex gap-2">
+                            <a href="tel:${cleanPhone}" class="w-12 rounded-xl bg-blue-50 text-blue-600 border border-blue-100 hover:bg-blue-100 flex items-center justify-center transition">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                            </a>
+                            
                             <button onclick='editOrder(${JSON.stringify(o)})' class="flex-1 py-2 bg-slate-100 text-slate-600 rounded-xl font-bold text-xs hover:bg-slate-200 transition">${t.edit_title}</button>
+                            
                             <button onclick='openWhatsApp("${waPhone}", "${o.name}", "${o.product}", "${o.price}")' class="flex-1 py-2 bg-green-500 text-white rounded-xl font-bold text-xs hover:bg-green-600 transition shadow-lg shadow-green-100 flex items-center justify-center gap-2">
                                 <span>WhatsApp</span>
                             </button>
