@@ -230,7 +230,6 @@
         async function saveData() {
             data.packUnitCost = parseFloat(document.getElementById('packUnitCost').value) || 0;
             const fd = new FormData(); fd.append('action', 'save_accounting'); fd.append('data', JSON.stringify(data));
-            // Using NO-CORS for POST stability
             try { await fetch(SCRIPT_URL, { method: 'POST', body: fd, mode: 'no-cors' }); updateStatus('saved'); } catch(e){ updateStatus('error'); }
         }
 
