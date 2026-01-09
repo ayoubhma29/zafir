@@ -62,15 +62,33 @@
             <div class="p-6 space-y-4 max-h-[65vh] overflow-y-auto">
                 <input type="hidden" id="editRowIndex">
                 <div class="grid grid-cols-2 gap-3">
-                    <input type="text" id="editName" class="w-full p-3 border rounded-xl font-bold bg-slate-50 focus:bg-white outline-none" placeholder="الاسم">
-                    <input type="tel" id="editPhone" class="w-full p-3 border rounded-xl font-mono font-bold bg-slate-50 focus:bg-white outline-none" dir="ltr" placeholder="الهاتف">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1" data-i18n="name">الاسم</label>
+                        <input type="text" id="editName" class="w-full p-3 border rounded-xl font-bold bg-slate-50 focus:bg-white outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1" data-i18n="phone">الهاتف</label>
+                        <input type="tel" id="editPhone" class="w-full p-3 border rounded-xl font-mono font-bold bg-slate-50 focus:bg-white outline-none" dir="ltr">
+                    </div>
                 </div>
                 <div class="grid grid-cols-2 gap-3">
-                    <input type="text" id="editCity" class="w-full p-3 border rounded-xl font-bold bg-slate-50 focus:bg-white outline-none" placeholder="المدينة">
-                    <input type="number" id="editPrice" class="w-full p-3 border rounded-xl font-bold text-green-600 bg-slate-50 focus:bg-white outline-none" placeholder="السعر">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1" data-i18n="city">المدينة</label>
+                        <input type="text" id="editCity" class="w-full p-3 border rounded-xl font-bold bg-slate-50 focus:bg-white outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1" data-i18n="price">السعر</label>
+                        <input type="number" id="editPrice" class="w-full p-3 border rounded-xl font-bold text-green-600 bg-slate-50 focus:bg-white outline-none">
+                    </div>
                 </div>
-                <input type="text" id="editAddress" class="w-full p-3 border rounded-xl bg-slate-50 focus:bg-white outline-none" placeholder="العنوان">
-                <textarea id="editNote" class="w-full p-3 border rounded-xl h-20 bg-amber-50 focus:bg-white outline-none" placeholder="ملاحظات"></textarea>
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 mb-1" data-i18n="address">العنوان</label>
+                    <input type="text" id="editAddress" class="w-full p-3 border rounded-xl bg-slate-50 focus:bg-white outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 mb-1" data-i18n="note">ملاحظات</label>
+                    <textarea id="editNote" class="w-full p-3 border rounded-xl h-20 bg-amber-50 focus:bg-white outline-none"></textarea>
+                </div>
             </div>
             <div class="p-4 bg-slate-50 border-t flex gap-3">
                 <button onclick="saveChanges()" class="flex-1 bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700 shadow-md transition" data-i18n="save_btn">حفظ</button>
@@ -194,15 +212,14 @@
             calcStats(filtered);
         }
 
-        // --- NEW POSITIONING LOGIC ---
+        // --- POSITIONING LOGIC ---
         function openStatusDropdown(event, idx, current) {
-            event.stopPropagation(); // Prevent immediate closing
+            event.stopPropagation();
             selectedRowIndex = idx;
             const dropdown = document.getElementById('statusDropdown');
             const overlay = document.getElementById('dropdownOverlay');
             const grid = document.getElementById('statusOptionsGrid');
             
-            // 1. Populate Options
             grid.innerHTML = '';
             const t = LANG[currentLang];
             const opts = [
@@ -227,15 +244,12 @@
                 grid.appendChild(btn);
             });
 
-            // 2. Position Dropdown
             const rect = event.currentTarget.getBoundingClientRect();
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             
             dropdown.style.top = (rect.bottom + scrollTop + 5) + 'px';
             
-            // Handle Left/Right alignment
             if(currentLang === 'ar') {
-                // In RTL, align right edge of dropdown with right edge of button if possible
                 dropdown.style.left = 'auto';
                 dropdown.style.right = (document.body.clientWidth - rect.right) + 'px';
             } else {
@@ -243,7 +257,6 @@
                 dropdown.style.right = 'auto';
             }
 
-            // Show
             dropdown.classList.remove('hidden');
             overlay.classList.remove('hidden');
         }
@@ -294,7 +307,6 @@
                 const statusClass = `st-${o.status.startsWith('NoAnswer') ? 'NoAnswer' : o.status}`;
                 const displayAddr = o.address || '-';
 
-                // Desktop Row
                 html += `
                     <tr class="hover:bg-slate-50 transition relative z-10">
                         <td class="p-4 w-48 align-top">
@@ -325,7 +337,6 @@
                         </td>
                     </tr>`;
 
-                // Mobile Card View
                 cards += `
                     <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 relative">
                         <div class="flex justify-between items-start mb-3">
