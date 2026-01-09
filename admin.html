@@ -51,9 +51,9 @@
         </div>
     </div>
 
-    <div id="dropdownOverlay" class="hidden fixed inset-0 z-40 bg-black/20 backdrop-blur-[2px] transition-opacity" onclick="closeStatusDropdown()"></div>
+    <div id="dropdownOverlay" class="hidden fixed inset-0 z-40 bg-transparent" onclick="closeStatusDropdown()"></div>
 
-    <div id="statusDropdown" class="hidden fixed z-50 w-[85%] md:w-56 max-w-sm bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden transform transition-all duration-200 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:top-auto md:left-auto md:translate-x-0 md:translate-y-0">
+    <div id="statusDropdown" class="hidden fixed z-50 w-48 bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden transform transition-all duration-200">
         <div class="text-[11px] font-bold text-slate-400 bg-slate-50 px-4 py-3 border-b border-slate-100 flex justify-between items-center">
             <span data-i18n="select_status">تغيير الحالة</span>
             <button onclick="closeStatusDropdown()" class="md:hidden text-lg">&times;</button>
@@ -302,16 +302,20 @@
                 grid.appendChild(btn);
             });
 
-            // Desktop Positioning logic
-            if(window.innerWidth > 768) {
-                const rect = event.currentTarget.getBoundingClientRect();
-                dropdown.style.top = (rect.bottom + window.scrollY + 5) + 'px';
-                if(currentLang === 'ar') {
-                    dropdown.style.left = 'auto'; dropdown.style.right = (document.body.clientWidth - rect.right) + 'px';
-                } else {
-                    dropdown.style.left = rect.left + 'px'; dropdown.style.right = 'auto';
-                }
+            // Position Logic - Same for Mobile and Desktop
+            const rect = event.currentTarget.getBoundingClientRect();
+            // Default top position
+            let topPos = rect.bottom + window.scrollY + 5;
+            
+            // Adjust left/right
+            if(currentLang === 'ar') {
+                dropdown.style.left = 'auto'; 
+                dropdown.style.right = (document.body.clientWidth - rect.right) + 'px';
+            } else {
+                dropdown.style.left = rect.left + 'px'; 
+                dropdown.style.right = 'auto';
             }
+            dropdown.style.top = topPos + 'px';
             
             dropdown.classList.remove('hidden');
             overlay.classList.remove('hidden');
@@ -431,6 +435,8 @@
 
             // Combine HTML
             const textAlign = currentLang === 'ar' ? 'text-right' : 'text-left';
+            
+            // FIX: Using string concatenation properly instead of undefined mobileHtml variable
             container.innerHTML = `
                 <div class="hidden md:block bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm">
                     <table class="w-full ${textAlign}">
@@ -442,7 +448,7 @@
                         </tbody>
                     </table>
                 </div>
-                ${mobileCards}
+                <div class="space-y-4 md:hidden">${mobileCards}</div>
             `;
         }
 
@@ -534,4 +540,3 @@
     </script>
 </body>
 </html>
-
