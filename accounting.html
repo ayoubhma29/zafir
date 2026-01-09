@@ -7,11 +7,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #f1f5f9; }
+        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; -webkit-tap-highlight-color: transparent; }
         ::-webkit-scrollbar { width: 5px; height: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); border-bottom: 1px solid #e2e8f0; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 10px; }
+        .glass { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border-bottom: 1px solid #e2e8f0; }
         
         .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; transition: all 0.3s; }
         .st-loading { background: #3b82f6; animation: pulse 1s infinite; }
@@ -42,7 +42,7 @@
                     <div class="status-dot st-loading" id="syncStatus" title="Status"></div>
                 </div>
                 <div class="flex gap-2">
-                    <button onclick="toggleLang()" class="text-[10px] font-bold bg-slate-100 px-2 py-1 rounded border border-slate-200 hover:bg-slate-200 transition" id="langBtnNav">EN</button>
+                    <button onclick="toggleLang()" class="text-[10px] font-bold bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-200 transition" id="langBtnNav">EN</button>
                     <a href="admin.html" class="bg-slate-900 text-white px-4 py-2 rounded-xl hover:bg-orange-600 transition font-bold text-xs flex items-center gap-2 shadow-lg active:scale-95">
                         <span data-i18n="btn_back">الطلبات</span>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
@@ -54,10 +54,10 @@
         <div class="container mx-auto px-3 md:px-4 py-6 flex-1">
 
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-6">
-                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:border-red-200 transition"><p class="text-[10px] text-slate-400 font-bold uppercase" data-i18n="card_debt">ديون المورد</p><p class="text-2xl font-black text-red-500 mt-1" id="supplierDebt">0</p></div>
-                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:border-orange-200 transition"><p class="text-[10px] text-slate-400 font-bold uppercase" data-i18n="card_expenses">المصاريف</p><p class="text-2xl font-black text-orange-500 mt-1" id="totalExpenses">0</p></div>
-                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:border-emerald-200 transition"><p class="text-[10px] text-slate-400 font-bold uppercase" data-i18n="card_income">المدخول</p><p class="text-2xl font-black text-emerald-600 mt-1" id="totalRevenue">0</p></div>
-                <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700 shadow-sm relative overflow-hidden"><div class="absolute -right-2 -top-2 text-white opacity-5 text-8xl font-black">$</div><p class="text-[10px] text-slate-400 font-bold uppercase" data-i18n="card_profit">الربح الصافي</p><p class="text-2xl font-black text-white mt-1" id="netProfit">0</p></div>
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm transition hover:shadow-md"><p class="text-[10px] text-slate-400 font-bold uppercase" data-i18n="card_debt">ديون المورد</p><p class="text-2xl md:text-3xl font-black text-red-500 mt-1" id="supplierDebt">0</p></div>
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm transition hover:shadow-md"><p class="text-[10px] text-slate-400 font-bold uppercase" data-i18n="card_expenses">المصاريف</p><p class="text-2xl md:text-3xl font-black text-orange-500 mt-1" id="totalExpenses">0</p></div>
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm transition hover:shadow-md"><p class="text-[10px] text-slate-400 font-bold uppercase" data-i18n="card_income">المدخول</p><p class="text-2xl md:text-3xl font-black text-emerald-600 mt-1" id="totalRevenue">0</p></div>
+                <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700 shadow-sm relative overflow-hidden group"><div class="absolute -right-2 -top-2 text-white opacity-5 text-8xl font-black group-hover:scale-110 transition duration-500">$</div><p class="text-[10px] text-slate-400 font-bold uppercase" data-i18n="card_profit">الربح الصافي</p><p class="text-2xl md:text-3xl font-black text-white mt-1" id="netProfit">0</p></div>
             </div>
 
             <div class="grid lg:grid-cols-3 gap-6">
@@ -65,23 +65,26 @@
                 <div class="lg:col-span-1 space-y-4">
                     <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm h-full flex flex-col">
                         <div class="flex justify-between items-center mb-4">
-                            <h3 class="font-bold text-lg text-slate-800" data-i18n="prod_title">إدارة المنتجات</h3>
-                            <span class="text-[10px] bg-slate-100 px-2 py-1 rounded text-slate-500 font-bold" id="prodCount">0</span>
+                            <h3 class="font-bold text-lg text-slate-800 flex items-center gap-2">
+                                <span class="bg-slate-100 p-1.5 rounded-lg">📦</span>
+                                <span data-i18n="prod_title">إدارة المنتجات</span>
+                            </h3>
+                            <span class="text-[10px] bg-slate-800 text-white px-2 py-1 rounded-md font-bold" id="prodCount">0</span>
                         </div>
                         
-                        <div class="flex gap-2 mb-4">
-                            <input type="text" id="prodName" class="flex-1 p-3 bg-slate-50 rounded-xl text-xs font-bold outline-none focus:bg-white border border-slate-100 focus:border-orange-200 transition" placeholder="Product" data-i18n-placeholder="ph_prod_name">
-                            <input type="number" id="prodCost" class="w-16 p-3 bg-slate-50 rounded-xl text-xs text-center outline-none focus:bg-white border border-slate-100 focus:border-orange-200 transition" placeholder="Cost" data-i18n-placeholder="ph_cost">
-                            <button onclick="addProduct()" class="bg-slate-800 text-white w-10 rounded-xl font-bold hover:bg-orange-600 transition flex items-center justify-center shadow-lg">+</button>
+                        <div class="flex gap-2 mb-4 bg-slate-50 p-2 rounded-xl border border-slate-100">
+                            <input type="text" id="prodName" class="flex-1 p-2 bg-white rounded-lg text-xs font-bold outline-none focus:ring-2 focus:ring-orange-100 transition" placeholder="Product" data-i18n-placeholder="ph_prod_name">
+                            <input type="number" id="prodCost" class="w-16 p-2 bg-white rounded-lg text-xs text-center outline-none focus:ring-2 focus:ring-orange-100 transition" placeholder="Cost" data-i18n-placeholder="ph_cost">
+                            <button onclick="addProduct()" class="bg-slate-800 text-white w-8 rounded-lg font-bold hover:bg-orange-600 transition flex items-center justify-center shadow-lg active:scale-95 text-lg">+</button>
                         </div>
                         
                         <div class="flex-1 min-h-[300px] flex flex-col">
-                            <input type="text" id="prodSearch" onkeyup="renderProducts()" class="w-full mb-3 p-2 bg-slate-50 rounded-lg text-[10px] outline-none border border-transparent focus:border-slate-200 transition" placeholder="🔍 ..." data-i18n-placeholder="ph_search">
-                            <div class="flex justify-between text-[9px] text-slate-400 font-bold uppercase mb-2 px-1">
+                            <input type="text" id="prodSearch" onkeyup="renderProducts()" class="w-full mb-3 p-2.5 bg-slate-50 rounded-xl text-xs outline-none border border-transparent focus:bg-white focus:border-slate-200 transition" placeholder="🔍 ..." data-i18n-placeholder="ph_search">
+                            <div class="flex justify-between text-[9px] text-slate-400 font-bold uppercase mb-2 px-2">
                                 <span data-i18n="lbl_prod_info">المنتج</span>
                                 <span data-i18n="lbl_stock">مخزون المرتجع</span>
                             </div>
-                            <div id="productsList" class="space-y-2 overflow-y-auto max-h-[400px] pr-1 scroll-smooth flex-1"></div>
+                            <div id="productsList" class="space-y-2 overflow-y-auto max-h-[400px] pr-1 flex-1"></div>
                         </div>
                     </div>
                 </div>
@@ -90,52 +93,56 @@
                     
                     <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
                         <h3 class="font-bold text-lg mb-4 text-slate-800 flex items-center gap-2">
+                            <span class="bg-slate-100 p-1.5 rounded-lg">💰</span>
                             <span data-i18n="fin_title">المالية</span>
                             <span class="text-[10px] font-normal text-slate-400 bg-slate-50 px-2 py-0.5 rounded-full" id="finCount">0</span>
                         </h3>
 
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
-                            <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 group focus-within:border-orange-200 transition">
-                                <label class="text-[10px] font-bold text-orange-400 block mb-1 uppercase" data-i18n="lbl_expense">مصروف</label>
-                                <div class="flex gap-1">
-                                    <input type="text" id="expDesc" class="flex-1 bg-transparent text-xs font-bold outline-none" placeholder="Ads..." data-i18n-placeholder="ph_desc">
-                                    <input type="number" id="expAmount" class="w-14 bg-white rounded px-1 text-xs text-center outline-none border border-slate-200" placeholder="0">
-                                    <button onclick="addTransaction('expense')" class="text-orange-500 hover:text-orange-700 font-bold px-1">+</button>
+                            <div class="bg-orange-50 p-3 rounded-xl border border-orange-100 group focus-within:border-orange-300 transition">
+                                <label class="text-[10px] font-bold text-orange-600 block mb-1 uppercase" data-i18n="lbl_expense">مصروف</label>
+                                <div class="flex gap-2">
+                                    <input type="text" id="expDesc" class="flex-1 bg-white rounded-lg px-2 py-1 text-xs font-bold outline-none border border-transparent focus:border-orange-200" placeholder="Ads..." data-i18n-placeholder="ph_desc">
+                                    <input type="number" id="expAmount" class="w-16 bg-white rounded-lg px-2 py-1 text-xs text-center outline-none font-bold text-slate-700" placeholder="0">
+                                    <button onclick="addTransaction('expense')" class="bg-orange-500 text-white w-7 rounded-lg hover:bg-orange-600 font-bold shadow-md active:scale-95">+</button>
                                 </div>
                             </div>
-                             <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 group focus-within:border-red-200 transition">
-                                <label class="text-[10px] font-bold text-red-400 block mb-1 uppercase" data-i18n="lbl_pay_supp">دفع للمورد</label>
-                                <div class="flex gap-1">
-                                    <span class="flex-1 text-xs text-slate-400 pt-0.5" data-i18n="lbl_payment_fixed">دفعة حساب</span>
-                                    <input type="number" id="payAmount" class="w-16 bg-white rounded px-1 text-xs text-center outline-none border border-slate-200 text-red-600 font-bold" placeholder="0">
-                                    <button onclick="addTransaction('payment')" class="text-red-500 hover:text-red-700 font-bold px-1">+</button>
+                            <div class="bg-red-50 p-3 rounded-xl border border-red-100 group focus-within:border-red-300 transition">
+                                <label class="text-[10px] font-bold text-red-600 block mb-1 uppercase" data-i18n="lbl_pay_supp">دفع للمورد</label>
+                                <div class="flex gap-2 items-center">
+                                    <span class="flex-1 text-[10px] font-bold text-red-400" data-i18n="lbl_payment_fixed">دفعة حساب</span>
+                                    <input type="number" id="payAmount" class="w-20 bg-white rounded-lg px-2 py-1 text-xs text-center outline-none font-bold text-red-600 border border-transparent focus:border-red-200" placeholder="0">
+                                    <button onclick="addTransaction('payment')" class="bg-red-500 text-white w-7 h-6 rounded-lg hover:bg-red-600 font-bold shadow-md active:scale-95">+</button>
                                 </div>
                             </div>
-                            <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 group focus-within:border-green-200 transition">
-                                <label class="text-[10px] font-bold text-green-500 block mb-1 uppercase" data-i18n="lbl_income">استلام أموال</label>
-                                <div class="flex gap-1">
-                                    <span class="flex-1 text-xs text-slate-400 pt-0.5" data-i18n="lbl_income_fixed">استلام كاش</span>
-                                    <input type="number" id="incomeAmount" class="w-16 bg-white rounded px-1 text-xs text-center outline-none border border-slate-200 text-green-600 font-bold" placeholder="0">
-                                    <button onclick="addTransaction('income')" class="text-green-500 hover:text-green-700 font-bold px-1">+</button>
+                            <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-100 group focus-within:border-emerald-300 transition">
+                                <label class="text-[10px] font-bold text-emerald-600 block mb-1 uppercase" data-i18n="lbl_income">استلام أموال</label>
+                                <div class="flex gap-2 items-center">
+                                    <span class="flex-1 text-[10px] font-bold text-emerald-500" data-i18n="lbl_income_fixed">استلام كاش</span>
+                                    <input type="number" id="incomeAmount" class="w-20 bg-white rounded-lg px-2 py-1 text-xs text-center outline-none font-bold text-emerald-600 border border-transparent focus:border-emerald-200" placeholder="0">
+                                    <button onclick="addTransaction('income')" class="bg-emerald-500 text-white w-7 h-6 rounded-lg hover:bg-emerald-600 font-bold shadow-md active:scale-95">+</button>
                                 </div>
                             </div>
                         </div>
 
                         <div class="bg-slate-50 rounded-xl border border-slate-100 overflow-hidden">
-                            <input type="text" id="finSearch" onkeyup="renderFinancials()" class="w-full p-2 text-[10px] bg-white border-b border-slate-100 outline-none text-center" placeholder="Search transactions..." data-i18n-placeholder="ph_search_fin">
-                            <div class="max-h-[150px] overflow-y-auto p-1 space-y-1" id="finList"></div>
+                            <input type="text" id="finSearch" onkeyup="renderFinancials()" class="w-full p-2 text-[10px] bg-white border-b border-slate-100 outline-none text-center font-bold text-slate-500" placeholder="Search transactions..." data-i18n-placeholder="ph_search_fin">
+                            <div class="max-h-[200px] overflow-y-auto p-2 space-y-1.5" id="finList"></div>
                         </div>
                     </div>
 
                     <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
                         <div class="flex flex-wrap justify-between items-center mb-4 gap-3">
                             <div>
-                                <h3 class="font-bold text-lg text-slate-800" data-i18n="shipped_title">السلع المرسلة</h3>
-                                <p class="text-[10px] text-slate-400 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> <span data-i18n="shipped_desc">Sync from Orders</span></p>
+                                <h3 class="font-bold text-lg text-slate-800 flex items-center gap-2">
+                                    <span class="bg-slate-100 p-1.5 rounded-lg">🚛</span>
+                                    <span data-i18n="shipped_title">السلع المرسلة</span>
+                                </h3>
+                                <p class="text-[10px] text-slate-400 flex items-center gap-1 mt-1"><span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span> <span data-i18n="shipped_desc">Sync from Orders</span></p>
                             </div>
                             <div class="flex items-center gap-2 bg-red-50 px-3 py-2 rounded-xl border border-red-100">
                                 <label class="text-[10px] font-bold text-red-600 whitespace-nowrap" data-i18n="lbl_pack">تغليف (للوحدة):</label>
-                                <input type="number" id="packUnitCost" oninput="triggerAutoSave(); updateDashboard()" class="w-10 p-0.5 text-sm bg-white border border-red-200 rounded text-center font-bold text-red-600 outline-none focus:ring-1 focus:ring-red-300" placeholder="0">
+                                <input type="number" id="packUnitCost" oninput="triggerAutoSave(); updateDashboard()" class="w-12 p-1 text-sm bg-white border border-red-200 rounded text-center font-bold text-red-600 outline-none focus:ring-2 focus:ring-red-200" placeholder="0">
                                 <span class="text-[10px] text-red-400 font-bold border-r border-red-200 pr-2 mr-1" id="totalPackDisplay">0 DH</span>
                             </div>
                         </div>
@@ -271,7 +278,7 @@
                             prod.lastSyncedCount = cur; 
                             change = true;
                         } else if(diff < 0) { 
-                            // If shipped count decreased (cancelled?), we don't automatically return stock to keep it safe, just update sync count
+                            // If shipped count decreased (cancelled?), we don't automatically return stock
                             prod.lastSyncedCount = cur; 
                             change = true; 
                         }
@@ -341,15 +348,15 @@
             filtered.forEach(p => {
                 const s = parseInt(p.stockReturn)||0;
                 list.innerHTML += `
-                    <div class="flex justify-between items-center bg-white p-2 rounded-xl text-sm border border-slate-100 hover:border-slate-200 transition group">
+                    <div class="flex justify-between items-center bg-white p-3 rounded-xl text-sm border border-slate-100 hover:border-slate-300 transition group shadow-sm">
                         <div class="flex-1 min-w-0">
-                            <div class="font-bold text-slate-700 text-xs truncate" title="${p.name}">${p.name}</div>
-                            <div class="text-[9px] text-slate-400 font-mono">${p.cost} DH</div>
+                            <div class="font-bold text-slate-800 text-xs truncate" title="${p.name}">${p.name}</div>
+                            <div class="text-[10px] text-slate-400 font-mono font-bold mt-0.5">${p.cost} DH</div>
                         </div>
                         <div class="flex items-center gap-1 bg-slate-50 border border-slate-200 rounded-lg p-0.5">
-                            <button onclick="modifyStock('${p.name}', -1)" class="w-6 h-6 bg-white text-slate-400 rounded hover:bg-red-50 hover:text-red-500 font-bold text-xs">-</button>
-                            <span class="w-6 text-center text-xs font-black text-slate-700">${s}</span>
-                            <button onclick="modifyStock('${p.name}', 1)" class="w-6 h-6 bg-white text-slate-400 rounded hover:bg-emerald-50 hover:text-emerald-500 font-bold text-xs">+</button>
+                            <button onclick="modifyStock('${p.name}', -1)" class="w-7 h-7 bg-white text-slate-400 rounded-md hover:bg-red-50 hover:text-red-500 font-bold text-xs shadow-sm transition">-</button>
+                            <span class="w-8 text-center text-xs font-black text-slate-700">${s}</span>
+                            <button onclick="modifyStock('${p.name}', 1)" class="w-7 h-7 bg-white text-slate-400 rounded-md hover:bg-emerald-50 hover:text-emerald-500 font-bold text-xs shadow-sm transition">+</button>
                         </div>
                         <button onclick="removeProduct('${p.name}')" class="mx-1 text-slate-300 hover:text-red-400 opacity-0 group-hover:opacity-100 transition">&times;</button>
                     </div>`;
@@ -386,21 +393,22 @@
 
             filtered.forEach((t, i) => {
                 let col = t.type==='income'?'text-emerald-500':(t.type==='payment'?'text-red-500':'text-orange-500');
+                let bg = t.type==='income'?'bg-emerald-50':(t.type==='payment'?'bg-red-50':'bg-orange-50');
                 let icon = t.type==='income'?'↓':(t.type==='payment'?'↑':'•');
-                // We need actual index in main array for deletion if we filter. 
-                // For simplicity, deleting from filtered view might delete wrong item if not careful. 
-                // Let's find index in original array.
                 const originalIndex = data.financials.indexOf(t);
 
                 list.innerHTML += `
-                    <div class="flex justify-between items-center bg-white p-2 rounded-lg text-xs border-b border-slate-50 hover:bg-slate-50 transition group">
-                        <div class="text-slate-600 font-bold truncate flex-1">
-                            <span class="text-[8px] text-slate-300 mr-1">${icon}</span> ${t.desc} 
-                            <span class="text-[8px] text-slate-300 font-normal ml-1">${t.date}</span>
+                    <div class="flex justify-between items-center bg-white p-2.5 rounded-xl text-xs border border-slate-100 hover:shadow-sm transition group">
+                        <div class="text-slate-700 font-bold truncate flex-1 flex items-center gap-2">
+                            <span class="w-5 h-5 flex items-center justify-center rounded-full ${bg} ${col} font-black text-[10px]">${icon}</span>
+                            <div class="flex flex-col">
+                                <span>${t.desc}</span>
+                                <span class="text-[9px] text-slate-300 font-normal">${t.date}</span>
+                            </div>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <span class="font-black ${col}">${t.amount}</span>
-                            <button onclick="data.financials.splice(${originalIndex},1);renderFinancials();updateDashboard();triggerAutoSave()" class="text-slate-200 hover:text-red-500 font-bold text-lg leading-none opacity-0 group-hover:opacity-100 transition">&times;</button>
+                        <div class="flex items-center gap-3 pl-2">
+                            <span class="font-black ${col} text-sm">${t.amount}</span>
+                            <button onclick="data.financials.splice(${originalIndex},1);renderFinancials();updateDashboard();triggerAutoSave()" class="text-slate-300 hover:text-red-500 font-bold text-lg leading-none opacity-0 group-hover:opacity-100 transition">&times;</button>
                         </div>
                     </div>`;
             });
@@ -428,7 +436,7 @@
                 
                 // Desktop Row
                 body.innerHTML += `
-                    <tr class="hover:bg-slate-50 transition">
+                    <tr class="hover:bg-slate-50 transition border-b border-slate-50 last:border-0">
                         <td class="p-3 ${align} font-bold text-slate-700 text-xs">${pName}</td>
                         <td class="p-3 text-center font-bold text-xs">${total}</td>
                         <td class="p-3 text-center text-emerald-600 font-bold text-xs bg-emerald-50 rounded-lg">${used}</td>
@@ -436,19 +444,20 @@
                         <td class="p-3 ${alignEnd} font-black text-red-500 text-xs">${rowT}</td>
                     </tr>`;
                 
-                // Mobile Card (More practical)
+                // Mobile Card
                 mobile.innerHTML += `
-                    <div class="bg-white p-3 rounded-xl border border-slate-100 flex justify-between items-center shadow-sm">
-                        <div class="flex-1 min-w-0">
-                            <div class="font-bold text-slate-800 text-xs truncate">${pName}</div>
-                            <div class="text-[10px] text-slate-400 mt-1 flex gap-2">
-                                <span>Total: <b class="text-slate-600">${total}</b></span>
-                                <span>Stock: <b class="text-emerald-500">${used}</b></span>
+                    <div class="bg-white p-4 rounded-2xl border border-slate-100 flex justify-between items-center shadow-sm relative overflow-hidden">
+                        <div class="absolute left-0 top-0 bottom-0 w-1 bg-slate-200"></div>
+                        <div class="flex-1 min-w-0 pl-2">
+                            <div class="font-bold text-slate-800 text-sm truncate">${pName}</div>
+                            <div class="text-[10px] text-slate-400 mt-1 flex gap-3">
+                                <span class="bg-slate-50 px-1.5 py-0.5 rounded">Total: <b class="text-slate-600">${total}</b></span>
+                                <span class="bg-emerald-50 px-1.5 py-0.5 rounded text-emerald-600">Stock: <b>${used}</b></span>
                             </div>
                         </div>
-                        <div class="text-right pl-2 border-l border-slate-50">
-                            <div class="font-black text-red-500 text-sm">${rowT} <span class="text-[8px]">DH</span></div>
-                            <div class="text-[9px] text-slate-400">New: ${paid}</div>
+                        <div class="text-right pl-3 border-l border-slate-50">
+                            <div class="font-black text-red-500 text-base">${rowT} <span class="text-[9px]">DH</span></div>
+                            <div class="text-[10px] text-slate-400 font-bold">New: ${paid}</div>
                         </div>
                     </div>`;
             }
@@ -481,8 +490,8 @@
             
             // Color logic for profit
             const profEl = document.getElementById('netProfit');
-            if(prof < 0) profEl.className = "text-2xl font-black text-red-400 mt-1";
-            else profEl.className = "text-2xl font-black text-emerald-400 mt-1";
+            if(prof < 0) profEl.className = "text-2xl md:text-3xl font-black text-red-400 mt-1";
+            else profEl.className = "text-2xl md:text-3xl font-black text-emerald-400 mt-1";
         }
     </script>
 </body>
