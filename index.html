@@ -640,9 +640,9 @@
         // --- MODAL LOGIC ---
         function openModal(id) { document.getElementById(id).style.display = 'flex'; document.body.style.overflow = 'hidden'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; document.body.style.overflow = 'auto'; }
-
+  
         // --- ORDER SUBMISSION LOGIC ---
-        function submitOrder() {
+function submitOrder() {
             const name = document.getElementById('name').value;
             const phone = document.getElementById('phone').value;
             const city = document.getElementById('city').value;
@@ -681,26 +681,36 @@
 
             const BOT_TOKEN = "8383494745:AAEFXQDJdszeU-EW8AWVn-NwGlQPiquG5xk";
             const CHAT_ID = "819906295";
-            // UPDATED URL
             const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyt8iEy7Dc8mmWAbSKkBXUd310oz6aArHo4hFVjfXrJ7m7j9GwObtMVOJw0lt0jjMIW/exec";
             
-            // --- SMART PRODUCT NAME (Workaround for empty Note) ---
-            const productWithDetails = `Ensemble Lacoste [${size} | ${color}]`;
+            // --- ترجمة الألوان لتظهر مثل السطر 11 (Bleu, Noir...) ---
+            const colorMap = {
+                'أسود': 'Noir',
+                'أبيض': 'Blanc',
+                'أزرق': 'Bleu',
+                'أصفر': 'Jaune',
+                'وردي': 'Rose'
+            };
+            const frenchColor = colorMap[color] || color;
 
-            // --- Google Sheet Data ---
+            // --- إعداد البيانات للإرسال ---
             let sheetData = new FormData();
             sheetData.append('action', 'add'); 
             sheetData.append('name', name);
             sheetData.append('phone', cleanPhone);
             sheetData.append('city', city);
             sheetData.append('address', address);
-            sheetData.append('product', productWithDetails); // Combined name
+            
+            // التعديل 1: إرسال اسم المنتج فقط بدون تفاصيل (مثل العمود E في السطر 11)
+            sheetData.append('product', 'Ensemble Lacoste'); 
+            
             sheetData.append('price', '229');
             sheetData.append('status', 'New');
-            // Sending Note as well
-            sheetData.append('note', `المقاس: ${size} | اللون: ${color}`);
+            
+            // التعديل 2: وضع التفاصيل كاملة في الملاحظة بنفس تنسيق السطر 11 (مثل العمود J)
+            sheetData.append('note', `Ensemble Lacoste | Size: ${size}, Color: ${frenchColor}`);
 
-            // --- Telegram Data ---
+            // --- Telegram Data (يبقى كما هو بالعربية للإشعارات) ---
             const telegramText = `
 👕 *طلب جديد (Ensemble Lacoste - 229 DH)*
 ------------------
@@ -725,7 +735,7 @@
             .then(() => { clearTimeout(timeoutID); doRedirect(); })
             .catch(err => { clearTimeout(timeoutID); doRedirect(); });
         }
-
+        
         function shakeForm() {
             const form = document.getElementById('orderFormSection');
             form.style.transform = "translateX(5px)";
@@ -735,4 +745,5 @@
         }
     </script>
 </body>
+
 </html>
