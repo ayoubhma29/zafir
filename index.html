@@ -1,745 +1,1189 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="fr" dir="ltr" class="scroll-smooth">
 <head>
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Ensemble Lacoste - الأناقة والراحة" />
-    <meta property="og:description" content="أحسن أونسومبل لهذا الموسم! قطن ممتاز وتصميم أنيق. التوصيل فابور لجميع المدن والدفع عند الاستلام." />
-    <meta property="og:image" content="https://zafir.shop/1.jpg" />
-    <meta property="og:url" content="https://zafir.shop" />
-    <meta name="twitter:card" content="summary_large_image">
-
-    <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '2333750730380978');
-    fbq('track', 'PageView');
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ensemble Lacoste - عرض خاص</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --primary: #1e3a8a; 
-            --accent: #f97316;  
-            --bg: #f8fafc;
-            --white: #ffffff;
-            --text-main: #1e293b;
-            --success: #10b981;
-            --danger: #dc2626;
-        }
-
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
-        body { 
-            font-family: 'Cairo', sans-serif; 
-            background-color: var(--bg); 
-            margin: 0; 
-            padding: 0; 
-            color: var(--text-main); 
-            padding-bottom: 90px; 
-            opacity: 0; 
-            animation: fadeInPage 0.3s ease-out forwards; 
-        }
-
-        @keyframes fadeInPage { from { opacity: 0; } to { opacity: 1; } }
-        
-        .main-wrapper { 
-            max-width: 500px; 
-            margin: 0 auto; 
-            background: var(--white); 
-            min-height: 100vh;
-            box-shadow: 0 0 20px rgba(0,0,0,0.05);
-        }
-
-        /* Navbar */
-        .navbar { 
-            background: var(--white); 
-            padding: 10px 15px; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03); 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            position: sticky; 
-            top: 0; 
-            z-index: 50; 
-        }
-        .brand-logo { font-size: 22px; font-weight: 900; color: var(--primary); letter-spacing: 1px; text-transform: uppercase; }
-
-        /* Promo Bar */
-        .promo-bar { background: var(--primary); color: white; font-size: 11px; padding: 6px 0; overflow: hidden; position: relative; direction: ltr; }
-        .marquee-track { display: flex; width: max-content; animation: scroll-seamless 25s linear infinite; }
-        .marquee-item { padding: 0 15px; font-weight: 700; flex-shrink: 0; }
-        @keyframes scroll-seamless { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
-
-        /* Gallery */
-        .gallery-area { position: relative; background: #fff; margin-bottom: 5px; }
-        .discount-badge { 
-            position: absolute; top: 15px; left: 15px; 
-            background: var(--danger); color: white; 
-            padding: 4px 10px; border-radius: 4px; 
-            font-weight: 700; font-size: 12px; z-index: 10; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            animation: pulse-red 2s infinite;
-        }
-        @keyframes pulse-red { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-        
-        .main-image-frame { 
-            height: 400px; 
-            display: flex; align-items: center; justify-content: center; 
-            overflow: hidden; padding: 5px; position: relative;
-        }
-        .main-image-frame img { max-width: 100%; max-height: 100%; object-fit: cover; transition: opacity 0.2s ease; border-radius: 4px;}
-        
-        .nav-arrow { 
-            position: absolute; top: 50%; transform: translateY(-50%); 
-            background: rgba(255,255,255,0.9); 
-            width: 40px; height: 40px; border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; 
-            color: var(--primary); cursor: pointer; z-index: 5; 
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-size: 20px; 
-        }
-        .prev-arrow { right: 10px; } .next-arrow { left: 10px; }
-        
-        .thumbnails-row { 
-            display: flex; gap: 8px; padding: 0 10px 10px 10px; 
-            overflow-x: auto; justify-content: flex-start; 
-            scrollbar-width: none; 
-        }
-        .thumbnails-row::-webkit-scrollbar { display: none; }
-        .thumb-item { 
-            width: 60px; height: 60px; border-radius: 8px; 
-            border: 1px solid #e2e8f0; cursor: pointer; object-fit: cover; 
-            flex-shrink: 0; 
-        }
-        .thumb-item.selected { border-color: var(--accent); border-width: 2px; }
-
-        /* Info Section */
-        .info-section { padding: 15px; }
-        .title-area h1 { font-size: 20px; font-weight: 800; margin: 0 0 10px 0; line-height: 1.4; color: var(--primary); }
-        .social-proof-text { 
-            font-size: 11px; color: var(--danger); font-weight: 700; 
-            margin-bottom: 15px; display: flex; align-items: center; gap: 6px; 
-            background: #fff1f2; width: fit-content; padding: 3px 8px; border-radius: 12px;
-        }
-        .pulse-dot { width: 6px; height: 6px; background: var(--danger); border-radius: 50%; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
-
-        .price-box { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
-        .current-price { font-size: 32px; font-weight: 900; color: var(--accent); }
-        .old-price { font-size: 16px; color: #94a3b8; text-decoration: line-through; margin-top: 5px; }
-        .free-delivery-tag { background: #dcfce7; color: #166534; font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 4px; }
-
-        /* --- STYLED OPTIONS SELECTOR (SQUARES) --- */
-        .options-container { margin-bottom: 20px; }
-        .option-label { font-size: 16px; font-weight: 800; color: #1e293b; margin-bottom: 10px; display: block; text-align: right; }
-        
-        .size-grid { display: flex; gap: 10px; flex-wrap: wrap; direction: ltr; justify-content: flex-end; }
-        .size-btn { 
-            width: 45px; height: 45px; 
-            border: 1px solid #cbd5e1; border-radius: 4px; 
-            background: white; color: #1e293b; 
-            font-weight: 700; font-size: 14px; cursor: pointer; 
-            display: flex; align-items: center; justify-content: center;
-            transition: all 0.2s;
-        }
-        .size-btn:hover { border-color: var(--accent); }
-        .size-btn.active { border: 2px solid var(--accent); color: var(--accent); font-weight: 900; background: #fff7ed; }
-
-        .color-grid { display: flex; gap: 10px; flex-wrap: wrap; direction: ltr; justify-content: flex-end; }
-        .color-btn { 
-            width: 40px; height: 40px; border-radius: 4px; 
-            border: 1px solid #e2e8f0; cursor: pointer; 
-            position: relative; transition: all 0.2s;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .color-btn.active { border: 2px solid var(--primary); transform: scale(1.05); }
-        .color-btn.active::after { 
-            content: '✔'; color: white; position: absolute; 
-            top: 50%; left: 50%; transform: translate(-50%, -50%); 
-            font-size: 14px; text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-        }
-        /* Color Swatches */
-        .bg-black { background: #1a1a1a; }
-        .bg-white-opt { background: #ffffff; }
-        .bg-blue { background: #2563eb; }
-        .bg-yellow { background: #facc15; }
-        .bg-pink { background: #fb7185; }
-
-        /* Form Styles Updated */
-        .form-wrapper { background: white; padding: 20px 15px; margin: 0 15px 25px 15px; border-radius: 12px; border: 2px solid #e2e8f0; box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
-        .input-group { margin-bottom: 12px; text-align: right; position: relative; }
-        .input-group label { display: block; font-size: 12px; font-weight: 800; margin-bottom: 6px; color: #1e293b; }
-        .input-icon-wrapper { position: relative; }
-        .input-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 16px; pointer-events: none; }
-        .custom-input { width: 100%; padding: 12px 35px 12px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: 'Cairo'; font-size: 15px; background: #f8fafc; transition: all 0.3s; }
-        .custom-input:focus { border-color: var(--accent); background: white; outline: none; }
-
-        /* New Static Button Style */
-        .static-btn {
-            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-            color: white; border: none; width: 100%; padding: 14px;
-            border-radius: 8px; font-size: 16px; font-weight: 900;
-            box-shadow: 0 4px 15px rgba(234, 88, 12, 0.3);
-            cursor: pointer; margin-top: 10px; display: flex;
-            align-items: center; justify-content: center; gap: 8px;
-            transition: transform 0.2s;
-        }
-        .static-btn:active { transform: scale(0.98); }
-
-        .trust-box {
-            background: #f0fdf4; border: 1px dashed #16a34a;
-            color: #14532d; padding: 12px; border-radius: 8px;
-            margin-bottom: 25px; font-size: 12px; line-height: 1.5;
-        }
-        .trust-list { list-style: none; padding: 0; margin: 0; }
-        .trust-list li { margin-bottom: 4px; display: flex; align-items: flex-start; gap: 6px; }
-
-        .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 25px; }
-        .feat-card { background: #f8fafc; padding: 10px 5px; border-radius: 8px; text-align: center; border: 1px solid #e2e8f0; }
-        .feat-title { font-weight: 700; font-size: 10px; color: var(--primary); margin: 5px 0 0 0; }
-
-        .rich-content { background: white; margin-bottom: 25px; }
-        .desc-intro { font-size: 13px; line-height: 1.7; color: #475569; margin-bottom: 20px; font-weight: 600; }
-        
-        .benefit-row { display: flex; gap: 10px; margin-bottom: 15px; align-items: flex-start; }
-        .check-icon { min-width: 20px; height: 20px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 10px; margin-top: 2px; flex-shrink: 0; }
-        .benefit-text h3 { margin: 0 0 4px 0; font-size: 14px; font-weight: 800; color: #1e293b; }
-        .benefit-text p { margin: 0; font-size: 12px; color: #64748b; line-height: 1.5; }
-
-        .specs-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 12px; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; }
-        .specs-table td { padding: 10px; border-bottom: 1px solid #e2e8f0; }
-        .specs-table tr:last-child td { border-bottom: none; }
-        .specs-table tr:nth-child(odd) { background: #f8fafc; }
-        .spec-label { font-weight: 800; color: var(--primary); width: 35%; }
-        .spec-val { font-weight: 700; color: #475569; }
-
-        .box-contents { background: #f8fafc; padding: 15px; border-radius: 8px; margin-top: 20px; border: 1px dashed #cbd5e1; }
-        .box-title { font-weight: 800; color: var(--primary); margin-bottom: 10px; display: block; font-size: 13px; }
-        .box-list { list-style: none; padding: 0; margin: 0; }
-        .box-list li { margin-bottom: 6px; display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 12px; color: #334155; }
-        .box-list li::before { content: "✔"; color: var(--accent); }
-
-        .reviews-section { margin-top: 30px; }
-        .section-heading { text-align: center; margin-bottom: 15px; font-size: 16px; font-weight: 900; color: var(--primary); }
-        .rating-summary { background: #fffbeb; border: 1px solid #fcd34d; padding: 10px; text-align: center; border-radius: 6px; font-size: 12px; font-weight: 700; color: #92400e; margin-bottom: 15px; }
-        .review-card { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin-bottom: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
-        .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-        .reviewer-name { font-weight: 800; font-size: 12px; color: #1e293b; }
-        .verified-badge { background: #dcfce7; color: #166534; font-size: 10px; padding: 2px 5px; border-radius: 4px; font-weight: 700; }
-        .stars { color: #fbbf24; font-size: 12px; }
-        .review-text { font-size: 12px; color: #475569; line-height: 1.5; background: #f8fafc; padding: 10px; border-radius: 6px; font-style: italic; }
-
-        .site-footer { background: #f8fafc; padding: 30px 15px; text-align: center; border-top: 1px solid #e2e8f0; font-size: 11px; color: #64748b; margin-top: 30px; }
-        .footer-links { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
-        .footer-link { color: var(--primary); text-decoration: none; font-weight: 700; cursor: pointer; }
-
-        /* --- FLOATING TRANSPARENT STICKY BAR --- */
-        .sticky-bar { 
-            position: fixed; 
-            bottom: 10px; 
-            left: 0; 
-            right: 0; 
-            z-index: 100; 
-            background: transparent;
-            padding: 0 20px; 
-            display: flex; 
-            justify-content: center;
-            pointer-events: none;
-        }
-        .cta-btn { 
-            pointer-events: auto;
-            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); 
-            color: white; border: none; width: 100%; max-width: 500px; 
-            padding: 10px 15px; 
-            border-radius: 50px; 
-            font-size: 15px; 
-            font-weight: 900; 
-            box-shadow: 0 8px 25px rgba(234, 88, 12, 0.5); 
-            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; 
-            animation: pulse-btn 2s infinite;
-        }
-        @keyframes pulse-btn { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
-
-        .whatsapp-float {
-            position: fixed; bottom: 90px; right: 15px; 
-            background-color: #25d366; color: white;
-            width: 50px; height: 50px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 28px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            z-index: 101; cursor: pointer; text-decoration: none;
-        }
-
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 15px; backdrop-filter: blur(2px); }
-        .modal-content { background: white; width: 100%; max-width: 450px; border-radius: 12px; padding: 20px; position: relative; max-height: 85vh; overflow-y: auto; text-align: right; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-        .modal-close { position: absolute; left: 15px; top: 15px; background: #f1f5f9; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #64748b; font-weight: bold; font-size: 14px; }
-        .modal-title { color: var(--primary); font-size: 16px; font-weight: 900; margin-bottom: 15px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; }
-        .modal-text { font-size: 13px; line-height: 1.7; color: #334155; }
-        .modal-text p { margin-bottom: 10px; }
-    </style>
-</head>
-<body>
-
-    <div class="promo-bar">
-        <div class="marquee-track">
-            <span class="marquee-item">🛡️ ضمان الجودة 100% | 🚚 توصيل مجاني لجميع المدن | ↩️ الدفع عند الاستلام</span>
-            <span class="marquee-item">🛡️ ضمان الجودة 100% | 🚚 توصيل مجاني لجميع المدن | ↩️ الدفع عند الاستلام</span>
-        </div>
-    </div>
-
-    <div class="navbar">
-        <div class="brand-logo">ZAFIR<span style="color:var(--accent)">.</span></div>
-    </div>
-
-    <div class="main-wrapper">
-        
-        <div class="gallery-area" id="galleryBox">
-            <span class="discount-badge">عرض خاص -35%</span>
-            <div class="main-image-frame">
-                <div class="nav-arrow prev-arrow" onclick="prevSlide()">&#10094;</div>
-                <div class="nav-arrow next-arrow" onclick="nextSlide()">&#10095;</div>
-                <img id="currentImg" src="1.jpg" alt="Ensemble Lacoste">
-            </div>
-            <div class="thumbnails-row">
-                <img src="1.jpg" class="thumb-item selected" onclick="setImg(0)">
-                <img src="2.jpg" class="thumb-item" onclick="setImg(1)">
-                <img src="3.jpg" class="thumb-item" onclick="setImg(2)">
-                <img src="4.jpg" class="thumb-item" onclick="setImg(3)">
-                <img src="5.jpg" class="thumb-item" onclick="setImg(4)">
-            </div>
-        </div>
-
-        <div class="info-section">
-            <div class="title-area">
-                <h1>Ensemble Lacoste (Sweat + Pantalon) - الجودة العالية</h1>
-                <div class="social-proof-text">
-                    <div class="pulse-dot"></div>
-                    تم بيع 45 قطعة في آخر ساعة
-                </div>
-            </div>
-
-            <div class="price-box">
-                <div class="current-price">229 درهم</div>
-                <div class="old-price">350 درهم</div>
-                <div class="free-delivery-tag">🚀 توصيل مجاني</div>
-            </div>
-        </div>
-
-        <div class="form-wrapper" id="orderFormSection">
-            <div style="text-align:center; margin-bottom:20px">
-                <h2 style="margin:0; color:var(--primary); font-size:18px; font-weight:900">📝 املأ الاستمارة للطلب</h2>
-                <p style="font-size:12px; color:#64748b; margin-top:5px">الدفع عند الاستلام والتوصيل مجاني</p>
-            </div>
-
-            <form id="telegramForm" onsubmit="return false;">
-                
-                <div class="options-container">
-                    <label class="option-label">القياس</label>
-                    <div class="size-grid">
-                        <div class="size-btn" onclick="selectSize(this, 'S')">S</div>
-                        <div class="size-btn" onclick="selectSize(this, 'M')">M</div>
-                        <div class="size-btn selected" onclick="selectSize(this, 'L')">L</div>
-                        <div class="size-btn" onclick="selectSize(this, 'XL')">XL</div>
-                        <div class="size-btn" onclick="selectSize(this, 'XXL')">XXL</div>
-                    </div>
-                    <input type="hidden" id="selectedSize" value="L">
-                </div>
-
-                <div class="options-container">
-                    <label class="option-label">اللون</label>
-                    <div class="color-grid">
-                        <div class="color-btn bg-black selected" onclick="selectColor(this, 'أسود')"></div>
-                        <div class="color-btn bg-white-opt" onclick="selectColor(this, 'أبيض')"></div>
-                        <div class="color-btn bg-blue" onclick="selectColor(this, 'أزرق')"></div>
-                        <div class="color-btn bg-yellow" onclick="selectColor(this, 'أصفر')"></div>
-                        <div class="color-btn bg-pink" onclick="selectColor(this, 'وردي')"></div>
-                    </div>
-                    <input type="hidden" id="selectedColor" value="أسود">
-                </div>
-                <hr style="border:0; border-top:1px dashed #e2e8f0; margin:15px 0;">
-
-                <div class="input-group">
-                    <label>الاسم الكامل</label>
-                    <div class="input-icon-wrapper">
-                        <span class="input-icon">👤</span>
-                        <input type="text" id="name" class="custom-input" placeholder="الاسم والنسب" required>
-                    </div>
-                </div>
-
-                <div class="input-group">
-                    <label>رقم الهاتف</label>
-                    <div class="input-icon-wrapper">
-                        <span class="input-icon">📱</span>
-                        <input type="tel" id="phone" class="custom-input" placeholder="06XXXXXXXX" required>
-                    </div>
-                </div>
-
-                <div class="input-group">
-                    <label>المدينة</label>
-                    <div class="input-icon-wrapper">
-                        <span class="input-icon">🏙️</span>
-                        <input type="text" id="city" class="custom-input" placeholder="مدينتك" required>
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label>العنوان (اختياري)</label>
-                    <div class="input-icon-wrapper">
-                        <span class="input-icon">📍</span>
-                        <input type="text" id="address" class="custom-input" placeholder="الحي، رقم المنزل...">
-                    </div>
-                </div>
-
-                <button type="button" class="static-btn" onclick="submitOrder()">
-                    🛒 اضغط هنا للطلب - 229 درهم
-                </button>
-
-            </form>
-        </div>
-
-        <div class="info-section">
-
-            <div class="trust-box">
-                <div class="trust-title">🛡️ تسوق بكل ثقة وأمان!</div>
-                <ul class="trust-list">
-                    <li>
-                        <span style="font-size:18px">✅</span>
-                        <span><strong>افتح وجرب قبل الدفع:</strong> من حقك فتح الطرد، التأكد من القماش والمقاس (La Taille) قبل الدفع للمندوب.</span>
-                    </li>
-                    <li>
-                        <span style="font-size:18px">✅</span>
-                        <span><strong>ضمان الجودة:</strong> صور حقيقية 100%، ما تراه هو ما ستحصل عليه.</span>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="features-grid">
-                <div class="feat-card">
-                    <span style="font-size:22px">👕</span>
-                    <p class="feat-title">قطن ممتاز</p>
-                </div>
-                <div class="feat-card">
-                    <span style="font-size:22px">❄️</span>
-                    <p class="feat-title">مثالي للشتاء</p>
-                </div>
-                <div class="feat-card">
-                    <span style="font-size:22px">🎨</span>
-                    <p class="feat-title">ألوان متعددة</p>
-                </div>
-                <div class="feat-card">
-                    <span style="font-size:22px">✨</span>
-                    <p class="feat-title">تصميم أنيق</p>
-                </div>
-            </div>
-
-            <div class="rich-content">
-                <p class="desc-intro">
-                    جدد ستايلك مع هذا الأونسومبل الرائع!<br>
-                    مزيج مثالي بين الراحة والأناقة، مصنوع من قماش قطني عالي الجودة ليدوم طويلاً ويمنحك الدفء.
-                </p>
-
-                <div class="benefit-row">
-                    <div class="check-icon">✓</div>
-                    <div class="benefit-text">
-                        <h3>🔥 جودة ممتازة (Premier Choix)</h3>
-                        <p>مصنوع من ثوب المليح (Coton) الذي لا ينكمش ولا يتغير لونه مع الغسيل. خياطة متقنة وتفاصيل دقيقة.</p>
-                    </div>
-                </div>
-                <div class="benefit-row">
-                    <div class="check-icon">✓</div>
-                    <div class="benefit-text">
-                        <h3>👟 ستايل كاجوال ورياضي</h3>
-                        <p>مناسب للارتداء اليومي، للخرجات، أو للرياضة. يمنحك مظهراً جذاباً ومريحاً في نفس الوقت.</p>
-                    </div>
-                </div>
-                <div class="benefit-row">
-                    <div class="check-icon">✓</div>
-                    <div class="benefit-text">
-                        <h3>📐 مقاسات مضبوطة (Standard Fit)</h3>
-                        <p>متوفر بجميع المقاسات ليناسب جميع الأجسام، مع قصة (Coupe) عصرية تبرز جمالية المظهر.</p>
-                    </div>
-                </div>
-
-                <h3 style="margin-top:25px; color:var(--primary); font-size:15px; font-weight: 800;">⚙️ المواصفات:</h3>
-                <table class="specs-table">
-                    <tr><td class="spec-label">نوع القماش</td><td class="spec-val">Coton (قطن)</td></tr>
-                    <tr><td class="spec-label">القطع</td><td class="spec-val">سويت شيرت + سروال</td></tr>
-                    <tr><td class="spec-label">المقاسات</td><td class="spec-val">S, M, L, XL, XXL</td></tr>
-                    <tr><td class="spec-label">الألوان</td><td class="spec-val">أسود، أبيض، أزرق، أصفر، وردي</td></tr>
-                </table>
-
-                <div class="box-contents">
-                    <span class="box-title">📦 ستتوصل بـ:</span>
-                    <ul class="box-list">
-                        <li>1x سويت شيرت (Sweatshirt)</li>
-                        <li>1x سروال رياضي (Pantalon Jogging)</li>
-                        <li>هدية: التوصيل مجاني لباب المنزل</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="reviews-section">
-                <div class="section-heading">💬 آراء الزبائن</div>
-                
-                <div class="rating-summary">⭐ 4.8/5 بناءً على آراء الزبائن الراضين</div>
-
-                <div class="review-card">
-                    <div class="review-header">
-                        <span class="reviewer-name">سفيان (الدار البيضاء) <span class="verified-badge">شراء مؤكد</span></span>
-                        <div class="stars">★★★★★</div>
-                    </div>
-                    <div class="review-text">"صراحة الثوب مليح بزاف وسخون، خديت الأسود وجاني هو هذاك فالقياس. شكراً على التعامل."</div>
-                </div>
-
-                <div class="review-card">
-                    <div class="review-header">
-                        <span class="reviewer-name">مراد (طنجة) <span class="verified-badge">شراء مؤكد</span></span>
-                        <div class="stars">★★★★★</div>
-                    </div>
-                    <div class="review-text" dir="ltr" style="text-align: left;">"Très bonne qualité, le coton est excellent et la livraison était rapide. Je recommande vivement !"</div>
-                </div>
-
-                <div class="review-card">
-                    <div class="review-header">
-                        <span class="reviewer-name">حمزة (أكادير) <span class="verified-badge">شراء مؤكد</span></span>
-                        <div class="stars">★★★★☆</div>
-                    </div>
-                    <div class="review-text">"السلعة نقية واللون طلع كيما فالصورة. الله يسر ليكم."</div>
-                </div>
-            </div>
-
-        </div>
-
-        <footer class="site-footer">
-            <div class="footer-links">
-                <a class="footer-link" onclick="openModal('returnModal')">سياسة الاسترجاع</a>
-                <span>|</span>
-                <a class="footer-link" onclick="openModal('shippingModal')">معلومات التوصيل</a>
-                <span>|</span>
-                <a class="footer-link" onclick="openModal('contactModal')">اتصل بنا</a>
-                <span>|</span>
-                <a class="footer-link" onclick="openModal('privacyModal')">سياسة الخصوصية</a>
-            </div>
-            <div class="copyright">
-                &copy; 2026 ZAFIR. جميع الحقوق محفوظة.
-            </div>
-        </footer>
-
-    </div>
-
-    <div class="sticky-bar">
-        <button type="button" class="cta-btn" onclick="submitOrder()">
-            <span>🛒 اضغط للطلب - 229 درهم</span>
-        </button>
-    </div>
-
-    <div id="returnModal" class="modal-overlay" onclick="closeModal('returnModal')">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <div class="modal-close" onclick="closeModal('returnModal')">✕</div>
-            <div class="modal-title">♻️ سياسة الاسترجاع</div>
-            <div class="modal-text">
-                <p>نحن في ZAFIR نضمن لك الرضا الكامل عن منتجاتنا. إذا لم تكن راضياً بنسبة 100%، يمكنك استرجاع المنتج أو استبداله بسهولة.</p>
-                <p><strong>مدة الاسترجاع:</strong> لديك 7 أيام كاملة من تاريخ استلام الطلب.</p>
-                <p><strong>كيف أطلب الإرجاع؟</strong> فقط تواصل معنا عبر الواتساب.</p>
-            </div>
-        </div>
-    </div>
-
-    <div id="shippingModal" class="modal-overlay" onclick="closeModal('shippingModal')">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <div class="modal-close" onclick="closeModal('shippingModal')">✕</div>
-            <div class="modal-title">🚚 الشحن والتوصيل</div>
-            <div class="modal-text">
-                <p><strong>هل التوصيل مجاني؟</strong> نعم، التوصيل مجاني 100% لجميع المدن المغربية.</p>
-                <p><strong>متى أدفع؟</strong> الدفع يكون عند الاستلام فقط (Cash on Delivery).</p>
-            </div>
-        </div>
-    </div>
-
-    <div id="contactModal" class="modal-overlay" onclick="closeModal('contactModal')">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <div class="modal-close" onclick="closeModal('contactModal')">✕</div>
-            <div class="modal-title">📞 اتصل بنا</div>
-            <div class="modal-text">
-                <p><strong>رقم الواتساب / الهاتف:</strong> <br> <span style="font-size:16px; font-weight:bold; color:var(--accent)">0784386140</span></p>
-            </div>
-        </div>
-    </div>
-
-    <div id="privacyModal" class="modal-overlay" onclick="closeModal('privacyModal')">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <div class="modal-close" onclick="closeModal('privacyModal')">✕</div>
-            <div class="modal-title">🔒 سياسة الخصوصية</div>
-            <div class="modal-text">
-                <p>نحن نحترم خصوصيتك ونلتزم بحماية بياناتك الشخصية.</p>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // --- IMAGE GALLERY LOGIC ---
-        let currentIndex = 0;
-        const images = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg'];
-        const mainImg = document.getElementById('currentImg');
-        const thumbs = document.querySelectorAll('.thumb-item');
-
-        function updateGallery(index) {
-            if (index < 0) index = images.length - 1;
-            if (index >= images.length) index = 0;
-            currentIndex = index;
-            mainImg.style.opacity = 0;
-            setTimeout(() => {
-                mainImg.src = images[currentIndex];
-                mainImg.style.opacity = 1;
-            }, 200);
-            thumbs.forEach((t, i) => {
-                t.classList.remove('selected');
-                if(i === currentIndex) t.classList.add('selected');
-            });
-            thumbs[currentIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-        }
-        function setImg(index) { updateGallery(index); }
-        function prevSlide() { updateGallery(currentIndex - 1); }
-        function nextSlide() { updateGallery(currentIndex + 1); }
-
-        // --- MOBILE SWIPE LOGIC ---
-        let touchStartX = 0;
-        let touchEndX = 0;
-        const galleryArea = document.getElementById('galleryBox');
-        galleryArea.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, {passive: true});
-        galleryArea.addEventListener('touchend', e => { touchEndX = e.changedTouches[0].screenX; handleSwipe(); }, {passive: true});
-        function handleSwipe() {
-            if (touchEndX < touchStartX - 50) prevSlide(); 
-            if (touchEndX > touchStartX + 50) nextSlide(); 
-        }
-
-        // --- SELECTORS LOGIC (With Square Style) ---
-        function selectSize(el, size) {
-            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
-            el.classList.add('active');
-            document.getElementById('selectedSize').value = size;
-        }
-        
-        function selectColor(el, color) {
-            document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
-            el.classList.add('active');
-            document.getElementById('selectedColor').value = color;
-        }
-
-        // --- MODAL LOGIC ---
-        function openModal(id) { document.getElementById(id).style.display = 'flex'; document.body.style.overflow = 'hidden'; }
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; document.body.style.overflow = 'auto'; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PRO-TECH IT | Infogérance & Support Informatique Kénitra</title>
   
-        // --- ORDER SUBMISSION LOGIC ---
-function submitOrder() {
-            const name = document.getElementById('name').value;
-            const phone = document.getElementById('phone').value;
-            const city = document.getElementById('city').value;
-            const address = document.getElementById('address').value || "غير محدد";
-            const size = document.getElementById('selectedSize').value;
-            const color = document.getElementById('selectedColor').value;
-            
-            if(!name || !phone || !city) {
-                document.getElementById('orderFormSection').scrollIntoView({ behavior: 'smooth' });
-                shakeForm();
-                return;
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Google Fonts: Inter & Cairo -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            arabic: ['Cairo', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              200: '#bfdbfe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              800: '#1e40af',
+              900: '#1e3a8a',
             }
-
-            const phoneRegex = /^0[567][0-9]{8}$/;
-            const cleanPhone = phone.replace(/\s/g, '');
-
-            if (!phoneRegex.test(cleanPhone)) {
-                alert("المرجو إدخال رقم هاتف مغربي صحيح (مثال: 0612345678)");
-                const phoneInput = document.getElementById('phone');
-                phoneInput.style.borderColor = "red";
-                phoneInput.style.backgroundColor = "#fff1f2";
-                phoneInput.focus();
-                return;
-            }
-
-            document.getElementById('phone').style.borderColor = "#cbd5e1";
-            document.getElementById('phone').style.backgroundColor = "#f8fafc";
-
-            // Update BOTH buttons
-            const btns = document.querySelectorAll('.cta-btn, .static-btn');
-            btns.forEach(btn => {
-                btn.innerHTML = "جاري تأكيد الطلب...";
-                btn.style.background = "#94a3b8";
-                btn.disabled = true;
-            });
-
-            const BOT_TOKEN = "8383494745:AAEFXQDJdszeU-EW8AWVn-NwGlQPiquG5xk";
-            const CHAT_ID = "819906295";
-            const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyt8iEy7Dc8mmWAbSKkBXUd310oz6aArHo4hFVjfXrJ7m7j9GwObtMVOJw0lt0jjMIW/exec";
-            
-            // --- ترجمة الألوان لتظهر مثل السطر 11 (Bleu, Noir...) ---
-            const colorMap = {
-                'أسود': 'Noir',
-                'أبيض': 'Blanc',
-                'أزرق': 'Bleu',
-                'أصفر': 'Jaune',
-                'وردي': 'Rose'
-            };
-            const frenchColor = colorMap[color] || color;
-
-            // --- إعداد البيانات للإرسال ---
-            let sheetData = new FormData();
-            sheetData.append('action', 'add'); 
-            sheetData.append('name', name);
-            sheetData.append('phone', cleanPhone);
-            sheetData.append('city', city);
-            sheetData.append('address', address);
-            
-            // التعديل 1: إرسال اسم المنتج فقط بدون تفاصيل (مثل العمود E في السطر 11)
-            sheetData.append('product', 'Ensemble Lacoste'); 
-            
-            sheetData.append('price', '229');
-            sheetData.append('status', 'New');
-            
-            // التعديل 2: وضع التفاصيل كاملة في الملاحظة بنفس تنسيق السطر 11 (مثل العمود J)
-            sheetData.append('note', `Ensemble Lacoste | Size: ${size}, Color: ${frenchColor}`);
-
-            // --- Telegram Data (يبقى كما هو بالعربية للإشعارات) ---
-            const telegramText = `
-👕 *طلب جديد (Ensemble Lacoste - 229 DH)*
-------------------
-👤 *العميل:* ${name}
-📱 *الهاتف:* ${cleanPhone}
-🏙 *المدينة:* ${city}
-📍 *العنوان:* ${address}
-📏 *المقاس:* ${size}
-🎨 *اللون:* ${color}
-💰 *السعر:* 229 درهم
-------------------
-⏰ ${new Date().toLocaleString('ar-MA')}
-            `;
-
-            const doRedirect = () => { window.location.href = "thankyou.html"; };
-            const timeoutID = setTimeout(() => { doRedirect(); }, 3000);
-
-            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(telegramText)}&parse_mode=Markdown`)
-            .then(() => {
-                return fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: sheetData, mode: 'no-cors' });
-            })
-            .then(() => { clearTimeout(timeoutID); doRedirect(); })
-            .catch(err => { clearTimeout(timeoutID); doRedirect(); });
+          }
         }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased font-sans selection:bg-brand-600 selection:text-white transition-colors duration-200">
+
+  <!-- ================= TOP BAR INFO ================= -->
+  <div class="bg-slate-900 text-slate-300 text-xs py-2.5 px-4 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
+      <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 sm:gap-6">
+        <span><i class="fa-solid fa-location-dot text-brand-500 mr-1.5 ml-1.5"></i> <strong data-i18n="top_base">Basé à Kénitra :</strong> <span data-i18n="top_zones">Intervention Kénitra, AFZ & Région</span></span>
+        <span><i class="fa-solid fa-clock text-brand-500 mr-1.5 ml-1.5"></i> <span data-i18n="top_hours">Support : Lun - Ven 08h30 - 18h30 | Urgences 24/7</span></span>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="tel:+212600000000" class="hover:text-white transition flex items-center gap-1.5 font-bold text-emerald-400" dir="ltr">
+          <i class="fa-solid fa-phone"></i> +212 6 XX XX XX XX
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= NAVBAR ================= -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- LOGO -->
+      <a href="#" class="flex items-center gap-3">
+        <div class="w-11 h-11 bg-gradient-to-tr from-brand-700 to-blue-500 rounded-xl flex items-center justify-center text-white text-xl font-black shadow-md shadow-brand-500/20">
+          <i class="fa-solid fa-network-wired"></i>
+        </div>
+        <div>
+          <span class="text-2xl font-black tracking-tight text-slate-900">PRO<span class="text-brand-600">TECH</span> IT</span>
+          <p class="text-[10px] text-slate-500 font-bold tracking-wider uppercase -mt-1" data-i18n="logo_sub">Kénitra & Région Support</p>
+        </div>
+      </a>
+
+      <!-- DESKTOP NAV -->
+      <nav class="hidden lg:flex items-center gap-8 font-semibold text-slate-600 text-sm">
+        <a href="#services" class="hover:text-brand-600 transition" data-i18n="nav_services">Services</a>
+        <a href="#tarifs" class="hover:text-brand-600 transition" data-i18n="nav_packs">Packs & Tarifs</a>
+        <a href="#sla" class="hover:text-brand-600 transition" data-i18n="nav_sla">Garanties SLA</a>
+        <a href="#zone" class="hover:text-brand-600 transition" data-i18n="nav_zone">Zone d'intervention</a>
+        <a href="#contact" class="hover:text-brand-600 transition" data-i18n="nav_contact">Contact</a>
+      </nav>
+
+      <!-- LANG SELECTOR + ACTION -->
+      <div class="flex items-center gap-3">
+        <select id="langSwitcher" onchange="changeLanguage(this.value)" class="bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-800 text-xs font-bold rounded-lg px-2.5 py-2 cursor-pointer outline-none focus:ring-2 focus:ring-brand-500/20">
+          <option value="fr">🇫🇷 Français</option>
+          <option value="en">🇬🇧 English</option>
+          <option value="ar">🇲🇦 العربية</option>
+        </select>
+
+        <a href="#contact" class="hidden sm:inline-flex bg-brand-600 hover:bg-brand-700 text-white px-4 py-2.5 rounded-lg font-bold text-xs shadow-md shadow-brand-600/25 transition items-center gap-2" data-i18n="btn_header_devis">
+          <i class="fa-solid fa-file-invoice"></i> Devis / Intervention
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ================= HERO SECTION ================= -->
+  <section class="relative pt-12 pb-20 overflow-hidden bg-gradient-to-b from-white via-slate-50 to-slate-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-7 space-y-6">
+          
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-brand-700 text-xs font-bold">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span data-i18n="hero_badge">Support Informatique Dédié aux Entreprises à Kénitra</span>
+          </div>
+
+          <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.15]" data-i18n="hero_title">
+            Votre département IT externalisé, réactif et sur place.
+          </h1>
+
+          <p class="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl" data-i18n="hero_desc">
+            Ne laissez plus une panne informatique bloquer votre chiffre d'affaires. Maintenance préventive, dépannage d'urgence sur site à Kénitra et à distance, réseaux d'entreprise et sécurisation totale de vos données.
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-4 pt-2">
+            <a href="#contact" class="inline-flex justify-center items-center gap-2.5 bg-brand-600 hover:bg-brand-700 text-white text-sm sm:text-base font-bold px-8 py-4 rounded-xl shadow-lg shadow-brand-600/30 transition transform hover:-translate-y-0.5">
+              <i class="fa-solid fa-triangle-exclamation text-yellow-300"></i>
+              <span data-i18n="hero_btn_urgence">Dépannage d'urgence</span>
+            </a>
+            <a href="https://wa.me/212600000000?text=Bonjour,%20je%20souhaite%20un%20devis%20de%20maintenance%20IT" target="_blank" class="inline-flex justify-center items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm sm:text-base font-bold px-8 py-4 rounded-xl shadow-md transition">
+              <i class="fa-brands fa-whatsapp text-lg"></i>
+              <span data-i18n="hero_btn_wa">WhatsApp Direct</span>
+            </a>
+          </div>
+
+          <!-- TRUST NUMBERS -->
+          <div class="pt-6 grid grid-cols-3 gap-4 border-t border-slate-200">
+            <div>
+              <p class="text-2xl sm:text-3xl font-black text-brand-600" dir="ltr">&lt; 2h</p>
+              <p class="text-xs text-slate-500 font-semibold" data-i18n="stat_sla">Délai d'intervention critique</p>
+            </div>
+            <div>
+              <p class="text-2xl sm:text-3xl font-black text-slate-900" data-i18n="stat_zone_val">Kénitra + AFZ</p>
+              <p class="text-xs text-slate-500 font-semibold" data-i18n="stat_zone">Déplacement local immédiat</p>
+            </div>
+            <div>
+              <p class="text-2xl sm:text-3xl font-black text-emerald-600" data-i18n="stat_audit_val">OFFERT</p>
+              <p class="text-xs text-slate-500 font-semibold" data-i18n="stat_audit">Audit initial de votre parc</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- HERO CARD INTERACTIVE -->
+        <div class="lg:col-span-5 relative">
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-2xl p-6 sm:p-8 space-y-5">
+            <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                <span class="text-xs font-bold text-slate-700 uppercase" data-i18n="card_status">Centre de Support Actif</span>
+              </div>
+              <span class="text-[11px] bg-brand-50 text-brand-700 font-bold px-2 py-1 rounded" data-i18n="card_hub">Kénitra Hub</span>
+            </div>
+
+            <div class="space-y-3 text-xs">
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-start gap-3">
+                <i class="fa-solid fa-bolt text-amber-500 text-base mt-0.5 shrink-0"></i>
+                <div>
+                  <strong class="text-slate-900 block" data-i18n="card_ticket_title">Intervention Rapide sur Site</strong>
+                  <span class="text-slate-500" data-i18n="card_ticket_desc">Un technicien chez vous en moins de 2 heures pour tout arrêt de production ou blocage réseau.</span>
+                </div>
+              </div>
+              
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-start gap-3">
+                <i class="fa-solid fa-shield-halved text-brand-600 text-base mt-0.5 shrink-0"></i>
+                <div>
+                  <strong class="text-slate-900 block" data-i18n="card_sec_title">Sécurisation & Sauvegarde</strong>
+                  <span class="text-slate-500" data-i18n="card_sec_desc">Vos fichiers comptables et données clients protégés contre les virus et pannes disques.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-2">
+              <a href="#contact" class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 transition">
+                <i class="fa-solid fa-calendar-check"></i>
+                <span data-i18n="card_btn_audit">Demander un diagnostic sans engagement</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= BANNER ZONE KENITRA ================= -->
+  <section id="zone" class="bg-brand-900 text-white py-8 border-y border-brand-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-brand-800 flex items-center justify-center text-xl text-yellow-400 shrink-0">
+          <i class="fa-solid fa-map-location-dot"></i>
+        </div>
+        <div>
+          <h4 class="font-extrabold text-base sm:text-lg" data-i18n="zone_title">Périmètre d'intervention sur site :</h4>
+          <p class="text-xs sm:text-sm text-blue-200" data-i18n="zone_desc">Kénitra Centre, Atlantic Free Zone (AFZ), Mehdia, Sidi Taïbi, Sidi Yahya, Sidi Slimane, Sidi Kacem, et Salé Nord.</p>
+        </div>
+      </div>
+      <div class="shrink-0">
+        <span class="bg-brand-700/80 border border-brand-500/30 text-xs px-4 py-2 rounded-lg font-bold inline-block" data-i18n="zone_badge">
+          🚀 Déplacement sous 60-120 min garanti
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SERVICES DETAILS ================= -->
+  <section id="services" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+        <h2 class="text-xs font-bold uppercase tracking-wider text-brand-600" data-i18n="srv_subtitle">Catalogue Complet de Prestations</h2>
+        <h3 class="text-3xl sm:text-4xl font-black text-slate-900" data-i18n="srv_title">Des solutions IT conçues pour les professionnels</h3>
+        <p class="text-slate-600 text-sm" data-i18n="srv_desc">Chaque prestation est documentée et facturée avec transparence, sans mauvaises surprises.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         
-        function shakeForm() {
-            const form = document.getElementById('orderFormSection');
-            form.style.transform = "translateX(5px)";
-            setTimeout(() => form.style.transform = "translateX(0)", 100);
-            setTimeout(() => form.style.transform = "translateX(-5px)", 200);
-            setTimeout(() => form.style.transform = "translateX(0)", 300);
-        }
-    </script>
-</body>
+        <!-- SERVICE 1 -->
+        <div class="p-8 rounded-2xl bg-slate-50 border border-slate-200 hover:border-brand-500 hover:shadow-xl transition group">
+          <div class="w-12 h-12 rounded-xl bg-blue-100 text-brand-600 flex items-center justify-center text-xl mb-6 group-hover:scale-110 transition">
+            <i class="fa-solid fa-desktop"></i>
+          </div>
+          <h4 class="text-lg font-bold text-slate-900 mb-2" data-i18n="srv1_title">Dépannage & Maintenance Postes</h4>
+          <p class="text-xs text-slate-600 leading-relaxed mb-4" data-i18n="srv1_desc">
+            Diagnostic matériel et logiciel, formatage propre, réinstallation Windows avec pilotes officiels, remplacement disques HDD par SSD ultra-rapides, et extension RAM.
+          </p>
+          <div class="text-[11px] font-bold text-brand-600" data-i18n="srv1_extra">✔ Nettoyage physique interne & pâte thermique inclus</div>
+        </div>
 
+        <!-- SERVICE 2 -->
+        <div class="p-8 rounded-2xl bg-slate-50 border border-slate-200 hover:border-brand-500 hover:shadow-xl transition group">
+          <div class="w-12 h-12 rounded-xl bg-cyan-100 text-cyan-600 flex items-center justify-center text-xl mb-6 group-hover:scale-110 transition">
+            <i class="fa-solid fa-network-wired"></i>
+          </div>
+          <h4 class="text-lg font-bold text-slate-900 mb-2" data-i18n="srv2_title">Réseaux, Câblage & Baies de Brassage</h4>
+          <p class="text-xs text-slate-600 leading-relaxed mb-4" data-i18n="srv2_desc">
+            Installation et réorganisation de baies réseau, pose de prises RJ45, configuration switchs managés, routeurs, création de sous-réseaux (VLANs), et Wi-Fi sécurisé d'entreprise.
+          </p>
+          <div class="text-[11px] font-bold text-brand-600" data-i18n="srv2_extra">✔ Finie la coupure de connexion en plein travail</div>
+        </div>
+
+        <!-- SERVICE 3 -->
+        <div class="p-8 rounded-2xl bg-slate-50 border border-slate-200 hover:border-brand-500 hover:shadow-xl transition group">
+          <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl mb-6 group-hover:scale-110 transition">
+            <i class="fa-solid fa-shield-virus"></i>
+          </div>
+          <h4 class="text-lg font-bold text-slate-900 mb-2" data-i18n="srv3_title">Sauvegardes & Sécurité Anti-Ransomware</h4>
+          <p class="text-xs text-slate-600 leading-relaxed mb-4" data-i18n="srv3_desc">
+            Mise en place de serveurs NAS locaux et réplication dans le Cloud sécurisé. Sauvegarde quotidienne automatique de vos bases de données Sage, Cegid, et documents sensibles.
+          </p>
+          <div class="text-[11px] font-bold text-brand-600" data-i18n="srv3_extra">✔ Test périodique de restauration des données</div>
+        </div>
+
+        <!-- SERVICE 4 -->
+        <div class="p-8 rounded-2xl bg-slate-50 border border-slate-200 hover:border-brand-500 hover:shadow-xl transition group">
+          <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl mb-6 group-hover:scale-110 transition">
+            <i class="fa-solid fa-print"></i>
+          </div>
+          <h4 class="text-lg font-bold text-slate-900 mb-2" data-i18n="srv4_title">Imprimantes & Scanners Réseau</h4>
+          <p class="text-xs text-slate-600 leading-relaxed mb-4" data-i18n="srv4_desc">
+            Partage centralisé des imprimantes et copieurs multifonctions pour tous les collaborateurs, configuration Scan-to-Email / Scan-to-Folder, et gestion des droits d'accès.
+          </p>
+          <div class="text-[11px] font-bold text-brand-600" data-i18n="srv4_extra">✔ Impression fluide depuis n'importe quel poste</div>
+        </div>
+
+        <!-- SERVICE 5 -->
+        <div class="p-8 rounded-2xl bg-slate-50 border border-slate-200 hover:border-brand-500 hover:shadow-xl transition group">
+          <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center text-xl mb-6 group-hover:scale-110 transition">
+            <i class="fa-solid fa-headset"></i>
+          </div>
+          <h4 class="text-lg font-bold text-slate-900 mb-2" data-i18n="srv5_title">Télémaintenance & Support à Distance</h4>
+          <p class="text-xs text-slate-600 leading-relaxed mb-4" data-i18n="srv5_desc">
+            Prise de contrôle à distance sécurisée via AnyDesk ou RustDesk en moins de 15 minutes. Résolution des bugs Outlook, blocages de fichiers, et lenteurs sans attendre le technicien.
+          </p>
+          <div class="text-[11px] font-bold text-brand-600" data-i18n="srv5_extra">✔ Prise en charge immédiate sans frais de déplacement</div>
+        </div>
+
+        <!-- SERVICE 6 -->
+        <div class="p-8 rounded-2xl bg-slate-50 border border-slate-200 hover:border-brand-500 hover:shadow-xl transition group">
+          <div class="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-xl mb-6 group-hover:scale-110 transition">
+            <i class="fa-solid fa-envelope-circle-check"></i>
+          </div>
+          <h4 class="text-lg font-bold text-slate-900 mb-2" data-i18n="srv6_title">Emails Professionnels & Cloud</h4>
+          <p class="text-xs text-slate-600 leading-relaxed mb-4" data-i18n="srv6_desc">
+            Création de vos adresses pro (@votre-entreprise.ma), configuration Google Workspace ou Microsoft 365, sécurisation DNS (SPF, DKIM) pour éviter que vos emails tombent en Spam.
+          </p>
+          <div class="text-[11px] font-bold text-brand-600" data-i18n="srv6_extra">✔ Image 100% professionnelle auprès de vos clients</div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= TARIFS & PACKS ================= -->
+  <section id="tarifs" class="py-20 bg-slate-100 border-y border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+        <h2 class="text-xs font-bold uppercase tracking-wider text-brand-600" data-i18n="tarifs_subtitle">Tarifs Clairs & Forfaits Mensuels</h2>
+        <h3 class="text-3xl sm:text-4xl font-black text-slate-900" data-i18n="tarifs_title">Investissez dans la stabilité de vos outils</h3>
+        <p class="text-slate-600 text-sm" data-i18n="tarifs_desc">Choisissez la formule qui correspond exactement à la taille de votre parc informatique.</p>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-8 items-stretch">
+        
+        <!-- PACK 1: STARTER -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="text-center">
+              <span class="inline-block px-3 py-1 bg-slate-100 text-slate-700 text-xs font-bold rounded-md mb-3" data-i18n="pack1_target">TPE & Cabinets (1 à 5 postes)</span>
+              <h4 class="text-2xl font-black text-slate-900" data-i18n="pack1_title">Pack Starter</h4>
+              <p class="text-xs text-slate-500 mt-1" data-i18n="pack1_desc">Pour fiduciaires, cabinets d'avocats, agences et commerces.</p>
+            </div>
+            
+            <div class="mt-6 mb-6 pb-6 border-b border-slate-100 text-center">
+              <div class="flex items-baseline justify-center gap-1.5" dir="ltr">
+                <span class="text-4xl font-black text-slate-900">1 200</span>
+                <span class="text-slate-500 text-xs font-bold" data-i18n="currency_monthly">MAD / mois (HT)</span>
+              </div>
+            </div>
+
+            <ul class="space-y-3 text-xs text-slate-600">
+              <li class="flex items-start gap-2.5"><i class="fa-solid fa-check text-brand-600 font-bold mt-0.5 shrink-0"></i> <span data-i18n="p1_f1">Télémaintenance illimitée à distance</span></li>
+              <li class="flex items-start gap-2.5"><i class="fa-solid fa-check text-brand-600 font-bold mt-0.5 shrink-0"></i> <span data-i18n="p1_f2">1 Visite préventive mensuelle programmée</span></li>
+              <li class="flex items-start gap-2.5"><i class="fa-solid fa-check text-brand-600 font-bold mt-0.5 shrink-0"></i> <span data-i18n="p1_f3">Jusqu'à 2 dépannages sur site / mois inclus</span></li>
+              <li class="flex items-start gap-2.5"><i class="fa-solid fa-check text-brand-600 font-bold mt-0.5 shrink-0"></i> <span data-i18n="p1_f4">Support imprimantes et Wi-Fi de bureau</span></li>
+              <li class="flex items-start gap-2.5"><i class="fa-solid fa-check text-brand-600 font-bold mt-0.5 shrink-0"></i> <span data-i18n="p1_f5">Sauvegarde locale hebdomadaire vérifiée</span></li>
+              <li class="flex items-start gap-2.5 text-slate-400"><i class="fa-solid fa-xmark mt-0.5 shrink-0"></i> <span data-i18n="p1_f6">SLA critique &lt; 2h (délai standard 4h-8h)</span></li>
+            </ul>
+          </div>
+
+          <a href="#contact" class="mt-8 block text-center bg-slate-100 hover:bg-brand-600 hover:text-white text-slate-800 font-bold py-3 rounded-xl transition text-xs" data-i18n="pack_btn">
+            Commander ce pack
+          </a>
+        </div>
+
+        <!-- PACK 2: PRO (BEST SELLER) -->
+        <div class="bg-white rounded-2xl border-2 border-brand-600 p-8 shadow-2xl relative flex flex-col justify-between transform lg:-translate-y-2">
+          <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-brand-600 to-cyan-600 text-white text-[11px] font-black py-1 px-4 rounded-full uppercase tracking-wider shadow whitespace-nowrap" data-i18n="badge_recommended">
+            Recommandé pour PME
+          </div>
+
+          <div>
+            <div class="text-center">
+              <span class="inline-block px-3 py-1 bg-brand-50 text-brand-700 text-xs font-bold rounded-md mb-3" data-i18n="pack2_target">PME & Ateliers (6 à 15 postes)</span>
+              <h4 class="text-2xl font-black text-slate-900" data-i18n="pack2_title">Pack Pro</h4>
+              <p class="text-xs text-slate-500 mt-1" data-i18n="pack2_desc">Pour les entreprises ayant un réseau partagé et des serveurs/NAS.</p>
+            </div>
+            
+            <div class="mt-6 mb-6 pb-6 border-b border-slate-100 text-center">
+              <div class="flex items-baseline justify-center gap-1.5" dir="ltr">
+                <span class="text-4xl font-black text-brand-600">2 500</span>
+                <span class="text-slate-500 text-xs font-bold" data-i18n="currency_monthly">MAD / mois (HT)</span>
+              </div>
+            </div>
+
+            <ul class="space-y-3 text-xs text-slate-700 font-medium">
+              <li class="flex items-start gap-2.5"><i class="fa-solid fa-check text-brand-600 font-bold mt-0.5 shrink-0"></i> <strong data-i18n="p2_f1">Télémaintenance prioritaire illimitée</strong></li>
+              <li class="flex items-start gap-2.5"><i class="fa-solid fa-check text-brand-600 font-bold mt-0.5 shrink-0"></i> <span data-i18n="p2_f2">2 Visites préventives mensuelles complètes</span></li>
+              <li class="flex items-start gap-2.5"><i class="fa-solid fa-check text-brand-600 font-bold mt-0.5 shrink-0"></i> <span data-i18n="p2_f3">Jusqu'à 4 interventions sur site / mois incluses</span></li>
+              <li class="flex items-start gap-2.5"><i class="fa-solid fa-check text-brand-600 font-bold mt-0.5 shrink-0"></i> <strong data-i18n="p2_f4">Délai d'intervention garanti &lt; 2h en cas d'urgence</strong></li>
+              <li class="flex items-start gap-2.5"><i class="fa-solid fa-check text-brand-600 font-bold mt-0.5 shrink-0"></i> <span data-i18n="p2_f5">Sauvegarde Cloud / NAS automatique quotidienne</span></li>
+              <li class="flex items-start gap-2.5 text-emerald-600 font-bold"><i class="fa-solid fa-check font-bold mt-0.5 shrink-0"></i> <span data-i18n="p2_f6">Audit initial complet du parc offert (Valeur 1500 DH)</span></li>
+            </ul>
+          </div>
+
+          <a href="#contact" class="mt-8 block text-center bg-brand-600 hover:bg-brand-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-brand-600/30 transition text-xs" data-i18n="pack_btn_pro">
+            Choisir le Pack Pro
+          </a>
+        </div>
+
+        <!-- PACK 3: CUSTOM / AFZ -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="text-center">
+              <span class="inline-block px-3 py-1 bg-slate-100 text-slate-700 text-xs font-bold rounded-md mb-3" data-i18n="pack3_target">Industrie & Parcs &gt; 16 postes</span>
+              <h4 class="text-2xl font-black text-slate-900" data-i18n="pack3_title">Pack Custom</h4>
+              <p class="text-xs text-slate-500 mt-1" data-i18n="pack3_desc">Pour usines zone franche (AFZ), écoles, et grandes structures.</p>
+            </div>
+            
+            <div class="mt-6 mb-6 pb-6 border-b border-slate-100 text-center">
+              <div>
+                <span class="text-3xl sm:text-4xl font-black text-slate-900 block" data-i18n="pack3_price">Sur Devis</span>
+                <span class="text-slate-500 text-xs font-bold block mt-1" data-i18n="pack3_rate">(dès 180 DH / poste)</span>
+              </div>
+            </div>
+
+            <ul class="space-y-3 text-xs text-slate-600">
+              <li class="flex items-start gap-2.5"><i class="fa-solid fa-check text-brand-600 font-bold mt-0.5 shrink-0"></i> <span data-i18n="p3_f1">Interventions sur site illimitées pour pannes critiques</span></li>
+              <li class="flex items-start gap-2.5"><i class="fa-solid fa-check text-brand-600 font-bold mt-0.5 shrink-0"></i> <span data-i18n="p3_f2">Technicien IT dédié avec ligne directe</span></li>
+              <li class="flex items-start gap-2.5"><i class="fa-solid fa-check text-brand-600 font-bold mt-0.5 shrink-0"></i> <span data-i18n="p3_f3">Administration Windows Server & Active Directory</span></li>
+              <li class="flex items-start gap-2.5"><i class="fa-solid fa-check text-brand-600 font-bold mt-0.5 shrink-0"></i> <span data-i18n="p3_f4">Maintenance baies, switchs managés et routeurs fibre</span></li>
+              <li class="flex items-start gap-2.5"><i class="fa-solid fa-check text-brand-600 font-bold mt-0.5 shrink-0"></i> <span data-i18n="p3_f5">Plan de reprise d'activité (PRA) formalisé</span></li>
+            </ul>
+          </div>
+
+          <a href="#contact" class="mt-8 block text-center bg-slate-100 hover:bg-brand-600 hover:text-white text-slate-800 font-bold py-3 rounded-xl transition text-xs" data-i18n="pack_btn_custom">
+            Demander une offre personnalisée
+          </a>
+        </div>
+
+      </div>
+
+      <!-- INTERVENTIONS HORS CONTRAT -->
+      <div class="mt-12 bg-white rounded-2xl p-6 sm:p-8 border border-slate-200">
+        <h4 class="font-black text-base sm:text-lg text-slate-900 mb-2" data-i18n="ponctuel_title">Besoin d'un dépannage immédiat sans engagement d'abonnement ?</h4>
+        <p class="text-xs text-slate-500 mb-6" data-i18n="ponctuel_desc">Nous intervenons à la demande pour résoudre un problème ponctuel :</p>
+        
+        <div class="grid sm:grid-cols-3 gap-4 text-xs">
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="font-bold text-slate-800 block mb-1" data-i18n="ponctuel_item1_t">Télémaintenance à distance</span>
+            <div class="font-black text-sm text-brand-600" data-i18n="ponctuel_item1_p">200 MAD / intervention</div>
+            <p class="text-slate-500 text-[11px] mt-1" data-i18n="ponctuel_item1_d">Bug logiciel, configuration mail, lenteur ponctuelle.</p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="font-bold text-slate-800 block mb-1" data-i18n="ponctuel_item2_t">Déplacement sur site (Kénitra)</span>
+            <div class="font-black text-sm text-brand-600" data-i18n="ponctuel_item2_p">350 MAD (1ère heure incluse)</div>
+            <p class="text-slate-500 text-[11px] mt-1" data-i18n="ponctuel_item2_d">Diagnostic + première heure de main-d'œuvre (+150 DH/h sup).</p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="font-bold text-slate-800 block mb-1" data-i18n="ponctuel_item3_t">Formatage & Réinstallation</span>
+            <div class="font-black text-sm text-brand-600" data-i18n="ponctuel_item3_p">250 MAD / poste</div>
+            <p class="text-slate-500 text-[11px] mt-1" data-i18n="ponctuel_item3_d">Windows officiel, mises à jour, logiciels bureautiques et antivirus.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= SLA / ENGAGEMENTS ================= -->
+  <section id="sla" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div class="space-y-6">
+          <h2 class="text-xs font-bold uppercase tracking-wider text-brand-600" data-i18n="sla_subtitle">Contrat & Délais d'intervention</h2>
+          <h3 class="text-3xl font-black text-slate-900 leading-tight" data-i18n="sla_title">Des engagements contractuels stricts (SLA)</h3>
+          <p class="text-slate-600 text-sm leading-relaxed" data-i18n="sla_desc">
+            Nous ne faisons pas de promesses en l'air. Nos délais d'intervention sont fixés par contrat écrit pour assurer la continuité opérationnelle de votre établissement.
+          </p>
+
+          <div class="overflow-hidden border border-slate-200 rounded-xl">
+            <table class="w-full text-xs">
+              <thead class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
+                <tr>
+                  <th class="p-3 text-start" data-i18n="sla_th1">Niveau d'Urgence</th>
+                  <th class="p-3 text-start" data-i18n="sla_th2">Impact Métier</th>
+                  <th class="p-3 text-start" data-i18n="sla_th3">Délai Max</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                <tr>
+                  <td class="p-3"><span class="px-2 py-0.5 rounded bg-red-100 text-red-700 font-bold" data-i18n="sla_crit_badge">Critique</span></td>
+                  <td class="p-3 text-slate-600" data-i18n="sla_crit_desc">Arrêt total réseau, serveur HS, blocage usine</td>
+                  <td class="p-3 font-bold text-red-600" data-i18n="sla_time_crit">&lt; 2 Heures</td>
+                </tr>
+                <tr>
+                  <td class="p-3"><span class="px-2 py-0.5 rounded bg-amber-100 text-amber-700 font-bold" data-i18n="sla_maj_badge">Majeur</span></td>
+                  <td class="p-3 text-slate-600" data-i18n="sla_maj_desc">Poste clé comptabilité/direction bloqué</td>
+                  <td class="p-3 font-bold text-amber-600" data-i18n="sla_time_maj">&lt; 4 Heures</td>
+                </tr>
+                <tr>
+                  <td class="p-3"><span class="px-2 py-0.5 rounded bg-blue-100 text-brand-700 font-bold" data-i18n="sla_min_badge">Standard</span></td>
+                  <td class="p-3 text-slate-600" data-i18n="sla_min_desc">Lenteur, logiciel non critique, imprimante locale</td>
+                  <td class="p-3 font-bold text-slate-700" data-i18n="sla_time_std">&lt; 8 Heures</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="flex items-center gap-3 p-4 bg-emerald-50 rounded-xl border border-emerald-200 text-emerald-800 text-xs">
+            <i class="fa-solid fa-lock text-base text-emerald-600 shrink-0"></i>
+            <span data-i18n="sla_nda">Accord de confidentialité systématique (NDA) garantissant le secret de vos données d'entreprise.</span>
+          </div>
+        </div>
+
+        <div class="bg-slate-900 text-white p-8 sm:p-10 rounded-3xl space-y-6">
+          <span class="text-xs font-bold uppercase tracking-wider text-brand-400" data-i18n="why_knt_title">Proximité Locale à Kénitra</span>
+          <h4 class="text-2xl font-black" data-i18n="why_knt_heading">Pourquoi un prestataire basé localement change tout ?</h4>
+          
+          <ul class="space-y-4 text-xs text-slate-300">
+            <li class="flex items-start gap-3">
+              <i class="fa-solid fa-circle-check text-emerald-400 text-base mt-0.5 shrink-0"></i>
+              <div>
+                <strong class="text-white block" data-i18n="why_knt_1_t">Intervention physique immédiate</strong>
+                <span data-i18n="why_knt_1_d">Pas besoin d'attendre un technicien qui arrive depuis Casablanca ou Rabat en subissant les embouteillages.</span>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <i class="fa-solid fa-circle-check text-emerald-400 text-base mt-0.5 shrink-0"></i>
+              <div>
+                <strong class="text-white block" data-i18n="why_knt_2_t">Expertise du terrain industriel (AFZ)</strong>
+                <span data-i18n="why_knt_2_d">Parfaite connaissance des contraintes des unités industrielles, câblages d'usines et normes de continuité.</span>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <i class="fa-solid fa-circle-check text-emerald-400 text-base mt-0.5 shrink-0"></i>
+              <div>
+                <strong class="text-white block" data-i18n="why_knt_3_t">Facturation claire avec documents officiels</strong>
+                <span data-i18n="why_knt_3_d">Factures en bonne et due forme avec ICE, IF, RC pour vos déductions comptables et TVA.</span>
+              </div>
+            </li>
+          </ul>
+
+          <div class="pt-2">
+            <a href="tel:+212600000000" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3.5 rounded-xl text-xs flex items-center justify-center gap-2 transition" dir="ltr">
+              <i class="fa-solid fa-phone"></i>
+              <span data-i18n="call_direct_btn">Appeler le support local (+212 6 XX XX XX XX)</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= FORMULAIRE CONTACT & DEMANDE ================= -->
+  <section id="contact" class="py-20 bg-slate-100 border-t border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center space-y-3 mb-12">
+        <h2 class="text-xs font-bold uppercase tracking-wider text-brand-600" data-i18n="form_subtitle">Assistance Rapide</h2>
+        <h3 class="text-3xl font-black text-slate-900" data-i18n="form_title">Ouvrir un ticket ou demander un devis</h3>
+        <p class="text-slate-600 text-xs" data-i18n="form_desc">Remplissez ce formulaire. Un technicien vous rappelle sous 15 à 30 minutes ouvrées.</p>
+      </div>
+
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-xl p-8 sm:p-10">
+        <form action="#" method="POST" onsubmit="event.preventDefault(); alert(translations[currentLang].alert_sent);" class="space-y-6">
+          
+          <div class="grid sm:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2" data-i18n="f_name">Nom & Prénom *</label>
+              <input type="text" required placeholder="Ex: Ayoub Benani" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-brand-600 focus:ring-2 focus:ring-brand-500/20 outline-none transition text-xs">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2" data-i18n="f_company">Nom de votre Société / Cabinet *</label>
+              <input type="text" required placeholder="Ex: Société SARL" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-brand-600 focus:ring-2 focus:ring-brand-500/20 outline-none transition text-xs">
+            </div>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2" data-i18n="f_phone">Numéro de Téléphone Direct *</label>
+              <input type="tel" required placeholder="+212 6 XX XX XX XX" dir="ltr" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-brand-600 focus:ring-2 focus:ring-brand-500/20 outline-none transition text-xs text-start">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2" data-i18n="f_zone">Localisation à Kénitra & Région *</label>
+              <select id="selectZone" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-brand-600 focus:ring-2 focus:ring-brand-500/20 outline-none transition text-xs text-slate-700">
+                <!-- Dynamique via JS -->
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2" data-i18n="f_type">Type de demande *</label>
+            <select id="selectType" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-brand-600 focus:ring-2 focus:ring-brand-500/20 outline-none transition text-xs text-slate-700">
+              <!-- Dynamique via JS -->
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2" data-i18n="f_details">Description de votre besoin</label>
+            <textarea rows="4" id="txtDetails" placeholder="Indiquez le nombre de PC, le modèle du problème ou votre demande..." class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-brand-600 focus:ring-2 focus:ring-brand-500/20 outline-none transition text-xs"></textarea>
+          </div>
+
+          <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-brand-600/30 transition text-sm flex items-center justify-center gap-2">
+            <i class="fa-solid fa-paper-plane"></i>
+            <span data-i18n="f_submit">Envoyer la demande d'intervention</span>
+          </button>
+
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      
+      <div class="space-y-4 md:col-span-2">
+        <span class="text-2xl font-black text-white">PRO<span class="text-brand-500">TECH</span> IT</span>
+        <p class="text-xs text-slate-400 max-w-sm" data-i18n="ft_about">
+          Prestataire de confiance en infogérance, sécurité réseau et maintenance informatique préventive et curative. Basé à Kénitra, au service des entreprises locales et régionales.
+        </p>
+        <p class="text-[11px] text-slate-500 font-mono" dir="ltr">ICE : [Votre Numéro d'ICE] | RC : Kénitra | IF : [Votre Numéro IF]</p>
+      </div>
+
+      <div>
+        <h6 class="text-white font-bold uppercase tracking-wider mb-3" data-i18n="ft_links_title">Liens Rapides</h6>
+        <ul class="space-y-2 text-xs">
+          <li><a href="#services" class="hover:text-white transition" data-i18n="nav_services">Services</a></li>
+          <li><a href="#tarifs" class="hover:text-white transition" data-i18n="nav_packs">Packs & Tarifs</a></li>
+          <li><a href="#sla" class="hover:text-white transition" data-i18n="nav_sla">Garanties SLA</a></li>
+          <li><a href="#contact" class="hover:text-white transition" data-i18n="nav_contact">Demander un Devis</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h6 class="text-white font-bold uppercase tracking-wider mb-3" data-i18n="ft_contact_title">Coordonnées Locales</h6>
+        <ul class="space-y-2 text-xs">
+          <li><i class="fa-solid fa-location-dot text-brand-500 mr-2 ml-2"></i> <span data-i18n="ft_city">Kénitra, Maroc</span></li>
+          <li dir="ltr" class="text-start"><i class="fa-solid fa-phone text-brand-500 mr-2 ml-2"></i> +212 6 XX XX XX XX</li>
+          <li dir="ltr" class="text-start"><i class="fa-solid fa-envelope text-brand-500 mr-2 ml-2"></i> contact@votre-domaine.ma</li>
+          <li><i class="fa-brands fa-whatsapp text-emerald-400 mr-2 ml-2"></i> <span data-i18n="ft_wa">Support WhatsApp Direct</span></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 border-t border-slate-800 text-center text-[11px] text-slate-500 flex flex-col sm:flex-row justify-between items-center gap-4">
+      <p>&copy; 2026 PROTECH IT Solutions Kénitra. <span data-i18n="ft_rights">Tous droits réservés.</span></p>
+      <div class="flex gap-4">
+        <a href="#" class="hover:text-white text-sm"><i class="fa-brands fa-linkedin"></i></a>
+        <a href="#" class="hover:text-white text-sm"><i class="fa-brands fa-facebook"></i></a>
+        <a href="#" class="hover:text-white text-sm"><i class="fa-brands fa-instagram"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= FLOATING WHATSAPP BUTTON ================= -->
+  <a href="https://wa.me/212600000000?text=Bonjour,%20j'ai%20besoin%20d'une%20intervention%20informatique%20à%20Kénitra" 
+     target="_blank" 
+     class="fixed bottom-6 right-6 z-50 bg-emerald-500 hover:bg-emerald-600 text-white w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-2xl shadow-emerald-500/40 hover:scale-110 transition transform">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <!-- ================= TRANSLATION ENGINE ================= -->
+  <script>
+    let currentLang = 'fr';
+
+    const translations = {
+      fr: {
+        dir: 'ltr',
+        fontClass: 'font-sans',
+        top_base: "Basé à Kénitra :",
+        top_zones: "Intervention Kénitra, AFZ & Région",
+        top_hours: "Support : Lun - Ven 08h30 - 18h30 | Urgences 24/7",
+        logo_sub: "Kénitra & Région Support",
+        nav_services: "Services",
+        nav_packs: "Packs & Tarifs",
+        nav_sla: "Garanties SLA",
+        nav_zone: "Zone d'intervention",
+        nav_contact: "Contact",
+        btn_header_devis: "Devis / Intervention",
+        hero_badge: "Support Informatique Dédié aux Entreprises à Kénitra",
+        hero_title: "Votre département IT externalisé, réactif et sur place.",
+        hero_desc: "Ne laissez plus une panne informatique bloquer votre chiffre d'affaires. Maintenance préventive, dépannage d'urgence sur site à Kénitra et à distance, réseaux d'entreprise et sécurisation totale de vos données.",
+        hero_btn_urgence: "Dépannage d'urgence",
+        hero_btn_wa: "WhatsApp Direct",
+        stat_sla: "Délai d'intervention critique",
+        stat_zone: "Déplacement local immédiat",
+        stat_zone_val: "Kénitra + AFZ",
+        stat_audit: "Audit initial de votre parc",
+        stat_audit_val: "OFFERT",
+        card_status: "Centre de Support Actif",
+        card_hub: "Kénitra Hub",
+        card_ticket_title: "Intervention Rapide sur Site",
+        card_ticket_desc: "Un technicien chez vous en moins de 2 heures pour tout arrêt de production ou blocage réseau.",
+        card_sec_title: "Sécurisation & Sauvegarde",
+        card_sec_desc: "Vos fichiers comptables et données clients protégés contre les virus et pannes disques.",
+        card_btn_audit: "Demander un diagnostic sans engagement",
+        zone_title: "Périmètre d'intervention sur site :",
+        zone_desc: "Kénitra Centre, Atlantic Free Zone (AFZ), Mehdia, Sidi Taïbi, Sidi Yahya, Sidi Slimane, Sidi Kacem, et Salé Nord.",
+        zone_badge: "🚀 Déplacement sous 60-120 min garanti",
+        srv_subtitle: "Catalogue Complet de Prestations",
+        srv_title: "Des solutions IT conçues pour les professionnels",
+        srv_desc: "Chaque prestation est documentée et facturée avec transparence, sans mauvaises surprises.",
+        srv1_title: "Dépannage & Maintenance Postes",
+        srv1_desc: "Diagnostic matériel et logiciel, formatage propre, réinstallation Windows avec pilotes officiels, remplacement disques HDD par SSD ultra-rapides, et extension RAM.",
+        srv1_extra: "✔ Nettoyage physique interne & pâte thermique inclus",
+        srv2_title: "Réseaux, Câblage & Baies de Brassage",
+        srv2_desc: "Installation et réorganisation de baies réseau, pose de prises RJ45, configuration switchs managés, routeurs, création de sous-réseaux (VLANs), et Wi-Fi sécurisé d'entreprise.",
+        srv2_extra: "✔ Finie la coupure de connexion en plein travail",
+        srv3_title: "Sauvegardes & Sécurité Anti-Ransomware",
+        srv3_desc: "Mise en place de serveurs NAS locaux et réplication dans le Cloud sécurisé. Sauvegarde quotidienne automatique de vos bases de données Sage, Cegid, et documents sensibles.",
+        srv3_extra: "✔ Test périodique de restauration des données",
+        srv4_title: "Imprimantes & Scanners Réseau",
+        srv4_desc: "Partage centralisé des imprimantes et copieurs multifonctions pour tous les collaborateurs, configuration Scan-to-Email / Scan-to-Folder, et gestion des droits d'accès.",
+        srv4_extra: "✔ Impression fluide depuis n'importe quel poste",
+        srv5_title: "Télémaintenance & Support à Distance",
+        srv5_desc: "Prise de contrôle à distance sécurisée via AnyDesk ou RustDesk en moins de 15 minutes. Résolution des bugs Outlook, blocages de fichiers, et lenteurs sans attendre le technicien.",
+        srv5_extra: "✔ Prise en charge immédiate sans frais de déplacement",
+        srv6_title: "Emails Professionnels & Cloud",
+        srv6_desc: "Création de vos adresses pro (@votre-entreprise.ma), configuration Google Workspace ou Microsoft 365, sécurisation DNS (SPF, DKIM) pour éviter que vos emails tombent en Spam.",
+        srv6_extra: "✔ Image 100% professionnelle auprès de vos clients",
+        tarifs_subtitle: "Tarifs Clairs & Forfaits Mensuels",
+        tarifs_title: "Investissez dans la stabilité de vos outils",
+        tarifs_desc: "Choisissez la formule qui correspond exactement à la taille de votre parc informatique.",
+        badge_recommended: "Recommandé pour PME",
+        currency_monthly: "MAD / mois (HT)",
+        pack1_target: "TPE & Cabinets (1 à 5 postes)",
+        pack1_title: "Pack Starter",
+        pack1_desc: "Pour fiduciaires, cabinets d'avocats, agences et commerces.",
+        p1_f1: "Télémaintenance illimitée à distance",
+        p1_f2: "1 Visite préventive mensuelle programmée",
+        p1_f3: "Jusqu'à 2 dépannages sur site / mois inclus",
+        p1_f4: "Support imprimantes et Wi-Fi de bureau",
+        p1_f5: "Sauvegarde locale hebdomadaire vérifiée",
+        p1_f6: "SLA critique < 2h (délai standard 4h-8h)",
+        pack_btn: "Commander ce pack",
+        pack2_target: "PME & Ateliers (6 à 15 postes)",
+        pack2_title: "Pack Pro",
+        pack2_desc: "Pour les entreprises ayant un réseau partagé et des serveurs/NAS.",
+        p2_f1: "Télémaintenance prioritaire illimitée",
+        p2_f2: "2 Visites préventives mensuelles complètes",
+        p2_f3: "Jusqu'à 4 interventions sur site / mois incluses",
+        p2_f4: "Délai d'intervention garanti < 2h en cas d'urgence",
+        p2_f5: "Sauvegarde Cloud / NAS automatique quotidienne",
+        p2_f6: "Audit initial complet du parc offert (Valeur 1500 DH)",
+        pack_btn_pro: "Choisir le Pack Pro",
+        pack3_target: "Industrie & Parcs > 16 postes",
+        pack3_title: "Pack Custom",
+        pack3_desc: "Pour usines zone franche (AFZ), écoles, et grandes structures.",
+        pack3_price: "Sur Devis",
+        pack3_rate: "(dès 180 DH / poste)",
+        p3_f1: "Interventions sur site illimitées pour pannes critiques",
+        p3_f2: "Technicien IT dédié avec ligne directe",
+        p3_f3: "Administration Windows Server & Active Directory",
+        p3_f4: "Maintenance baies, switchs managés et routeurs fibre",
+        p3_f5: "Plan de reprise d'activité (PRA) formalisé",
+        pack_btn_custom: "Demander une offre personnalisée",
+        ponctuel_title: "Besoin d'un dépannage immédiat sans engagement d'abonnement ?",
+        ponctuel_desc: "Nous intervenons à la demande pour résoudre un problème ponctuel :",
+        ponctuel_item1_t: "Télémaintenance à distance",
+        ponctuel_item1_p: "200 MAD / intervention",
+        ponctuel_item1_d: "Bug logiciel, configuration mail, lenteur ponctuelle.",
+        ponctuel_item2_t: "Déplacement sur site (Kénitra)",
+        ponctuel_item2_p: "350 MAD (1ère heure incluse)",
+        ponctuel_item2_d: "Diagnostic + première heure de main-d'œuvre (+150 DH/h sup).",
+        ponctuel_item3_t: "Formatage & Réinstallation",
+        ponctuel_item3_p: "250 MAD / poste",
+        ponctuel_item3_d: "Windows officiel, mises à jour, logiciels bureautiques et antivirus.",
+        sla_subtitle: "Contrat & Délais d'intervention",
+        sla_title: "Des engagements contractuels stricts (SLA)",
+        sla_desc: "Nous ne faisons pas de promesses en l'air. Nos délais d'intervention sont fixés par contrat écrit pour assurer la continuité opérationnelle de votre établissement.",
+        sla_th1: "Niveau d'Urgence",
+        sla_th2: "Impact Métier",
+        sla_th3: "Délai Max",
+        sla_crit_badge: "Critique",
+        sla_crit_desc: "Arrêt total réseau, serveur HS, blocage usine",
+        sla_time_crit: "< 2 Heures",
+        sla_maj_badge: "Majeur",
+        sla_maj_desc: "Poste clé comptabilité/direction bloqué",
+        sla_time_maj: "< 4 Heures",
+        sla_min_badge: "Standard",
+        sla_min_desc: "Lenteur, logiciel non critique, imprimante locale",
+        sla_time_std: "< 8 Heures",
+        sla_nda: "Accord de confidentialité systématique (NDA) garantissant le secret de vos données d'entreprise.",
+        why_knt_title: "Proximité Locale à Kénitra",
+        why_knt_heading: "Pourquoi un prestataire basé localement change tout ?",
+        why_knt_1_t: "Intervention physique immédiate",
+        why_knt_1_d: "Pas besoin d'attendre un technicien qui arrive depuis Casablanca ou Rabat en subissant les embouteillages.",
+        why_knt_2_t: "Expertise du terrain industriel (AFZ)",
+        why_knt_2_d: "Parfaite connaissance des contraintes des unités industrielles, câblages d'usines et normes de continuité.",
+        why_knt_3_t: "Facturation claire avec documents officiels",
+        why_knt_3_d: "Factures en bonne et due forme avec ICE, IF, RC pour vos déductions comptables et TVA.",
+        call_direct_btn: "Appeler le support local (+212 6 XX XX XX XX)",
+        form_subtitle: "Assistance Rapide",
+        form_title: "Ouvrir un ticket ou demander un devis",
+        form_desc: "Remplissez ce formulaire. Un technicien vous rappelle sous 15 à 30 minutes ouvrées.",
+        f_name: "Nom & Prénom *",
+        f_company: "Nom de votre Société / Cabinet *",
+        f_phone: "Numéro de Téléphone Direct *",
+        f_zone: "Localisation à Kénitra & Région *",
+        f_type: "Type de demande *",
+        f_details: "Description de votre besoin",
+        f_submit: "Envoyer la demande d'intervention",
+        ft_about: "Prestataire de confiance en infogérance, sécurité réseau et maintenance informatique préventive et curative. Basé à Kénitra, au service des entreprises locales et régionales.",
+        ft_links_title: "Liens Rapides",
+        ft_contact_title: "Coordonnées Locales",
+        ft_city: "Kénitra, Maroc",
+        ft_wa: "Support WhatsApp Direct",
+        ft_rights: "Tous droits réservés.",
+        alert_sent: "Demande enregistrée. Nous vous contacterons sans délai.",
+        zones_options: [
+          { val: "knt_centre", text: "Kénitra Centre-Ville / Ville Haute" },
+          { val: "afz", text: "Atlantic Free Zone (AFZ)" },
+          { val: "mehdia", text: "Mehdia / Zone Balnéaire" },
+          { val: "bir_rami", text: "Bir Rami Industrielle" },
+          { val: "sidi_taibi", text: "Sidi Taïbi / Salé Nord" },
+          { val: "sidi_yahya", text: "Sidi Yahya / Sidi Slimane / Sidi Kacem" },
+          { val: "autre", text: "Autre localité" }
+        ],
+        types_options: [
+          { val: "urgence", text: "🚨 Panne bloquante urgente (Technicien sur site)" },
+          { val: "pack", text: "💼 Souscription Pack Maintenance Mensuel (Devis)" },
+          { val: "audit", text: "🔍 Audit initial gratuit de notre parc informatique" },
+          { val: "cablage", text: "🌐 Projet Réseau, Câblage ou Baie de brassage" },
+          { val: "autre", text: "Autre demande technique" }
+        ]
+      },
+      en: {
+        dir: 'ltr',
+        fontClass: 'font-sans',
+        top_base: "Based in Kenitra:",
+        top_zones: "On-site support in Kenitra, AFZ & Region",
+        top_hours: "Support: Mon - Fri 08:30 - 18:30 | Emergency 24/7",
+        logo_sub: "Kenitra & Regional IT Support",
+        nav_services: "Services",
+        nav_packs: "Plans & Pricing",
+        nav_sla: "SLA Guarantees",
+        nav_zone: "Service Area",
+        nav_contact: "Contact",
+        btn_header_devis: "Quote / Request Support",
+        hero_badge: "Dedicated B2B IT Support in Kenitra & Surroundings",
+        hero_title: "Your outsourced IT department, responsive and local.",
+        hero_desc: "Never let computer or network downtime disrupt your business operations. Scheduled preventive maintenance, rapid on-site troubleshooting across Kenitra, and full data protection.",
+        hero_btn_urgence: "Emergency IT Support",
+        hero_btn_wa: "Direct WhatsApp",
+        stat_sla: "Critical Incident Response",
+        stat_zone: "Immediate Local Dispatch",
+        stat_zone_val: "Kenitra + AFZ",
+        stat_audit: "Initial IT Park Audit",
+        stat_audit_val: "FREE",
+        card_status: "Live Support Center",
+        card_hub: "Kenitra Hub",
+        card_ticket_title: "Rapid On-Site Dispatch",
+        card_ticket_desc: "A field technician on your premises in less than 2 hours for critical server or network outages.",
+        card_sec_title: "Security & Cloud Backups",
+        card_sec_desc: "Accounting files and customer records shielded against hardware failure and ransomware.",
+        card_btn_audit: "Request Free Infrastructure Audit",
+        zone_title: "On-site intervention coverage:",
+        zone_desc: "Kenitra City, Atlantic Free Zone (AFZ), Mehdia, Sidi Taïbi, Sidi Yahya, Sidi Slimane, Sidi Kacem, and North Salé.",
+        zone_badge: "🚀 60-120 min on-site arrival guaranteed",
+        srv_subtitle: "Complete Services Catalog",
+        srv_title: "Enterprise-grade IT solutions for businesses",
+        srv_desc: "Each operation is documented and billed with full transparency—no surprises.",
+        srv1_title: "Workstation Maintenance & Repair",
+        srv1_desc: "Hardware/software troubleshooting, clean OS install with licensed drivers, HDD replacement with ultra-fast NVMe/SSDs, and RAM upgrades.",
+        srv1_extra: "✔ Internal thermal paste renewal & dust removal included",
+        srv2_title: "Cabling, Server Racks & Networking",
+        srv2_desc: "Patch panel cable organization, RJ45 drops, managed switches, routers, corporate VLAN segmentation, and enterprise Wi-Fi installation.",
+        srv2_extra: "✔ Reliable, zero-dropout office internet guaranteed",
+        srv3_title: "Backup Solutions & Ransomware Protection",
+        srv3_desc: "Deployment of local Synology/QNAP NAS and encrypted cloud backups. Automated daily snapshots of Sage, accounting databases, and confidential docs.",
+        srv3_extra: "✔ Periodic automated disaster recovery drills",
+        srv4_title: "Network Printers & Office Scanners",
+        srv4_desc: "Centralized printer and copier fleet integration, Scan-to-Email / Scan-to-Folder workflows, and role-based department permissions.",
+        srv4_extra: "✔ Seamless printing from any office workstation",
+        srv5_title: "Remote Telemaintenance Support",
+        srv5_desc: "Ultra-fast remote access via RustDesk or AnyDesk in under 15 minutes. Resolve Outlook issues, driver conflicts, and software glitches instantly.",
+        srv5_extra: "✔ Instant assistance without travel dispatch fees",
+        srv6_title: "Corporate Email & Cloud Workspace",
+        srv6_desc: "Setup of custom domain business emails (@your-company.ma), Google Workspace or Microsoft 365, and DNS security hardening (SPF, DKIM, DMARC).",
+        srv6_extra: "✔ 100% professional business image for your clients",
+        tarifs_subtitle: "Transparent Monthly Retainers",
+        tarifs_title: "Invest in IT reliability and business continuity",
+        tarifs_desc: "Select the managed IT maintenance plan that fits your workstation count.",
+        badge_recommended: "Most Popular for SMEs",
+        currency_monthly: "MAD / month (excl. VAT)",
+        pack1_target: "Small Offices & Practices (1-5 PCs)",
+        pack1_title: "Starter Plan",
+        pack1_desc: "For accounting firms, notary offices, agencies and clinics.",
+        p1_f1: "Unlimited remote IT telemaintenance",
+        p1_f2: "1 Scheduled monthly preventive physical visit",
+        p1_f3: "Up to 2 included on-site repair visits / month",
+        p1_f4: "Office network printer and Wi-Fi management",
+        p1_f5: "Verified weekly local backup verification",
+        p1_f6: "Standard SLA 4h-8h (Urgent < 2h optional)",
+        pack_btn: "Choose Starter Plan",
+        pack2_target: "Growing SMEs (6 to 15 PCs)",
+        pack2_title: "Pro Plan",
+        pack2_desc: "For companies with active local networks, shared NAS, or servers.",
+        p2_f1: "Priority unlimited remote technical support",
+        p2_f2: "2 Full preventive visits per month",
+        p2_f3: "Up to 4 included on-site emergency visits / month",
+        p2_f4: "Guaranteed SLA < 2h for critical business halts",
+        p2_f5: "Monitored daily Cloud & local NAS backup automation",
+        p2_f6: "Complete IT infrastructure audit included (Valued at 1500 MAD)",
+        pack_btn_pro: "Choose Pro Plan",
+        pack3_target: "Industrial & Enterprises (16+ PCs)",
+        pack3_title: "Custom Plan",
+        pack3_desc: "For Atlantic Free Zone factories, schools, and distributed sites.",
+        pack3_price: "Custom Quote",
+        pack3_rate: "(from 180 MAD / workstation)",
+        p3_f1: "Unlimited on-site response for critical shutdowns",
+        p3_f2: "Dedicated IT account manager with direct mobile line",
+        p3_f3: "Windows Server, Active Directory & Domain administration",
+        p3_f4: "Full maintenance of server racks, fiber routers, managed switches",
+        p3_f5: "Formal Disaster Recovery Plan (DRP / PRA) deployment",
+        pack_btn_custom: "Request Tailored Proposal",
+        ponctuel_title: "Need on-demand troubleshooting without an ongoing contract?",
+        ponctuel_desc: "We dispatch technicians per incident for single issues:",
+        ponctuel_item1_t: "Remote Telemaintenance",
+        ponctuel_item1_p: "200 MAD / incident",
+        ponctuel_item1_d: "Software bugs, mailbox setup, individual workstation slowdown.",
+        ponctuel_item2_t: "On-site Dispatch (Kenitra)",
+        ponctuel_item2_p: "350 MAD (1st hour included)",
+        ponctuel_item2_d: "Diagnosis + first hour of hands-on labor (+150 MAD per extra hour).",
+        ponctuel_item3_t: "OS Formatting & Fresh Setup",
+        ponctuel_item3_p: "250 MAD / PC",
+        ponctuel_item3_d: "Licensed Windows, updates, office suite, and antivirus.",
+        sla_subtitle: "Contractual Service Level Agreements",
+        sla_title: "Strict written SLA response guarantees",
+        sla_desc: "We commit to concrete response windows backed by legal contracts to keep your facility operational at all times.",
+        sla_th1: "Severity Level",
+        sla_th2: "Business Impact",
+        sla_th3: "Max Response Time",
+        sla_crit_badge: "Critical",
+        sla_crit_desc: "Total network blackout, server crash, plant stoppage",
+        sla_time_crit: "< 2 Hours",
+        sla_maj_badge: "Major",
+        sla_maj_desc: "Key finance/executive PC down with no backup",
+        sla_time_maj: "< 4 Hours",
+        sla_min_badge: "Standard",
+        sla_min_desc: "Single PC slowdown, minor glitch, local printer issue",
+        sla_time_std: "< 8 Hours",
+        sla_nda: "Signed Non-Disclosure Agreement (NDA) safeguarding your corporate data.",
+        why_knt_title: "Kenitra Proximity",
+        why_knt_heading: "Why a local provider makes all the difference?",
+        why_knt_1_t: "Immediate on-site arrival",
+        why_knt_1_d: "No waiting for hours while technicians sit in highway traffic from Casablanca or Rabat.",
+        why_knt_2_t: "Atlantic Free Zone (AFZ) expertise",
+        why_knt_2_d: "Familiarity with plant wiring, continuous production shifts, and corporate safety standards.",
+        why_knt_3_t: "Formal B2B invoicing",
+        why_knt_3_d: "Compliant corporate invoices with valid ICE, RC, and IF for accounting deductions.",
+        call_direct_btn: "Call local helpline (+212 6 XX XX XX XX)",
+        form_subtitle: "Quick Assistance",
+        form_title: "Open a support ticket or request a quote",
+        form_desc: "Fill in the details. A certified technician will call you within 15 to 30 minutes.",
+        f_name: "Full Name *",
+        f_company: "Company Name *",
+        f_phone: "Direct Phone Number *",
+        f_zone: "Location in Kenitra & Surroundings *",
+        f_type: "Type of Request *",
+        f_details: "Describe your IT issue / scope",
+        f_submit: "Submit Support Ticket",
+        ft_about: "Trusted managed IT services provider, network infrastructure, and preventive maintenance based in Kenitra serving regional businesses.",
+        ft_links_title: "Quick Navigation",
+        ft_contact_title: "Local Contact",
+        ft_city: "Kenitra, Morocco",
+        ft_wa: "Direct WhatsApp Support",
+        ft_rights: "All rights reserved.",
+        alert_sent: "Request received. A technician will contact you shortly.",
+        zones_options: [
+          { val: "knt_centre", text: "Kenitra City Center / Ville Haute" },
+          { val: "afz", text: "Atlantic Free Zone (AFZ)" },
+          { val: "mehdia", text: "Mehdia / Seaside Area" },
+          { val: "bir_rami", text: "Bir Rami Industrial Zone" },
+          { val: "sidi_taibi", text: "Sidi Taïbi / North Salé" },
+          { val: "sidi_yahya", text: "Sidi Yahya / Sidi Slimane / Sidi Kacem" },
+          { val: "autre", text: "Other location" }
+        ],
+        types_options: [
+          { val: "urgence", text: "🚨 Urgent Blocking Issue (On-site dispatch)" },
+          { val: "pack", text: "💼 Monthly Maintenance Contract (Quote)" },
+          { val: "audit", text: "🔍 Free Initial IT Park Audit" },
+          { val: "cablage", text: "🌐 Network, Structured Cabling or Server Rack" },
+          { val: "autre", text: "Other technical request" }
+        ]
+      },
+      ar: {
+        dir: 'rtl',
+        fontClass: 'font-arabic',
+        top_base: "المقر بالقنيطرة :",
+        top_zones: "تدخلات ميدانية بالقنيطرة، المنطقة الحرة AFZ والنواحي",
+        top_hours: "أوقات العمل : الإثنين - الجمعة 08:30 - 18:30 | الطوارئ 24/7",
+        logo_sub: "خدمات IT بالقنيطرة والنواحي",
+        nav_services: "خدماتنا",
+        nav_packs: "الباقات والأسعار",
+        nav_sla: "ضمانات التدخل (SLA)",
+        nav_zone: "نطاق العمل",
+        nav_contact: "اتصل بنا",
+        btn_header_devis: "طلب فحص / عرض أسعار",
+        hero_badge: "شريك تكنولوجيا المعلومات المعتمد للشركات بالقنيطرة",
+        hero_title: "قسم المعلوميات الخارجي لشركتك.. سرعة، خبرة وتواجد ميداني.",
+        hero_desc: "لا تجعل أعطال الحواسيب وتوقف الشبكة يهدد استمرارية عملك. صيانة وقائية منتظمة، تدخل فوري بعين المكان في القنيطرة وعن بُعد، وتأمين كامل لبيانات الشركة الحساسة.",
+        hero_btn_urgence: "طلب تدخل طارئ",
+        hero_btn_wa: "محادثة واتساب مباشرة",
+        stat_sla: "استجابة للأعطال الحرجة",
+        stat_zone: "تنقل محلي فوري",
+        stat_zone_val: "القنيطرة + AFZ",
+        stat_audit: "تدقيق أولي شامل للأجهزة",
+        stat_audit_val: "مجاناً",
+        card_status: "مركز الدعم التقني نشط",
+        card_hub: "مركز القنيطرة",
+        card_ticket_title: "تدخل سريع بعين المكان",
+        card_ticket_desc: "تقني معتمد يصل لمقرك في أقل من ساعتين لمعالجة توقف الإنتاج أو انقطاع السيرفر والشبكة.",
+        card_sec_title: "حماية ونسخ احتياطي",
+        card_sec_desc: "حماية ملفات المحاسبة وبيانات الزبناء من التلف، الفيروسات وهجمات الفدية.",
+        card_btn_audit: "طلب فحص وتشخيص مجاني",
+        zone_title: "نطاق التدخل الميداني المباشر :",
+        zone_desc: "وسط القنيطرة، المنطقة الصناعية الحرة (AFZ)، مهدية، بئر الرامي، سيدي الطيبي، سيدي يحيى، سيدي سليمان، سيدي قاسم وشمال سلا.",
+        zone_badge: "🚀 تنقل مضمون في ظرف 60 إلى 120 دقيقة",
+        srv_subtitle: "الدليل الشامل للخدمات",
+        srv_title: "حلول معلوميات متكاملة مصممة للمقاولات",
+        srv_desc: "كل تدخل يتم توثيقه وفوترته بكل شفافية واحترافية بدون مصاريف خفية.",
+        srv1_title: "صيانة وتصليح الحواسيب",
+        srv1_desc: "تشخيص شامل للعتاد والبرامج، فورماتاج نظيف مع برامج أصلية، تسريع الحواسيب بتركيب أقراص SSD السريعة وترقية الذاكرة العشوائية RAM.",
+        srv1_extra: "✔ يشمل التنظيف الداخلي وتغيير المعجون الحراري",
+        srv2_title: "الشبكات، الكابلاج وخزائن السيرفر",
+        srv2_desc: "تنظيم وتركيب خزائن الشبكة (Baies de brassage)، تركيب مقابس RJ45، ضبط الموزعات (Switchs)، الراوترات، تقسيم الشبكات (VLAN) وتأمين الواي فاي.",
+        srv2_extra: "✔ وداعاً لمشكل انقطاع النت أثناء العمل",
+        srv3_title: "النسخ الاحتياطي والحماية من الفيروسات",
+        srv3_desc: "تثبيت وحدات التخزين المركزية NAS والربط مع السحابة الآمنة. نسخ احتياطي يومي تلقائي لقواعد بيانات Sage والملفات المحاسبية الحساسة.",
+        srv3_extra: "✔ تجارب دورية لاسترجاع البيانات عند الطوارئ",
+        srv4_title: "إدارة الطابعات والماسحات المشتركة",
+        srv4_desc: "ربط الطابعات المتعددة الوظائف على الشبكة لجميع الموظفين، إعداد المسح الضوئي المباشر للإيميل (Scan-to-Email) وتحديد صلاحيات الطباعة.",
+        srv4_extra: "✔ طباعة سريعة ومستقرة من أي حاسوب بالمكتب",
+        srv5_title: "الدعم التقني الفوري عن بُعد",
+        srv5_desc: "تحكم سريع وآمن عبر AnyDesk أو RustDesk في أقل من 15 دقيقة لحل مشاكل Outlook، بطء الحواسيب أو الأخطاء البرمجية بدون انتظار وصول التقني.",
+        srv5_extra: "✔ حل مباشر دون مصاريف تنقل إضافية",
+        srv6_title: "الإيميلات الاحترافية والخدمات السحابية",
+        srv6_desc: "إنشاء عناوين بريد باسم شركتك (@societe.ma)، ضبط Google Workspace أو Microsoft 365، وتأمين السيرفرات لتفادي وصول رسائلكم للـ Spam.",
+        srv6_extra: "✔ صورة احترافية موثوقة أمام زبنائكم وشركائكم",
+        tarifs_subtitle: "أسعار واضحة واشتراكات شهرية",
+        tarifs_title: "استثمر في استقرار نظامك المعلوماتي",
+        tarifs_desc: "اختر الباقة المناسبة لحجم ونشاط مقاولتك وأجهزتك.",
+        badge_recommended: "الأكثر طلباً للشركات",
+        currency_monthly: "درهم / شهرياً (دون احتساب الرسوم)",
+        pack1_target: "الشركات الصغرى والمكاتب (1 إلى 5 حواسيب)",
+        pack1_title: "الباقة الأساسية (Starter)",
+        pack1_desc: "مناسبة للمحاسبين، الموثقين، المحامين والوكالات التجارية.",
+        p1_f1: "دعم فني غير محدود عن بُعد",
+        p1_f2: "زيارة وقائية دورية مبرمجة كل شهر",
+        p1_f3: "تدخلان ميدانيان للإصلاح بعين المكان شهرياً",
+        p1_f4: "دعم الطابعات المشتركة وشبكة الواي فاي",
+        p1_f5: "فحص وتأكيد النسخ الاحتياطي المحلي أسبوعياً",
+        p1_f6: "استجابة عادية 4 إلى 8 ساعات للأعطال",
+        pack_btn: "اختيار هذه الباقة",
+        pack2_target: "الشركات المتوسطة (6 إلى 15 حاسوب)",
+        pack2_title: "باقة المحترفين (Pro)",
+        pack2_desc: "للشركات التي تعتمد على شبكة متصلة وسيرفرات لتخزين المعطيات.",
+        p2_f1: "دعم تقني ذو أولوية قصوى عن بُعد",
+        p2_f2: "زيارتان وقائيتان شاملتان كل شهر",
+        p2_f3: "حتى 4 تدخلات ميدانية للإصلاح شهرياً",
+        p2_f4: "استجابة فورية أقل من ساعتين للأعطال الحرجة",
+        p2_f5: "نسخ احتياطي يومي مراقب سحابياً ومحلياً",
+        p2_f6: "تدقيق أولي شامل وفحص الأجهزة مجاناً (قيمة 1500 درهم)",
+        pack_btn_pro: "اختيار باقة Pro (الأكثر طلباً)",
+        pack3_target: "المصانع والمؤسسات الكبرى (أكثر من 16 حاسوب)",
+        pack3_title: "الباقة المخصصة (Custom)",
+        pack3_desc: "لمصانع المنطقة الحرة (AFZ)، المعاهد والشركات الصناعية.",
+        pack3_price: "حسب الاحتياج",
+        pack3_rate: "(ابتداءً من 180 درهم / جهاز)",
+        p3_f1: "تدخلات ميدانية غير محدودة للأعطال الحرجة",
+        p3_f2: "تقني مخصص ومباشر لشركتكم عبر الهاتف",
+        p3_f3: "إدارة كاملة لسيرفرات الويندوز و Active Directory",
+        p3_f4: "صيانة كبائن السيرفر، الموزعات ورواتر الفايبر",
+        p3_f5: "خطة استرجاع البيانات ومواجهة الكوارث (PRA)",
+        pack_btn_custom: "طلب عرض مخصص للشركة",
+        ponctuel_title: "هل تحتاج تدخلاً عاجلاً دون التزام باشتراك شهري؟",
+        ponctuel_desc: "نتدخل فوراً عند الطلب لحل أي عطب طارئ مع احتساب التدخل الفردي :",
+        ponctuel_item1_t: "إصلاح فوري عن بُعد",
+        ponctuel_item1_p: "200 درهم / تدخل",
+        ponctuel_item1_d: "حل مشكل برمجي، إعداد إيميل، أو بطء عابر بالجهاز.",
+        ponctuel_item2_t: "تنقل ميداني (القنيطرة)",
+        ponctuel_item2_p: "350 درهم (تشمل أول ساعة عمل)",
+        ponctuel_item2_d: "التشخيص مع أول ساعة عمل كاملة (+150 درهم لكل ساعة إضافية).",
+        ponctuel_item3_t: "فورماتاج وإعادة تثبيت النظام",
+        ponctuel_item3_p: "250 درهم / جهاز",
+        ponctuel_item3_d: "ويندوز أصلي، التحديثات، البرامج الأساسية ومضاد فيروسات قوي.",
+        sla_subtitle: "عقود الصيانة ومستوى الخدمة",
+        sla_title: "التزام زمني تعاقدي صارم (SLA)",
+        sla_desc: "لا نكتفي بالوعود الشفهية؛ بل نلتزم بأوقات استجابة محددة قانونياً في العقد لضمان سير أعمال شركتك دون أي تعطل.",
+        sla_th1: "درجة الاستعجال",
+        sla_th2: "تأثير العطل على العمل",
+        sla_th3: "أقصى أجل للتدخل",
+        sla_crit_badge: "حرج جداً",
+        sla_crit_desc: "توقف كلي للشبكة، توقف السيرفر، أو تعطل خط الإنتاج",
+        sla_time_crit: "أقل من ساعتين",
+        sla_maj_badge: "عطل كبير",
+        sla_maj_desc: "تعطل حاسوب المحاسبة أو الإدارة دون وجود جهاز بديل",
+        sla_time_maj: "أقل من 4 ساعات",
+        sla_min_badge: "عادي",
+        sla_min_desc: "بطء في حاسوب، مشكل بسيط في طابعة محلية",
+        sla_time_std: "أقل من 8 ساعات",
+        sla_nda: "توقيع اتفاقية سرية تامة (NDA) لحماية أسرار وملفات الشركة.",
+        why_knt_title: "القرب الجغرافي بالقنيطرة",
+        why_knt_heading: "لماذا التعاقد مع تقني مقيم بالقنيطرة يصنع الفارق؟",
+        why_knt_1_t: "وصول ميداني فوري",
+        why_knt_1_d: "لا داعي لانتظار تقني قادم من الدار البيضاء أو الرباط مع ضياع الساعات في الازدحام.",
+        why_knt_2_t: "معرفة متقدمة بالبيئة الصناعية (AFZ)",
+        why_knt_2_d: "فهم دقيق لمتطلبات المصانع، كابلاج الشبكات الصناعية، ومعايير السلامة والأمان.",
+        why_knt_3_t: "فواتير قانونية رسمية ومضبوطة",
+        why_knt_3_d: "فواتير نظامية تتضمن ICE، IF، RC لاحتسابها في محاسبة شركتك واسترجاع TVA.",
+        call_direct_btn: "الاتصال المباشر بالدعم المحلي (+212 6 XX XX XX XX)",
+        form_subtitle: "خدمة سريعة",
+        form_title: "فتح طلب صيانة أو طلب عرض أسعار",
+        form_desc: "املأ الاستمارة وسيتصل بك تقني معتمد خلال 15 إلى 30 دقيقة كأقصى تقدير.",
+        f_name: "الاسم والنسب *",
+        f_company: "اسم شركتك أو مكتبك *",
+        f_phone: "رقم الهاتف المباشر *",
+        f_zone: "مكان التواجد بالقنيطرة والنواحي *",
+        f_type: "نوع الطلب *",
+        f_details: "تفاصيل العطب أو الخدمة المطلوبة",
+        f_submit: "إرسال طلب التدخل",
+        ft_about: "مزود معتمد لخدمات الصيانة المعلوماتية، شبكات الشركات، والحماية السحابية بالقنيطرة. شريككم الميداني لضمان استقرار أجهزتكم.",
+        ft_links_title: "روابط سريعة",
+        ft_contact_title: "معلومات الاتصال",
+        ft_city: "القنيطرة، المغرب",
+        ft_wa: "دعم مباشر عبر واتساب",
+        ft_rights: "جميع الحقوق محفوظة.",
+        alert_sent: "تم استلام طلبكم بنجاح. سيتصل بكم أحد التقنيين فوراً.",
+        zones_options: [
+          { val: "knt_centre", text: "وسط مدينة القنيطرة / المدينة العليا" },
+          { val: "afz", text: "المنطقة الحرة الأطلسية (AFZ)" },
+          { val: "mehdia", text: "المهدية / المنطقة السياحية" },
+          { val: "bir_rami", text: "المنطقة الصناعية بئر الرامي" },
+          { val: "sidi_taibi", text: "سيدي الطيبي / شمال سلا" },
+          { val: "sidi_yahya", text: "سيدي يحيى / سيدي سليمان / سيدي قاسم" },
+          { val: "autre", text: "منطقة أخرى" }
+        ],
+        types_options: [
+          { val: "urgence", text: "🚨 عطل حرج معطل للعمل (حضور تقني للمقر)" },
+          { val: "pack", text: "💼 اشتراك في باقة صيانة شهرية (طلب Devis)" },
+          { val: "audit", text: "🔍 فحص وتدقيق مجاني أولي للأجهزة" },
+          { val: "cablage", text: "🌐 مشروع شبكات، كابلاج أو خزانة سيرفر" },
+          { val: "autre", text: "طلب تقني آخر" }
+        ]
+      }
+    };
+
+    function populateSelects(lang) {
+      const current = translations[lang] || translations.fr;
+      
+      const selectZone = document.getElementById('selectZone');
+      if (selectZone) {
+        selectZone.innerHTML = '';
+        current.zones_options.forEach(opt => {
+          const el = document.createElement('option');
+          el.value = opt.val;
+          el.textContent = opt.text;
+          selectZone.appendChild(el);
+        });
+      }
+
+      const selectType = document.getElementById('selectType');
+      if (selectType) {
+        selectType.innerHTML = '';
+        current.types_options.forEach(opt => {
+          const el = document.createElement('option');
+          el.value = opt.val;
+          el.textContent = opt.text;
+          selectType.appendChild(el);
+        });
+      }
+    }
+
+    function changeLanguage(lang) {
+      currentLang = lang;
+      const selected = translations[lang] || translations.fr;
+      
+      document.documentElement.dir = selected.dir;
+      document.documentElement.lang = lang;
+      
+      if (lang === 'ar') {
+        document.body.classList.remove('font-sans');
+        document.body.classList.add('font-arabic');
+      } else {
+        document.body.classList.remove('font-arabic');
+        document.body.classList.add('font-sans');
+      }
+
+      document.querySelectorAll('[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        if (selected[key]) {
+          element.textContent = selected[key];
+        }
+      });
+
+      populateSelects(lang);
+      localStorage.setItem('protech_preferred_lang', lang);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('protech_preferred_lang') || 'fr';
+      const switcher = document.getElementById('langSwitcher');
+      if (switcher) switcher.value = savedLang;
+      changeLanguage(savedLang);
+    });
+  </script>
+
+</body>
 </html>
