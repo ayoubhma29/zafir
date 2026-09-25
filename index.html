@@ -37,33 +37,35 @@
     }
   </script>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased font-sans selection:bg-brand-600 selection:text-white transition-colors duration-200">
+<!-- FIX APPLIQUÉ : overflow-x-hidden sur le body pour empêcher le scroll horizontal fantôme -->
+<body class="bg-slate-50 text-slate-800 antialiased font-sans selection:bg-brand-600 selection:text-white transition-colors duration-200 overflow-x-hidden w-full">
 
-  <div class="bg-slate-900 text-slate-300 text-xs py-2.5 px-4 border-b border-slate-800">
+  <div class="bg-slate-900 text-slate-300 text-xs py-2.5 px-4 border-b border-slate-800 w-full">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
-      <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 sm:gap-6">
+      <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 sm:gap-6 text-center sm:text-start">
         <span><i class="fa-solid fa-location-dot text-brand-500 mr-1.5 ml-1.5"></i> <strong data-i18n="top_base">Siège à Kénitra :</strong> <span data-i18n="top_zones">Couverture Kénitra, AFZ & Région du Gharb</span></span>
         <span><i class="fa-solid fa-clock text-brand-500 mr-1.5 ml-1.5"></i> <span data-i18n="top_hours">Support : Lun - Ven 08h30 - 18h30 | Astreinte 24/7</span></span>
       </div>
       <div class="flex items-center gap-4">
-        <a href="tel:+212649923007" class="hover:text-white transition flex items-center gap-1.5 font-bold text-emerald-400" dir="ltr">
-          <i class="fa-solid fa-phone"></i> +212 6 49 92 30 07
+        <!-- FIX APPLIQUÉ : dir="ltr" strict pour le numéro -->
+        <a href="tel:+212649923007" class="hover:text-white transition flex items-center justify-center gap-1.5 font-bold text-emerald-400" dir="ltr">
+          <i class="fa-solid fa-phone"></i> <span class="whitespace-nowrap">+212 6 49 92 30 07</span>
         </a>
       </div>
     </div>
   </div>
 
-  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm w-full">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
       
       <!-- LOGO -->
-      <a href="#" class="flex items-center gap-3">
+      <a href="#" class="flex items-center gap-3 shrink-0">
         <div class="w-11 h-11 bg-gradient-to-tr from-brand-700 to-blue-500 rounded-xl flex items-center justify-center text-white text-xl font-black shadow-md shadow-brand-500/20">
           <i class="fa-solid fa-network-wired"></i>
         </div>
         <div>
-          <span class="text-2xl font-black tracking-tight text-slate-900">HEMMA<span class="text-brand-600">.IT</span></span>
-          <p class="text-[10px] text-slate-500 font-bold tracking-wider uppercase -mt-1" data-i18n="logo_sub">Infogérance & Solutions Premium</p>
+          <span class="text-2xl font-black tracking-tight text-slate-900" dir="ltr">HEMMA<span class="text-brand-600">.IT</span></span>
+          <p class="text-[10px] text-slate-500 font-bold tracking-wider uppercase -mt-1 hidden sm:block" data-i18n="logo_sub">Infogérance & Solutions Premium</p>
         </div>
       </a>
 
@@ -78,28 +80,28 @@
       </nav>
 
       <!-- LANG SELECTOR + ACTION -->
-      <div class="flex items-center gap-3">
-        <select id="langSwitcher" onchange="changeLanguage(this.value)" class="bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-800 text-xs font-bold rounded-lg px-2.5 py-2 cursor-pointer outline-none focus:ring-2 focus:ring-brand-500/20">
-          <option value="fr">🇫🇷 Français</option>
-          <option value="en">🇬🇧 English</option>
-          <option value="ar">🇲🇦 العربية</option>
+      <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+        <select id="langSwitcher" onchange="changeLanguage(this.value)" class="bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-800 text-xs sm:text-sm font-bold rounded-lg px-2 sm:px-2.5 py-2 cursor-pointer outline-none focus:ring-2 focus:ring-brand-500/20">
+          <option value="fr">🇫🇷 FR</option>
+          <option value="en">🇬🇧 EN</option>
+          <option value="ar">🇲🇦 AR</option>
         </select>
 
-        <a href="#contact" class="hidden sm:inline-flex bg-brand-600 hover:bg-brand-700 text-white px-4 py-2.5 rounded-lg font-bold text-xs shadow-md shadow-brand-600/25 transition items-center gap-2" data-i18n="btn_header_devis">
-          <i class="fa-solid fa-file-invoice"></i> Audit / Devis
+        <a href="#contact" class="hidden md:inline-flex bg-brand-600 hover:bg-brand-700 text-white px-4 py-2.5 rounded-lg font-bold text-xs shadow-md shadow-brand-600/25 transition items-center gap-2">
+          <i class="fa-solid fa-file-invoice"></i> <span data-i18n="btn_header_devis">Audit / Devis</span>
         </a>
       </div>
 
     </div>
   </header>
 
-  <section class="relative pt-14 pb-20 overflow-hidden bg-gradient-to-b from-white via-slate-50 to-slate-100">
+  <section class="relative pt-10 sm:pt-14 pb-16 sm:pb-20 overflow-hidden bg-gradient-to-b from-white via-slate-50 to-slate-100 w-full">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="grid lg:grid-cols-12 gap-12 items-center">
-        <div class="lg:col-span-7 space-y-6">
+      <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <div class="lg:col-span-7 space-y-6 text-center lg:text-start">
           
-          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-brand-700 text-xs font-bold">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-brand-700 text-xs font-bold mx-auto lg:mx-0">
             <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
             <span data-i18n="hero_badge">Partenaire Technologique Exclusif Kénitra & AFZ</span>
           </div>
@@ -108,42 +110,42 @@
             Assurez la continuité de votre activité avec une infogérance d'excellence.
           </h1>
 
-          <p class="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl" data-i18n="hero_desc">
+          <p class="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto lg:mx-0" data-i18n="hero_desc">
             Intervention immédiate à distance (< 15 min) et garantie sur site (< 2h) à Kénitra. Serveurs, cybersécurité, réseaux d'entreprise et parc d'imprimantes industrielles.
           </p>
 
-          <div class="flex flex-col sm:flex-row gap-4 pt-2">
-            <a href="#contact" class="inline-flex justify-center items-center gap-2.5 bg-brand-600 hover:bg-brand-700 text-white text-sm sm:text-base font-bold px-8 py-4 rounded-xl shadow-lg shadow-brand-600/30 transition transform hover:-translate-y-0.5">
+          <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 pt-2">
+            <a href="#contact" class="inline-flex justify-center items-center gap-2.5 bg-brand-600 hover:bg-brand-700 text-white text-sm sm:text-base font-bold px-8 py-4 rounded-xl shadow-lg shadow-brand-600/30 transition transform hover:-translate-y-0.5 w-full sm:w-auto">
               <i class="fa-solid fa-calendar-check text-white"></i>
               <span data-i18n="hero_btn_urgence">Planifier un Audit Gratuit</span>
             </a>
-            <a href="https://wa.me/212649923007?text=Bonjour%20HEMMA%20IT,%20je%20souhaite%20une%20assistance%20informatique" target="_blank" class="inline-flex justify-center items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm sm:text-base font-bold px-8 py-4 rounded-xl shadow-md transition">
+            <a href="https://wa.me/212649923007?text=Bonjour%20HEMMA%20IT,%20je%20souhaite%20une%20assistance%20informatique" target="_blank" class="inline-flex justify-center items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm sm:text-base font-bold px-8 py-4 rounded-xl shadow-md transition w-full sm:w-auto">
               <i class="fa-solid fa-triangle-exclamation text-yellow-300 text-lg"></i>
               <span data-i18n="hero_btn_wa">Urgence Critique (SLA)</span>
             </a>
           </div>
 
           <!-- TRUST NUMBERS -->
-          <div class="pt-6 grid grid-cols-3 gap-3 sm:gap-4 border-t border-slate-200">
+          <div class="pt-6 grid grid-cols-3 gap-2 sm:gap-4 border-t border-slate-200">
             <div class="bg-white/90 p-3 sm:p-4 rounded-xl border border-slate-200 text-center shadow-sm">
               <div class="text-lg sm:text-2xl font-black text-brand-600 flex justify-center items-center" dir="ltr">&lt; 2h</div>
-              <p class="text-[11px] sm:text-xs text-slate-500 font-bold mt-1 leading-snug" data-i18n="stat_sla">Garantie d'intervention sur site</p>
+              <p class="text-[10px] sm:text-xs text-slate-500 font-bold mt-1 leading-snug" data-i18n="stat_sla">Garantie d'intervention sur site</p>
             </div>
             <div class="bg-white/90 p-3 sm:p-4 rounded-xl border border-slate-200 text-center shadow-sm">
               <div class="text-base sm:text-xl font-black text-slate-900 flex justify-center items-center" data-i18n="stat_zone_val">Kénitra + AFZ</div>
-              <p class="text-[11px] sm:text-xs text-slate-500 font-bold mt-1 leading-snug" data-i18n="stat_zone">Présence technique locale</p>
+              <p class="text-[10px] sm:text-xs text-slate-500 font-bold mt-1 leading-snug" data-i18n="stat_zone">Présence technique locale</p>
             </div>
             <div class="bg-white/90 p-3 sm:p-4 rounded-xl border border-slate-200 text-center shadow-sm">
               <div class="text-base sm:text-xl font-black text-emerald-600 flex justify-center items-center" data-i18n="stat_audit_val">100%</div>
-              <p class="text-[11px] sm:text-xs text-slate-500 font-bold mt-1 leading-snug" data-i18n="stat_audit">Confidentialité & Données souveraines</p>
+              <p class="text-[10px] sm:text-xs text-slate-500 font-bold mt-1 leading-snug" data-i18n="stat_audit">Confidentialité & Données souveraines</p>
             </div>
           </div>
 
         </div>
 
         <!-- HERO CARD INTERACTIVE -->
-        <div class="lg:col-span-5 relative">
-          <div class="bg-white rounded-2xl border border-slate-200 shadow-2xl p-6 sm:p-8 space-y-5">
+        <div class="lg:col-span-5 relative mt-8 lg:mt-0 w-full max-w-md mx-auto lg:max-w-full">
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-2xl p-5 sm:p-8 space-y-5">
             <div class="flex items-center justify-between pb-4 border-b border-slate-100">
               <div class="flex items-center gap-2">
                 <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
@@ -171,8 +173,8 @@
             </div>
 
             <div class="pt-2">
-              <a href="#contact" class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 transition">
-                <i class="fa-solid fa-shield-halved"></i>
+              <a href="#contact" class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 transition text-center px-2">
+                <i class="fa-solid fa-shield-halved shrink-0"></i>
                 <span data-i18n="card_btn_audit">Sécuriser votre infrastructure dès aujourd'hui</span>
               </a>
             </div>
@@ -184,35 +186,35 @@
     </div>
   </section>
 
-  <section id="zone" class="bg-brand-900 text-white py-8 border-y border-brand-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
-      <div class="flex items-center gap-4">
-        <div class="w-12 h-12 rounded-xl bg-brand-800 flex items-center justify-center text-xl text-yellow-400 shrink-0">
+  <section id="zone" class="bg-brand-900 text-white py-8 border-y border-brand-800 w-full">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-start">
+      <div class="flex flex-col sm:flex-row items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-brand-800 flex items-center justify-center text-xl text-yellow-400 shrink-0 mx-auto sm:mx-0">
           <i class="fa-solid fa-map-location-dot"></i>
         </div>
-        <div class="text-start">
+        <div>
           <h4 class="font-extrabold text-base sm:text-lg" data-i18n="zone_title">SLA garanti sur le bassin industriel :</h4>
-          <p class="text-xs sm:text-sm text-blue-200" data-i18n="zone_desc">Kénitra Ville, Atlantic Free Zone (AFZ), Bir Rami, Mehdia, Sidi Taïbi, Sidi Yahya et région du Gharb.</p>
+          <p class="text-xs sm:text-sm text-blue-200 mt-1" data-i18n="zone_desc">Kénitra Ville, Atlantic Free Zone (AFZ), Bir Rami, Mehdia, Sidi Taïbi, Sidi Yahya et région du Gharb.</p>
         </div>
       </div>
-      <div class="shrink-0">
-        <span class="bg-brand-700/80 border border-brand-500/30 text-xs px-4 py-2 rounded-lg font-bold inline-block" data-i18n="zone_badge">
+      <div class="shrink-0 w-full md:w-auto">
+        <span class="bg-brand-700/80 border border-brand-500/30 text-xs px-4 py-2 rounded-lg font-bold block md:inline-block w-full text-center" data-i18n="zone_badge">
           🚀 Intervention certifiée moins de 2 heures
         </span>
       </div>
     </div>
   </section>
 
-  <section id="printers" class="py-20 bg-white">
+  <section id="printers" class="py-16 sm:py-20 bg-white w-full">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+      <div class="text-center max-w-3xl mx-auto space-y-4 mb-12 sm:mb-16">
         <h2 class="text-xs font-bold uppercase tracking-wider text-brand-600" data-i18n="prt_subtitle">Pôle Impression B2B & Industriel</h2>
-        <h3 class="text-3xl sm:text-4xl font-black text-slate-900" data-i18n="prt_title">Maintenez vos flux d'impression logistique</h3>
+        <h3 class="text-3xl sm:text-4xl font-black text-slate-900 leading-tight" data-i18n="prt_title">Maintenez vos flux d'impression logistique</h3>
         <p class="text-slate-600 text-sm" data-i18n="prt_desc">Une panne d'imprimante thermique Zebra ou de copieur principal paralyse votre facturation. Nous maîtrisons l'électronique de pointe.</p>
       </div>
 
-      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
         
         <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-brand-500 transition group text-start">
           <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition">
@@ -249,12 +251,12 @@
       </div>
 
       <!-- MARQUES COUVERTES -->
-      <div class="mt-12 p-6 rounded-2xl bg-slate-100 border border-slate-200 flex flex-wrap items-center justify-between gap-6">
+      <div class="mt-8 sm:mt-12 p-6 rounded-2xl bg-slate-100 border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-start">
         <div>
           <h5 class="font-bold text-slate-900 text-sm" data-i18n="prt_brands_title">Expertise Multi-Marques Certifiée :</h5>
-          <p class="text-xs text-slate-500" data-i18n="prt_brands_desc">Zebra, Honeywell, HP LaserJet, Konica Minolta, Ricoh, Canon, Epson, Brother, Kyocera.</p>
+          <p class="text-xs text-slate-500 mt-1" data-i18n="prt_brands_desc">Zebra, Honeywell, HP LaserJet, Konica Minolta, Ricoh, Canon, Epson, Brother, Kyocera.</p>
         </div>
-        <a href="#contact" class="bg-slate-900 hover:bg-slate-800 text-white font-bold px-5 py-2.5 rounded-xl text-xs transition" data-i18n="prt_brands_btn">
+        <a href="#contact" class="bg-slate-900 hover:bg-slate-800 text-white font-bold px-5 py-3 sm:py-2.5 rounded-xl text-xs transition whitespace-nowrap w-full sm:w-auto" data-i18n="prt_brands_btn">
           Solliciter l'atelier de réparation
         </a>
       </div>
@@ -262,18 +264,18 @@
     </div>
   </section>
 
-  <section id="services" class="py-20 bg-slate-50 border-t border-slate-200">
+  <section id="services" class="py-16 sm:py-20 bg-slate-50 border-t border-slate-200 w-full">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+      <div class="text-center max-w-3xl mx-auto space-y-4 mb-12 sm:mb-16">
         <h2 class="text-xs font-bold uppercase tracking-wider text-brand-600" data-i18n="srv_subtitle">Infogérance Globale</h2>
-        <h3 class="text-3xl sm:text-4xl font-black text-slate-900" data-i18n="srv_title">Votre DSI externalisée haut de gamme</h3>
+        <h3 class="text-3xl sm:text-4xl font-black text-slate-900 leading-tight" data-i18n="srv_title">Votre DSI externalisée haut de gamme</h3>
         <p class="text-slate-600 text-sm" data-i18n="srv_desc">Nous gérons 100% de votre stack technologique pour que vous puissiez vous concentrer sur votre croissance.</p>
       </div>
 
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
         
-        <div class="p-8 rounded-2xl bg-white border border-slate-200 hover:border-brand-500 hover:shadow-xl transition group text-start">
+        <div class="p-6 sm:p-8 rounded-2xl bg-white border border-slate-200 hover:border-brand-500 hover:shadow-xl transition group text-start">
           <div class="w-12 h-12 rounded-xl bg-blue-100 text-brand-600 flex items-center justify-center text-xl mb-6 group-hover:scale-110 transition">
             <i class="fa-solid fa-server"></i>
           </div>
@@ -281,10 +283,10 @@
           <p class="text-xs text-slate-600 leading-relaxed mb-4" data-i18n="srv1_desc">
             Mastering complet de vos postes de travail (Windows 11 Pro), installation de contrôleurs de domaine (Active Directory), upgrade SSD ultra-rapide et sécurisation des accès.
           </p>
-          <div class="text-[11px] font-bold text-brand-600" data-i18n="srv1_extra">✔ Standardisation de votre parc informatique</div>
+          <div class="text-[11px] font-bold text-brand-600 mt-auto" data-i18n="srv1_extra">✔ Standardisation de votre parc informatique</div>
         </div>
 
-        <div class="p-8 rounded-2xl bg-white border border-slate-200 hover:border-brand-500 hover:shadow-xl transition group text-start">
+        <div class="p-6 sm:p-8 rounded-2xl bg-white border border-slate-200 hover:border-brand-500 hover:shadow-xl transition group text-start">
           <div class="w-12 h-12 rounded-xl bg-cyan-100 text-cyan-600 flex items-center justify-center text-xl mb-6 group-hover:scale-110 transition">
             <i class="fa-solid fa-network-wired"></i>
           </div>
@@ -292,10 +294,10 @@
           <p class="text-xs text-slate-600 leading-relaxed mb-4" data-i18n="srv2_desc">
             Câblage structuré, organisation des baies de brassage, configuration de routeurs (Mikrotik/Cisco), segmentation en VLANs et Wi-Fi d'entreprise (Ubiquiti UniFi).
           </p>
-          <div class="text-[11px] font-bold text-brand-600" data-i18n="srv2_extra">✔ Sécurité réseau et fiabilité Gigabit</div>
+          <div class="text-[11px] font-bold text-brand-600 mt-auto" data-i18n="srv2_extra">✔ Sécurité réseau et fiabilité Gigabit</div>
         </div>
 
-        <div class="p-8 rounded-2xl bg-white border border-slate-200 hover:border-brand-500 hover:shadow-xl transition group text-start">
+        <div class="p-6 sm:p-8 rounded-2xl bg-white border border-slate-200 hover:border-brand-500 hover:shadow-xl transition group text-start">
           <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl mb-6 group-hover:scale-110 transition">
             <i class="fa-solid fa-shield-halved"></i>
           </div>
@@ -303,10 +305,10 @@
           <p class="text-xs text-slate-600 leading-relaxed mb-4" data-i18n="srv3_desc">
             Architecture de backup 3-2-1. Sauvegarde locale sur NAS Synology et réplication S3 immuable. Protection absolue de vos bases de données ERP (Sage, Cegid, etc.).
           </p>
-          <div class="text-[11px] font-bold text-brand-600" data-i18n="srv3_extra">✔ Reprise d'activité (PRA) testée et validée</div>
+          <div class="text-[11px] font-bold text-brand-600 mt-auto" data-i18n="srv3_extra">✔ Reprise d'activité (PRA) testée et validée</div>
         </div>
 
-        <div class="p-8 rounded-2xl bg-white border border-slate-200 hover:border-brand-500 hover:shadow-xl transition group text-start">
+        <div class="p-6 sm:p-8 rounded-2xl bg-white border border-slate-200 hover:border-brand-500 hover:shadow-xl transition group text-start">
           <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center text-xl mb-6 group-hover:scale-110 transition">
             <i class="fa-solid fa-headset"></i>
           </div>
@@ -314,10 +316,10 @@
           <p class="text-xs text-slate-600 leading-relaxed mb-4" data-i18n="srv5_desc">
             Prise de main à distance instantanée via serveur auto-hébergé RustDesk (sécurité souveraine). Résolution des bugs logiciels de vos collaborateurs en moins de 15 minutes.
           </p>
-          <div class="text-[11px] font-bold text-brand-600" data-i18n="srv5_extra">✔ Gain de productivité massif pour vos équipes</div>
+          <div class="text-[11px] font-bold text-brand-600 mt-auto" data-i18n="srv5_extra">✔ Gain de productivité massif pour vos équipes</div>
         </div>
 
-        <div class="p-8 rounded-2xl bg-white border border-slate-200 hover:border-brand-500 hover:shadow-xl transition group text-start">
+        <div class="p-6 sm:p-8 rounded-2xl bg-white border border-slate-200 hover:border-brand-500 hover:shadow-xl transition group text-start">
           <div class="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-xl mb-6 group-hover:scale-110 transition">
             <i class="fa-solid fa-cloud"></i>
           </div>
@@ -325,10 +327,10 @@
           <p class="text-xs text-slate-600 leading-relaxed mb-4" data-i18n="srv6_desc">
             Migration de vos messageries vers Exchange Pro, configuration sécurisée DNS (SPF, DKIM, DMARC) pour une délivrabilité optimale et gestion des partages SharePoint/OneDrive.
           </p>
-          <div class="text-[11px] font-bold text-brand-600" data-i18n="srv6_extra">✔ Financement et licences optimisées</div>
+          <div class="text-[11px] font-bold text-brand-600 mt-auto" data-i18n="srv6_extra">✔ Financement et licences optimisées</div>
         </div>
 
-        <div class="p-8 rounded-2xl bg-white border border-slate-200 hover:border-brand-500 hover:shadow-xl transition group text-start">
+        <div class="p-6 sm:p-8 rounded-2xl bg-white border border-slate-200 hover:border-brand-500 hover:shadow-xl transition group text-start">
           <div class="w-12 h-12 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center text-xl mb-6 group-hover:scale-110 transition">
             <i class="fa-solid fa-plug-circle-bolt"></i>
           </div>
@@ -336,7 +338,7 @@
           <p class="text-xs text-slate-600 leading-relaxed mb-4" data-i18n="srv7_desc">
             Dimensionnement et installation d'onduleurs (UPS) pour protéger serveurs et lignes de production. Mise en place de vidéosurveillance IP de haute sécurité.
           </p>
-          <div class="text-[11px] font-bold text-brand-600" data-i18n="srv7_extra">✔ Protection contre les variations du réseau AFZ</div>
+          <div class="text-[11px] font-bold text-brand-600 mt-auto" data-i18n="srv7_extra">✔ Protection contre les variations du réseau AFZ</div>
         </div>
 
       </div>
@@ -344,16 +346,16 @@
     </div>
   </section>
 
-  <section id="process" class="py-20 bg-white">
+  <section id="process" class="py-16 sm:py-20 bg-white w-full">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+      <div class="text-center max-w-3xl mx-auto space-y-4 mb-12 sm:mb-16">
         <h2 class="text-xs font-bold uppercase tracking-wider text-brand-600" data-i18n="proc_subtitle">Rigueur & Efficacité</h2>
-        <h3 class="text-3xl sm:text-4xl font-black text-slate-900" data-i18n="proc_title">Notre processus de résolution (ITIL)</h3>
+        <h3 class="text-3xl sm:text-4xl font-black text-slate-900 leading-tight" data-i18n="proc_title">Notre processus de résolution (ITIL)</h3>
         <p class="text-slate-600 text-sm" data-i18n="proc_desc">Une approche procédurale d'entreprise pour minimiser le temps d'arrêt de vos opérations.</p>
       </div>
 
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
         
         <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 relative shadow-sm text-start">
           <div class="w-10 h-10 rounded-full bg-brand-600 text-white flex items-center justify-center font-black text-sm mb-4">1</div>
@@ -384,19 +386,19 @@
     </div>
   </section>
 
-  <section id="tarifs" class="py-20 bg-slate-100 border-y border-slate-200">
+  <section id="tarifs" class="py-16 sm:py-20 bg-slate-100 border-y border-slate-200 w-full">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+      <div class="text-center max-w-3xl mx-auto space-y-4 mb-12 sm:mb-16">
         <h2 class="text-xs font-bold uppercase tracking-wider text-brand-600" data-i18n="tarifs_subtitle">Contrats de Services Managés (MRR)</h2>
-        <h3 class="text-3xl sm:text-4xl font-black text-slate-900" data-i18n="tarifs_title">L'assurance d'une informatique infaillible</h3>
+        <h3 class="text-3xl sm:text-4xl font-black text-slate-900 leading-tight" data-i18n="tarifs_title">L'assurance d'une informatique infaillible</h3>
         <p class="text-slate-600 text-sm" data-i18n="tarifs_desc">Investissez dans une maintenance B2B préventive structurée pour sécuriser votre croissance.</p>
       </div>
 
-      <div class="grid lg:grid-cols-3 gap-8 items-stretch">
+      <div class="grid lg:grid-cols-3 gap-8 items-stretch max-w-sm mx-auto lg:max-w-none">
         
         <!-- PACK 1: STARTER -->
-        <div class="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm flex flex-col justify-between">
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-sm flex flex-col justify-between w-full">
           <div>
             <div class="text-center">
               <span class="inline-block px-3 py-1 bg-slate-100 text-slate-700 text-xs font-bold rounded-md mb-3" data-i18n="pack1_target">TPE, Cabinets, Startups (1 à 5 postes)</span>
@@ -421,13 +423,13 @@
             </ul>
           </div>
 
-          <a href="#contact" class="mt-8 block text-center bg-slate-100 hover:bg-brand-600 hover:text-white text-slate-800 font-bold py-3 rounded-xl transition text-xs" data-i18n="pack_btn">
+          <a href="#contact" class="mt-8 block text-center bg-slate-100 hover:bg-brand-600 hover:text-white text-slate-800 font-bold py-3.5 rounded-xl transition text-xs w-full" data-i18n="pack_btn">
             Demander ce contrat
           </a>
         </div>
 
         <!-- PACK 2: PRO -->
-        <div class="bg-white rounded-2xl border-2 border-brand-600 p-8 shadow-2xl relative flex flex-col justify-between transform lg:-translate-y-2">
+        <div class="bg-white rounded-2xl border-2 border-brand-600 p-6 sm:p-8 shadow-2xl relative flex flex-col justify-between transform lg:-translate-y-2 w-full mt-4 lg:mt-0">
           <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-brand-600 to-cyan-600 text-white text-[11px] font-black py-1 px-4 rounded-full uppercase tracking-wider shadow whitespace-nowrap" data-i18n="badge_recommended">
             Le standard PME
           </div>
@@ -456,13 +458,13 @@
             </ul>
           </div>
 
-          <a href="#contact" class="mt-8 block text-center bg-brand-600 hover:bg-brand-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-brand-600/30 transition text-xs" data-i18n="pack_btn_pro">
+          <a href="#contact" class="mt-8 block text-center bg-brand-600 hover:bg-brand-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-brand-600/30 transition text-xs w-full" data-i18n="pack_btn_pro">
             Souscrire au Pack Pro
           </a>
         </div>
 
         <!-- PACK 3: CUSTOM -->
-        <div class="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm flex flex-col justify-between">
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-sm flex flex-col justify-between w-full mt-4 lg:mt-0">
           <div>
             <div class="text-center">
               <span class="inline-block px-3 py-1 bg-slate-100 text-slate-700 text-xs font-bold rounded-md mb-3" data-i18n="pack3_target">Usines AFZ & Grands Parcs (&gt; 15 postes)</span>
@@ -486,7 +488,7 @@
             </ul>
           </div>
 
-          <a href="#contact" class="mt-8 block text-center bg-slate-100 hover:bg-brand-600 hover:text-white text-slate-800 font-bold py-3 rounded-xl transition text-xs" data-i18n="pack_btn_custom">
+          <a href="#contact" class="mt-8 block text-center bg-slate-100 hover:bg-brand-600 hover:text-white text-slate-800 font-bold py-3.5 rounded-xl transition text-xs w-full" data-i18n="pack_btn_custom">
             Demander un audit industriel
           </a>
         </div>
@@ -494,11 +496,11 @@
       </div>
 
       <!-- INTERVENTIONS HORS CONTRAT -->
-      <div class="mt-12 bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm">
+      <div class="mt-12 bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm w-full">
         <h4 class="font-black text-base sm:text-lg text-slate-900 mb-2" data-i18n="ponctuel_title">Prestations ponctuelles & Déploiements (Hors Contrat)</h4>
         <p class="text-xs text-slate-500 mb-6" data-i18n="ponctuel_desc">Interventions expertes à la demande pour répondre à vos urgences immédiates :</p>
         
-        <div class="grid sm:grid-cols-4 gap-4 text-xs">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
           <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-start">
             <span class="font-bold text-slate-800 block mb-1" data-i18n="ponctuel_item1_t">Ticket Télémaintenance</span>
             <div class="font-black text-sm text-brand-600" data-i18n="ponctuel_item1_p">250 MAD HT / ticket</div>
@@ -528,24 +530,25 @@
     </div>
   </section>
 
-  <section id="sla" class="py-20 bg-white">
+  <section id="sla" class="py-16 sm:py-20 bg-white w-full">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <div class="grid lg:grid-cols-2 gap-12 items-center">
-        <div class="space-y-6">
+        <!-- FIX APPLIQUÉ : min-w-0 empêche le grid blowout sur mobile -->
+        <div class="space-y-6 min-w-0">
           <h2 class="text-xs font-bold uppercase tracking-wider text-brand-600" data-i18n="sla_subtitle">Contrat & Délais d'intervention</h2>
           <h3 class="text-3xl font-black text-slate-900 leading-tight" data-i18n="sla_title">Matrice de Niveau de Service (SLA)</h3>
           <p class="text-slate-600 text-sm leading-relaxed" data-i18n="sla_desc">
             Nos contrats intègrent des garanties de temps d'intervention (GTI) strictes pour garantir que votre métier ne s'arrête jamais face à un aléa technique.
           </p>
 
-          <!-- FIX APPLIQUÉ : overflow-x-auto avec min-w-[550px] pour éviter la superposition de texte sur mobile -->
-          <div class="overflow-x-auto border border-slate-200 rounded-xl">
-            <table class="w-full text-xs min-w-[550px]">
+          <!-- FIX APPLIQUÉ : w-full max-w-full overflow-x-auto pour un scroll horizontal parfait sur mobile -->
+          <div class="w-full max-w-full overflow-x-auto border border-slate-200 rounded-xl">
+            <table class="w-full text-xs min-w-[600px] bg-white">
               <thead class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
                 <tr>
                   <th class="p-3 text-start whitespace-nowrap" data-i18n="sla_th1">Priorité (Incident)</th>
-                  <th class="p-3 text-start" data-i18n="sla_th2">Impact Métier</th>
+                  <th class="p-3 text-start whitespace-nowrap" data-i18n="sla_th2">Impact Métier</th>
                   <th class="p-3 text-start whitespace-nowrap" data-i18n="sla_th3">Délai (À distance / Sur site)</th>
                 </tr>
               </thead>
@@ -575,9 +578,9 @@
           </div>
         </div>
 
-        <div class="bg-slate-900 text-white p-8 sm:p-10 rounded-3xl space-y-6 shadow-2xl">
+        <div class="bg-slate-900 text-white p-6 sm:p-10 rounded-3xl space-y-6 shadow-2xl w-full">
           <span class="text-xs font-bold uppercase tracking-wider text-brand-400" data-i18n="why_knt_title">Proximité B2B Locale</span>
-          <h4 class="text-2xl font-black" data-i18n="why_knt_heading">L'avantage d'un partenaire technique basé à Kénitra</h4>
+          <h4 class="text-2xl font-black leading-tight" data-i18n="why_knt_heading">L'avantage d'un partenaire technique basé à Kénitra</h4>
           
           <ul class="space-y-4 text-xs text-slate-300">
             <li class="flex items-start gap-3">
@@ -604,10 +607,11 @@
           </ul>
 
           <div class="pt-2">
-            <a href="tel:+212649923007" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3.5 rounded-xl text-xs flex items-center justify-center gap-2 transition shadow-lg shadow-brand-600/20">
-              <i class="fa-solid fa-phone"></i>
+            <!-- FIX APPLIQUÉ : Séparation du texte et du numéro de téléphone avec un dir="ltr" strict pour éviter l'inversion en RTL -->
+            <a href="tel:+212649923007" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3.5 rounded-xl text-xs flex flex-wrap items-center justify-center gap-2 transition shadow-lg shadow-brand-600/20 px-2">
+              <i class="fa-solid fa-phone shrink-0"></i>
               <span data-i18n="call_direct_text">Ligne Technicien Directe</span>
-              <span dir="ltr">(+212 6 49 92 30 07)</span>
+              <span dir="ltr" class="inline-block whitespace-nowrap">(+212 6 49 92 30 07)</span>
             </a>
           </div>
         </div>
@@ -616,10 +620,10 @@
     </div>
   </section>
 
-  <section id="faq" class="py-20 bg-slate-50 border-t border-slate-200">
+  <section id="faq" class="py-16 sm:py-20 bg-slate-50 border-t border-slate-200 w-full">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="text-center max-w-2xl mx-auto space-y-3 mb-16">
+      <div class="text-center max-w-2xl mx-auto space-y-3 mb-12 sm:mb-16">
         <h2 class="text-xs font-bold uppercase tracking-wider text-brand-600" data-i18n="faq_subtitle">Transparence B2B</h2>
         <h3 class="text-3xl font-black text-slate-900" data-i18n="faq_title">Foire Aux Questions</h3>
         <p class="text-slate-600 text-xs" data-i18n="faq_desc">Des réponses concrètes aux exigences de nos clients institutionnels et industriels.</p>
@@ -628,8 +632,8 @@
       <div class="space-y-4">
         
         <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm text-start">
-          <h4 class="font-bold text-sm text-slate-900 mb-2 flex items-center gap-2">
-            <i class="fa-solid fa-building-shield text-brand-600"></i>
+          <h4 class="font-bold text-sm text-slate-900 mb-2 flex items-start sm:items-center gap-2">
+            <i class="fa-solid fa-building-shield text-brand-600 mt-0.5 sm:mt-0"></i>
             <span data-i18n="faq_q1">Votre entreprise dispose-t-elle des agréments légaux pour facturer ?</span>
           </h4>
           <p class="text-xs text-slate-600 leading-relaxed" data-i18n="faq_a1">
@@ -638,8 +642,8 @@
         </div>
 
         <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm text-start">
-          <h4 class="font-bold text-sm text-slate-900 mb-2 flex items-center gap-2">
-            <i class="fa-solid fa-microchip text-brand-600"></i>
+          <h4 class="font-bold text-sm text-slate-900 mb-2 flex items-start sm:items-center gap-2">
+            <i class="fa-solid fa-microchip text-brand-600 mt-0.5 sm:mt-0"></i>
             <span data-i18n="faq_q2">Fournissez-vous également le matériel informatique ?</span>
           </h4>
           <p class="text-xs text-slate-600 leading-relaxed" data-i18n="faq_a2">
@@ -648,8 +652,8 @@
         </div>
 
         <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm text-start">
-          <h4 class="font-bold text-sm text-slate-900 mb-2 flex items-center gap-2">
-            <i class="fa-solid fa-server text-brand-600"></i>
+          <h4 class="font-bold text-sm text-slate-900 mb-2 flex items-start sm:items-center gap-2">
+            <i class="fa-solid fa-server text-brand-600 mt-0.5 sm:mt-0"></i>
             <span data-i18n="faq_q3">Où sont stockées nos données lors de la télémaintenance ou des backups ?</span>
           </h4>
           <p class="text-xs text-slate-600 leading-relaxed" data-i18n="faq_a3">
@@ -658,8 +662,8 @@
         </div>
 
         <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm text-start">
-          <h4 class="font-bold text-sm text-slate-900 mb-2 flex items-center gap-2">
-            <i class="fa-solid fa-screwdriver-wrench text-brand-600"></i>
+          <h4 class="font-bold text-sm text-slate-900 mb-2 flex items-start sm:items-center gap-2">
+            <i class="fa-solid fa-screwdriver-wrench text-brand-600 mt-0.5 sm:mt-0"></i>
             <span data-i18n="faq_q4">Intervenez-vous sur les imprimantes d'usine et de chaîne de production ?</span>
           </h4>
           <p class="text-xs text-slate-600 leading-relaxed" data-i18n="faq_a4">
@@ -672,28 +676,27 @@
     </div>
   </section>
 
-  <section id="contact" class="py-20 bg-slate-100 border-t border-slate-200">
+  <section id="contact" class="py-16 sm:py-20 bg-slate-100 border-t border-slate-200 w-full">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <div class="text-center space-y-3 mb-12">
         <h2 class="text-xs font-bold uppercase tracking-wider text-brand-600" data-i18n="form_subtitle">Guichet Technique</h2>
-        <h3 class="text-3xl font-black text-slate-900" data-i18n="form_title">Déclarer un incident ou planifier un audit</h3>
+        <h3 class="text-3xl font-black text-slate-900 leading-tight" data-i18n="form_title">Déclarer un incident ou planifier un audit</h3>
         <p class="text-slate-600 text-xs" data-i18n="form_desc">Ticket prioritaire connecté en temps réel à l'équipe technique de Kénitra.</p>
       </div>
 
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-xl p-8 sm:p-10">
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-xl p-6 sm:p-10 w-full">
         <form id="itLeadForm" onsubmit="handleFormSubmit(event)" class="space-y-6">
           
           <div class="grid sm:grid-cols-2 gap-6">
             <div>
               <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2 text-start" data-i18n="f_name">Responsable Demande *</label>
-              <!-- FIX APPLIQUÉ : text-base au lieu de text-xs pour éviter le zoom iOS -->
+              <!-- FIX APPLIQUÉ : text-base au lieu de text-xs/sm pour éviter le zoom automatique sur iOS -->
               <input type="text" id="f_name_input" required placeholder="Nom et Prénom" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-brand-600 focus:ring-2 focus:ring-brand-500/20 outline-none transition text-base">
             </div>
 
             <div>
               <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2 text-start" data-i18n="f_company">Entité (Société / Clinique / Usine) *</label>
-              <!-- FIX APPLIQUÉ : text-base -->
               <input type="text" id="f_comp_input" required placeholder="Ex: Kenitra Manufacturing SARL" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-brand-600 focus:ring-2 focus:ring-brand-500/20 outline-none transition text-base">
             </div>
           </div>
@@ -701,14 +704,12 @@
           <div class="grid sm:grid-cols-2 gap-6">
             <div>
               <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2 text-start" data-i18n="f_phone">Numéro Mobile Direct *</label>
-              <!-- FIX APPLIQUÉ : text-base -->
               <input type="tel" id="f_phone_input" required placeholder="+212 6 XX XX XX XX" dir="ltr" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-brand-600 focus:ring-2 focus:ring-brand-500/20 outline-none transition text-base text-start">
             </div>
 
             <div>
               <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2 text-start" data-i18n="f_zone">Zone d'Activité *</label>
-              <!-- FIX APPLIQUÉ : text-base -->
-              <select id="selectZone" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-brand-600 focus:ring-2 focus:ring-brand-500/20 outline-none transition text-base text-slate-700">
+              <select id="selectZone" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-brand-600 focus:ring-2 focus:ring-brand-500/20 outline-none transition text-base text-slate-700 bg-white">
                 <!-- Dynamique via JS -->
               </select>
             </div>
@@ -716,20 +717,18 @@
 
           <div>
             <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2 text-start" data-i18n="f_type">Nature du besoin IT *</label>
-            <!-- FIX APPLIQUÉ : text-base -->
-            <select id="selectType" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-brand-600 focus:ring-2 focus:ring-brand-500/20 outline-none transition text-base text-slate-700">
+            <select id="selectType" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-brand-600 focus:ring-2 focus:ring-brand-500/20 outline-none transition text-base text-slate-700 bg-white">
               <!-- Dynamique via JS -->
             </select>
           </div>
 
           <div>
             <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2 text-start" data-i18n="f_details">Contexte Technique (Optionnel)</label>
-            <!-- FIX APPLIQUÉ : text-base -->
             <textarea rows="4" id="txtDetails" placeholder="Veuillez préciser le modèle de l'imprimante, l'OS du serveur, ou le symptôme de la panne..." class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-brand-600 focus:ring-2 focus:ring-brand-500/20 outline-none transition text-base"></textarea>
           </div>
 
-          <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-brand-600/30 transition text-sm flex items-center justify-center gap-2">
-            <i class="fa-brands fa-whatsapp text-lg"></i>
+          <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-brand-600/30 transition text-sm flex items-center justify-center gap-2 px-2">
+            <i class="fa-brands fa-whatsapp text-lg shrink-0"></i>
             <span data-i18n="f_submit">Générer le ticket WhatsApp sécurisé</span>
           </button>
 
@@ -739,11 +738,12 @@
     </div>
   </section>
 
-  <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800 text-xs">
+  <!-- FIX APPLIQUÉ : pb-24 ajouté pour éviter que le bouton flottant ne cache le texte du bas sur mobile -->
+  <footer class="bg-slate-900 text-slate-400 pt-12 pb-24 sm:pb-12 border-t border-slate-800 text-xs w-full">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
       
       <div class="space-y-4 md:col-span-2 text-start">
-        <span class="text-2xl font-black text-white">HEMMA<span class="text-brand-500">.IT</span> Solutions</span>
+        <span class="text-2xl font-black text-white" dir="ltr">HEMMA<span class="text-brand-500">.IT</span> Solutions</span>
         <p class="text-xs text-slate-400 max-w-sm" data-i18n="ft_about">
           Opérateur de services managés (MSP) dédié à la performance des PME et acteurs industriels. Experts en serveurs, réseaux sécurisés et équipements B2B sur la région de Kénitra.
         </p>
@@ -768,10 +768,11 @@
       <div class="text-start">
         <h6 class="text-white font-bold uppercase tracking-wider mb-3" data-i18n="ft_contact_title">Coordonnées NOC</h6>
         <ul class="space-y-2.5 text-xs">
-          <li><i class="fa-solid fa-location-dot text-brand-500 mr-2 ml-2"></i> <span data-i18n="ft_city">Hub AFZ / Kénitra</span></li>
-          <li dir="ltr" class="text-start"><i class="fa-solid fa-phone text-brand-500 mr-2 ml-2"></i> +212 6 49 92 30 07</li>
-          <li dir="ltr" class="text-start"><i class="fa-solid fa-envelope text-brand-500 mr-2 ml-2"></i> contact@hemma.ma</li>
-          <li><i class="fa-brands fa-whatsapp text-emerald-400 mr-2 ml-2"></i> <a href="https://wa.me/212649923007" target="_blank" class="hover:underline" data-i18n="ft_wa">Astreinte WhatsApp (Critique)</a></li>
+          <li><i class="fa-solid fa-location-dot text-brand-500 mx-2"></i> <span data-i18n="ft_city">Hub AFZ / Kénitra</span></li>
+          <!-- FIX APPLIQUÉ : span dir="ltr" pour forcer le numéro de téléphone à rester dans le bon sens -->
+          <li class="flex items-center justify-start"><i class="fa-solid fa-phone text-brand-500 mx-2"></i> <span dir="ltr">+212 6 49 92 30 07</span></li>
+          <li class="flex items-center justify-start"><i class="fa-solid fa-envelope text-brand-500 mx-2"></i> <span dir="ltr">contact@hemma.ma</span></li>
+          <li><i class="fa-brands fa-whatsapp text-emerald-400 mx-2"></i> <a href="https://wa.me/212649923007" target="_blank" class="hover:underline" data-i18n="ft_wa">Astreinte WhatsApp (Critique)</a></li>
         </ul>
       </div>
 
@@ -780,9 +781,9 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 border-t border-slate-800 text-center text-[11px] text-slate-500 flex flex-col sm:flex-row justify-between items-center gap-4">
       <p>&copy; 2026 HEMMA.IT B2B Solutions. <span data-i18n="ft_rights">Tous droits réservés.</span></p>
       <div class="flex gap-4">
-        <a href="#" class="hover:text-white text-sm"><i class="fa-brands fa-linkedin"></i></a>
-        <a href="#" class="hover:text-white text-sm"><i class="fa-brands fa-facebook"></i></a>
-        <a href="#" class="hover:text-white text-sm"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" class="hover:text-white text-sm" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+        <a href="#" class="hover:text-white text-sm" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+        <a href="#" class="hover:text-white text-sm" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
       </div>
     </div>
   </footer>
