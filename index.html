@@ -3,31 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>HEMMA STUDIO | حزمة 3 قمصان أوكسفورد الفاخرة</title>
+  <title>HEMMA STUDIOS | 01 ARCHIVE — HEAVYWEIGHT TEE PACK</title>
 
-  <!-- خطوط عصرية فاخرة -->
+  <!-- خطوط عصرية راقية -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Readex+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Readex+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg-page: #fbfbfb;
-      --surface: #ffffff;
-      --surface-elevated: #f5f5f7;
-      --text-primary: #111111;
-      --text-secondary: #6e6e73;
-      --text-tertiary: #86868b;
-      --accent: #0f172a;
-      --accent-blue: #2563eb;
-      --border-light: rgba(0, 0, 0, 0.08);
+      --bg: #f6f5f1;
+      --card-bg: #ffffff;
+      --text-black: #111111;
+      --text-muted: #737373;
+      --text-subtle: #a3a3a3;
+      --border: #e7e5e0;
       --border-dark: #111111;
-      --success: #16a34a;
-      --radius-sm: 8px;
-      --radius-md: 16px;
-      --radius-lg: 24px;
-      --shadow-subtle: 0 4px 24px rgba(0, 0, 0, 0.04);
-      --shadow-float: 0 12px 32px rgba(0, 0, 0, 0.08);
+      --accent: #171717;
+      --color-ecru: #ede8dc;
+      --color-black: #1f1f1f;
+      --color-sage: #8a9484;
+      --radius-sm: 4px;
+      --radius-md: 10px;
+      --radius-lg: 18px;
     }
 
     * {
@@ -39,141 +37,123 @@
     }
 
     body {
-      background-color: var(--bg-page);
-      color: var(--text-primary);
-      line-height: 1.5;
-      padding-bottom: 100px;
+      background-color: var(--bg);
+      color: var(--text-black);
+      line-height: 1.45;
+      padding-bottom: 110px;
     }
 
-    /* الشريط الإعلاني العلوي */
-    .top-notice {
-      background: var(--text-primary);
-      color: #f5f5f7;
+    /* الشريط العلوي المصغر */
+    .ticker {
+      background-color: var(--text-black);
+      color: #fafafa;
       text-align: center;
-      padding: 10px 16px;
-      font-size: 0.78rem;
+      padding: 8px 16px;
+      font-size: 0.72rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
       font-weight: 500;
-      letter-spacing: 0.3px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
-    /* ترويسة المتجر النظيفة */
-    .main-nav {
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border-light);
+    /* الترويسة الرئيسية */
+    .navbar {
+      background: rgba(246, 245, 241, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
       z-index: 100;
-      padding: 14px 20px;
+      padding: 16px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .brand-title {
+    .brand {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 800;
-      letter-spacing: 2px;
+      letter-spacing: 3px;
       text-transform: uppercase;
-      color: var(--text-primary);
     }
 
-    .status-pill {
-      font-size: 0.75rem;
-      background: #eef2ff;
-      color: var(--accent-blue);
-      border: 1px solid rgba(37, 99, 235, 0.2);
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+    .edition-tag {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      letter-spacing: 1px;
     }
 
-    .status-dot {
-      width: 7px;
-      height: 7px;
-      background: var(--accent-blue);
-      border-radius: 50%;
-      animation: pulse 1.8s infinite;
-    }
-
-    @keyframes pulse {
-      0% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.8); }
-      100% { opacity: 1; transform: scale(1); }
-    }
-
-    .app-container {
-      max-width: 620px;
+    .container {
+      max-width: 600px;
       margin: 0 auto;
       padding: 0 16px;
     }
 
     /* معرض الصور العصري */
-    .media-hero {
-      margin-top: 16px;
-      position: relative;
+    .hero-gallery {
+      margin-top: 14px;
     }
 
-    .media-card {
+    .main-canvas {
+      position: relative;
       width: 100%;
-      height: 440px;
-      border-radius: var(--radius-lg);
+      height: 480px;
+      border-radius: var(--radius-md);
       overflow: hidden;
-      background: #eae9e5;
-      position: relative;
-      box-shadow: var(--shadow-subtle);
+      background: #e2e0d8;
     }
 
-    .media-card img {
+    .main-canvas img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.3s ease;
+      display: block;
+      transition: opacity 0.25s ease;
     }
 
-    .floating-chip {
+    .canvas-overlay-tag {
       position: absolute;
-      top: 14px;
-      right: 14px;
-      background: rgba(255, 255, 255, 0.92);
+      bottom: 16px;
+      right: 16px;
+      background: rgba(17, 17, 17, 0.88);
       backdrop-filter: blur(8px);
-      padding: 6px 14px;
-      border-radius: 30px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+      color: #ffffff;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
     }
 
-    .gallery-dots {
-      display: flex;
+    .thumbs-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
       gap: 8px;
-      margin-top: 12px;
-      overflow-x: auto;
-      padding-bottom: 4px;
+      margin-top: 8px;
     }
 
-    .dot-thumb {
-      width: 68px;
-      height: 68px;
+    .thumb-node {
+      height: 85px;
       border-radius: var(--radius-sm);
       overflow: hidden;
       cursor: pointer;
-      border: 2px solid transparent;
-      opacity: 0.55;
-      transition: all 0.2s;
+      border: 1.5px solid transparent;
+      opacity: 0.5;
+      background: #ebe9e1;
+      transition: all 0.2s ease;
     }
 
-    .dot-thumb.active {
+    .thumb-node.active {
       border-color: var(--border-dark);
       opacity: 1;
     }
 
-    .dot-thumb img {
+    .thumb-node img {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -181,202 +161,242 @@
 
     /* بطاقة تفاصيل المنتج */
     .product-core {
-      background: var(--surface);
-      border: 1px solid var(--border-light);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      margin-top: 20px;
-      box-shadow: var(--shadow-subtle);
+      margin-top: 18px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 22px 20px;
     }
 
-    .social-score {
+    .meta-line {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 10px;
-      font-size: 0.8rem;
+      margin-bottom: 8px;
     }
 
-    .stars {
-      color: #f59e0b;
-      font-size: 0.9rem;
+    .sku-badge {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 1px;
     }
 
-    .product-main-title {
-      font-size: 1.45rem;
+    .rating-badge {
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .product-title {
+      font-size: 1.35rem;
       font-weight: 800;
-      line-height: 1.35;
-      color: var(--text-primary);
-      letter-spacing: -0.5px;
+      line-height: 1.3;
+      letter-spacing: -0.3px;
     }
 
-    .pricing-strip {
+    .product-subtitle {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .pricing-wrap {
       display: flex;
       align-items: baseline;
       gap: 12px;
-      margin-top: 14px;
-      padding-bottom: 18px;
-      border-bottom: 1px solid var(--border-light);
+      margin: 16px 0;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
     }
 
-    .price-final {
-      font-size: 1.95rem;
+    .price-main {
+      font-size: 1.9rem;
       font-weight: 800;
       font-family: 'Plus Jakarta Sans', sans-serif;
-      color: var(--text-primary);
+      letter-spacing: -0.5px;
     }
 
-    .price-regular {
-      font-size: 1.15rem;
-      color: var(--text-tertiary);
+    .price-strike {
+      font-size: 1.1rem;
+      color: var(--text-subtle);
       text-decoration: line-through;
+      font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
-    .discount-badge {
-      background: #fef2f2;
-      color: #dc2626;
-      border: 1px solid rgba(220, 38, 38, 0.2);
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 3px 10px;
-      border-radius: 20px;
-    }
-
-    /* مميزات Bento Grid المصغرة */
-    .bento-features {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 16px;
-    }
-
-    .bento-box {
-      background: var(--surface-elevated);
-      padding: 14px;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border-light);
-    }
-
-    .bento-icon {
-      font-size: 1.25rem;
-      margin-bottom: 6px;
-      display: inline-block;
-    }
-
-    .bento-title {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin-bottom: 2px;
-    }
-
-    .bento-sub {
-      font-size: 0.72rem;
-      color: var(--text-secondary);
-      line-height: 1.3;
-    }
-
-    /* بطاقات اختيار الحزم (Bundles) */
-    .section-label {
-      font-size: 1.05rem;
-      font-weight: 800;
-      margin: 28px 0 14px;
-      color: var(--text-primary);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .section-label span:last-child {
-      font-size: 0.75rem;
-      color: var(--text-secondary);
-      font-weight: 500;
-    }
-
-    .pack-selector {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .pack-card {
-      background: var(--surface);
-      border: 2px solid var(--border-light);
-      border-radius: var(--radius-md);
-      padding: 16px 18px;
-      cursor: pointer;
-      position: relative;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .pack-card.active {
-      border-color: var(--border-dark);
-      background: #fafaf9;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
-    }
-
-    .pack-card .pack-badge {
-      position: absolute;
-      top: -11px;
-      left: 16px;
-      background: var(--text-primary);
+    .pill-discount {
+      background: #111111;
       color: #ffffff;
       font-size: 0.7rem;
       font-weight: 700;
-      padding: 2px 10px;
-      border-radius: 20px;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      letter-spacing: 0.5px;
     }
 
-    .pack-info h4 {
-      font-size: 0.98rem;
-      font-weight: 800;
-      color: var(--text-primary);
-      margin-bottom: 2px;
+    /* الألوان المتضمنة */
+    .palette-section {
+      margin-top: 16px;
     }
 
-    .pack-info p {
+    .palette-label {
       font-size: 0.78rem;
-      color: var(--text-secondary);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
     }
 
-    .pack-price {
+    .colors-showcase {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .color-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 8px;
+      text-align: center;
+    }
+
+    .swatch {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      margin: 0 auto 6px;
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .color-name {
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: block;
+    }
+
+    .color-desc {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+    }
+
+    /* مميزات القماش Bento Specs */
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .spec-cell {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+    }
+
+    .spec-value {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--text-black);
+    }
+
+    .spec-key {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* اختيار الباقة (Offers) */
+    .selector-block {
+      margin-top: 20px;
+    }
+
+    .block-header {
+      font-size: 0.85rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .bundle-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .bundle-option {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .bundle-option.active {
+      border-color: var(--border-dark);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+    }
+
+    .bundle-flag {
+      position: absolute;
+      top: -9px;
+      left: 14px;
+      background: var(--text-black);
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: var(--radius-sm);
+      letter-spacing: 0.5px;
+    }
+
+    .bundle-left h4 {
+      font-size: 0.92rem;
+      font-weight: 800;
+    }
+
+    .bundle-left p {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .bundle-right {
       text-align: left;
     }
 
-    .pack-price .now {
-      font-size: 1.3rem;
+    .bundle-curr-price {
+      font-size: 1.25rem;
       font-weight: 800;
       font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
-    .pack-price .prev {
-      font-size: 0.8rem;
-      color: var(--text-tertiary);
+    .bundle-old-price {
+      font-size: 0.78rem;
+      color: var(--text-subtle);
       text-decoration: line-through;
     }
 
-    /* اختيار المقاس العصري */
-    .sizes-wrapper {
-      background: var(--surface);
-      border: 1px solid var(--border-light);
-      border-radius: var(--radius-lg);
-      padding: 20px;
-      margin-top: 20px;
-    }
-
-    .sizes-grid {
+    /* المقاسات */
+    .size-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin-top: 10px;
+      gap: 8px;
     }
 
-    .size-option {
-      background: var(--surface);
-      border: 1.5px solid var(--border-light);
+    .size-tile {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
       border-radius: var(--radius-sm);
       padding: 12px 6px;
       text-align: center;
@@ -384,294 +404,167 @@
       transition: all 0.2s;
     }
 
-    .size-option.active {
-      background: var(--text-primary);
+    .size-tile.active {
+      background: var(--text-black);
       color: #ffffff;
-      border-color: var(--text-primary);
+      border-color: var(--text-black);
     }
 
-    .size-letter {
-      font-size: 1.15rem;
+    .size-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.1rem;
       font-weight: 800;
       display: block;
     }
 
-    .size-weight {
-      font-size: 0.68rem;
+    .size-range {
+      font-size: 0.65rem;
       opacity: 0.75;
       display: block;
       margin-top: 2px;
     }
 
-    /* جدول المقاسات السريع */
-    .fit-guide-container {
-      margin-top: 16px;
-      background: var(--surface-elevated);
-      border-radius: var(--radius-sm);
-      padding: 12px;
-      border: 1px solid var(--border-light);
+    /* جدول القياسات التحريري */
+    .sizing-chart-box {
+      margin-top: 14px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
     }
 
-    .fit-guide-table {
+    .sizing-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       text-align: center;
     }
 
-    .fit-guide-table th {
-      padding: 6px;
-      font-weight: 700;
-      color: var(--text-secondary);
-      border-bottom: 1px solid var(--border-light);
-    }
-
-    .fit-guide-table td {
+    .sizing-table th {
       padding: 8px 6px;
-      border-bottom: 1px solid var(--border-light);
+      font-weight: 700;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
     }
 
-    /* مقارنة الجودة (Editorial Comparison) */
-    .comparison-section {
-      background: var(--surface);
-      border: 1px solid var(--border-light);
-      border-radius: var(--radius-lg);
-      padding: 24px;
+    .sizing-table td {
+      padding: 10px 6px;
+      border-bottom: 1px solid var(--border);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* استمارة الطلب المباشرة (COD Express Checkout) */
+    .checkout-terminal {
       margin-top: 24px;
-    }
-
-    .comp-table {
-      width: 100%;
-      margin-top: 14px;
-      font-size: 0.85rem;
-      border-collapse: collapse;
-    }
-
-    .comp-table th {
-      padding: 10px;
-      text-align: right;
-      border-bottom: 2px solid var(--border-light);
-      font-weight: 700;
-    }
-
-    .comp-table td {
-      padding: 12px 10px;
-      border-bottom: 1px solid var(--border-light);
-    }
-
-    .comp-table tr td:nth-child(2) {
-      font-weight: 700;
-      color: var(--success);
-    }
-
-    .comp-table tr td:nth-child(3) {
-      color: var(--text-tertiary);
-    }
-
-    /* آراء وتجارب الزبائن */
-    .testimonials-container {
-      background: var(--surface);
-      border: 1px solid var(--border-light);
+      background: var(--card-bg);
+      border: 2px solid var(--border-dark);
       border-radius: var(--radius-lg);
-      padding: 24px;
-      margin-top: 24px;
+      padding: 24px 20px;
     }
 
-    .review-bubble {
-      padding: 14px 0;
-      border-bottom: 1px solid var(--border-light);
-    }
-
-    .review-bubble:last-child {
-      border-bottom: none;
-      padding-bottom: 0;
-    }
-
-    .review-author {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
-    }
-
-    .author-name {
-      font-size: 0.9rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .buyer-tag {
-      font-size: 0.65rem;
-      background: #dcfce7;
-      color: #15803d;
-      padding: 2px 6px;
-      border-radius: 10px;
-      font-weight: 700;
-    }
-
-    .review-quote {
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-      line-height: 1.5;
-    }
-
-    /* الأسئلة الشائعة Accordion */
-    .faq-wrapper {
-      background: var(--surface);
-      border: 1px solid var(--border-light);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      margin-top: 24px;
-    }
-
-    .faq-tab {
-      border-bottom: 1px solid var(--border-light);
-      padding: 14px 0;
-      cursor: pointer;
-    }
-
-    .faq-tab:last-child {
-      border-bottom: none;
-      padding-bottom: 0;
-    }
-
-    .faq-header {
-      font-size: 0.92rem;
-      font-weight: 700;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .faq-body {
-      display: none;
-      font-size: 0.82rem;
-      color: var(--text-secondary);
-      margin-top: 8px;
-      line-height: 1.6;
-    }
-
-    .faq-tab.active .faq-body {
-      display: block;
-    }
-
-    /* استمارة تأكيد الطلب السريعة */
-    .checkout-portal {
-      background: var(--surface);
-      border: 2px solid var(--text-primary);
-      border-radius: var(--radius-lg);
-      padding: 26px 20px;
-      margin-top: 28px;
-      box-shadow: var(--shadow-float);
-    }
-
-    .portal-heading {
-      font-size: 1.3rem;
+    .terminal-title {
+      font-size: 1.25rem;
       font-weight: 900;
-      margin-bottom: 4px;
+      letter-spacing: -0.3px;
     }
 
-    .portal-desc {
-      font-size: 0.82rem;
-      color: var(--text-secondary);
-      margin-bottom: 20px;
+    .terminal-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin: 4px 0 18px;
     }
 
-    .form-field {
-      margin-bottom: 14px;
+    .input-field {
+      margin-bottom: 12px;
     }
 
-    .form-pair {
+    .input-split {
       display: flex;
       gap: 10px;
     }
 
-    .form-pair .form-field {
+    .input-split .input-field {
       flex: 1;
     }
 
     label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       font-weight: 700;
-      margin-bottom: 6px;
-      color: var(--text-primary);
+      margin-bottom: 5px;
+      color: var(--text-black);
     }
 
     input {
       width: 100%;
-      padding: 14px;
-      border: 1.5px solid var(--border-light);
+      padding: 13px 14px;
+      border: 1.5px solid var(--border);
       border-radius: var(--radius-sm);
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       outline: none;
-      background: #fafafa;
+      background: #fafaf8;
       transition: all 0.2s;
     }
 
     input:focus {
-      border-color: var(--text-primary);
+      border-color: var(--border-dark);
       background: #ffffff;
     }
 
-    .summary-card {
-      background: var(--surface-elevated);
-      border: 1px solid var(--border-light);
+    /* بطاقة ملخص الحساب */
+    .summary-dock {
+      background: var(--bg);
+      border: 1px solid var(--border);
       border-radius: var(--radius-sm);
-      padding: 16px;
-      margin: 18px 0;
-      font-size: 0.85rem;
+      padding: 14px;
+      margin: 16px 0;
+      font-size: 0.82rem;
     }
 
-    .sum-line {
+    .summary-line {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 8px;
-      color: var(--text-secondary);
+      margin-bottom: 6px;
+      color: var(--text-muted);
     }
 
-    .sum-line.total-line {
-      border-top: 1px dashed var(--border-light);
-      padding-top: 10px;
-      margin-top: 10px;
+    .summary-line.total {
+      border-top: 1px dashed var(--border);
+      padding-top: 8px;
+      margin-top: 8px;
       margin-bottom: 0;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 800;
-      color: var(--text-primary);
+      color: var(--text-black);
     }
 
-    .cta-submit {
+    .btn-checkout {
       width: 100%;
-      background: var(--text-primary);
+      background: var(--text-black);
       color: #ffffff;
       border: none;
-      padding: 18px;
+      padding: 17px;
       border-radius: var(--radius-sm);
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 800;
       cursor: pointer;
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 10px;
-      transition: transform 0.1s, opacity 0.2s;
+      gap: 8px;
+      letter-spacing: 0.3px;
+      transition: opacity 0.2s;
     }
 
-    .cta-submit:active {
-      transform: scale(0.98);
-    }
-
-    .cta-submit:disabled {
-      opacity: 0.5;
+    .btn-checkout:disabled {
+      opacity: 0.4;
       cursor: not-allowed;
     }
 
-    .guarantee-ribbon {
+    .guarantee-note {
       text-align: center;
-      font-size: 0.75rem;
-      color: var(--text-tertiary);
+      font-size: 0.74rem;
+      color: var(--text-muted);
       margin-top: 12px;
       display: flex;
       justify-content: center;
@@ -680,47 +573,46 @@
     }
 
     /* الشريط السفلي العائم */
-    .mobile-float-bar {
+    .bottom-bar {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(12px);
-      border-top: 1px solid var(--border-light);
-      padding: 14px 20px;
-      box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.06);
+      border-top: 1px solid var(--border);
+      padding: 12px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       z-index: 1000;
     }
 
-    .float-price {
-      font-size: 1.4rem;
-      font-weight: 800;
+    .bottom-total {
       font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 800;
     }
 
-    .float-label {
-      font-size: 0.7rem;
-      color: var(--text-secondary);
+    .bottom-label {
+      font-size: 0.68rem;
+      color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
-    .float-btn {
-      background: var(--text-primary);
+    .bottom-cta {
+      background: var(--text-black);
       color: #ffffff;
-      padding: 12px 28px;
+      padding: 12px 26px;
       border-radius: var(--radius-sm);
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       font-weight: 700;
       text-decoration: none;
     }
 
-    /* نافذة نجاح الطلب */
-    .modal-veil {
+    /* نافذة التأكيد المنبثقة */
+    .modal-cover {
       display: none;
       position: fixed;
       inset: 0;
@@ -732,22 +624,21 @@
       padding: 16px;
     }
 
-    .modal-content {
-      background: var(--surface);
-      border-radius: var(--radius-lg);
-      padding: 30px 24px;
-      max-width: 420px;
+    .modal-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-md);
+      padding: 28px 24px;
+      max-width: 400px;
       width: 100%;
       text-align: center;
-      box-shadow: var(--shadow-float);
     }
 
-    .modal-check {
-      width: 64px;
-      height: 64px;
-      background: #dcfce7;
-      color: #16a34a;
-      font-size: 2.2rem;
+    .check-icon {
+      width: 56px;
+      height: 56px;
+      background: #111111;
+      color: #ffffff;
+      font-size: 1.8rem;
       font-weight: 800;
       border-radius: 50%;
       display: flex;
@@ -759,417 +650,348 @@
 </head>
 <body>
 
-  <!-- شريط المزايا العلوي -->
-  <div class="top-notice">
-    ✨ شحن مجاني لكافة مدن المغرب • إمكانية فتح ومعاينة الطرد قبل الدفع
+  <!-- شريط المزايا -->
+  <div class="ticker">
+    EDITION 2026 • 100% COMBED COTTON • 240 GSM HEAVYWEIGHT • LIVRAISON GRATUITE
   </div>
 
-  <!-- ترويسة المتجر العصرية -->
-  <header class="main-nav">
-    <div class="brand-title">HEMMA STUDIO</div>
-    <div class="status-pill">
-      <div class="status-dot"></div>
-      <span>متوفر بالمستودع</span>
-    </div>
+  <!-- الترويسة الرئيسية -->
+  <header class="navbar">
+    <div class="brand">HEMMA STUDIOS</div>
+    <div class="edition-tag">ARCHIVE 01</div>
   </header>
 
-  <div class="app-container">
+  <main class="container">
 
-    <!-- معرض الصور العصري -->
-    <section class="media-hero">
-      <div class="media-card">
-        <img id="mainVisual" src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=1200&q=80" alt="حزمة قمصان أوكسفورد">
-        <div class="floating-chip">قطن أوكسفورد 100%</div>
+    <!-- معرض صور المنتج -->
+    <section class="hero-gallery">
+      <div class="main-canvas">
+        <img id="mainDisplay" src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1200&q=80" alt="تيشيرت أوفرسايز قطن ثقيل">
+        <div class="canvas-overlay-tag">HEAVYWEIGHT 240 GSM</div>
       </div>
-      <div class="gallery-dots">
-        <div class="dot-thumb active" onclick="switchVisual(this, 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=1200&q=80')">
-          <img src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=200&q=80" alt="صورة 1">
+      <div class="thumbs-row">
+        <div class="thumb-node active" onclick="setPhoto(this, 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1200&q=80')">
+          <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=250&q=80" alt="أبيض عاجي">
         </div>
-        <div class="dot-thumb" onclick="switchVisual(this, 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=1200&q=80')">
-          <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=200&q=80" alt="صورة 2">
+        <div class="thumb-node" onclick="setPhoto(this, 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1200&q=80')">
+          <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=250&q=80" alt="أسود باهت">
         </div>
-        <div class="dot-thumb" onclick="switchVisual(this, 'https://images.unsplash.com/photo-1620012253295-c15c429f66bf?auto=format&fit=crop&w=1200&q=80')">
-          <img src="https://images.unsplash.com/photo-1620012253295-c15c429f66bf?auto=format&fit=crop&w=200&q=80" alt="صورة 3">
+        <div class="thumb-node" onclick="setPhoto(this, 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=1200&q=80')">
+          <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=250&q=80" alt="تفاصيل الخياطة">
         </div>
-        <div class="dot-thumb" onclick="switchVisual(this, 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1200&q=80')">
-          <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=200&q=80" alt="صورة 4">
+        <div class="thumb-node" onclick="setPhoto(this, 'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=1200&q=80')">
+          <img src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=250&q=80" alt="قصة القماش">
         </div>
       </div>
     </section>
 
-    <!-- بطاقة تفاصيل المنتج -->
+    <!-- بطاقة تفاصيل المنتج والأسعار -->
     <section class="product-core">
-      <div class="social-score">
-        <span class="stars">★★★★★</span>
-        <span style="font-weight:700;">4.9</span>
-        <span style="color:var(--text-tertiary);">(أكثر من 340 طلب مؤكد)</span>
-      </div>
-      <h1 class="product-main-title">حزمة 3 قمصان أوكسفورد الكلاسيكية الفاخرة</h1>
-      
-      <div class="pricing-strip">
-        <span class="price-final" id="currentPrice">399 درهم</span>
-        <span class="price-regular" id="originalPrice">590 درهم</span>
-        <span class="discount-badge">وفر 191 درهم اليوم</span>
+      <div class="meta-line">
+        <span class="sku-badge">DROP 01 — STREETWEAR ESSENTIAL</span>
+        <span class="rating-badge">★ 4.9 (280+ تقييم)</span>
       </div>
 
-      <!-- شبكة Bento المميزات -->
-      <div class="bento-features">
-        <div class="bento-box">
-          <span class="bento-icon">🧵</span>
-          <div class="bento-title">نسيج أكسفورد ثقيل</div>
-          <div class="bento-sub">متانة عالية ومقاومة واضحة للتجعد</div>
+      <h1 class="product-title">حزمة 3 تيشيرتات أوفرسايز (Heavyweight 240 GSM)</h1>
+      <p class="product-subtitle">قصة مربعة عصرية (Boxy Fit) بياقة عريضة وقطن ممشوط 100% ثقيل لا يفقد شكله أبداً.</p>
+
+      <div class="pricing-wrap">
+        <span class="price-main" id="heroPrice">299 DH</span>
+        <span class="price-strike" id="heroOldPrice">450 DH</span>
+        <span class="pill-discount">توفير 151 درهم</span>
+      </div>
+
+      <!-- استعراض الألوان الثلاثة المتضمنة -->
+      <div class="palette-section">
+        <div class="palette-label">الألوان الثلاثة المرفقة في الحزمة</div>
+        <div class="colors-showcase">
+          <div class="color-card">
+            <div class="swatch" style="background: var(--color-ecru);"></div>
+            <span class="color-name">Off-White (إيكرو)</span>
+            <span class="color-desc">بيج دافئ وطبيعي</span>
+          </div>
+          <div class="color-card">
+            <div class="swatch" style="background: var(--color-black);"></div>
+            <span class="color-name">Washed Black</span>
+            <span class="color-desc">أسود كربوني مغسول</span>
+          </div>
+          <div class="color-card">
+            <div class="swatch" style="background: var(--color-sage);"></div>
+            <span class="color-name">Sage Olive</span>
+            <span class="color-desc">زيتي ترابي هادئ</span>
+          </div>
         </div>
-        <div class="bento-box">
-          <span class="bento-icon">👔</span>
-          <div class="bento-title">قصة متناسقة (Modern Fit)</div>
-          <div class="bento-sub">مريحة على الكتفين وتناسب كافة المناسبات</div>
+      </div>
+
+      <!-- مواصفات القماش العصرية -->
+      <div class="specs-grid">
+        <div class="spec-cell">
+          <div class="spec-value">240 GSM</div>
+          <div class="spec-key">كثافة نسيج عالية (Heavyweight)</div>
         </div>
-        <div class="bento-box">
-          <span class="bento-icon">🎨</span>
-          <div class="bento-title">3 ألوان محايدة</div>
-          <div class="bento-sub">أبيض ناصع + أزرق سماوي + بيج رملي</div>
+        <div class="spec-cell">
+          <div class="spec-value">100% Combed Cotton</div>
+          <div class="spec-key">قطن ممشوط ناعم وفائق التحمل</div>
         </div>
-        <div class="bento-box">
-          <span class="bento-icon">📦</span>
-          <div class="bento-title">المعاينة أولاً</div>
-          <div class="bento-sub">افتح الطرد وتأكد من الجودة قبل الأداء</div>
+        <div class="spec-cell">
+          <div class="spec-value">Boxy Oversized</div>
+          <div class="spec-key">أكتاف منسدلة (Drop Shoulders)</div>
+        </div>
+        <div class="spec-cell">
+          <div class="spec-value">Reinforced Rib Collar</div>
+          <div class="spec-key">ياقة مضلعة ومزدوجة لا ترتخي</div>
         </div>
       </div>
     </section>
 
-    <!-- اختيار الباقات (Bundles) -->
-    <div class="section-label">
-      <span>1. حدد الباقة المفضلة:</span>
-      <span>التوصيل فابور</span>
-    </div>
+    <!-- اختيار الباقة -->
+    <section class="selector-block">
+      <div class="block-header">
+        <span>1. اختر الباقة:</span>
+        <span style="color:var(--text-muted); font-size:0.75rem;">توصيل مجاني لكافة المدن</span>
+      </div>
 
-    <div class="pack-selector">
-      <!-- الباقة 1: الأكثر مبيعاً -->
-      <div class="pack-card active" onclick="setOffer('حزمة 3 قمصان (الأكثر طلباً)', 399, 590, this)">
-        <span class="pack-badge">العرض الأفضل توفيراً</span>
-        <div class="pack-info">
-          <h4>حزمة 3 قمصان كاملة (أبيض + أزرق + بيج)</h4>
-          <p>شحن مجاني + معاينة قبل الدفع</p>
+      <div class="bundle-list">
+        <!-- الباقة الأساسية: 3 تيشيرتات -->
+        <div class="bundle-option active" onclick="chooseOffer('حزمة 3 تيشيرتات (العرض الكامل)', 299, 450, this)">
+          <span class="bundle-flag">الأكثر توفيراً وطلباً</span>
+          <div class="bundle-left">
+            <h4>حزمة 3 تيشيرتات (إيكرو + أسود + زيتي)</h4>
+            <p>توصيل مجاني + معاينة عند الاستلام</p>
+          </div>
+          <div class="bundle-right">
+            <div class="bundle-curr-price">299 DH</div>
+            <div class="bundle-old-price">450 DH</div>
+          </div>
         </div>
-        <div class="pack-price">
-          <div class="now">399 DH</div>
-          <div class="prev">590 DH</div>
+
+        <!-- الباقة 2 -->
+        <div class="bundle-option" onclick="chooseOffer('حزمة قطعتين (إيكرو + أسود)', 229, 300, this)">
+          <div class="bundle-left">
+            <h4>حزمة قطعتين فقط (إيكرو + أسود)</h4>
+            <p>توصيل مجاني</p>
+          </div>
+          <div class="bundle-right">
+            <div class="bundle-curr-price">229 DH</div>
+            <div class="bundle-old-price">300 DH</div>
+          </div>
+        </div>
+
+        <!-- الباقة 3 -->
+        <div class="bundle-option" onclick="chooseOffer('قطعة واحدة (لون اختياري)', 149, 180, this)">
+          <div class="bundle-left">
+            <h4>قطعة واحدة فردية</h4>
+            <p>لون يحدد أثناء مكالمة التأكيد</p>
+          </div>
+          <div class="bundle-right">
+            <div class="bundle-curr-price">149 DH</div>
+            <div class="bundle-old-price">180 DH</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- اختيار المقاس -->
+    <section class="selector-block">
+      <div class="block-header">
+        <span>2. حدد مقاسك:</span>
+        <span style="color:var(--text-muted); font-size:0.75rem;">Oversized Cut</span>
+      </div>
+
+      <div class="size-grid">
+        <div class="size-tile" onclick="chooseSize('S', this)">
+          <span class="size-label">S</span>
+          <span class="size-range">55 - 67 كغ</span>
+        </div>
+        <div class="size-tile active" onclick="chooseSize('M', this)">
+          <span class="size-label">M</span>
+          <span class="size-range">68 - 79 كغ</span>
+        </div>
+        <div class="size-tile" onclick="chooseSize('L', this)">
+          <span class="size-label">L</span>
+          <span class="size-range">80 - 90 كغ</span>
+        </div>
+        <div class="size-tile" onclick="chooseSize('XL', this)">
+          <span class="size-label">XL</span>
+          <span class="size-range">91 - 105 كغ</span>
         </div>
       </div>
 
-      <!-- الباقة 2 -->
-      <div class="pack-card" onclick="setOffer('حزمة قميصين فقط', 299, 390, this)">
-        <div class="pack-info">
-          <h4>حزمة قميصين (أبيض + أزرق سماوي)</h4>
-          <p>شحن مجاني</p>
-        </div>
-        <div class="pack-price">
-          <div class="now">299 DH</div>
-          <div class="prev">390 DH</div>
-        </div>
-      </div>
-
-      <!-- الباقة 3 -->
-      <div class="pack-card" onclick="setOffer('قميص واحد فقط', 199, 250, this)">
-        <div class="pack-info">
-          <h4>قميص واحد فقط (لون اختياري)</h4>
-          <p>شحن مجاني</p>
-        </div>
-        <div class="pack-price">
-          <div class="now">199 DH</div>
-          <div class="prev">250 DH</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- اختيار المقاس العصري -->
-    <section class="sizes-wrapper">
-      <div class="section-label" style="margin:0 0 10px;">
-        <span>2. اختر مقاسك:</span>
-        <span>True to Size</span>
-      </div>
-
-      <div class="sizes-grid">
-        <div class="size-option" onclick="setSize('M', this)">
-          <span class="size-letter">M</span>
-          <span class="size-weight">60-72 كغ</span>
-        </div>
-        <div class="size-option active" onclick="setSize('L', this)">
-          <span class="size-letter">L</span>
-          <span class="size-weight">73-82 كغ</span>
-        </div>
-        <div class="size-option" onclick="setSize('XL', this)">
-          <span class="size-letter">XL</span>
-          <span class="size-weight">83-92 كغ</span>
-        </div>
-        <div class="size-option" onclick="setSize('XXL', this)">
-          <span class="size-letter">XXL</span>
-          <span class="size-weight">93-105 كغ</span>
-        </div>
-      </div>
-
-      <!-- دليل المقاسات -->
-      <div class="fit-guide-container">
-        <table class="fit-guide-table">
+      <!-- جدول القياسات التحريري -->
+      <div class="sizing-chart-box">
+        <table class="sizing-table">
           <thead>
             <tr>
               <th>المقاس</th>
-              <th>عرض الصدر</th>
-              <th>عرض الكتفين</th>
-              <th>الطول الإجمالي</th>
+              <th>عرض الصدر (Chest)</th>
+              <th>طول التيشيرت (Length)</th>
+              <th>طول الكم (Sleeve)</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td><strong>M</strong></td><td>52 سم</td><td>45 سم</td><td>72 سم</td></tr>
-            <tr><td><strong>L</strong></td><td>55 سم</td><td>47 سم</td><td>74 سم</td></tr>
-            <tr><td><strong>XL</strong></td><td>58 سم</td><td>49 سم</td><td>76 سم</td></tr>
-            <tr><td><strong>XXL</strong></td><td>61 سم</td><td>51 سم</td><td>78 سم</td></tr>
+            <tr><td><strong>S</strong></td><td>56 cm</td><td>71 cm</td><td>23 cm</td></tr>
+            <tr><td><strong>M</strong></td><td>59 cm</td><td>74 cm</td><td>24 cm</td></tr>
+            <tr><td><strong>L</strong></td><td>62 cm</td><td>77 cm</td><td>25 cm</td></tr>
+            <tr><td><strong>XL</strong></td><td>65 cm</td><td>80 cm</td><td>26 cm</td></tr>
           </tbody>
         </table>
       </div>
     </section>
 
-    <!-- جدول مقارنة الجودة -->
-    <section class="comparison-section">
-      <div class="section-label" style="margin:0 0 10px;">لماذا تختار قمصان HEMMA؟</div>
-      <table class="comp-table">
-        <thead>
-          <tr>
-            <th>الميزة</th>
-            <th>قمصان HEMMA</th>
-            <th>القمصان العادية بالسوق</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>نوع القماش</td>
-            <td>نسيج أوكسفورد 100% قطن</td>
-            <td>بوليستر خفيف أو ممزوج</td>
-          </tr>
-          <tr>
-            <td>ثبات الألوان</td>
-            <td>صباغة ثابتة لا تبهت</td>
-            <td>تبهت بعد غسلتين أو ثلاث</td>
-          </tr>
-          <tr>
-            <td>المعاينة قبل الدفع</td>
-            <td>حق الفتح والتأكد مكفول</td>
-            <td>رفض فتح الطرد لدى الأغلب</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <!-- تجارب الزبائن -->
-    <section class="testimonials-container">
-      <div class="section-label" style="margin:0 0 14px;">آراء مشترين مؤكدين</div>
-      
-      <div class="review-bubble">
-        <div class="review-author">
-          <span class="author-name">ياسين ف. (الدار البيضاء) <span class="buyer-tag">مشترٍ مؤكد</span></span>
-          <span style="color:#f59e0b; font-size:0.8rem;">★★★★★</span>
-        </div>
-        <p class="review-quote">"الصراحة ثوب واقف وخياطة ممتازة. المقاس L جاني مضبوط تماماً مع طولي (1.80 م). التوصيل وصلني في 48 ساعة حتى لباب الدار، تجربة ممتازة."</p>
-      </div>
-
-      <div class="review-bubble">
-        <div class="review-author">
-          <span class="author-name">هشام ر. (الرباط) <span class="buyer-tag">مشترٍ مؤكد</span></span>
-          <span style="color:#f59e0b; font-size:0.8rem;">★★★★★</span>
-        </div>
-        <p class="review-quote">"ثمن 399 درهم في 3 قمصان بهاد الجودة يعتبر صفقة ممتازة مقارنة مع المحلات الكبرى. فتحت الطرد وتأكدت عاد خلصت."</p>
-      </div>
-    </section>
-
-    <!-- الأسئلة المتكررة Accordion -->
-    <section class="faq-wrapper">
-      <div class="section-label" style="margin:0 0 14px;">الأسئلة الشائعة</div>
-      
-      <div class="faq-tab active" onclick="toggleAccordion(this)">
-        <div class="faq-header">
-          <span>كم يستغرق التوصيل وكيف يتم الدفع؟</span>
-          <span>+</span>
-        </div>
-        <div class="faq-body">
-          التوصيل مجاني تماماً ويستغرق من 24 إلى 48 ساعة فقط. الدفع يكون نقداً عند الاستلام وبعد فتح الطرد ومعاينته شخصياً.
-        </div>
-      </div>
-
-      <div class="faq-tab" onclick="toggleAccordion(this)">
-        <div class="faq-header">
-          <span>ماذا لو كان المقاس غير مناسب بعد القياس؟</span>
-          <span>+</span>
-        </div>
-        <div class="faq-body">
-          نوفر استبدالاً مجانياً للمقاس خلال 7 أيام من استلام الطلب بكل سهولة عبر رسالة واتساب واحدة.
-        </div>
-      </div>
-    </section>
-
-    <!-- استمارة تأكيد الطلب السريعة -->
-    <section class="checkout-portal" id="checkoutSection">
-      <div class="portal-heading">تأكيد حجز طلبك</div>
-      <div class="portal-desc">املأ المعلومات أسفله وسنقوم بتجهيز شحنتك فوراً</div>
+    <!-- استمارة تأكيد الطلب المباشرة (COD) -->
+    <section class="checkout-terminal" id="terminal">
+      <div class="terminal-title">استمارة الحجز والتوصيل</div>
+      <div class="terminal-sub">املأ معلوماتك وسيتم شحن طلبك مع حق الفتح والمعاينة قبل الدفع.</div>
 
       <form id="orderForm">
-        <div class="form-field">
+        <div class="input-field">
           <label>الاسم الكامل</label>
           <input type="text" name="fullName" placeholder="مثال: يوسف العلوي" required>
         </div>
 
-        <div class="form-field">
-          <label>رقم الهاتف الشخصي (للتأكيد وموعد التوصيل)</label>
+        <div class="input-field">
+          <label>رقم الهاتف الشخصي (للتأكيد ومكالمة موزع الشحن)</label>
           <input type="tel" name="phone" placeholder="مثال: 0612345678" required>
         </div>
 
-        <div class="form-pair">
-          <div class="form-field">
+        <div class="input-split">
+          <div class="input-field">
             <label>المدينة</label>
-            <input type="text" name="city" placeholder="مثال: القنيطرة، طنجة..." required>
+            <input type="text" name="city" placeholder="مثال: الدار البيضاء، مراكش..." required>
           </div>
-          <div class="form-field">
-            <label>الحي أو العنوان</label>
-            <input type="text" name="address" placeholder="اسم الحي أو الشارع" required>
+          <div class="input-field">
+            <label>الحي / العنوان</label>
+            <input type="text" name="address" placeholder="اسم الحي أو الإقامة" required>
           </div>
         </div>
 
-        <!-- معلومات الطول والوزن لتفادي المرتجع -->
-        <div class="form-pair">
-          <div class="form-field">
-            <label>الطول التقريبي (سم) <small style="color:var(--text-tertiary);">(اختياري)</small></label>
+        <div class="input-split">
+          <div class="input-field">
+            <label>الطول (سم) <small style="color:var(--text-subtle);">(اختياري لتأكيد المقاس)</small></label>
             <input type="number" name="height" placeholder="مثال: 178">
           </div>
-          <div class="form-field">
-            <label>الوزن التقريبي (كغ) <small style="color:var(--text-tertiary);">(اختياري)</small></label>
-            <input type="number" name="weight" placeholder="مثال: 76">
+          <div class="input-field">
+            <label>الوزن (كغ) <small style="color:var(--text-subtle);">(اختياري)</small></label>
+            <input type="number" name="weight" placeholder="مثال: 74">
           </div>
         </div>
 
-        <div class="summary-card">
-          <div class="sum-line">
+        <div class="summary-dock">
+          <div class="summary-line">
             <span>الباقة المختارة:</span>
-            <strong id="sumOfferTitle">حزمة 3 قمصان (الأكثر طلباً)</strong>
+            <strong id="labelOffer">حزمة 3 تيشيرتات (العرض الكامل)</strong>
           </div>
-          <div class="sum-line">
-            <span>المقاس المعتمد:</span>
-            <strong id="sumSizeTitle">L</strong>
+          <div class="summary-line">
+            <span>المقاس:</span>
+            <strong id="labelSize">M (Oversized)</strong>
           </div>
-          <div class="sum-line">
-            <span>مصاريف الشحن:</span>
-            <strong style="color:var(--success);">مجاناً (0 DH)</strong>
+          <div class="summary-line">
+            <span>التوصيل:</span>
+            <strong style="color:var(--text-black);">مجاني (0 DH)</strong>
           </div>
-          <div class="sum-line total-line">
-            <span>المجموع النهائي عند الاستلام:</span>
-            <strong id="sumTotalTitle">399 DH</strong>
+          <div class="summary-line total">
+            <span>المجموع النهائي عند المعاينة:</span>
+            <strong id="labelTotal">299 DH</strong>
           </div>
         </div>
 
-        <button type="submit" class="cta-submit" id="submitBtn">
-          <span>تأكيد الطلب الآن (الدفع عند المعاينة)</span>
+        <button type="submit" class="btn-checkout" id="submitButton">
+          <span>تأكيد الطلب والدفع عند الاستلام</span>
           <span>←</span>
         </button>
 
-        <div class="guarantee-ribbon">
-          🔒 بياناتك الشخصية آمنة ومشفرة تماماً
+        <div class="guarantee-note">
+          🔒 معاينة الطرد والتأكد من القماش مكفولة قبل سداد الثمن.
         </div>
       </form>
     </section>
 
-  </div>
+  </main>
 
   <!-- الشريط السفلي الثابت للهاتف -->
-  <aside class="mobile-float-bar">
+  <aside class="bottom-bar">
     <div>
-      <div class="float-label">المجموع</div>
-      <div class="float-price" id="floatPrice">399 DH</div>
+      <div class="bottom-label">المجموع المستحق</div>
+      <div class="bottom-total" id="barPrice">299 DH</div>
     </div>
-    <a href="#checkoutSection" class="float-btn">اطلب الآن</a>
+    <a href="#terminal" class="bottom-cta">اطلب الحزمة</a>
   </aside>
 
-  <!-- نافذة نجاح الطلب -->
-  <div class="modal-veil" id="orderModal">
-    <div class="modal-content">
-      <div class="modal-check">✓</div>
-      <h2 style="font-size:1.35rem; font-weight:800; margin-bottom:8px;">تم تسجيل طلبك بنجاح!</h2>
-      <p style="color:var(--text-secondary); font-size:0.88rem; line-height:1.5; margin-bottom:20px;">
-        شكراً لاختيارك HEMMA STUDIO. سيتصل بك فريق العمل هاتفياً لتأكيد المقاس المناسب وموعد الشحن.
+  <!-- نافذة نجاح الطلب (Modal) -->
+  <div class="modal-cover" id="orderModal">
+    <div class="modal-card">
+      <div class="check-icon">✓</div>
+      <h2 style="font-size:1.35rem; font-weight:900; margin-bottom:6px;">تم تسجيل طلبك بنجاح</h2>
+      <p style="color:var(--text-muted); font-size:0.85rem; line-height:1.5; margin-bottom:18px;">
+        شكراً لاختيارك HEMMA STUDIOS. سيتصل بك فريقنا لتأكيد المقاس وتجهيز شحنتك فوراً.
       </p>
-      <button onclick="dismissModal()" class="cta-submit" style="padding:12px 24px; font-size:0.95rem;">
-        حسناً، استوعبت
+      <button onclick="dismissModal()" class="btn-checkout" style="padding:12px; font-size:0.95rem;">
+        تم، شكراً
       </button>
     </div>
   </div>
 
-  <!-- الجافاسكريبت والربط المباشر بجدولك -->
+  <!-- المنطق البرمجي والربط المباشر بجدولك -->
   <script>
-    // رابط Webhook الفعال الخاص بك
+    // رابط Webhook المباشر الخاص بك
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_zQyAHPyxl1DgD4EYj3T1mst2k3hi1XLVztOv60KtwhSUbcBptnYBj212QcFZx7ljyw/exec";
 
-    let chosenOffer = "حزمة 3 قمصان (الأكثر طلباً)";
-    let chosenPrice = "399 DH";
-    let chosenRawPrice = 399;
-    let chosenSize = "L";
+    let activeOffer = "حزمة 3 تيشيرتات (العرض الكامل)";
+    let activePrice = "299 DH";
+    let activeRawPrice = 299;
+    let activeSize = "M";
 
-    // تبديل صور المعرض
-    function switchVisual(el, src) {
-      document.getElementById('mainVisual').src = src;
-      document.querySelectorAll('.dot-thumb').forEach(t => t.classList.remove('active'));
+    // تبديل الصور المصغرة
+    function setPhoto(el, src) {
+      document.getElementById('mainDisplay').src = src;
+      document.querySelectorAll('.thumb-node').forEach(t => t.classList.remove('active'));
       el.classList.add('active');
     }
 
-    // تبديل الباقات وتحديث الأسعار لحظياً
-    function setOffer(title, price, oldPrice, el) {
-      chosenOffer = title;
-      chosenRawPrice = price;
-      chosenPrice = price + " DH";
+    // تبديل الباقة
+    function chooseOffer(title, price, oldPrice, el) {
+      activeOffer = title;
+      activeRawPrice = price;
+      activePrice = price + " DH";
 
-      document.getElementById('currentPrice').innerText = price + " درهم";
-      document.getElementById('originalPrice').innerText = oldPrice + " درهم";
-      document.getElementById('floatPrice').innerText = price + " DH";
-      document.getElementById('sumOfferTitle').innerText = title;
-      document.getElementById('sumTotalTitle').innerText = price + " DH";
+      document.getElementById('heroPrice').innerText = price + " DH";
+      document.getElementById('heroOldPrice').innerText = oldPrice + " DH";
+      document.getElementById('barPrice').innerText = price + " DH";
+      document.getElementById('labelOffer').innerText = title;
+      document.getElementById('labelTotal').innerText = price + " DH";
 
-      document.querySelectorAll('.pack-card').forEach(c => c.classList.remove('active'));
+      document.querySelectorAll('.bundle-option').forEach(b => b.classList.remove('active'));
       el.classList.add('active');
     }
 
-    // تبديل المقاسات
-    function setSize(size, el) {
-      chosenSize = size;
-      document.getElementById('sumSizeTitle').innerText = size;
-      document.querySelectorAll('.size-option').forEach(s => s.classList.remove('active'));
+    // تبديل المقاس
+    function chooseSize(size, el) {
+      activeSize = size;
+      document.getElementById('labelSize').innerText = size + " (Oversized)";
+      document.querySelectorAll('.size-tile').forEach(s => s.classList.remove('active'));
       el.classList.add('active');
-    }
-
-    // التحكم في الأسئلة الشائعة
-    function toggleAccordion(el) {
-      el.classList.toggle('active');
-      const icon = el.querySelector('.faq-header span:last-child');
-      if (icon) {
-        icon.innerText = el.classList.contains('active') ? '−' : '+';
-      }
     }
 
     // إرسال الطلب وحفظه في Google Sheets
-    const orderForm = document.getElementById('orderForm');
-    const submitBtn = document.getElementById('submitBtn');
+    const form = document.getElementById('orderForm');
+    const submitBtn = document.getElementById('submitButton');
 
-    orderForm.addEventListener('submit', function(e) {
+    form.addEventListener('submit', function(e) {
       e.preventDefault();
 
       submitBtn.disabled = true;
-      submitBtn.innerText = "جاري تأكيد وتسجيل طلبك...";
+      submitBtn.innerText = "جاري تأكيد وتسجيل حجزك...";
 
-      const payload = {
-        fullName: orderForm.fullName.value,
-        phone: orderForm.phone.value,
-        city: orderForm.city.value,
-        address: orderForm.address.value,
-        height: orderForm.height.value || '',
-        weight: orderForm.weight.value || '',
-        offer: chosenOffer,
-        size: chosenSize,
-        price: chosenPrice
+      const orderData = {
+        fullName: form.fullName.value,
+        phone: form.phone.value,
+        city: form.city.value,
+        address: form.address.value,
+        height: form.height.value || '',
+        weight: form.weight.value || '',
+        offer: activeOffer,
+        size: activeSize,
+        price: activePrice
       };
 
       fetch(SCRIPT_URL, {
@@ -1178,26 +1000,26 @@
         headers: {
           'Content-Type': 'text/plain;charset=utf-8'
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(orderData)
       })
       .then(() => {
         if (typeof fbq !== 'undefined') {
           fbq('track', 'Purchase', {
-            value: chosenRawPrice,
+            value: activeRawPrice,
             currency: 'MAD'
           });
         }
         document.getElementById('orderModal').style.display = 'flex';
-        orderForm.reset();
+        form.reset();
         submitBtn.disabled = false;
-        submitBtn.innerText = "تأكيد الطلب الآن (الدفع عند المعاينة) ←";
+        submitBtn.innerText = "تأكيد الطلب والدفع عند الاستلام ←";
       })
       .catch(err => {
         console.error("Submission status:", err);
         document.getElementById('orderModal').style.display = 'flex';
-        orderForm.reset();
+        form.reset();
         submitBtn.disabled = false;
-        submitBtn.innerText = "تأكيد الطلب الآن (الدفع عند المعاينة) ←";
+        submitBtn.innerText = "تأكيد الطلب والدفع عند الاستلام ←";
       });
     });
 
