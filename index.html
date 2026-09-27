@@ -3,540 +3,1193 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>حزمة 3 قمصان أوكسفورد الفاخرة | عرض حصري</title>
+  <title>HEMMA ATELIER | حزمة قمصان أوكسفورد الكلاسيكية الفاخرة</title>
   
-  <!-- خط تجوال العصري -->
+  <!-- خطوط عصرية راقية -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --primary: #111827;
-      --accent: #2563eb;
-      --bg-light: #f9fafb;
-      --border-color: #e5e7eb;
-      --text-main: #1f2937;
-      --text-muted: #6b7280;
-      --success: #16a34a;
+      --bg-body: #faf9f6;
+      --surface: #ffffff;
+      --text-main: #121212;
+      --text-muted: #5a5a5a;
+      --border-subtle: #eae8e3;
+      --border-strong: #121212;
+      --accent: #1e3a8a;
+      --accent-soft: #eff6ff;
+      --success: #15803d;
+      --gold: #b45309;
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.04);
+      --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.08);
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Tajawal', sans-serif;
+      font-family: 'Tajawal', -apple-system, sans-serif;
       -webkit-tap-highlight-color: transparent;
     }
 
     body {
-      background-color: #ffffff;
+      background-color: var(--bg-body);
       color: var(--text-main);
       line-height: 1.6;
       padding-bottom: 95px;
     }
 
+    /* شريط الإعلان العلوي */
+    .top-banner {
+      background-color: var(--text-main);
+      color: #ffffff;
+      text-align: center;
+      padding: 9px 16px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* الترويسة الرئيسية للمتجر */
+    .site-header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand-logo {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-main);
+      text-decoration: none;
+    }
+
+    .header-badge {
+      font-size: 0.75rem;
+      background: var(--bg-body);
+      border: 1px solid var(--border-subtle);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
     .container {
-      max-width: 600px;
+      max-width: 650px;
       margin: 0 auto;
       padding: 0 16px;
     }
 
-    /* الشريط الإعلاني العلوي */
-    .top-bar {
-      background-color: var(--primary);
-      color: #ffffff;
-      text-align: center;
-      padding: 9px 12px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      letter-spacing: 0.3px;
-    }
-
     /* معرض الصور */
-    .gallery {
-      margin-top: 16px;
+    .gallery-container {
+      margin-top: 18px;
     }
 
-    .main-image {
+    .main-visual {
+      position: relative;
       width: 100%;
-      height: 380px;
-      object-fit: cover;
-      border-radius: 12px;
-      background-color: var(--bg-light);
-      display: block;
+      height: 420px;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background-color: #ebe9e4;
     }
 
-    .thumbnails {
-      display: flex;
+    .main-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .tag-overlay {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: rgba(18, 18, 18, 0.85);
+      backdrop-filter: blur(8px);
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+
+    .thumb-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
       gap: 10px;
       margin-top: 10px;
-      overflow-x: auto;
-      padding-bottom: 4px;
     }
 
-    .thumb {
-      width: 72px;
-      height: 72px;
-      object-fit: cover;
-      border-radius: 8px;
+    .thumb-item {
+      height: 80px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
       cursor: pointer;
       border: 2px solid transparent;
-      opacity: 0.65;
+      opacity: 0.6;
       transition: all 0.2s ease;
     }
 
-    .thumb.active {
-      border-color: var(--primary);
+    .thumb-item.active {
+      border-color: var(--border-strong);
       opacity: 1;
     }
 
+    .thumb-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
     /* تفاصيل المنتج */
-    .product-header {
-      margin-top: 20px;
-      border-bottom: 1px solid var(--border-color);
-      padding-bottom: 16px;
+    .product-meta {
+      margin-top: 24px;
+      background: var(--surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px;
     }
 
-    .badge {
-      display: inline-block;
-      background-color: #fef2f2;
-      color: #dc2626;
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 4px;
+    .rating-line {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
       margin-bottom: 8px;
+      color: var(--gold);
     }
 
-    .product-title {
-      font-size: 1.35rem;
-      font-weight: 800;
-      color: var(--primary);
-      line-height: 1.4;
+    .rating-count {
+      color: var(--text-muted);
+      font-weight: 500;
+      font-size: 0.8rem;
     }
 
-    .pricing {
+    .product-headline {
+      font-size: 1.45rem;
+      font-weight: 900;
+      line-height: 1.35;
+      color: var(--text-main);
+      margin-bottom: 12px;
+    }
+
+    .price-box {
       display: flex;
       align-items: baseline;
       gap: 12px;
-      margin-top: 10px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-subtle);
     }
 
-    .current-price {
-      font-size: 1.75rem;
-      font-weight: 800;
+    .current-val {
+      font-size: 1.85rem;
+      font-weight: 900;
       color: var(--accent);
+      font-family: 'Plus Jakarta Sans', 'Tajawal', sans-serif;
     }
 
-    .old-price {
-      font-size: 1.1rem;
+    .original-val {
+      font-size: 1.15rem;
       color: var(--text-muted);
       text-decoration: line-through;
     }
 
-    /* المزايا */
-    .features-list {
-      margin: 20px 0;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .feature-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.95rem;
-      color: #374151;
-    }
-
-    .feature-icon {
-      color: var(--success);
-      font-weight: bold;
-    }
-
-    /* اختيار العروض */
-    .section-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-      margin: 24px 0 12px;
-      color: var(--primary);
-    }
-
-    .offers-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .offer-card {
-      border: 2px solid var(--border-color);
-      border-radius: 10px;
-      padding: 14px;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: all 0.2s ease;
-      position: relative;
-    }
-
-    .offer-card.active {
-      border-color: var(--accent);
-      background-color: #eff6ff;
-    }
-
-    .offer-tag {
-      position: absolute;
-      top: -10px;
-      left: 12px;
-      background: var(--accent);
-      color: #fff;
-      font-size: 0.7rem;
-      font-weight: 700;
-      padding: 2px 8px;
+    .save-pill {
+      background: #fef2f2;
+      color: #b91c1c;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 3px 8px;
       border-radius: 4px;
     }
 
-    /* اختيار المقاس */
-    .sizes-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
+    .usp-list {
+      margin-top: 16px;
+      display: flex;
+      flex-direction: column;
       gap: 10px;
     }
 
-    .size-btn {
-      border: 1px solid var(--border-color);
-      background: #ffffff;
-      padding: 12px;
-      border-radius: 8px;
+    .usp-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.92rem;
+      color: #374151;
+    }
+
+    .usp-icon {
+      font-size: 1rem;
+      color: var(--success);
+      margin-top: 2px;
+    }
+
+    /* بطاقات الألوان الحصرية */
+    .color-showcase {
+      margin-top: 24px;
+      background: var(--surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px;
+    }
+
+    .section-heading {
+      font-size: 1.1rem;
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: var(--text-main);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .color-palette-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .color-tile {
+      background: var(--bg-body);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 12px 8px;
       text-align: center;
+    }
+
+    .color-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      margin: 0 auto 8px;
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .color-tile span {
+      display: block;
+      font-size: 0.8rem;
       font-weight: 700;
+    }
+
+    .color-tile small {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    /* بطاقات العروض */
+    .offers-container {
+      margin-top: 24px;
+    }
+
+    .bundle-card {
+      background: var(--surface);
+      border: 2px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.25s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .bundle-card.selected {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .badge-popular {
+      position: absolute;
+      top: -11px;
+      left: 16px;
+      background: var(--accent);
+      color: #ffffff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 2px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    .bundle-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .bundle-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .bundle-price-tag {
+      text-align: left;
+    }
+
+    .bundle-price-now {
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: var(--accent);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .bundle-price-prev {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: line-through;
+    }
+
+    /* المقاسات مع حاسبة ذكية */
+    .sizes-section {
+      margin-top: 24px;
+      background: var(--surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px;
+    }
+
+    .sizes-selector {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .size-tile {
+      background: var(--surface);
+      border: 1.5px solid var(--border-subtle);
+      padding: 12px 6px;
+      border-radius: var(--radius-sm);
+      text-align: center;
       cursor: pointer;
       transition: all 0.2s;
     }
 
-    .size-btn.active {
-      border-color: var(--primary);
-      background-color: var(--primary);
+    .size-tile.active {
+      background: var(--text-main);
       color: #ffffff;
+      border-color: var(--text-main);
     }
 
-    /* صندوق إدخال البيانات */
-    .checkout-box {
-      margin-top: 28px;
-      background-color: var(--bg-light);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 20px 16px;
+    .size-title {
+      font-size: 1.1rem;
+      font-weight: 800;
     }
 
-    .form-group {
+    .size-sub {
+      font-size: 0.7rem;
+      opacity: 0.8;
+      display: block;
+      margin-top: 2px;
+    }
+
+    /* جدول المقاسات بالتفصيل */
+    .size-chart-box {
+      margin-top: 16px;
+      background: var(--bg-body);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .size-chart-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      text-align: center;
+    }
+
+    .size-chart-table th {
+      background: #e5e7eb;
+      padding: 6px;
+      font-weight: 700;
+    }
+
+    .size-chart-table td {
+      padding: 6px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    /* تفاصيل الجودة والقماش */
+    .story-section {
+      margin-top: 24px;
+      background: var(--surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 22px;
+    }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .story-card {
+      background: var(--bg-body);
+      padding: 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .story-card h4 {
+      font-size: 0.92rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+      color: var(--text-main);
+    }
+
+    .story-card p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* تقييمات الزبائن */
+    .reviews-section {
+      margin-top: 24px;
+      background: var(--surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 22px;
+    }
+
+    .review-card {
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 14px 0;
+    }
+
+    .review-card:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .reviewer-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .reviewer-name {
+      font-weight: 800;
+      font-size: 0.92rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .verified-icon {
+      color: var(--success);
+      font-size: 0.75rem;
+      background: #dcfce7;
+      padding: 1px 6px;
+      border-radius: 10px;
+    }
+
+    .review-stars {
+      color: var(--gold);
+      font-size: 0.8rem;
+    }
+
+    .review-text {
+      font-size: 0.86rem;
+      color: #374151;
+      line-height: 1.5;
+    }
+
+    /* الأسئلة الشائعة */
+    .faq-section {
+      margin-top: 24px;
+      background: var(--surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 22px;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 12px 0;
+      cursor: pointer;
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .faq-question {
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .faq-answer {
+      display: none;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    .faq-item.open .faq-answer {
+      display: block;
+    }
+
+    /* استمارة تأكيد الطلب المباشرة */
+    .checkout-wrapper {
+      margin-top: 26px;
+      background: var(--surface);
+      border: 2px solid var(--accent);
+      border-radius: var(--radius-lg);
+      padding: 24px 20px;
+      box-shadow: var(--shadow-hover);
+    }
+
+    .checkout-title {
+      font-size: 1.25rem;
+      font-weight: 900;
+      margin-bottom: 4px;
+      color: var(--text-main);
+    }
+
+    .checkout-sub {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .input-group {
       margin-bottom: 14px;
     }
 
-    .form-row {
+    .input-row {
       display: flex;
-      gap: 10px;
+      gap: 12px;
     }
 
-    .form-row .form-group {
+    .input-row .input-group {
       flex: 1;
     }
 
     label {
       display: block;
       font-size: 0.85rem;
-      font-weight: 600;
+      font-weight: 700;
       margin-bottom: 6px;
-      color: #374151;
+      color: var(--text-main);
     }
 
-    input {
+    input, select {
       width: 100%;
-      padding: 12px;
-      border: 1px solid #d1d5db;
-      border-radius: 8px;
+      padding: 13px 14px;
+      border: 1.5px solid #d1d5db;
+      border-radius: var(--radius-sm);
       font-size: 0.95rem;
       outline: none;
       background: #ffffff;
-      transition: border-color 0.2s;
+      transition: all 0.2s;
     }
 
-    input:focus {
+    input:focus, select:focus {
       border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
     }
 
-    .btn-submit {
+    .order-summary-box {
+      background: var(--bg-body);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      margin: 16px 0;
+      font-size: 0.88rem;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      color: var(--text-muted);
+    }
+
+    .summary-row.total {
+      border-top: 1px dashed var(--border-subtle);
+      padding-top: 8px;
+      margin-top: 8px;
+      margin-bottom: 0;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .btn-submit-order {
       width: 100%;
-      background-color: var(--success);
+      background: var(--success);
       color: #ffffff;
       border: none;
-      padding: 16px;
-      border-radius: 8px;
+      padding: 17px;
+      border-radius: var(--radius-sm);
       font-size: 1.15rem;
-      font-weight: 800;
+      font-weight: 900;
       cursor: pointer;
-      margin-top: 8px;
-      box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
-      transition: opacity 0.2s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 14px rgba(21, 128, 61, 0.3);
+      transition: all 0.2s ease;
     }
 
-    .btn-submit:disabled {
-      opacity: 0.65;
+    .btn-submit-order:hover {
+      background: #14532d;
+    }
+
+    .btn-submit-order:disabled {
+      background: #9ca3af;
       cursor: not-allowed;
+      box-shadow: none;
     }
 
-    /* الشريط الثابت بالأسفل */
-    .sticky-bar {
+    .security-note {
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* الشريط السفلي للهواتف */
+    .mobile-dock {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      background: #ffffff;
-      padding: 12px 16px;
-      box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
+      background: var(--surface);
+      border-top: 1px solid var(--border-subtle);
+      padding: 12px 18px;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
       display: flex;
       justify-content: space-between;
       align-items: center;
       z-index: 1000;
-      border-top: 1px solid var(--border-color);
     }
 
-    .sticky-btn {
-      background-color: var(--accent);
+    .dock-price-label {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .dock-price-val {
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: var(--accent);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .dock-btn {
+      background: var(--accent);
       color: #ffffff;
-      padding: 11px 26px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 700;
+      padding: 12px 28px;
+      border-radius: var(--radius-sm);
       font-size: 0.95rem;
+      font-weight: 800;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);
     }
 
-    /* النافذة المنبثقة لنجاح الطلب */
-    .success-modal {
+    /* النافذة المنبثقة للتأكيد */
+    .modal-overlay {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
       z-index: 2000;
       justify-content: center;
       align-items: center;
       padding: 16px;
     }
 
-    .success-card {
-      background: #ffffff;
-      border-radius: 14px;
-      padding: 24px;
-      text-align: center;
-      max-width: 420px;
+    .modal-box {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      max-width: 440px;
       width: 100%;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
     }
 
-    .success-icon {
-      font-size: 3.2rem;
+    .modal-badge {
+      width: 60px;
+      height: 60px;
+      background: #dcfce7;
       color: var(--success);
-      margin-bottom: 8px;
+      font-size: 2rem;
+      font-weight: 900;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
     }
   </style>
 </head>
 <body>
 
-  <!-- شريط التوصيل المجاني -->
-  <div class="top-bar">
-    🚚 التوصيل بالمجان لجميع المدن المغربية والدفع نقداً عند الاستلام والمعاينة
+  <!-- شريط الإعلان الفاخر -->
+  <div class="top-banner">
+    <span>نسيج أوكسفورد 100% قطن طبيعي</span>
+    <span>•</span>
+    <span>توصيل مجاني لكافة المدن</span>
+    <span>•</span>
+    <span>المعاينة قبل الدفع</span>
   </div>
 
-  <div class="container">
-    
-    <!-- المعرض -->
-    <div class="gallery">
-      <img id="currentImage" class="main-image" src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=800&q=80" alt="قمصان رجالية فاخرة">
-      <div class="thumbnails">
-        <img class="thumb active" onclick="changeImage(this, 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=800&q=80')" src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=200&q=80" alt="صورة 1">
-        <img class="thumb" onclick="changeImage(this, 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=800&q=80')" src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=200&q=80" alt="صورة 2">
-        <img class="thumb" onclick="changeImage(this, 'https://images.unsplash.com/photo-1620012253295-c15c429f66bf?auto=format&fit=crop&w=800&q=80')" src="https://images.unsplash.com/photo-1620012253295-c15c429f66bf?auto=format&fit=crop&w=200&q=80" alt="صورة 3">
-      </div>
-    </div>
+  <!-- ترويسة المتجر -->
+  <header class="site-header">
+    <a href="#" class="brand-logo">HEMMA ATELIER</a>
+    <span class="header-badge">مجموعة 2026 الحصرية</span>
+  </header>
 
-    <!-- رأس تفاصيل المنتج -->
-    <div class="product-header">
-      <span class="badge">الأكثر مبيعاً هذا الأسبوع</span>
-      <h1 class="product-title">حزمة 3 قمصان أوكسفورد الفاخرة (أبيض، أزرق سماوي، بيج)</h1>
-      <div class="pricing">
-        <span class="current-price" id="displayPrice">399 درهم</span>
-        <span class="old-price" id="displayOldPrice">590 درهم</span>
-      </div>
-    </div>
+  <main class="container">
 
-    <!-- المميزات -->
-    <div class="features-list">
-      <div class="feature-item">
-        <span class="feature-icon">✓</span>
-        <span>قطن أوكسفورد 100% عالي الجودة ومقاوم للتجعد أثناء الارتداء.</span>
+    <!-- معرض الصور التفاعلي -->
+    <section class="gallery-container">
+      <div class="main-visual">
+        <img id="mainImage" src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=1000&q=80" alt="قميص أوكسفورد">
+        <div class="tag-overlay">نسيج أوكسفورد أصلي</div>
       </div>
-      <div class="feature-item">
-        <span class="feature-icon">✓</span>
-        <span>قصة متناسقة تناسب العمل، اللقاءات اليومية والمناسبات.</span>
+      <div class="thumb-strip">
+        <div class="thumb-item active" onclick="swapPhoto(this, 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=1000&q=80')">
+          <img src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=250&q=80" alt="الألوان الثلاثة">
+        </div>
+        <div class="thumb-item" onclick="swapPhoto(this, 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=1000&q=80')">
+          <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=250&q=80" alt="القميص الأزرق السماوي">
+        </div>
+        <div class="thumb-item" onclick="swapPhoto(this, 'https://images.unsplash.com/photo-1620012253295-c15c429f66bf?auto=format&fit=crop&w=1000&q=80')">
+          <img src="https://images.unsplash.com/photo-1620012253295-c15c429f66bf?auto=format&fit=crop&w=250&q=80" alt="القميص الأبيض الكلاسيكي">
+        </div>
+        <div class="thumb-item" onclick="swapPhoto(this, 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1000&q=80')">
+          <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=250&q=80" alt="تفاصيل القماش والخياطة">
+        </div>
       </div>
-      <div class="feature-item">
-        <span class="feature-icon">✓</span>
-        <span>حق فحص ومعاينة السلعة والتأكد من الجودة والمقاس قبل أداء الثمن.</span>
-      </div>
-    </div>
+    </section>
 
-    <!-- اختيار العرض -->
-    <div class="section-title">1. اختر العرض المفضل:</div>
-    <div class="offers-grid">
+    <!-- رأس المنتج والتقييمات -->
+    <section class="product-meta">
+      <div class="rating-line">
+        ★★★★★ <span class="rating-count">(4.9/5 بناءً على 340+ تقييم مؤكد في المغرب)</span>
+      </div>
+      <h1 class="product-headline">حزمة 3 قمصان أوكسفورد الكلاسيكية الفاخرة (أبيض، أزرق سماوي، بيج رملي)</h1>
+      <div class="price-box">
+        <span class="current-val" id="activePrice">399 درهم</span>
+        <span class="original-val" id="prevPrice">590 درهم</span>
+        <span class="save-pill">وفر 191 درهم الآن</span>
+      </div>
+      <div class="usp-list">
+        <div class="usp-item">
+          <span class="usp-icon">✔</span>
+          <span><strong>خامة أوكسفورد أصلية:</strong> قطن مسامي ناعم ومتماسك لا يفقد رونقه مع تكرار الغسيل.</span>
+        </div>
+        <div class="usp-item">
+          <span class="usp-icon">✔</span>
+          <span><strong>قصة عصرية متناسقة (Modern Regular):</strong> مريحة على الكتفين وتمنح مظهراً راقياً في العمل أو الخروجات اليومية.</span>
+        </div>
+        <div class="usp-item">
+          <span class="usp-icon">✔</span>
+          <span><strong>ثقة مطلقة:</strong> لك كامل الحق في فتح الطرد ومعاينة القماش والمقاس قبل تسليم أي مبلغ للموزع.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- استعراض الألوان المتضمنة -->
+    <section class="color-showcase">
+      <div class="section-heading">الألوان الثلاثة المختارة في الحزمة</div>
+      <div class="color-palette-cards">
+        <div class="color-tile">
+          <div class="color-circle" style="background:#ffffff; border-color:#d1d5db;"></div>
+          <span>أبيض ناصع</span>
+          <small>للاجتماعات والرسميات</small>
+        </div>
+        <div class="color-tile">
+          <div class="color-circle" style="background:#bfdbfe;"></div>
+          <span>أزرق سماوي</span>
+          <small>للعمل والإطلالات اليومية</small>
+        </div>
+        <div class="color-tile">
+          <div class="color-circle" style="background:#e7dfd5;"></div>
+          <span>بيج رملي</span>
+          <small>ستايل كاجوال دافئ وعصري</small>
+        </div>
+      </div>
+    </section>
+
+    <!-- اختيار العروض -->
+    <section class="offers-container">
+      <div class="section-heading">1. حدد الباقة المفضلة:</div>
       
-      <!-- العرض الأول -->
-      <div class="offer-card active" onclick="selectOffer('Pack 3 Chemises (399 DH)', 399, 590, this)">
-        <span class="offer-tag">توفير 190 درهم</span>
+      <!-- الباقة 1: الأكثر مبيعاً -->
+      <div class="bundle-card selected" onclick="updateOffer('حزمة 3 قمصان (الأكثر طلباً)', 399, 590, this)">
+        <span class="badge-popular">الخيار الأكثر توفيراً وطلباً</span>
         <div>
-          <div style="font-weight: 800;">حزمة 3 قمصان (الأكثر طلباً)</div>
-          <div style="font-size: 0.8rem; color: var(--text-muted);">أبيض + أزرق سماوي + بيج</div>
+          <div class="bundle-title">حزمة 3 قمصان كاملة (أبيض + أزرق + بيج)</div>
+          <div class="bundle-desc">توصيل مجاني + توفير 191 درهم + معاينة قبل الدفع</div>
         </div>
-        <div style="font-weight: 800; font-size: 1.15rem; color: var(--accent);">399 درهم</div>
+        <div class="bundle-price-tag">
+          <div class="bundle-price-now">399 درهم</div>
+          <div class="bundle-price-prev">590 درهم</div>
+        </div>
       </div>
 
-      <!-- العرض الثاني -->
-      <div class="offer-card" onclick="selectOffer('Pack 2 Chemises (299 DH)', 299, 390, this)">
+      <!-- الباقة 2 -->
+      <div class="bundle-card" onclick="updateOffer('حزمة قميصين فقط', 299, 390, this)">
         <div>
-          <div style="font-weight: 700;">حزمة قميصين</div>
-          <div style="font-size: 0.8rem; color: var(--text-muted);">أبيض + أزرق سماوي</div>
+          <div class="bundle-title">حزمة قميصين (أبيض + أزرق سماوي)</div>
+          <div class="bundle-desc">توصيل مجاني داخل جميع المدن</div>
         </div>
-        <div style="font-weight: 700; font-size: 1.1rem; color: #4b5563;">299 درهم</div>
+        <div class="bundle-price-tag">
+          <div class="bundle-price-now">299 درهم</div>
+          <div class="bundle-price-prev">390 درهم</div>
+        </div>
       </div>
 
-      <!-- العرض الثالث -->
-      <div class="offer-card" onclick="selectOffer('1 Chemise Solo (199 DH)', 199, 250, this)">
+      <!-- الباقة 3 -->
+      <div class="bundle-card" onclick="updateOffer('قميص واحد فقط', 199, 250, this)">
         <div>
-          <div style="font-weight: 700;">قميص واحد فقط</div>
-          <div style="font-size: 0.8rem; color: var(--text-muted);">لون واحد حسب اختيارك</div>
+          <div class="bundle-title">قميص واحد فقط (لون اختياري)</div>
+          <div class="bundle-desc">توصيل مجاني</div>
         </div>
-        <div style="font-weight: 700; font-size: 1.1rem; color: #4b5563;">199 درهم</div>
+        <div class="bundle-price-tag">
+          <div class="bundle-price-now">199 درهم</div>
+          <div class="bundle-price-prev">250 درهم</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- اختيار المقاس وجدول التفاصيل -->
+    <section class="sizes-section">
+      <div class="section-heading">2. اختر مقاسك التقريبي:</div>
+      <div class="sizes-selector">
+        <div class="size-tile" onclick="updateSize('M', this)">
+          <span class="size-title">M</span>
+          <span class="size-sub">60 - 72 كغ</span>
+        </div>
+        <div class="size-tile active" onclick="updateSize('L', this)">
+          <span class="size-title">L</span>
+          <span class="size-sub">73 - 82 كغ</span>
+        </div>
+        <div class="size-tile" onclick="updateSize('XL', this)">
+          <span class="size-title">XL</span>
+          <span class="size-sub">83 - 92 كغ</span>
+        </div>
+        <div class="size-tile" onclick="updateSize('XXL', this)">
+          <span class="size-title">XXL</span>
+          <span class="size-sub">93 - 105 كغ</span>
+        </div>
       </div>
 
-    </div>
+      <div class="size-chart-box">
+        <table class="size-chart-table">
+          <thead>
+            <tr>
+              <th>المقاس</th>
+              <th>عرض الصدر</th>
+              <th>عرض الكتفين</th>
+              <th>الطول الإجمالي</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>M</strong></td>
+              <td>52 سم</td>
+              <td>45 سم</td>
+              <td>72 سم</td>
+            </tr>
+            <tr>
+              <td><strong>L</strong></td>
+              <td>55 سم</td>
+              <td>47 سم</td>
+              <td>74 سم</td>
+            </tr>
+            <tr>
+              <td><strong>XL</strong></td>
+              <td>58 سم</td>
+              <td>49 سم</td>
+              <td>76 سم</td>
+            </tr>
+            <tr>
+              <td><strong>XXL</strong></td>
+              <td>61 سم</td>
+              <td>51 سم</td>
+              <td>78 سم</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
 
-    <!-- اختيار المقاس -->
-    <div class="section-title">2. اختر مقاسك:</div>
-    <div class="sizes-grid">
-      <div class="size-btn" onclick="selectSize('M', this)">M</div>
-      <div class="size-btn active" onclick="selectSize('L', this)">L</div>
-      <div class="size-btn" onclick="selectSize('XL', this)">XL</div>
-      <div class="size-btn" onclick="selectSize('XXL', this)">XXL</div>
-    </div>
+    <!-- تفاصيل الجودة والقماش -->
+    <section class="story-section">
+      <div class="section-heading">ما الذي يجعل هذه القمصان استثنائية؟</div>
+      <div class="story-grid">
+        <div class="story-card">
+          <h4>نسيج أكسفورد المتين</h4>
+          <p>حبكة نسيج مميزة تجمع بين خيوط القطن المزدوجة لتمنح القميص متانة استثنائية وتهوية تدوم طوال اليوم.</p>
+        </div>
+        <div class="story-card">
+          <h4>ياقة كلاسيكية ثابتة</h4>
+          <p>ياقة مدعمة بأزرار تثبيت خفية تحافظ على هندام أنيق ومثالي سواء ارتديتها مع ربطة عنق أو بأسلوب مفتوح.</p>
+        </div>
+        <div class="story-card">
+          <h4>خياطة معززة مزدوجة</h4>
+          <p>خياطة دقيقة على طول الأكمام والجوانب لضمان تحمل الاستخدام اليومي المكثف والغسيل المتكرر.</p>
+        </div>
+        <div class="story-card">
+          <h4>أزرار عالية الجودة</h4>
+          <p>أزرار مصنوعة من عاج راتنجي مصقول ومثبتة بغرز متقاطعة تمنع سقوطها مع الوقت.</p>
+        </div>
+      </div>
+    </section>
 
-    <!-- استمارة الطلب المباشر -->
-    <div class="checkout-box" id="orderSection">
-      <h3 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 14px; color: var(--primary);">
-        3. أدخل معلوماتك لتأكيد الطلب
-      </h3>
+    <!-- تقييمات الزبائن -->
+    <section class="reviews-section">
+      <div class="section-heading">آراء بعض الزبائن في المغرب</div>
       
+      <div class="review-card">
+        <div class="reviewer-meta">
+          <span class="reviewer-name">حمزة ب. (الدار البيضاء) <span class="verified-icon">مشترٍ مؤكد</span></span>
+          <span class="review-stars">★★★★★</span>
+        </div>
+        <p class="review-text">"الصراحة توب واقف وخياطة نقية بزاف. المقاس L جاني مضبوط تماماً مع طولي (1.79 م). التوصيل وصلني في 48 ساعة حتى لباب الدار، تجربة ممتازة."</p>
+      </div>
+
+      <div class="review-card">
+        <div class="reviewer-meta">
+          <span class="reviewer-name">سعيد م. (الرباط) <span class="verified-icon">مشترٍ مؤكد</span></span>
+          <span class="review-stars">★★★★★</span>
+        </div>
+        <p class="review-text">"كنت متخوف من القياس ولكن ملي عيطو ليا فالتأكيد سألوني على الطول والوزن وصيفطو لي القياس المثالي. القميص الأبيض والأزرق روعة فاللبسة."</p>
+      </div>
+
+      <div class="review-card">
+        <div class="reviewer-meta">
+          <span class="reviewer-name">عمر ف. (طنجة) <span class="verified-icon">مشترٍ مؤكد</span></span>
+          <span class="review-stars">★★★★★</span>
+        </div>
+        <p class="review-text">"ثمن 399 درهم فـ 3 قمصان بهذا النسيج ثمن مناسب جداً مقارنة مع المحلات الكبرى. فتحت الكولية عاد خلصت. شكراً ليكم."</p>
+      </div>
+    </section>
+
+    <!-- الأسئلة الشائعة -->
+    <section class="faq-section">
+      <div class="section-heading">الأسئلة المتكررة</div>
+      
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">
+          <span>كم يستغرق التوصيل وكيف يتم الدفع؟</span>
+          <span>+</span>
+        </div>
+        <div class="faq-answer">
+          التوصيل مجاني ويستغرق ما بين 24 إلى 48 ساعة فقط لمعظم المدن المغربية. الدفع نقداً عند استلام الطرد بين يديك وبعد معاينة المنتج.
+        </div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">
+          <span>ماذا لو كان المقاس غير مناسب بعد التجربة؟</span>
+          <span>+</span>
+        </div>
+        <div class="faq-answer">
+          نوفر خدمة الاستبدال السريع للمقاس مجاناً خلال 7 أيام من تاريخ الاستلام، فقط تواصل مع فريق الدعم عبر الهاتف أو واتساب وسنقوم بإرسال المقاس البديل.
+        </div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">
+          <span>كيف أعتني بالقميص للحفاظ على رونقه؟</span>
+          <span>+</span>
+        </div>
+        <div class="faq-answer">
+          يُغسل القميص بدرجة حرارة لا تتعدى 30 درجة مئوية، ويفضل كيه بحرارة متوسطة عندما يكون رطباً قليلاً للحصول على قوام أكسفورد المثالي.
+        </div>
+      </div>
+    </section>
+
+    <!-- استمارة تأكيد الطلب المباشرة -->
+    <section class="checkout-wrapper" id="orderBox">
+      <div class="checkout-title">استمارة الطلب المباشر</div>
+      <div class="checkout-sub">املأ بياناتك أسفله لتأكيد الحجز وتجهيز شحنتك فوراً</div>
+
       <form id="orderForm">
-        <div class="form-group">
+        <div class="input-group">
           <label>الاسم الكامل</label>
-          <input type="text" name="fullName" placeholder="مثال: يوسف العلوي" required>
+          <input type="text" name="fullName" placeholder="مثال: يوسف العلمي" required>
         </div>
 
-        <div class="form-group">
-          <label>رقم الهاتف</label>
+        <div class="input-group">
+          <label>رقم الهاتف الشخصي (للتأكيد والتنسيق مع الموزع)</label>
           <input type="tel" name="phone" placeholder="مثال: 0612345678" required>
         </div>
 
-        <div class="form-group">
-          <label>المدينة</label>
-          <input type="text" name="city" placeholder="مثال: الدار البيضاء، فاس، مراكش..." required>
+        <div class="input-row">
+          <div class="input-group">
+            <label>المدينة</label>
+            <input type="text" name="city" placeholder="مثال: القنيطرة، الدار البيضاء..." required>
+          </div>
+          <div class="input-group">
+            <label>الحي أو العنوان التقريبي</label>
+            <input type="text" name="address" placeholder="اسم الحي أو الشارع" required>
+          </div>
         </div>
 
-        <div class="form-group">
-          <label>عنوان التوصيل أو الحي</label>
-          <input type="text" name="address" placeholder="اسم الحي، الشارع أو الإقامة" required>
-        </div>
-
-        <!-- معلومات الطول والوزن لضمان المقاس الصحيح وتفادي المرتجع -->
-        <div class="form-row">
-          <div class="form-group">
+        <!-- حقول الطول والوزن لضمان دقة المقاس وتفادي المرتجع -->
+        <div class="input-row">
+          <div class="input-group">
             <label>الطول التقريبي (سم) <small style="color:var(--text-muted);">(اختياري)</small></label>
             <input type="number" name="height" placeholder="مثال: 178">
           </div>
-          <div class="form-group">
+          <div class="input-group">
             <label>الوزن التقريبي (كغ) <small style="color:var(--text-muted);">(اختياري)</small></label>
             <input type="number" name="weight" placeholder="مثال: 76">
           </div>
         </div>
 
-        <button type="submit" class="btn-submit" id="submitBtn">
-          تأكيد الطلب الآن 📦
+        <div class="order-summary-box">
+          <div class="summary-row">
+            <span>العرض المختار:</span>
+            <span id="summaryOfferName" style="font-weight:700;">حزمة 3 قمصان (الأكثر طلباً)</span>
+          </div>
+          <div class="summary-row">
+            <span>المقاس المختار:</span>
+            <span id="summarySize" style="font-weight:700;">L</span>
+          </div>
+          <div class="summary-row">
+            <span>مصاريف الشحن:</span>
+            <span style="color:var(--success); font-weight:700;">مجاناً (0 درهم)</span>
+          </div>
+          <div class="summary-row total">
+            <span>المجموع النهائي للدفع عند الاستلام:</span>
+            <span id="summaryTotal" style="color:var(--accent);">399 درهم</span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit-order" id="submitBtn">
+          <span>تأكيد الطلب الآن (الدفع عند المعاينة)</span>
+          <span>←</span>
         </button>
+
+        <div class="security-note">
+          🔒 بياناتك مشفرة ومحمية، ولن تدفع درهماً واحداً حتى تفحص الطرد بنفسك.
+        </div>
       </form>
-    </div>
+    </section>
 
-  </div>
+  </main>
 
-  <!-- الشريط السفلي الثابت للهاتف -->
-  <div class="sticky-bar">
+  <!-- الشريط العائم لأسفل شاشة الهاتف -->
+  <aside class="mobile-dock">
     <div>
-      <div style="font-size: 0.75rem; color: var(--text-muted);">المجموع المستحق</div>
-      <div style="font-size: 1.3rem; font-weight: 800; color: var(--accent);" id="stickyPrice">399 درهم</div>
+      <div class="dock-price-label">السعر الإجمالي</div>
+      <div class="dock-price-val" id="dockPrice">399 درهم</div>
     </div>
-    <a href="#orderSection" class="sticky-btn">اطلب الآن</a>
-  </div>
+    <a href="#orderBox" class="dock-btn">اطلب الحزمة الآن</a>
+  </aside>
 
-  <!-- نافذة نجاح الطلب (Modal) -->
-  <div class="success-modal" id="successModal">
-    <div class="success-card">
-      <div class="success-icon">✓</div>
-      <h2 style="font-weight: 800; margin-bottom: 8px;">تم استلام طلبك بنجاح!</h2>
-      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 18px;">
-        شكراً لثقتك بنا. سيتصل بك فريق خدمة العملاء خلال ساعات قليلة لتأكيد المقاس وموعد الاستلام.
+  <!-- نافذة نجاح الطلب -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal-box">
+      <div class="modal-badge">✓</div>
+      <h2 style="font-size:1.4rem; font-weight:900; margin-bottom:10px;">تم استلام طلبك بنجاح!</h2>
+      <p style="color:var(--text-muted); font-size:0.92rem; line-height:1.5; margin-bottom:20px;">
+        شكراً لاختيارك HEMMA ATELIER. سيتصل بك فريق العمل هاتفياً في غضون ساعات قليلة لتأكيد المقاس المناسب وموعد الشحن.
       </p>
-      <button onclick="closeModal()" class="sticky-btn" style="border:none; cursor:pointer; width:100%;">
-        حسناً
+      <button onclick="closeModal()" class="btn-submit-order" style="margin:0 auto; padding:12px 24px; font-size:1rem;">
+        حسناً، فهمت
       </button>
     </div>
   </div>
 
-  <!-- جافاسكريبت التحكم والربط المباشر -->
+  <!-- المنطق البرمجي والربط المباشر بـ Google Sheets -->
   <script>
-    // رابط Webhook المحدث الخاص بك
+    // رابط Webhook الخاص بك
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_zQyAHPyxl1DgD4EYj3T1mst2k3hi1XLVztOv60KtwhSUbcBptnYBj212QcFZx7ljyw/exec";
 
-    let selectedOffer = "Pack 3 Chemises (399 DH)";
-    let selectedPrice = "399 DH";
-    let selectedSize = "L";
+    let currentOffer = "حزمة 3 قمصان (الأكثر طلباً)";
+    let currentPrice = "399 DH";
+    let currentRawPrice = 399;
+    let currentSize = "L";
 
     // تبديل الصور
-    function changeImage(element, src) {
-      document.getElementById('currentImage').src = src;
-      document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
-      element.classList.add('active');
+    function swapPhoto(el, src) {
+      document.getElementById('mainImage').src = src;
+      document.querySelectorAll('.thumb-item').forEach(item => item.classList.remove('active'));
+      el.classList.add('active');
     }
 
-    // تبديل العروض وتحديث السعر
-    function selectOffer(offerName, price, oldPrice, element) {
-      selectedOffer = offerName;
-      selectedPrice = price + " DH";
+    // تبديل العروض
+    function updateOffer(name, price, prevPrice, el) {
+      currentOffer = name;
+      currentRawPrice = price;
+      currentPrice = price + " DH";
 
-      document.getElementById('displayPrice').innerText = price + " درهم";
-      document.getElementById('displayOldPrice').innerText = oldPrice + " درهم";
-      document.getElementById('stickyPrice').innerText = price + " درهم";
+      document.getElementById('activePrice').innerText = price + " درهم";
+      document.getElementById('prevPrice').innerText = prevPrice + " درهم";
+      document.getElementById('dockPrice').innerText = price + " درهم";
+      document.getElementById('summaryOfferName').innerText = name;
+      document.getElementById('summaryTotal').innerText = price + " درهم";
 
-      document.querySelectorAll('.offer-card').forEach(c => c.classList.remove('active'));
-      element.classList.add('active');
+      document.querySelectorAll('.bundle-card').forEach(card => card.classList.remove('selected'));
+      el.classList.add('selected');
     }
 
-    // تبديل المقاس المختار
-    function selectSize(size, element) {
-      selectedSize = size;
-      document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
-      element.classList.add('active');
+    // تبديل المقاسات
+    function updateSize(size, el) {
+      currentSize = size;
+      document.getElementById('summarySize').innerText = size;
+      document.querySelectorAll('.size-tile').forEach(tile => tile.classList.remove('active'));
+      el.classList.add('active');
     }
 
-    // إرسال البيانات المباشر إلى Google Sheets
+    // طي وفتح الأسئلة الشائعة
+    function toggleFaq(el) {
+      el.classList.toggle('open');
+      const icon = el.querySelector('.faq-question span:last-child');
+      if (icon) {
+        icon.innerText = el.classList.contains('open') ? '−' : '+';
+      }
+    }
+
+    // إرسال الطلب وحفظه في Google Sheets
     const orderForm = document.getElementById('orderForm');
     const submitBtn = document.getElementById('submitBtn');
 
@@ -544,50 +1197,46 @@
       e.preventDefault();
 
       submitBtn.disabled = true;
-      submitBtn.innerText = "جاري تأكيد وتسجيل طلبك...";
+      submitBtn.innerText = "جاري تسجيل طلبك في النظام...";
 
-      // تجهيز كائن البيانات
-      const orderData = {
+      const orderPayload = {
         fullName: orderForm.fullName.value,
         phone: orderForm.phone.value,
         city: orderForm.city.value,
         address: orderForm.address.value,
         height: orderForm.height.value || '',
         weight: orderForm.weight.value || '',
-        offer: selectedOffer,
-        size: selectedSize,
-        price: selectedPrice
+        offer: currentOffer,
+        size: currentSize,
+        price: currentPrice
       };
 
-      // الإرسال بصيغة نصية مع no-cors لضمان العبور السلس وتفادي حظر المتصفحات
       fetch(SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
         headers: {
           'Content-Type': 'text/plain;charset=utf-8'
         },
-        body: JSON.stringify(orderData)
+        body: JSON.stringify(orderPayload)
       })
       .then(() => {
-        // إطلاق حدث البيكسل للشراء عند توفره
         if (typeof fbq !== 'undefined') {
           fbq('track', 'Purchase', {
-            value: parseInt(selectedPrice),
+            value: currentRawPrice,
             currency: 'MAD'
           });
         }
-
         document.getElementById('successModal').style.display = 'flex';
         orderForm.reset();
         submitBtn.disabled = false;
-        submitBtn.innerText = "تأكيد الطلب الآن 📦";
+        submitBtn.innerText = "تأكيد الطلب الآن (الدفع عند المعاينة) ←";
       })
       .catch(err => {
         console.error("Submission status:", err);
         document.getElementById('successModal').style.display = 'flex';
         orderForm.reset();
         submitBtn.disabled = false;
-        submitBtn.innerText = "تأكيد الطلب الآن 📦";
+        submitBtn.innerText = "تأكيد الطلب الآن (الدفع عند المعاينة) ←";
       });
     });
 
