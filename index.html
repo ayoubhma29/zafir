@@ -1,96 +1,914 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OrderPro — SaaS E-Commerce | Hmahma</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        /* ============================================
-           ROOT & RESET
-        ============================================ */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        :root {
-            --primary: #1E3A5F;
-            --primary-light: #2D5A8E;
-            --secondary: #E85D26;
-            --secondary-light: #F97316;
-            --success: #10B981;
-            --warning: #F59E0B;
-            --danger: #EF4444;
-            --info: #3B82F6;
-            --purple: #8B5CF6;
-            --dark: #0F172A;
-            --text: #1E293B;
-            --text-gray: #64748B;
-            --text-light: #94A3B8;
-            --border: #E2E8F0;
-            --bg: #F1F5F9;
-            --white: #FFFFFF;
-            --card: #FFFFFF;
-            --sidebar-w: 260px;
-            --header-h: 70px;
-            --radius: 12px;
-            --radius-lg: 16px;
-            --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
-            --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
-            --shadow-lg: 0 10px 40px rgba(0,0,0,0.12);
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>VIP Date Invitation &#x2764;&#xFE0F;</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #ff2e74;
+      --primary-dark: #c9184a;
+      --secondary: #ff758f;
+      --bg-light: #fff0f3;
+      --card-bg: rgba(255, 255, 255, 0.94);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at top, #ffe5ec 0%, #ffb3c6 55%, #ff8fab 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 18px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Floating Background Elements */
+    .heart-bg {
+      position: fixed;
+      top: -10%;
+      font-size: 22px;
+      animation: fall linear infinite;
+      opacity: 0.55;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      to { transform: translateY(112vh) rotate(360deg); }
+    }
+
+    /* Confetti Canvas */
+    #confettiCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    /* ENVELOPE INTRO SCREEN */
+    .envelope-wrapper {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle, #ffe5ec 0%, #ffb3c6 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 500;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .envelope-wrapper.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .envelope-box {
+      width: 240px;
+      height: 165px;
+      background: #ff4d79;
+      border-radius: 16px;
+      position: relative;
+      box-shadow: 0 20px 45px rgba(201, 24, 74, 0.35);
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: floatEnv 2.5s ease-in-out infinite;
+    }
+
+    @keyframes floatEnv {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    .envelope-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 120px solid transparent;
+      border-right: 120px solid transparent;
+      border-top: 95px solid #ff758f;
+      border-radius: 12px;
+      transform-origin: top;
+      transition: transform 0.5s ease;
+      z-index: 3;
+    }
+
+    .envelope-box.open .envelope-flap {
+      transform: rotateX(180deg);
+    }
+
+    .seal-heart {
+      width: 54px;
+      height: 54px;
+      background: #fff;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 28px;
+      z-index: 4;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+      animation: pulseHeart 1.3s infinite;
+    }
+
+    @keyframes pulseHeart {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.14); }
+    }
+
+    .envelope-title {
+      margin-top: 28px;
+      color: #a4133c;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .envelope-sub {
+      margin-top: 6px;
+      color: #c9184a;
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.7);
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-weight: 600;
+    }
+
+    /* MAIN CARD */
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(14px);
+      width: 100%;
+      max-width: 400px;
+      border-radius: 30px;
+      padding: 24px 20px 28px;
+      box-shadow: 0 20px 50px rgba(201, 24, 74, 0.22);
+      text-align: center;
+      position: relative;
+      z-index: 10;
+      border: 2.5px solid rgba(255, 255, 255, 0.9);
+    }
+
+    /* Progress Bar */
+    .progress-container {
+      width: 100%;
+      height: 7px;
+      background: #ffe5ec;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 20%;
+      background: linear-gradient(90deg, #ff758f, #ff2e74);
+      border-radius: 10px;
+      transition: width 0.4s ease;
+    }
+
+    .step {
+      display: none;
+      animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .step.active {
+      display: block;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(18px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .badge-top {
+      display: inline-block;
+      background: #ffe5ec;
+      color: var(--primary-dark);
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+
+    .emoji-header {
+      font-size: 56px;
+      margin-bottom: 8px;
+      display: block;
+      animation: bounce 2.2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-7px); }
+    }
+
+    h1 {
+      color: #a4133c;
+      font-size: 21px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      line-height: 1.35;
+    }
+
+    p {
+      color: #594a4e;
+      font-size: 14px;
+      line-height: 1.55;
+      margin-bottom: 20px;
+    }
+
+    .highlight {
+      background: #ffccd5;
+      color: #a4133c;
+      padding: 2px 8px;
+      border-radius: 7px;
+      font-weight: 700;
+    }
+
+    /* Funny Tease Bubble on Step 1 */
+    .tease-bubble {
+      min-height: 26px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #c9184a;
+      margin-bottom: 12px;
+      transition: all 0.2s ease;
+    }
+
+    /* Buttons */
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      min-height: 64px;
+      position: relative;
+    }
+
+    .btn {
+      border: none;
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-size: 15.5px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.22s ease;
+    }
+
+    .btn-yes {
+      background: linear-gradient(135deg, #ff2e74, #c9184a);
+      color: white;
+      box-shadow: 0 10px 24px rgba(201, 24, 74, 0.38);
+    }
+
+    .btn-yes:active {
+      transform: scale(0.95);
+    }
+
+    .btn-no {
+      background: #f1f3f5;
+      color: #495057;
+      box-shadow: 0 5px 12px rgba(0,0,0,0.08);
+      transition: left 0.16s ease, top 0.16s ease, transform 0.16s ease;
+    }
+
+    /* Step 2 Vertical Menu */
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      margin-bottom: 20px;
+    }
+
+    .option-row {
+      background: #fff8fa;
+      border: 2px solid #ffccd5;
+      border-radius: 18px;
+      padding: 13px 15px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-align: left;
+    }
+
+    .option-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .option-row span.icon {
+      font-size: 28px;
+    }
+
+    .option-row span.label {
+      font-size: 14px;
+      font-weight: 700;
+      color: #3d2c31;
+    }
+
+    .check-circle {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid #ffb3c6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      color: transparent;
+      transition: all 0.2s ease;
+    }
+
+    /* Step 3 Grid */
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 11px;
+      margin-bottom: 20px;
+    }
+
+    .option-card {
+      background: #fff8fa;
+      border: 2px solid #ffccd5;
+      border-radius: 18px;
+      padding: 16px 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      position: relative;
+    }
+
+    .option-card span.icon {
+      font-size: 32px;
+    }
+
+    .option-card span.label {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #3d2c31;
+    }
+
+    .option-row.selected,
+    .option-card.selected {
+      background: #ffe5ec;
+      border-color: #ff2e74;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(255, 46, 116, 0.2);
+    }
+
+    .option-row.selected .check-circle {
+      background: #ff2e74;
+      border-color: #ff2e74;
+      color: #fff;
+    }
+
+    .btn-next {
+      width: 100%;
+      background: linear-gradient(135deg, #ff2e74, #c9184a);
+      color: white;
+      box-shadow: 0 8px 20px rgba(201, 24, 74, 0.3);
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    .btn-next.enabled {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Step 4 Love Meter & Custom Note */
+    .meter-box {
+      background: #fff8fa;
+      border: 2px solid #ffccd5;
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+
+    .meter-value {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: #ff2e74;
+      height: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .note-input {
+      width: 100%;
+      border: 2px solid #ffccd5;
+      background: #fff8fa;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-family: inherit;
+      font-size: 13.5px;
+      color: #333;
+      margin-bottom: 18px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .note-input:focus {
+      border-color: #ff2e74;
+    }
+
+    /* Step 5 VIP Boarding Pass Ticket */
+    .vip-ticket {
+      background: #fff;
+      border-radius: 20px;
+      border: 2px solid #ffb3c6;
+      overflow: hidden;
+      margin-bottom: 18px;
+      box-shadow: 0 8px 25px rgba(201, 24, 74, 0.12);
+      text-align: left;
+      position: relative;
+    }
+
+    .ticket-header {
+      background: linear-gradient(135deg, #ff2e74, #c9184a);
+      color: #fff;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .ticket-body {
+      padding: 16px;
+    }
+
+    .ticket-row {
+      margin-bottom: 10px;
+      font-size: 13.5px;
+      color: #444;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .ticket-row strong {
+      color: #a4133c;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .ticket-divider {
+      border-top: 2px dashed #ffb3c6;
+      margin: 12px 0;
+      position: relative;
+    }
+
+    .countdown-box {
+      background: #fff0f3;
+      border-radius: 12px;
+      padding: 10px;
+      text-align: center;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #c9184a;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- 3D ENVELOPE INTRO -->
+  <div class="envelope-wrapper" id="envelopeScreen" onclick="openEnvelope()">
+    <div class="envelope-box" id="envelopeBox">
+      <div class="envelope-flap"></div>
+      <div class="seal-heart">&#x1F48C;</div>
+    </div>
+    <div class="envelope-title">3ndek Invitation Khassa!</div>
+    <div class="envelope-sub">Worki 3la l'briya bach t7elliha &#x2728;</div>
+  </div>
+
+  <!-- MAIN INTERACTIVE CARD -->
+  <div class="card">
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- STEP 1: The Invitation -->
+    <div class="step active" id="step1">
+      <span class="badge-top">Step 1 / 4 &bull; Special Invite</span>
+      <span class="emoji-header">&#x1F950;&#x2615;&#x2764;&#xFE0F;</span>
+      <h1>Hey My Girl! Bghiti tkhorji m3aya f Date?</h1>
+      <p>
+        Had <span class="highlight">Jem3a Sba7</span>, nmchiw l'dar o ntaybo l'ftor ana w yak... O nti li ghatkhtari kolchi! Chno ban lik? &#x1F970;
+      </p>
+      <div class="tease-bubble" id="teaseText">Khtari b صراحة... (Hint: Makanach No &#x1F609;)</div>
+      <div class="btn-group">
+        <button class="btn btn-yes" id="yesBtn" onclick="acceptInvite()">Yes! &#x1F60D;</button>
+        <button class="btn btn-no" id="noBtn">No &#x1F648;</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: Breakfast Menu -->
+    <div class="step" id="step2">
+      <span class="badge-top">Step 2 / 4 &bull; Chef Mode</span>
+      <span class="emoji-header">&#x1F469;&#x200D;&#x1F373;&#x1F36F;</span>
+      <h1>Yaaay! Kont 3arfek ghatgoli Yes &#x2764;&#xFE0F;</h1>
+      <p>Daba nti هي الشاف! Chno bghiti ntaybo o nwajdo f l'ftor? (T9dri tkhtari 7aja we7da aw ktar)</p>
+      
+      <div class="options-list">
+        <div class="option-row" onclick="toggleOption(this, 'food', 'Msamen, Atay o L3sel')">
+          <div class="option-left">
+            <span class="icon">&#x1F36F;</span>
+            <span class="label">Msamen, Atay o L3sel</span>
+          </div>
+          <div class="check-circle">&#x2714;</div>
+        </div>
+
+        <div class="option-row" onclick="toggleOption(this, 'food', 'Lbayed, Lkmir o Atay')">
+          <div class="option-left">
+            <span class="icon">&#x1F373;</span>
+            <span class="label">Lbayed, Lkmir o Atay</span>
+          </div>
+          <div class="check-circle">&#x2714;</div>
+        </div>
+
+        <div class="option-row" onclick="toggleOption(this, 'food', 'Crwasa o 7lib b Choklat')">
+          <div class="option-left">
+            <span class="icon">&#x1F950;</span>
+            <span class="label">Crwasa o 7lib b Choklat</span>
+          </div>
+          <div class="check-circle">&#x2714;</div>
+        </div>
+      </div>
+
+      <button class="btn btn-next" id="nextStep2" onclick="goToStep(3)">Kamli l'ikhtiyar &#x27A1;&#xFE0F;</button>
+    </div>
+
+    <!-- STEP 3: After Breakfast Vibe -->
+    <div class="step" id="step3">
+      <span class="badge-top">Step 3 / 4 &bull; L'Vibe</span>
+      <span class="emoji-header">&#x2728;&#x1F970;</span>
+      <h1>O mor ma ntybo o nftarw..</h1>
+      <p>Chno bghiti ndiro? Khtari l'programme لي عجبك:</p>
+
+      <div class="options-grid">
+        <div class="option-card" onclick="toggleOption(this, 'vibe', 'Ntfarjo f Film')">
+          <span class="icon">&#x1F3AC;</span>
+          <span class="label">Ntfarjo f Film</span>
+        </div>
+        <div class="option-card" onclick="toggleOption(this, 'vibe', 'Nsem3o Music')">
+          <span class="icon">&#x1F3B5;</span>
+          <span class="label">Nsem3o Music</span>
+        </div>
+        <div class="option-card" onclick="toggleOption(this, 'vibe', 'Nla3bo')">
+          <span class="icon">&#x1F3AE;</span>
+          <span class="label">Nla3bo</span>
+        </div>
+        <div class="option-card" onclick="toggleOption(this, 'vibe', 'Ne3so')">
+          <span class="icon">&#x1F634;</span>
+          <span class="label">Ne3so</span>
+        </div>
+      </div>
+
+      <button class="btn btn-next" id="nextStep3" onclick="goToStep(4)">Zidi l'khtwa l'akhira &#x27A1;&#xFE0F;</button>
+    </div>
+
+    <!-- STEP 4: Excitement Meter & Custom Request -->
+    <div class="step" id="step4">
+      <span class="badge-top">Step 4 / 4 &bull; L'Touch Dyalek</span>
+      <span class="emoji-header">&#x1F496;&#x1F525;</span>
+      <h1>Ch7al متحمسة l had l'Date?</h1>
+      <p>7erki l'mo2achir o ktbi lia أي طلب خاص إلا بغيتي:</p>
+
+      <div class="meter-box">
+        <div class="meter-value" id="meterDisplay">100% &#x1F60D;</div>
+        <input type="range" id="loveRange" min="100" max="1000" step="50" value="500" oninput="updateMeter(this.value)" />
+      </div>
+
+      <input type="text" id="customNote" class="note-input" placeholder="Ktbi chi talab khass hna (Ikhtiyari)..." />
+
+      <button class="btn btn-next enabled" onclick="showSummary()">Khodi VIP Date Ticket &#x1F39F;&#xFE0F;</button>
+    </div>
+
+    <!-- STEP 5: Final Boarding Pass -->
+    <div class="step" id="step5">
+      <span class="badge-top">Confirmed &bull; Official Pass</span>
+      <span class="emoji-header">&#x1F973;&#x1F496;</span>
+      <h1>It's a Date!</h1>
+      <p>Safi kolchi t-sjel! Ha l'VIP Ticket dyalna واجدة:</p>
+
+      <div class="vip-ticket">
+        <div class="ticket-header">
+          <span>VIP DATE PASS &#x2764;&#xFE0F;</span>
+          <span>JEM3A SBA7</span>
+        </div>
+        <div class="ticket-body">
+          <div class="ticket-row">
+            <strong>&#x1F4CD; L'Blassa &amp; L'We9t</strong>
+            <span>Jem3a Sba7 &bull; F'Dar (Ana w Yak)</span>
+          </div>
+          <div class="ticket-row">
+            <strong>&#x2615; Menu Ftor</strong>
+            <span id="summaryFood"></span>
+          </div>
+          <div class="ticket-row">
+            <strong>&#x2728; Mor L'Ftor</strong>
+            <span id="summaryVibe"></span>
+          </div>
+          <div class="ticket-row" id="summaryNoteRow" style="display:none;">
+            <strong>&#x1F48C; Talab Khass</strong>
+            <span id="summaryNote"></span>
+          </div>
+          <div class="ticket-divider"></div>
+          <div class="countdown-box" id="countdownTimer">
+            &#x23F3; Kan7esbo ch7al b9a l Jem3a Sba7...
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-yes" style="width: 100%;" onclick="sendWhatsApp()">
+        Sifti lia Ticket f WhatsApp &#x1F4AC;&#x2764;&#xFE0F;
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // 1. Envelope Opening
+    function openEnvelope() {
+      const box = document.getElementById('envelopeBox');
+      const screen = document.getElementById('envelopeScreen');
+      box.classList.add('open');
+      setTimeout(() => {
+        screen.classList.add('hidden');
+      }, 450);
+    }
+
+    // 2. Runaway "No" Button Logic
+    const noBtn = document.getElementById('noBtn');
+    const yesBtn = document.getElementById('yesBtn');
+    const teaseText = document.getElementById('teaseText');
+    let yesScale = 1;
+    let noCount = 0;
+
+    const funnyNoButtons = [
+      "La? \uD83E\uDD28",
+      "Wili 3la No! \uD83D\uDE31",
+      "7awli mra khra \uD83D\uDE1C",
+      "Button khasser \uD83D\uDE48",
+      "Makanach No! \uD83D\uDE02",
+      "Ghir diri Yes \u2764\uFE0F"
+    ];
+
+    const funnyTeaseMessages = [
+      "Chftek bghiti tworki 3la No! \uD83D\uDC40",
+      "Haha هربت ليك! \uD83C\uDFC3\u200D\u2642\uFE0F\uD83D\uDCA8",
+      "Ma ghadich tchediha واخا تحاولي \uD83D\uDE02",
+      "Chofi Yes شحال كبارت وكتسناك \uD83D\uDC49\u2764\uFE0F",
+      "Safi استسلمي وديري Yes \uD83E\uDD70"
+    ];
+
+    function moveNoButton(e) {
+      if (e) e.preventDefault();
+
+      const padding = 24;
+      const btnWidth = noBtn.offsetWidth || 95;
+      const btnHeight = noBtn.offsetHeight || 46;
+
+      const maxX = window.innerWidth - btnWidth - padding;
+      const maxY = window.innerHeight - btnHeight - padding;
+
+      const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+      const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+
+      noBtn.style.position = 'fixed';
+      noBtn.style.zIndex = '999';
+      noBtn.style.left = randomX + 'px';
+      noBtn.style.top = randomY + 'px';
+
+      noBtn.innerText = funnyNoButtons[noCount % funnyNoButtons.length];
+      teaseText.innerText = funnyTeaseMessages[noCount % funnyTeaseMessages.length];
+      noCount++;
+
+      yesScale = Math.min(yesScale + 0.13, 1.55);
+      yesBtn.style.transform = `scale(${yesScale})`;
+    }
+
+    noBtn.addEventListener('touchstart', moveNoButton, { passive: false });
+    noBtn.addEventListener('mouseover', moveNoButton);
+    noBtn.addEventListener('click', moveNoButton);
+
+    // 3. Confetti Effect
+    function fireConfetti() {
+      const canvas = document.getElementById('confettiCanvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const pieces = [];
+      const colors = ['#ff2e74', '#ff758f', '#ffb3c6', '#ffd166', '#c9184a'];
+
+      for (let i = 0; i < 85; i++) {
+        pieces.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height - canvas.height,
+          r: Math.random() * 6 + 4,
+          d: Math.random() * 40 + 10,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          tilt: Math.floor(Math.random() * 10) - 10,
+          tiltAngleIncremental: (Math.random() * 0.07) + 0.05,
+          tiltAngle: 0
+        });
+      }
+
+      let frame = 0;
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        pieces.forEach((p) => {
+          p.tiltAngle += p.tiltAngleIncremental;
+          p.y += (Math.cos(p.d) + 3 + p.r / 2) / 2;
+          p.x += Math.sin(0.5);
+          p.tilt = Math.sin(p.tiltAngle) * 15;
+
+          ctx.beginPath();
+          ctx.lineWidth = p.r;
+          ctx.strokeStyle = p.color;
+          ctx.moveTo(p.x + p.tilt + p.r / 2, p.y);
+          ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r / 2);
+          ctx.stroke();
+        });
+        frame++;
+        if (frame < 160) requestAnimationFrame(draw);
+        else ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      draw();
+    }
+
+    function acceptInvite() {
+      fireConfetti();
+      goToStep(2);
+    }
+
+    // 4. Multi-Step Navigation & Choices
+    const choices = {
+      food: [],
+      vibe: [],
+      excitement: "500%",
+      note: ""
+    };
+
+    function toggleOption(card, category, value) {
+      card.classList.toggle('selected');
+      const index = choices[category].indexOf(value);
+      if (index > -1) {
+        choices[category].splice(index, 1);
+      } else {
+        choices[category].push(value);
+      }
+
+      const btnId = category === 'food' ? 'nextStep2' : 'nextStep3';
+      const nextBtn = document.getElementById(btnId);
+      if (choices[category].length > 0) {
+        nextBtn.classList.add('enabled');
+      } else {
+        nextBtn.classList.remove('enabled');
+      }
+    }
+
+    function updateMeter(val) {
+      choices.excitement = val + "%";
+      const emoji = val >= 800 ? "\uD83D\uDD25\u2764\uFE0F" : (val >= 400 ? "\uD83E\uDD70" : "\uD83D\uDE0D");
+      document.getElementById('meterDisplay').innerText = val + "% " + emoji;
+    }
+
+    // Initialize default slider display
+    updateMeter(500);
+
+    function goToStep(stepNumber) {
+      noBtn.style.display = 'none';
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      document.getElementById('step' + stepNumber).classList.add('active');
+
+      const progressMap = { 1: 20, 2: 45, 3: 70, 4: 90, 5: 100 };
+      document.getElementById('progressBar').style.width = progressMap[stepNumber] + '%';
+    }
+
+    function showSummary() {
+      choices.note = document.getElementById('customNote').value.trim();
+      document.getElementById('summaryFood').innerText = choices.food.join(' + ');
+      document.getElementById('summaryVibe').innerText = choices.vibe.join(' + ');
+
+      if (choices.note) {
+        document.getElementById('summaryNoteRow').style.display = 'flex';
+        document.getElementById('summaryNote').innerText = choices.note;
+      }
+
+      fireConfetti();
+      startFridayCountdown();
+      goToStep(5);
+    }
+
+    // 5. Countdown to Next Friday 9:00 AM
+    function startFridayCountdown() {
+      const box = document.getElementById('countdownTimer');
+      function update() {
+        const now = new Date();
+        const target = new Date();
+        const day = now.getDay(); // 5 = Friday
+        let daysUntilFriday = (5 - day + 7) % 7;
+        if (daysUntilFriday === 0 && now.getHours() >= 9) {
+          daysUntilFriday = 7;
         }
+        target.setDate(now.getDate() + daysUntilFriday);
+        target.setHours(9, 0, 0, 0);
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            display: flex;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
+        const diff = target - now;
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const m = Math.floor((diff / (1000 * 60)) % 60);
 
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: var(--bg); }
-        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--text-light); }
+        box.innerText = "\u23F3 B9a l Date dyalna: " + d + "d : " + h + "h : " + m + "m";
+      }
+      update();
+      setInterval(update, 30000);
+    }
 
-        .sidebar {
-            width: var(--sidebar-w);
-            background: var(--primary);
-            height: 100vh;
-            position: fixed;
-            left: 0;
-            top: 0;
-            display: flex;
-            flex-direction: column;
-            z-index: 100;
-            transition: transform 0.3s ease;
-            overflow-y: auto;
-        }
+    // 6. Bulletproof WhatsApp Sender (Pure Unicode Escapes = Zero Corrupt Emojis)
+    function sendWhatsApp() {
+      const phone = "212649923007";
+      const eHeart = "\u2764\uFE0F";
+      const eSparkle = "\u2728";
+      const eFood = "\uD83E\uDD50";
+      const eFire = "\uD83D\uDD25";
+      const eNote = "\uD83D\uDC8C";
 
-        .sidebar-logo {
-            padding: 24px 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
+      let lines = [
+        "Yes! Ana wajda l Date dyalna Jem3a Sba7 " + eHeart,
+        "",
+        eFood + " *Menu Ftor:* " + choices.food.join(" + "),
+        eSparkle + " *Mor l'Ftor:* " + choices.vibe.join(" + "),
+        eFire + " *7amass:* " + choices.excitement
+      ];
 
-        .sidebar-logo .logo-box {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+      if (choices.note) {
+        lines.push(eNote + " *Talab Khass:* " + choices.note);
+      }
 
-        .logo-icon-box {
-            width: 38px;
-            height: 38px;
-            background: var(--secondary);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
+      const text = lines.join("\n");
+      const url = "https://api.whatsapp.com/send?phone=" + phone + "&text=" + encodeURIComponent(text);
+      window.open(url, "_blank");
+    }
 
-        .logo-texts .app-name {
-            font-size: 17px;
-            font-weight: 800;
-            color: white;
+    // 7. Floating Hearts Generator (Using pure Unicode Escapes)
+    function createHearts() {
+      const emojis = ["\u2764\uFE0F", "\uD83D\uDC96", "\uD83E\uDD50", "\u2615", "\u2728"];
+      for (let i = 0; i < 15; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart-bg';
+        heart.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = (Math.random() * 4 + 5) + 's';
+        heart.style.animationDelay = (Math.random() * 5) + 's';
+        document.body.appendChild(heart);
+      }
+    }
+    createHearts();
+  </script>
+</body>
+</html>
