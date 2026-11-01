@@ -1,988 +1,793 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>For Islam &#x2764;&#xFE0F; | Marrakech Date</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>HEMMA.MA — Boutique Officielle | Sneakers & Streetwear Maroc</title>
+  <meta name="description" content="HEMMA.MA - Découvrez notre collection exclusive de chaussures homme au Maroc. Paiement à la livraison et expédition rapide 24/48h." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #e63946;
-      --primary-dark: #b5173a;
-      --accent: #ff4d6d;
-      --card-bg: rgba(255, 255, 255, 0.95);
+      --bg-dark: #060608;
+      --led-color: #ffffff;
     }
 
     * {
       box-sizing: border-box;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
       margin: 0;
       padding: 0;
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-dark);
+      color: #f4f4f6;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow: hidden;
     }
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(145deg, #ffe5ec 0%, #ffb5a7 50%, #ff8fab 100%);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 16px;
-      overflow-x: hidden;
+    .font-display {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    /* Main Interactive Viewport */
+    #viewport {
       position: relative;
-    }
-
-    /* Floating Hearts & Stars */
-    .heart-bg {
-      position: fixed;
-      top: -10%;
-      font-size: 22px;
-      animation: fall linear infinite;
-      opacity: 0.55;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    @keyframes fall {
-      to { transform: translateY(112vh) rotate(360deg); }
-    }
-
-    #confettiCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
       width: 100vw;
       height: 100vh;
-      pointer-events: none;
-      z-index: 1000;
+      overflow: hidden;
+      background: radial-gradient(circle at 50% 42%, #171720 0%, #09090d 55%, #050507 100%);
     }
 
-    /* ENVELOPE INTRO SCREEN */
-    .envelope-wrapper {
+    /* Camera Rig with Hardware-Accelerated Smooth Transition */
+    #camera-rig {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform-origin: 50% 50%;
+      transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform;
+    }
+
+    /* Vitrine Grid: 3x2 on Desktop, 2x3 on Mobile */
+    #vitrine-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(230px, 320px));
+      grid-template-rows: repeat(2, 240px);
+      gap: 2.2rem 3.2rem;
+      padding: 3.5rem 2rem 2rem 2rem;
+      max-width: 1120px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    @media (max-width: 1023px) {
+      #vitrine-grid {
+        grid-template-columns: repeat(2, 44vw);
+        grid-template-rows: repeat(3, 155px);
+        gap: 0.9rem 0.85rem;
+        padding: 3.8rem 0.75rem 3.5rem 0.75rem;
+      }
+    }
+
+    /* Individual Sneaker Slot */
+    .shoe-slot {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding-bottom: 22px;
+      cursor: pointer;
+      border-radius: 16px;
+      transition: opacity 0.55s ease, filter 0.55s ease, background 0.5s ease, border-color 0.5s ease;
+    }
+
+    @media (max-width: 1023px) {
+      .shoe-slot {
+        padding-bottom: 14px;
+      }
+    }
+
+    /* Mode Hangar (Minimal dark floating shelves) */
+    body.mode-hangar .shoe-slot {
+      background: radial-gradient(circle at 50% 85%, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
+    }
+
+    /* Mode Alcove (Stone luxury boxes with top spotlights) */
+    body.mode-alcove .shoe-slot {
+      background: linear-gradient(180deg, #16161c 0%, #0b0b0e 68%, #121217 100%);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      box-shadow: inset 0 30px 45px -15px rgba(255, 255, 255, 0.07),
+                  inset 0 -18px 30px rgba(0, 0, 0, 0.9),
+                  0 18px 35px rgba(0, 0, 0, 0.75);
+      overflow: hidden;
+    }
+
+    /* Top Cone Light */
+    .spotlight-cone {
+      position: absolute;
+      top: -15%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 130%;
+      height: 115%;
+      background: radial-gradient(ellipse at 50% 0%, var(--led-color) 0%, transparent 68%);
+      opacity: 0.14;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+
+    body.mode-alcove .spotlight-cone {
+      opacity: 0.34;
+    }
+
+    /* Sneaker Image */
+    .shoe-img {
+      width: 80%;
+      max-height: 155px;
+      object-fit: contain;
+      z-index: 10;
+      filter: drop-shadow(0 16px 14px rgba(0, 0, 0, 0.88));
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+      will-change: transform;
+    }
+
+    @media (max-width: 1023px) {
+      .shoe-img {
+        width: 82%;
+        max-height: 92px;
+      }
+    }
+
+    .shoe-slot:hover .shoe-img {
+      transform: translateY(-8px) scale(1.05);
+    }
+
+    .shoe-slot.active-slot .shoe-img {
+      transform: translateY(-12px) scale(1.1);
+      filter: drop-shadow(0 24px 20px rgba(0, 0, 0, 0.95))
+              drop-shadow(0 0 26px var(--led-glow));
+    }
+
+    /* Dim other shoes when zoomed in */
+    body.is-zoomed .shoe-slot:not(.active-slot) {
+      opacity: 0.18;
+      filter: blur(2px) brightness(0.5);
+    }
+
+    /* Glowing LED Shelf Bar */
+    .shelf-bar {
+      position: relative;
+      width: 86%;
+      height: 6px;
+      border-radius: 999px;
+      background: #23232b;
+      z-index: 5;
+    }
+
+    .shelf-led {
+      position: absolute;
+      inset: 0;
+      border-radius: 999px;
+      background: var(--led-color);
+      box-shadow: 0 0 14px var(--led-color),
+                  0 5px 25px var(--led-color),
+                  0 -3px 14px var(--led-color);
+      opacity: 0.85;
+      transition: opacity 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .shoe-slot:hover .shelf-led,
+    .shoe-slot.active-slot .shelf-led {
+      opacity: 1;
+      box-shadow: 0 0 22px var(--led-color),
+                  0 8px 36px var(--led-color),
+                  0 -6px 22px var(--led-color);
+    }
+
+    /* Slot Header Label (Visible in Overview) */
+    .slot-label {
+      position: absolute;
+      top: 10px;
+      left: 14px;
+      right: 14px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      z-index: 15;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    body.is-zoomed .slot-label {
+      opacity: 0;
+    }
+
+    /* Detail Overlay Wrapper */
+    #detail-overlay {
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle, #fff0f3 0%, #ffccd5 55%, #ffb5a7 100%);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 500;
-      transition: opacity 0.6s ease, visibility 0.6s ease;
-      padding: 20px;
-      text-align: center;
-    }
-
-    .envelope-wrapper.hidden {
-      opacity: 0;
-      visibility: hidden;
+      z-index: 40;
       pointer-events: none;
-    }
-
-    .envelope-box {
-      width: 250px;
-      height: 170px;
-      background: linear-gradient(135deg, #ff4d6d, #c9184a);
-      border-radius: 18px;
-      position: relative;
-      box-shadow: 0 22px 45px rgba(181, 23, 58, 0.35);
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      animation: floatEnv 2.5s ease-in-out infinite;
-    }
-
-    @keyframes floatEnv {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-12px); }
-    }
-
-    .envelope-flap {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 0;
-      height: 0;
-      border-left: 125px solid transparent;
-      border-right: 125px solid transparent;
-      border-top: 98px solid #ff758f;
-      border-radius: 12px;
-      transform-origin: top;
-      transition: transform 0.5s ease;
-      z-index: 3;
-    }
-
-    .envelope-box.open .envelope-flap {
-      transform: rotateX(180deg);
-    }
-
-    .seal-heart {
-      width: 58px;
-      height: 58px;
-      background: #fff;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 28px;
-      z-index: 4;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
-      animation: pulseHeart 1.3s infinite;
-    }
-
-    @keyframes pulseHeart {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.14); }
-    }
-
-    .envelope-title {
-      margin-top: 26px;
-      color: #800f2f;
-      font-size: 22px;
-      font-weight: 800;
-    }
-
-    .envelope-route {
-      margin-top: 6px;
-      font-size: 13px;
-      font-weight: 700;
-      color: #c9184a;
-      letter-spacing: 0.8px;
-    }
-
-    .envelope-sub {
-      margin-top: 12px;
-      color: #fff;
-      background: #ff4d6d;
-      font-size: 13.5px;
-      padding: 8px 18px;
-      border-radius: 30px;
-      font-weight: 600;
-      box-shadow: 0 6px 15px rgba(255, 77, 109, 0.35);
-    }
-
-    /* MAIN CARD */
-    .card {
-      background: var(--card-bg);
-      backdrop-filter: blur(14px);
-      width: 100%;
-      max-width: 405px;
-      border-radius: 30px;
-      padding: 22px 18px 26px;
-      box-shadow: 0 20px 50px rgba(181, 23, 58, 0.22);
-      text-align: center;
-      position: relative;
-      z-index: 10;
-      border: 2.5px solid rgba(255, 255, 255, 0.9);
-    }
-
-    /* Progress Bar */
-    .progress-container {
-      width: 100%;
-      height: 7px;
-      background: #ffe5ec;
-      border-radius: 10px;
-      margin-bottom: 18px;
-      overflow: hidden;
-    }
-
-    .progress-bar {
-      height: 100%;
-      width: 16%;
-      background: linear-gradient(90deg, #ff758f, #c9184a);
-      border-radius: 10px;
-      transition: width 0.4s ease;
-    }
-
-    .step {
-      display: none;
-      animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    .step.active {
-      display: block;
-    }
-
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(18px) scale(0.98); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
-    .badge-top {
-      display: inline-block;
-      background: #ffe5ec;
-      color: var(--primary-dark);
-      font-size: 11px;
-      font-weight: 700;
-      padding: 4px 12px;
-      border-radius: 20px;
-      margin-bottom: 8px;
-      letter-spacing: 0.4px;
-      text-transform: uppercase;
-    }
-
-    .emoji-header {
-      font-size: 52px;
-      margin-bottom: 6px;
-      display: block;
-      animation: bounce 2.2s infinite;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-7px); }
-    }
-
-    h1 {
-      color: #800f2f;
-      font-size: 20px;
-      font-weight: 800;
-      margin-bottom: 8px;
-      line-height: 1.35;
-    }
-
-    p {
-      color: #594a4e;
-      font-size: 13.5px;
-      line-height: 1.55;
-      margin-bottom: 16px;
-    }
-
-    .highlight {
-      background: #ffccd5;
-      color: #800f2f;
-      padding: 2px 8px;
-      border-radius: 7px;
-      font-weight: 700;
-    }
-
-    .tease-bubble {
-      min-height: 24px;
-      font-size: 12.5px;
-      font-weight: 600;
-      color: #c9184a;
-      margin-bottom: 12px;
-    }
-
-    /* Buttons */
-    .btn-group {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 14px;
-      min-height: 62px;
-      position: relative;
-    }
-
-    .btn {
-      border: none;
-      padding: 13px 26px;
-      border-radius: 50px;
-      font-size: 15px;
-      font-weight: 700;
-      font-family: inherit;
-      cursor: pointer;
-      transition: all 0.22s ease;
-    }
-
-    .btn-yes {
-      background: linear-gradient(135deg, #ff4d6d, #c9184a);
-      color: white;
-      box-shadow: 0 10px 24px rgba(201, 24, 74, 0.38);
-    }
-
-    .btn-yes:active {
-      transform: scale(0.95);
-    }
-
-    .btn-no {
-      background: #f1f3f5;
-      color: #495057;
-      box-shadow: 0 5px 12px rgba(0,0,0,0.08);
-      transition: left 0.15s ease, top 0.15s ease;
-    }
-
-    /* Lists & Grids */
-    .options-list {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      margin-bottom: 16px;
+      justify-content: flex-end;
     }
 
-    .option-row {
-      background: #fff8fa;
-      border: 2px solid #ffccd5;
-      border-radius: 16px;
-      padding: 12px 14px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      text-align: left;
+    @media (min-width: 1024px) {
+      #detail-overlay {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 5rem 2.5rem 2rem 2.5rem;
+      }
     }
 
-    .option-left {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-    }
-
-    .option-row span.icon {
-      font-size: 25px;
-    }
-
-    .option-row span.label {
-      font-size: 13.5px;
-      font-weight: 700;
-      color: #3d2c31;
-    }
-
-    .check-circle {
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      border: 2px solid #ffb3c6;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      color: transparent;
-      transition: all 0.2s ease;
-      flex-shrink: 0;
-    }
-
-    .options-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
-    .option-card {
-      background: #fff8fa;
-      border: 2px solid #ffccd5;
-      border-radius: 16px;
-      padding: 14px 8px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .option-card span.icon {
-      font-size: 28px;
-    }
-
-    .option-card span.label {
-      font-size: 12.5px;
-      font-weight: 700;
-      color: #3d2c31;
-      line-height: 1.3;
-    }
-
-    .option-row.selected,
-    .option-card.selected {
-      background: #ffe5ec;
-      border-color: #ff4d6d;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(255, 77, 109, 0.2);
-    }
-
-    .option-row.selected .check-circle {
-      background: #ff4d6d;
-      border-color: #ff4d6d;
-      color: #fff;
-    }
-
-    /* Date Input Box */
-    .date-picker-box {
-      background: #fff8fa;
-      border: 2px dashed #ff8fab;
-      border-radius: 16px;
-      padding: 12px;
-      margin-bottom: 16px;
-      text-align: left;
-    }
-
-    .date-picker-box label {
-      display: block;
-      font-size: 12px;
-      font-weight: 700;
-      color: #a4133c;
-      margin-bottom: 6px;
-    }
-
-    .date-input {
-      width: 100%;
-      border: 1.5px solid #ffccd5;
-      background: #fff;
-      padding: 10px 12px;
-      border-radius: 12px;
-      font-family: inherit;
-      font-size: 13.5px;
-      font-weight: 600;
-      color: #333;
-      outline: none;
-    }
-
-    .note-input {
-      width: 100%;
-      border: 2px solid #ffccd5;
-      background: #fff8fa;
-      border-radius: 14px;
-      padding: 11px 14px;
-      font-family: inherit;
-      font-size: 13px;
-      color: #333;
-      margin-bottom: 16px;
-      outline: none;
-    }
-
-    .note-input:focus, .date-input:focus {
-      border-color: #ff4d6d;
-    }
-
-    .btn-next {
-      width: 100%;
-      background: linear-gradient(135deg, #ff4d6d, #c9184a);
-      color: white;
-      box-shadow: 0 8px 20px rgba(201, 24, 74, 0.3);
-      opacity: 0.4;
-      pointer-events: none;
-    }
-
-    .btn-next.enabled {
-      opacity: 1;
+    /* Panels Animation */
+    .detail-panel {
       pointer-events: auto;
+      opacity: 0;
+      transform: translateY(35px);
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* VIP Ticket */
-    .vip-ticket {
-      background: #fff;
-      border-radius: 20px;
-      border: 2px solid #ffb3c6;
-      overflow: hidden;
-      margin-bottom: 16px;
-      box-shadow: 0 8px 25px rgba(201, 24, 74, 0.12);
-      text-align: left;
+    body.is-zoomed .detail-panel {
+      opacity: 1;
+      transform: translateY(0);
+      transition-delay: 0.15s;
     }
 
-    .ticket-header {
-      background: linear-gradient(135deg, #ff4d6d, #a4133c);
-      color: #fff;
-      padding: 12px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 12.5px;
-      font-weight: 700;
+    body:not(.is-zoomed) #detail-overlay * {
+      pointer-events: none !important;
     }
 
-    .ticket-route {
-      background: #fff0f3;
-      padding: 10px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 800;
-      font-size: 13px;
-      color: #800f2f;
-      border-bottom: 1.5px dashed #ffccd5;
+    /* Frosted Glass UI */
+    .glass-card {
+      background: rgba(11, 11, 15, 0.88);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 25px 55px -12px rgba(0, 0, 0, 0.92);
     }
 
-    .ticket-body {
-      padding: 14px 16px;
+    /* Custom Scrollbar for Form */
+    ::-webkit-scrollbar {
+      width: 5px;
     }
-
-    .ticket-row {
-      margin-bottom: 9px;
-      font-size: 13px;
-      color: #333;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .ticket-row strong {
-      color: #a4133c;
-      font-size: 11px;
-      text-transform: uppercase;
+    ::-webkit-scrollbar-thumb {
+      background: #2f2f3d;
+      border-radius: 999px;
     }
   </style>
 </head>
-<body>
+<body class="mode-hangar">
 
-  <canvas id="confettiCanvas"></canvas>
-
-  <!-- 3D ENVELOPE INTRO FOR ISLAM -->
-  <div class="envelope-wrapper" id="envelopeScreen" onclick="openEnvelope()">
-    <div class="envelope-box" id="envelopeBox">
-      <div class="envelope-flap"></div>
-      <div class="seal-heart">&#x1F48C;</div>
-    </div>
-    <div class="envelope-title">L'Islam &#x2764;&#xFE0F;</div>
-    <div class="envelope-route">AGADIR &#x2708;&#xFE0F; MARRAKECH</div>
-    <div class="envelope-sub">Worki 3la l'briya bach t7elliha &#x2728;</div>
-  </div>
-
-  <!-- MAIN CARD -->
-  <div class="card">
-    <div class="progress-container">
-      <div class="progress-bar" id="progressBar"></div>
-    </div>
-
-    <!-- STEP 1: The Invite -->
-    <div class="step active" id="step1">
-      <span class="badge-top">Step 1 / 5 &bull; Marrakech Trip</span>
-      <span class="emoji-header">&#x1F339;&#x1F334;&#x2764;&#xFE0F;</span>
-      <h1>Hey Islam! Ready ntla9aw f Marrakech?</h1>
-      <p>
-        Nti jayya mn <span class="highlight">Agadir</span> w ana jayy باش نتلاقاو فـ <span class="highlight">Marrakech</span> o ndewzo a7san wa9t ana w yak...<br/>
-        Nti li ghatkhtari l'programme kamel! Chno ban lik? &#x1F970;
-      </p>
-      <div class="tease-bubble" id="teaseText">Worki 3la Yes... (No ma khdamach &#x1F609;)</div>
-      <div class="btn-group">
-        <button class="btn btn-yes" id="yesBtn" onclick="acceptInvite()">Yes! &#x1F60D;</button>
-        <button class="btn btn-no" id="noBtn">No &#x1F648;</button>
+  <!-- TOP NAVIGATION BAR -->
+  <header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-3.5 md:px-10 py-3.5 bg-gradient-to-b from-black/95 via-black/60 to-transparent">
+    <!-- Brand Logo: HEMMA.MA -->
+    <div class="flex items-center gap-2.5 cursor-pointer" onclick="resetZoom()">
+      <div class="w-9 h-9 rounded-xl bg-white text-black flex items-center justify-center font-display font-bold text-lg tracking-tighter shadow-md">
+        H
+      </div>
+      <div>
+        <div class="flex items-center gap-1.5">
+          <h1 class="font-display font-bold tracking-widest text-sm md:text-base leading-none text-white">HEMMA</h1>
+          <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-white/10 text-zinc-300">.MA</span>
+        </div>
+        <span class="text-[10px] text-zinc-400 tracking-wider uppercase block mt-0.5">Sneakers & Streetwear Maroc</span>
       </div>
     </div>
 
-    <!-- STEP 2: Choose the Day -->
-    <div class="step" id="step2">
-      <span class="badge-top">Step 2 / 5 &bull; L'We9t</span>
-      <span class="emoji-header">&#x1F4C5;&#x2728;</span>
-      <h1>Yaaay! &#x2764;&#xFE0F; Imta bghiti ntla9aw?</h1>
-      <p>Khtari l'we9t li mnasbek aw 7eddi nhar b'dabt mn l'calendrier:</p>
-
-      <div class="options-list">
-        <div class="option-row" onclick="selectSingleOption(this, 'day', 'Had l-Weekend')">
-          <div class="option-left">
-            <span class="icon">&#x1F525;</span>
-            <span class="label">Had l'Weekend (9rib!)</span>
-          </div>
-          <div class="check-circle">&#x2714;</div>
-        </div>
-
-        <div class="option-row" onclick="selectSingleOption(this, 'day', 'L-Weekend Jaye')">
-          <div class="option-left">
-            <span class="icon">&#x1F31F;</span>
-            <span class="label">L'Weekend Jaye</span>
-          </div>
-          <div class="check-circle">&#x2714;</div>
-        </div>
-
-        <div class="option-row" onclick="selectSingleOption(this, 'day', 'Wst Simana')">
-          <div class="option-left">
-            <span class="icon">&#x2600;&#xFE0F;</span>
-            <span class="label">Wst Simana (Rwa9a)</span>
-          </div>
-          <div class="check-circle">&#x2714;</div>
-        </div>
-      </div>
-
-      <div class="date-picker-box">
-        <label>&#x1F4C6; Aw khtari nhar b'dabt mn hna (Ikhtiyari):</label>
-        <input type="date" id="exactDateInput" class="date-input" onchange="onDatePick(this.value)" />
-      </div>
-
-      <button class="btn btn-next" id="nextStep2" onclick="goToStep(3)">Kamli l'ikhtiyar &#x27A1;&#xFE0F;</button>
-    </div>
-
-    <!-- STEP 3: Activities in Marrakech -->
-    <div class="step" id="step3">
-      <span class="badge-top">Step 3 / 5 &bull; Chno Ndiro</span>
-      <span class="emoji-header">&#x1F334;&#x1F3CD;&#xFE0F;</span>
-      <h1>Chno bghiti ndiro f Marrakech?</h1>
-      <p>Khtari ga3 l'7wayej li bghiti ndirohom مجموعين:</p>
-
-      <div class="options-grid">
-        <div class="option-card" onclick="toggleMultiOption(this, 'activities', 'Ntmachaw f Gueliz & Koutoubia')">
-          <span class="icon">&#x1F6B6;&#x200D;&#x2642;&#xFE0F;&#x1F319;</span>
-          <span class="label">Ntmachaw (Gueliz &amp; Koutoubia)</span>
-        </div>
-
-        <div class="option-card" onclick="toggleMultiOption(this, 'activities', 'Quad & Jmel f Palmeraie')">
-          <span class="icon">&#x1F3CE;&#xFE0F;&#x1F42A;</span>
-          <span class="label">Quad &amp; Palmeraie / Agafay</span>
-        </div>
-
-        <div class="option-card" onclick="toggleMultiOption(this, 'activities', 'Sunset f Rooftop')">
-          <span class="icon">&#x1F305;&#x1F379;</span>
-          <span class="label">Sunset &amp; Chill f Rooftop</span>
-        </div>
-
-        <div class="option-card" onclick="toggleMultiOption(this, 'activities', 'Dora f Jamaa El Fna & Souk')">
-          <span class="icon">&#x1F3EE;&#x2728;</span>
-          <span class="label">Jamaa El Fna &amp; Souk</span>
-        </div>
-      </div>
-
-      <button class="btn btn-next" id="nextStep3" onclick="goToStep(4)">Zidi l'Makla &#x27A1;&#xFE0F;</button>
-    </div>
-
-    <!-- STEP 4: Food Choices -->
-    <div class="step" id="step4">
-      <span class="badge-top">Step 4 / 5 &bull; Chno Naklo</span>
-      <span class="emoji-header">&#x1F37D;&#xFE0F;&#x1F60B;</span>
-      <h1>O f l'makla.. Chno katch-hay?</h1>
-      <p>Khtari chno bghiti naklo ملي نتلاقاو:</p>
-
-      <div class="options-grid">
-        <div class="option-card" onclick="toggleMultiOption(this, 'food', 'Tanjia Marrakchia')">
-          <span class="icon">&#x1F3FA;&#x1F525;</span>
-          <span class="label">Tanjia Marrakchia</span>
-        </div>
-
-        <div class="option-card" onclick="toggleMultiOption(this, 'food', 'Dinner Romantique f Rooftop')">
-          <span class="icon">&#x1F56F;&#xFE0F;&#x1F35D;</span>
-          <span class="label">Dinner Romantique</span>
-        </div>
-
-        <div class="option-card" onclick="toggleMultiOption(this, 'food', 'Fast Food (Tacos / Burger)')">
-          <span class="icon">&#x1F354;&#x1F35F;</span>
-          <span class="label">Tacos / Burger &amp; Fast Food</span>
-        </div>
-
-        <div class="option-card" onclick="toggleMultiOption(this, 'food', 'Cafe, Crepes & Glace')">
-          <span class="icon">&#x2615;&#x1F368;</span>
-          <span class="label">Café, Crêpes &amp; Glace</span>
-        </div>
-      </div>
-
-      <button class="btn btn-next" id="nextStep4" onclick="goToStep(5)">Sou2al l'Mohim &#x1F440;&#x27A1;&#xFE0F;</button>
-    </div>
-
-    <!-- STEP 5: Overnight Stay Question -->
-    <div class="step" id="step5">
-      <span class="badge-top">Step 5 / 5 &bull; L'Lila Dyalna</span>
-      <span class="emoji-header">&#x1F319;&#x2764;&#xFE0F;&#x1F525;</span>
-      <h1>Wach nbato m3a be3dyatna? &#x1F970;</h1>
-      <p>Khtari kifach bghiti nkamlo l'lila dyalna f Marrakech:</p>
-
-      <div class="options-list">
-        <div class="option-row" onclick="selectSingleOption(this, 'stay', 'Ah darori! Nbato m3a be3dyatna (Riad / Appart)')">
-          <div class="option-left">
-            <span class="icon">&#x1F3E8;</span>
-            <span class="label">Ah darori! Nbato مجموعين (Riad/Appart)</span>
-          </div>
-          <div class="check-circle">&#x2714;</div>
-        </div>
-
-        <div class="option-row" onclick="selectSingleOption(this, 'stay', 'Nbato m3a be3dyatna o nsehro l-lil kamel')">
-          <div class="option-left">
-            <span class="icon">&#x1F319;</span>
-            <span class="label">Nbato مجموعين o nsehro للصباح &#x2728;</span>
-          </div>
-          <div class="check-circle">&#x2714;</div>
-        </div>
-
-        <div class="option-row" onclick="selectSingleOption(this, 'stay', 'Ntfahmo 3liha mli ntla9aw (Surprise)')">
-          <div class="option-left">
-            <span class="icon">&#x1F609;</span>
-            <span class="label">Ntfahmo 3liha ملي نتلاقاو &#x1F496;</span>
-          </div>
-          <div class="check-circle">&#x2714;</div>
-        </div>
-      </div>
-
-      <input type="text" id="customNote" class="note-input" placeholder="Ktbi lia chi kalma aw talab khass hna (Ikhtiyari)..." />
-
-      <button class="btn btn-next" id="nextStep5" onclick="showSummary()">Chofi VIP Ticket Dyalek &#x1F39F;&#xFE0F;</button>
-    </div>
-
-    <!-- STEP 6: Final Marrakech Boarding Pass -->
-    <div class="step" id="step6">
-      <span class="badge-top">Confirmed &bull; Marrakech Pass</span>
-      <span class="emoji-header">&#x1F973;&#x1F496;</span>
-      <h1>It's a Date a Islam!</h1>
-      <p>Safi kolchi واجد! Ha l'programme li khtariti:</p>
-
-      <div class="vip-ticket">
-        <div class="ticket-header">
-          <span>PASSENGER: ISLAM &#x2764;&#xFE0F;</span>
-          <span>VIP DATE</span>
-        </div>
-        <div class="ticket-route">
-          <span>&#x1F4CD; AGADIR</span>
-          <span>&#x2708;&#xFE0F; &#x27A1;&#xFE0F;</span>
-          <span>&#x1F334; MARRAKECH</span>
-        </div>
-        <div class="ticket-body">
-          <div class="ticket-row">
-            <strong>&#x1F4C5; L'We9t / Nhar</strong>
-            <span id="summaryDay"></span>
-          </div>
-          <div class="ticket-row">
-            <strong>&#x2728; Chno Ghadi Ndiro</strong>
-            <span id="summaryActivities"></span>
-          </div>
-          <div class="ticket-row">
-            <strong>&#x1F37D;&#xFE0F; Chno Ghadi Naklo</strong>
-            <span id="summaryFood"></span>
-          </div>
-          <div class="ticket-row">
-            <strong>&#x1F319; L'Mabita / L'Lila</strong>
-            <span id="summaryStay"></span>
-          </div>
-          <div class="ticket-row" id="summaryNoteRow" style="display:none;">
-            <strong>&#x1F48C; Kalma Mn Islam</strong>
-            <span id="summaryNote"></span>
-          </div>
-        </div>
-      </div>
-
-      <button class="btn btn-yes" style="width: 100%;" onclick="sendWhatsApp()">
-        Sifti lia Ticket f WhatsApp &#x1F4AC;&#x2764;&#xFE0F;
+    <!-- Center Mode Switcher -->
+    <div class="flex items-center gap-1 bg-zinc-900/90 border border-zinc-800 p-1 rounded-full text-[11px]">
+      <button id="btn-mode-hangar" onclick="setVitrineMode('hangar')" class="px-3 py-1 rounded-full font-semibold bg-white text-black transition">
+        Hangar LED
+      </button>
+      <button id="btn-mode-alcove" onclick="setVitrineMode('alcove')" class="px-3 py-1 rounded-full font-medium text-zinc-400 hover:text-white transition">
+        Alcôves
       </button>
     </div>
+
+    <!-- Right Actions -->
+    <div class="flex items-center gap-2">
+      <button id="btn-back-top" onclick="resetZoom()" class="hidden items-center gap-1.5 px-3 py-1.5 rounded-full bg-white text-black hover:bg-zinc-200 text-xs font-bold transition shadow">
+        <span>← Vitrine</span>
+      </button>
+      <a id="top-whatsapp" href="https://wa.me/212649923007" target="_blank" class="px-3 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/25 text-xs font-semibold transition flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="hidden sm:inline">WhatsApp</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- MOBILE FLOATING NAVIGATION BAR WHEN ZOOMED (Above the Sneaker) -->
+  <div id="mobile-zoom-nav" class="fixed top-16 left-0 right-0 z-40 flex lg:hidden items-center justify-between px-4 pointer-events-none opacity-0 transition-opacity duration-300">
+    <button onclick="navigateShoe(-1)" class="pointer-events-auto w-9 h-9 rounded-full glass-card flex items-center justify-center text-white text-sm active:scale-95 transition">
+      ←
+    </button>
+    <div class="px-3 py-1 rounded-full glass-card text-[11px] font-mono text-zinc-200" id="mobile-shoe-indicator">
+      HANGAR 01
+    </div>
+    <button onclick="navigateShoe(1)" class="pointer-events-auto w-9 h-9 rounded-full glass-card flex items-center justify-center text-white text-sm active:scale-95 transition">
+      →
+    </button>
   </div>
 
+  <!-- BOTTOM TRUST BAR (Visible in Overview) -->
+  <div id="overview-hint" class="fixed bottom-3 left-0 right-0 z-30 pointer-events-none flex justify-center px-3 transition-opacity duration-500">
+    <div class="inline-flex flex-wrap items-center justify-center gap-3 md:gap-6 px-4 py-2 rounded-full bg-zinc-950/90 border border-zinc-800/90 text-[11px] text-zinc-300 shadow-xl">
+      <span class="flex items-center gap-1.5"><span class="text-emerald-400">✓</span> Paiement à la livraison</span>
+      <span class="hidden sm:inline text-zinc-700">|</span>
+      <span class="flex items-center gap-1.5"><span class="text-emerald-400">✓</span> Livraison Rapide 24h/48h</span>
+      <span class="hidden sm:inline text-zinc-700">|</span>
+      <span class="text-zinc-400">Cliquez sur un modèle pour zoomer</span>
+    </div>
+  </div>
+
+  <!-- MAIN INTERACTIVE VITRINE VIEWPORT -->
+  <main id="viewport" onclick="handleBackdropClick(event)">
+    <div id="camera-rig">
+      <div id="vitrine-grid">
+        <!-- Injected dynamically via JS -->
+      </div>
+    </div>
+  </main>
+
+  <!-- ZOOM DETAIL & CHECKOUT OVERLAY -->
+  <section id="detail-overlay">
+
+    <!-- DESKTOP LEFT PANEL: Product Story & Navigation (Hidden on Mobile to keep screen clean) -->
+    <div class="detail-panel hidden lg:flex flex-col justify-between glass-card rounded-2xl p-6 w-[350px]">
+      <div>
+        <div class="flex items-center justify-between mb-3">
+          <span id="detail-code" class="text-[11px] font-mono uppercase tracking-widest px-2.5 py-1 rounded-md bg-white/10 text-zinc-200">
+            HEMMA 01
+          </span>
+          <span class="text-xs text-emerald-400 font-semibold flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> En Stock
+          </span>
+        </div>
+
+        <h2 id="detail-name-desktop" class="font-display text-3xl font-bold tracking-tight text-white mb-2">
+          Modèle Signature
+        </h2>
+
+        <p id="detail-desc" class="text-xs text-zinc-400 leading-relaxed mb-5">
+          Finition Master Quality, semelle haute densité ultra-confortable et boîte d'origine incluse.
+        </p>
+
+        <!-- Guarantees Box -->
+        <div class="space-y-2 p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.06] text-xs text-zinc-300 mb-5">
+          <div class="flex items-center gap-2">
+            <span>🚚</span> <span>Livraison partout au Maroc (24h - 48h)</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span>🤝</span> <span>Vérifiez votre colis avant de payer</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span>🔄</span> <span>Échange de pointure disponible</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Prev / Next Controls -->
+      <div class="flex items-center justify-between pt-4 border-t border-white/10">
+        <div class="flex items-center gap-2">
+          <button onclick="navigateShoe(-1)" class="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 flex items-center justify-center text-sm transition" title="Modèle Précédent">
+            ←
+          </button>
+          <button onclick="navigateShoe(1)" class="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 flex items-center justify-center text-sm transition" title="Modèle Suivant">
+            →
+          </button>
+        </div>
+        <button onclick="resetZoom()" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-semibold transition">
+          Toute la Vitrine (ESC)
+        </button>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL (Desktop) / BOTTOM SHEET (Mobile): Pointure + Direct WhatsApp Order -->
+    <div class="detail-panel glass-card rounded-t-3xl lg:rounded-2xl p-4 sm:p-6 w-full lg:w-[400px] max-h-[60vh] lg:max-h-[84vh] overflow-y-auto">
+      <!-- Mobile drag handle indicator -->
+      <div class="w-10 h-1 bg-zinc-700 rounded-full mx-auto mb-3 lg:hidden"></div>
+
+      <!-- Title & Price Header -->
+      <div class="flex items-center justify-between mb-3 pb-3 border-b border-white/10">
+        <div>
+          <h3 id="detail-name-mobile" class="font-display text-lg lg:text-xl font-bold text-white leading-tight">
+            Modèle Signature
+          </h3>
+          <span class="text-[11px] text-emerald-400 font-medium">● Disponible — Livraison Rapide</span>
+        </div>
+        <div class="text-right">
+          <span id="detail-price" class="font-display text-xl lg:text-2xl font-bold text-white block leading-none">449 MAD</span>
+          <span id="detail-old-price" class="text-[11px] text-zinc-500 line-through">599 MAD</span>
+        </div>
+      </div>
+
+      <!-- ORDER FORM DIRECT TO WHATSAPP 0649923007 -->
+      <form id="cod-form" onsubmit="submitToWhatsApp(event)" class="space-y-3">
+
+        <!-- Size Selector (Pointure) -->
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="text-xs text-zinc-300 font-semibold">1. Choisissez votre pointure (EU) * :</label>
+            <span id="selected-size-badge" class="text-[11px] font-mono text-emerald-400 font-bold">Pointure: 42</span>
+          </div>
+          <div id="size-options" class="grid grid-cols-6 gap-1.5">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+
+        <!-- Customer Details -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-2.5 pt-1">
+          <div>
+            <input type="text" id="client-name" required placeholder="Nom et Prénom *"
+              class="w-full px-3.5 py-2.5 rounded-xl bg-black/70 border border-zinc-800 focus:border-white focus:outline-none text-xs text-white placeholder-zinc-500" />
+          </div>
+          <div>
+            <input type="tel" id="client-phone" required placeholder="Téléphone (ex: 06... / 07...) *"
+              class="w-full px-3.5 py-2.5 rounded-xl bg-black/70 border border-zinc-800 focus:border-white focus:outline-none text-xs text-white placeholder-zinc-500" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-2">
+          <div class="col-span-2">
+            <input type="text" id="client-city" required placeholder="Ville & Adresse de livraison *"
+              class="w-full px-3.5 py-2.5 rounded-xl bg-black/70 border border-zinc-800 focus:border-white focus:outline-none text-xs text-white placeholder-zinc-500" />
+          </div>
+          <div>
+            <select id="client-qty" class="w-full h-full px-2.5 py-2.5 rounded-xl bg-black/70 border border-zinc-800 focus:border-white focus:outline-none text-xs text-white">
+              <option value="1">Qté: 1</option>
+              <option value="2">Qté: 2</option>
+              <option value="3">Qté: 3</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Direct WhatsApp Submit Button -->
+        <button type="submit"
+          class="w-full py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 active:scale-[0.99] text-black font-display font-bold text-xs sm:text-sm uppercase tracking-wider transition shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2">
+          <span>Commander sur WhatsApp (Paiement à la livraison)</span>
+          <span>→</span>
+        </button>
+      </form>
+    </div>
+
+  </section>
+
   <script>
-    // 1. Envelope Opening
-    function openEnvelope() {
-      const box = document.getElementById('envelopeBox');
-      const screen = document.getElementById('envelopeScreen');
-      box.classList.add('open');
-      setTimeout(() => {
-        screen.classList.add('hidden');
-      }, 450);
-    }
-
-    // 2. Runaway "No" Button Logic
-    const noBtn = document.getElementById('noBtn');
-    const yesBtn = document.getElementById('yesBtn');
-    const teaseText = document.getElementById('teaseText');
-    let yesScale = 1;
-    let noCount = 0;
-
-    const funnyNoButtons = [
-      "La? \uD83E\uDD28",
-      "Wili a Islam! \uD83D\uDE31",
-      "7awli mra khra \uD83D\uDE1C",
-      "Button khasser \uD83D\uDE48",
-      "Makanach No! \uD83D\uDE02",
-      "Ghir diri Yes \u2764\uFE0F"
-    ];
-
-    const funnyTeaseMessages = [
-      "Chftek a Islam bghiti tworki 3la No! \uD83D\uDC40",
-      "Haha هربت ليك! \uD83C\uDFC3\u200D\u2642\uFE0F\uD83D\uDCA8",
-      "Marrakech kat-tsennana, diri Yes! \uD83C\uDF34\u2764\uFE0F",
-      "Chofi Yes شحال كبارت وكتسناك \uD83D\uDC49\u2764\uFE0F",
-      "Safi استسلمي وديري Yes \uD83E\uDD70"
-    ];
-
-    function moveNoButton(e) {
-      if (e) e.preventDefault();
-
-      const padding = 24;
-      const btnWidth = noBtn.offsetWidth || 95;
-      const btnHeight = noBtn.offsetHeight || 46;
-
-      const maxX = window.innerWidth - btnWidth - padding;
-      const maxY = window.innerHeight - btnHeight - padding;
-
-      const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
-      const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
-
-      noBtn.style.position = 'fixed';
-      noBtn.style.zIndex = '999';
-      noBtn.style.left = randomX + 'px';
-      noBtn.style.top = randomY + 'px';
-
-      noBtn.innerText = funnyNoButtons[noCount % funnyNoButtons.length];
-      teaseText.innerText = funnyTeaseMessages[noCount % funnyTeaseMessages.length];
-      noCount++;
-
-      yesScale = Math.min(yesScale + 0.13, 1.55);
-      yesBtn.style.transform = `scale(${yesScale})`;
-    }
-
-    noBtn.addEventListener('touchstart', moveNoButton, { passive: false });
-    noBtn.addEventListener('mouseover', moveNoButton);
-    noBtn.addEventListener('click', moveNoButton);
-
-    // 3. Confetti Effect
-    function fireConfetti() {
-      const canvas = document.getElementById('confettiCanvas');
-      const ctx = canvas.getContext('2d');
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-
-      const pieces = [];
-      const colors = ['#ff4d6d', '#ff758f', '#ffb3c6', '#ffd166', '#c9184a'];
-
-      for (let i = 0; i < 85; i++) {
-        pieces.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height - canvas.height,
-          r: Math.random() * 6 + 4,
-          d: Math.random() * 40 + 10,
-          color: colors[Math.floor(Math.random() * colors.length)],
-          tilt: Math.floor(Math.random() * 10) - 10,
-          tiltAngleIncremental: (Math.random() * 0.07) + 0.05,
-          tiltAngle: 0
-        });
-      }
-
-      let frame = 0;
-      function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        pieces.forEach((p) => {
-          p.tiltAngle += p.tiltAngleIncremental;
-          p.y += (Math.cos(p.d) + 3 + p.r / 2) / 2;
-          p.x += Math.sin(0.5);
-          p.tilt = Math.sin(p.tiltAngle) * 15;
-
-          ctx.beginPath();
-          ctx.lineWidth = p.r;
-          ctx.strokeStyle = p.color;
-          ctx.moveTo(p.x + p.tilt + p.r / 2, p.y);
-          ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r / 2);
-          ctx.stroke();
-        });
-        frame++;
-        if (frame < 160) requestAnimationFrame(draw);
-        else ctx.clearRect(0, 0, canvas.width, canvas.height);
-      }
-      draw();
-    }
-
-    function acceptInvite() {
-      fireConfetti();
-      goToStep(2);
-    }
-
-    // 4. Choices State & Handlers
-    const choices = {
-      day: "",
-      exactDate: "",
-      activities: [],
-      food: [],
-      stay: "",
-      note: ""
+    /******************************************************************
+     * 1. CONFIGURATION OFFICIELLE HEMMA.MA
+     ******************************************************************/
+    const STORE_CONFIG = {
+      brandName: "HEMMA.MA",
+      whatsappNumber: "212649923007", // Nmrtek: 0649923007 m-rigla b +212
+      googleSheetWebhook: ""          // Ikhtiyari
     };
 
-    function selectSingleOption(row, category, value) {
-      const parent = row.parentElement;
-      parent.querySelectorAll('.option-row').forEach(r => r.classList.remove('selected'));
-      row.classList.add('selected');
-      choices[category] = value;
+    // Les 6 chaussures dyalek f ./assets/shoes/1.png tal 6.png
+    const PRODUCTS = [
+      {
+        id: 1,
+        code: "HEMMA 01",
+        name: "Hemma Air Max Edition 01",
+        price: 449,
+        oldPrice: 599,
+        ledColor: "#ff5533",
+        image: "./assets/shoes/1.png",
+        sizes: [40, 41, 42, 43, 44, 45],
+        desc: "Qualité Master Premium avec finitions haute précision, confort optimal et boîte d'origine."
+      },
+      {
+        id: 2,
+        code: "HEMMA 02",
+        name: "Hemma Street Jordan 02",
+        price: 479,
+        oldPrice: 620,
+        ledColor: "#22c55e",
+        image: "./assets/shoes/2.png",
+        sizes: [40, 41, 42, 43, 44, 45],
+        desc: "Design iconique, maintien parfait de la cheville et semelle résistante. Livraison rapide partout au Maroc."
+      },
+      {
+        id: 3,
+        code: "HEMMA 03",
+        name: "Hemma Blue Pulse 03",
+        price: 499,
+        oldPrice: 650,
+        ledColor: "#3b82f6",
+        image: "./assets/shoes/3.png",
+        sizes: [40, 41, 42, 43, 44, 45],
+        desc: "Édition spéciale avec amorti renforcé, matériaux respirants et style futuriste."
+      },
+      {
+        id: 4,
+        code: "HEMMA 04",
+        name: "Hemma Rose Luxe 04",
+        price: 459,
+        oldPrice: 599,
+        ledColor: "#ec4899",
+        image: "./assets/shoes/4.png",
+        sizes: [40, 41, 42, 43, 44],
+        desc: "Silhouette moderne et audacieuse, pensée pour un confort quotidien supérieur."
+      },
+      {
+        id: 5,
+        code: "HEMMA 05",
+        name: "Hemma Urban Pro 05",
+        price: 489,
+        oldPrice: 640,
+        ledColor: "#f59e0b",
+        image: "./assets/shoes/5.png",
+        sizes: [40, 41, 42, 43, 44, 45],
+        desc: "Allure sportive chic, finitions soignées et paiement à la livraison après vérification."
+      },
+      {
+        id: 6,
+        code: "HEMMA 06",
+        name: "Hemma Night Edition 06",
+        price: 499,
+        oldPrice: 660,
+        ledColor: "#a855f7",
+        image: "./assets/shoes/6.png",
+        sizes: [40, 41, 42, 43, 44, 45],
+        desc: "Modèle exclusif HEMMA.MA, conçu avec des matériaux premium et une semelle ultra-légère."
+      }
+    ];
 
-      if (category === 'day') {
-        document.getElementById('nextStep2').classList.add('enabled');
-      } else if (category === 'stay') {
-        document.getElementById('nextStep5').classList.add('enabled');
+    /******************************************************************
+     * 2. MOTEUR VITRINE & EXACT CAMERA ZOOM (PC & MOBILE)
+     ******************************************************************/
+    let activeIndex = null;
+    let selectedSize = 42;
+
+    const gridEl = document.getElementById("vitrine-grid");
+    const cameraRig = document.getElementById("camera-rig");
+
+    function initVitrine() {
+      gridEl.innerHTML = PRODUCTS.map((item, idx) => `
+        <div class="shoe-slot" id="slot-${idx}"
+             style="--led-color: ${item.ledColor}; --led-glow: ${item.ledColor}66;"
+             onclick="zoomToShoe(${idx}, event)">
+          <div class="spotlight-cone"></div>
+          <div class="slot-label">
+            <div>
+              <span class="block text-[9px] font-mono tracking-widest text-zinc-400">${item.code}</span>
+              <span class="block text-[11px] sm:text-xs font-display font-bold text-white leading-tight">${item.name}</span>
+            </div>
+            <span class="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-display font-bold text-emerald-400 shrink-0">
+              ${item.price} DH
+            </span>
+          </div>
+          <img src="${item.image}" alt="${item.name}" class="shoe-img" />
+          <div class="shelf-bar">
+            <div class="shelf-led"></div>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function zoomToShoe(index, event) {
+      if (event) event.stopPropagation();
+      activeIndex = index;
+      const product = PRODUCTS[index];
+
+      // Highlight active slot
+      document.querySelectorAll(".shoe-slot").forEach((el, i) => {
+        el.classList.toggle("active-slot", i === index);
+      });
+
+      document.body.classList.add("is-zoomed");
+      document.getElementById("overview-hint").style.opacity = "0";
+      document.getElementById("btn-back-top").classList.remove("hidden");
+      document.getElementById("btn-back-top").classList.add("inline-flex");
+      document.getElementById("mobile-zoom-nav").style.opacity = "1";
+      document.getElementById("mobile-shoe-indicator").textContent = `${product.code} (${index + 1}/${PRODUCTS.length})`;
+
+      applyCameraTransform(index);
+      updateDetailPanel(product);
+    }
+
+    // Exact un-transformed coordinate math (Never drifts when switching shoes or resizing)
+    function applyCameraTransform(index) {
+      const slotEl = document.getElementById(`slot-${index}`);
+      if (!slotEl) return;
+
+      const rigCenterX = cameraRig.clientWidth / 2;
+      const rigCenterY = cameraRig.clientHeight / 2;
+
+      let el = slotEl;
+      let slotCenterX = slotEl.offsetWidth / 2;
+      let slotCenterY = slotEl.offsetHeight / 2;
+
+      while (el && el !== cameraRig) {
+        slotCenterX += el.offsetLeft;
+        slotCenterY += el.offsetTop;
+        el = el.offsetParent;
+      }
+
+      const isMobile = window.innerWidth < 1024;
+      const targetScale = isMobile ? 1.65 : 2.15;
+
+      // On mobile, place the zoomed shoe in the upper open area above the bottom sheet
+      const verticalOffset = isMobile ? -(window.innerHeight * 0.24) : -15;
+
+      const tx = (rigCenterX - slotCenterX) * targetScale;
+      const ty = (rigCenterY - slotCenterY) * targetScale + verticalOffset;
+
+      cameraRig.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${targetScale})`;
+    }
+
+    function updateDetailPanel(product) {
+      document.getElementById("detail-code").textContent = product.code;
+      document.getElementById("detail-name-desktop").textContent = product.name;
+      document.getElementById("detail-name-mobile").textContent = product.name;
+      document.getElementById("detail-desc").textContent = product.desc;
+      document.getElementById("detail-price").textContent = `${product.price} MAD`;
+      document.getElementById("detail-old-price").textContent = `${product.oldPrice} MAD`;
+
+      if (!product.sizes.includes(selectedSize)) {
+        selectedSize = product.sizes[0];
+      }
+      renderSizes(product.sizes);
+    }
+
+    function renderSizes(sizes) {
+      document.getElementById("selected-size-badge").textContent = `Pointure: ${selectedSize}`;
+      const container = document.getElementById("size-options");
+      container.innerHTML = sizes.map(size => {
+        const active = size === selectedSize;
+        return `
+          <button type="button" onclick="selectSize(${size})"
+            class="py-2 rounded-xl text-xs font-display font-bold border transition ${
+              active
+                ? "bg-white text-black border-white shadow-md scale-[1.03]"
+                : "bg-black/60 text-zinc-400 border-zinc-800 hover:border-zinc-600"
+            }">
+            ${size}
+          </button>
+        `;
+      }).join("");
+    }
+
+    function selectSize(size) {
+      selectedSize = size;
+      if (activeIndex !== null) {
+        renderSizes(PRODUCTS[activeIndex].sizes);
       }
     }
 
-    function onDatePick(val) {
-      choices.exactDate = val;
-      if (val) {
-        document.getElementById('nextStep2').classList.add('enabled');
+    function navigateShoe(direction) {
+      if (activeIndex === null) return;
+      const nextIndex = (activeIndex + direction + PRODUCTS.length) % PRODUCTS.length;
+      zoomToShoe(nextIndex);
+    }
+
+    function resetZoom() {
+      activeIndex = null;
+      document.body.classList.remove("is-zoomed");
+      document.querySelectorAll(".shoe-slot").forEach(el => el.classList.remove("active-slot"));
+      cameraRig.style.transform = "translate3d(0, 0, 0) scale(1)";
+      document.getElementById("overview-hint").style.opacity = "1";
+      document.getElementById("btn-back-top").classList.add("hidden");
+      document.getElementById("btn-back-top").classList.remove("inline-flex");
+      document.getElementById("mobile-zoom-nav").style.opacity = "0";
+    }
+
+    function handleBackdropClick(e) {
+      if (
+        activeIndex !== null &&
+        (e.target.id === "viewport" || e.target.id === "camera-rig" || e.target.id === "vitrine-grid")
+      ) {
+        resetZoom();
       }
     }
 
-    function toggleMultiOption(card, category, value) {
-      card.classList.toggle('selected');
-      const idx = choices[category].indexOf(value);
-      if (idx > -1) {
-        choices[category].splice(idx, 1);
-      } else {
-        choices[category].push(value);
-      }
+    function setVitrineMode(mode) {
+      const isAlcove = mode === "alcove";
+      document.body.classList.toggle("mode-alcove", isAlcove);
+      document.body.classList.toggle("mode-hangar", !isAlcove);
 
-      const btnId = category === 'activities' ? 'nextStep3' : 'nextStep4';
-      const nextBtn = document.getElementById(btnId);
-      if (choices[category].length > 0) {
-        nextBtn.classList.add('enabled');
-      } else {
-        nextBtn.classList.remove('enabled');
-      }
+      document.getElementById("btn-mode-hangar").className = !isAlcove
+        ? "px-3 py-1 rounded-full font-semibold bg-white text-black transition"
+        : "px-3 py-1 rounded-full font-medium text-zinc-400 hover:text-white transition";
+
+      document.getElementById("btn-mode-alcove").className = isAlcove
+        ? "px-3 py-1 rounded-full font-semibold bg-white text-black transition"
+        : "px-3 py-1 rounded-full font-medium text-zinc-400 hover:text-white transition";
     }
 
-    function goToStep(stepNumber) {
-      noBtn.style.display = 'none';
-      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-      document.getElementById('step' + stepNumber).classList.add('active');
+    /******************************************************************
+     * 3. ENVOI DIRECT VERS WHATSAPP (0649923007)
+     ******************************************************************/
+    function submitToWhatsApp(e) {
+      e.preventDefault();
+      if (activeIndex === null) return;
 
-      const progressMap = { 1: 16, 2: 35, 3: 55, 4: 75, 5: 90, 6: 100 };
-      document.getElementById('progressBar').style.width = progressMap[stepNumber] + '%';
-    }
+      const product = PRODUCTS[activeIndex];
+      const name = document.getElementById("client-name").value.trim();
+      const phone = document.getElementById("client-phone").value.trim();
+      const city = document.getElementById("client-city").value.trim();
+      const qty = parseInt(document.getElementById("client-qty").value, 10) || 1;
+      const total = product.price * qty;
 
-    function getFormattedDay() {
-      if (choices.day && choices.exactDate) {
-        return choices.day + " (" + choices.exactDate + ")";
-      }
-      return choices.exactDate || choices.day || "9rib inchaAllah";
-    }
-
-    function showSummary() {
-      choices.note = document.getElementById('customNote').value.trim();
-
-      document.getElementById('summaryDay').innerText = getFormattedDay();
-      document.getElementById('summaryActivities').innerText = choices.activities.join(' + ');
-      document.getElementById('summaryFood').innerText = choices.food.join(' + ');
-      document.getElementById('summaryStay').innerText = choices.stay;
-
-      if (choices.note) {
-        document.getElementById('summaryNoteRow').style.display = 'flex';
-        document.getElementById('summaryNote').innerText = choices.note;
-      }
-
-      fireConfetti();
-      goToStep(6);
-    }
-
-    // 5. Bulletproof WhatsApp Sender (100% Unicode Escaped)
-    function sendWhatsApp() {
-      const phone = "212649923007";
-      const eHeart = "\u2764\uFE0F";
-      const ePalm = "\uD83C\uDF34";
-      const eCal = "\uD83D\uDCC5";
-      const eSparkle = "\u2728";
-      const eFood = "\uD83C\uDF7D\uFE0F";
-      const eMoon = "\uD83C\uDF19";
-      const eNote = "\uD83D\uDC8C";
-
-      let lines = [
-        "Yes! Ana Islam, wajda ntla9aw f Marrakech " + eHeart + ePalm,
-        "",
-        eCal + " *L'We9t:* " + getFormattedDay(),
-        eSparkle + " *Programme:* " + choices.activities.join(" + "),
-        eFood + " *Makla:* " + choices.food.join(" + "),
-        eMoon + " *L'Mabita:* " + choices.stay
-      ];
-
-      if (choices.note) {
-        lines.push(eNote + " *Kalma mn 3ndi:* " + choices.note);
+      // Optional Google Sheet Webhook backup
+      if (STORE_CONFIG.googleSheetWebhook) {
+        fetch(STORE_CONFIG.googleSheetWebhook, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            product: `${product.name} (${product.code})`,
+            size: selectedSize,
+            qty,
+            total,
+            name,
+            phone,
+            city
+          })
+        }).catch(() => {});
       }
 
-      const text = lines.join("\n");
-      const url = "https://api.whatsapp.com/send?phone=" + phone + "&text=" + encodeURIComponent(text);
-      window.open(url, "_blank");
+      // Format WhatsApp Order Message
+      const message =
+        `🔥 *NOUVELLE COMMANDE — HEMMA.MA* 🔥\n\n` +
+        `👟 *Modèle :* ${product.name} (${product.code})\n` +
+        `📏 *Pointure :* ${selectedSize} EU\n` +
+        `🔢 *Quantité :* ${qty}\n` +
+        `💰 *Total à payer :* ${total} MAD (Paiement à la livraison)\n` +
+        `────────────────────\n` +
+        `👤 *Client :* ${name}\n` +
+        `📞 *Téléphone :* ${phone}\n` +
+        `📍 *Ville & Adresse :* ${city}\n` +
+        `────────────────────\n` +
+        `Merci de confirmer ma commande !`;
+
+      const whatsappURL = `https://wa.me/${STORE_CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
+      window.open(whatsappURL, "_blank");
     }
 
-    // 6. Floating Background Elements
-    function createHearts() {
-      const emojis = ["\u2764\uFE0F", "\uD83D\uDC96", "\uD83C\uDF34", "\uD83C\uDF39", "\u2728"];
-      for (let i = 0; i < 15; i++) {
-        const heart = document.createElement('div');
-        heart.className = 'heart-bg';
-        heart.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-        heart.style.left = Math.random() * 100 + 'vw';
-        heart.style.animationDuration = (Math.random() * 4 + 5) + 's';
-        heart.style.animationDelay = (Math.random() * 5) + 's';
-        document.body.appendChild(heart);
+    // Re-center zoomed shoe if user rotates phone or resizes browser
+    window.addEventListener("resize", () => {
+      if (activeIndex !== null) {
+        applyCameraTransform(activeIndex);
       }
-    }
-    createHearts();
+    });
+
+    // Keyboard navigation (ESC, Left, Right)
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && activeIndex !== null) resetZoom();
+      if (e.key === "ArrowRight" && activeIndex !== null) navigateShoe(1);
+      if (e.key === "ArrowLeft" && activeIndex !== null) navigateShoe(-1);
+    });
+
+    // Mobile Touch Swipe Left/Right to change shoes while zoomed
+    let touchStartX = 0;
+    window.addEventListener("touchstart", (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    window.addEventListener("touchend", (e) => {
+      if (activeIndex === null) return;
+      // Ignore swipe if touching inside the form panel
+      if (e.target.closest("#detail-overlay")) return;
+      const diffX = e.changedTouches[0].screenX - touchStartX;
+      if (Math.abs(diffX) > 55) {
+        navigateShoe(diffX < 0 ? 1 : -1);
+      }
+    }, { passive: true });
+
+    initVitrine();
   </script>
 </body>
 </html>
