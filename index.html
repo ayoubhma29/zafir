@@ -35,16 +35,14 @@
       font-family: 'Space Grotesk', sans-serif;
     }
 
-    /* Main Viewport */
     #viewport {
       position: relative;
       width: 100vw;
       height: 100dvh;
       overflow: hidden;
-      background: radial-gradient(circle at 50% 40%, #181822 0%, #09090e 60%, #050507 100%);
+      background: radial-gradient(circle at 50% 40%, #171720 0%, #09090d 60%, #050507 100%);
     }
 
-    /* Camera Rig */
     #camera-rig {
       position: relative;
       width: 100%;
@@ -57,13 +55,12 @@
       will-change: transform;
     }
 
-    /* Vitrine Grid: 3x2 Desktop, 2x3 Mobile */
     #vitrine-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(240px, 330px));
       grid-template-rows: repeat(2, 235px);
       gap: 2rem 3rem;
-      padding: 4.2rem 2rem 3.5rem 2rem;
+      padding: 3.8rem 2rem 3rem 2rem;
       max-width: 1120px;
       width: 100%;
       justify-content: center;
@@ -73,13 +70,13 @@
     @media (max-width: 1023px) {
       #vitrine-grid {
         grid-template-columns: repeat(2, minmax(145px, 45vw));
-        grid-template-rows: repeat(3, minmax(138px, 23dvh));
+        grid-template-rows: repeat(3, minmax(135px, 22dvh));
         gap: 0.65rem 0.75rem;
-        padding: 3.9rem 0.65rem 3.1rem 0.65rem;
+        padding: 3.6rem 0.65rem 2.8rem 0.65rem;
       }
     }
 
-    /* Product Slot */
+    /* Permanent Luxury Alcove Stone Box Style */
     .shoe-slot {
       position: relative;
       display: flex;
@@ -89,7 +86,13 @@
       padding-bottom: 18px;
       cursor: pointer;
       border-radius: 16px;
-      transition: opacity 0.5s ease, filter 0.5s ease, background 0.45s ease;
+      background: linear-gradient(180deg, #17171f 0%, #0b0b10 68%, #13131a 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: inset 0 28px 40px -15px rgba(255, 255, 255, 0.08),
+                  inset 0 -16px 28px rgba(0, 0, 0, 0.9),
+                  0 14px 30px rgba(0, 0, 0, 0.75);
+      overflow: hidden;
+      transition: opacity 0.5s ease, filter 0.5s ease;
     }
 
     @media (max-width: 1023px) {
@@ -99,23 +102,21 @@
       }
     }
 
-    /* Hangar Mode Subtle Card Base */
-    body.mode-hangar .shoe-slot {
-      background: linear-gradient(180deg, rgba(255,255,255,0.015) 0%, rgba(255,255,255,0.04) 100%);
-      border: 1px solid rgba(255, 255, 255, 0.04);
+    /* Permanent Top Spotlight Cone */
+    .spotlight-cone {
+      position: absolute;
+      top: -15%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 130%;
+      height: 115%;
+      background: radial-gradient(ellipse at 50% 0%, var(--led-color) 0%, transparent 68%);
+      opacity: 0.32;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
     }
 
-    /* Alcove Mode Luxury Stone Box */
-    body.mode-alcove .shoe-slot {
-      background: linear-gradient(180deg, #17171f 0%, #0b0b10 68%, #13131a 100%);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: inset 0 28px 40px -15px rgba(255, 255, 255, 0.08),
-                  inset 0 -16px 28px rgba(0, 0, 0, 0.9),
-                  0 14px 30px rgba(0, 0, 0, 0.75);
-      overflow: hidden;
-    }
-
-    /* Backlight Aura behind shoe (Makes black shoes 100% visible) */
+    /* Backlight Aura */
     .shoe-aura {
       position: absolute;
       bottom: 18%;
@@ -125,27 +126,22 @@
       height: 58%;
       border-radius: 999px;
       background: radial-gradient(circle, var(--led-color) 0%, rgba(255,255,255,0.12) 45%, transparent 72%);
-      opacity: 0.24;
+      opacity: 0.35;
       filter: blur(14px);
       pointer-events: none;
       transition: opacity 0.5s ease, transform 0.5s ease;
     }
 
     .shoe-slot.dark-shoe .shoe-aura {
-      opacity: 0.42;
-      background: radial-gradient(circle, rgba(255,255,255,0.35) 0%, var(--led-color) 45%, transparent 75%);
-    }
-
-    body.mode-alcove .shoe-aura {
-      opacity: 0.38;
+      opacity: 0.48;
+      background: radial-gradient(circle, rgba(255,255,255,0.38) 0%, var(--led-color) 45%, transparent 75%);
     }
 
     .shoe-slot.active-slot .shoe-aura {
-      opacity: 0.55;
+      opacity: 0.6;
       transform: translateX(-50%) scale(1.15);
     }
 
-    /* Sneaker Image */
     .shoe-img-wrap {
       position: relative;
       width: 100%;
@@ -153,13 +149,13 @@
       display: flex;
       align-items: flex-end;
       justify-content: center;
-      padding: 26px 8px 6px 8px;
+      padding: 24px 8px 6px 8px;
       z-index: 10;
     }
 
     @media (max-width: 1023px) {
       .shoe-img-wrap {
-        padding: 24px 6px 4px 6px;
+        padding: 22px 6px 4px 6px;
       }
     }
 
@@ -167,22 +163,21 @@
       width: 88%;
       max-height: 135px;
       object-fit: contain;
-      filter: drop-shadow(0 12px 12px rgba(0, 0, 0, 0.85))
-              drop-shadow(0 0 1px rgba(255, 255, 255, 0.2));
+      filter: drop-shadow(0 12px 12px rgba(0, 0, 0, 0.88))
+              drop-shadow(0 0 1px rgba(255, 255, 255, 0.22));
       transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), filter 0.55s ease;
       will-change: transform;
     }
 
-    /* Extra subtle rim highlight for all-black shoes */
     .shoe-slot.dark-shoe .shoe-img {
-      filter: drop-shadow(0 12px 12px rgba(0, 0, 0, 0.9))
-              drop-shadow(0 0 12px rgba(255, 255, 255, 0.14));
+      filter: drop-shadow(0 12px 12px rgba(0, 0, 0, 0.92))
+              drop-shadow(0 0 12px rgba(255, 255, 255, 0.16));
     }
 
     @media (max-width: 1023px) {
       .shoe-img {
         width: 92%;
-        max-height: 86px;
+        max-height: 84px;
       }
     }
 
@@ -192,17 +187,15 @@
 
     .shoe-slot.active-slot .shoe-img {
       transform: translateY(-8px) scale(1.08);
-      filter: drop-shadow(0 20px 18px rgba(0, 0, 0, 0.92))
-              drop-shadow(0 0 22px var(--led-glow));
+      filter: drop-shadow(0 20px 18px rgba(0, 0, 0, 0.94))
+              drop-shadow(0 0 24px var(--led-glow));
     }
 
-    /* Dim non-selected slots when zoomed */
     body.is-zoomed .shoe-slot:not(.active-slot) {
       opacity: 0.12;
       filter: blur(2.5px) brightness(0.4);
     }
 
-    /* Glowing LED Shelf Bar */
     .shelf-bar {
       position: relative;
       width: 86%;
@@ -218,22 +211,12 @@
       inset: 0;
       border-radius: 999px;
       background: var(--led-color);
-      box-shadow: 0 0 12px var(--led-color),
-                  0 4px 20px var(--led-color),
-                  0 -2px 10px var(--led-color);
-      opacity: 0.9;
-      transition: opacity 0.4s ease, box-shadow 0.4s ease;
+      box-shadow: 0 0 14px var(--led-color),
+                  0 5px 22px var(--led-color),
+                  0 -3px 12px var(--led-color);
+      opacity: 0.95;
     }
 
-    .shoe-slot:hover .shelf-led,
-    .shoe-slot.active-slot .shelf-led {
-      opacity: 1;
-      box-shadow: 0 0 20px var(--led-color),
-                  0 6px 32px var(--led-color),
-                  0 -4px 18px var(--led-color);
-    }
-
-    /* Slot Top Label */
     .slot-label {
       position: absolute;
       top: 8px;
@@ -252,7 +235,6 @@
       opacity: 0;
     }
 
-    /* Detail Overlay Container */
     #detail-overlay {
       position: fixed;
       inset: 0;
@@ -290,7 +272,6 @@
       pointer-events: none !important;
     }
 
-    /* Glass Cards */
     .glass-card {
       background: rgba(11, 11, 16, 0.92);
       backdrop-filter: blur(24px);
@@ -308,11 +289,10 @@
     }
   </style>
 </head>
-<body class="mode-hangar">
+<body>
 
-  <!-- SLEEK SINGLE-LINE TOP NAVBAR (Never wraps or overflows on mobile) -->
+  <!-- CLEAN TOP NAVBAR -->
   <header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-3 md:px-10 h-14 bg-gradient-to-b from-black/95 via-black/75 to-transparent">
-    <!-- Brand Logo -->
     <div class="flex items-center gap-2 cursor-pointer shrink-0" onclick="resetZoom()">
       <div class="w-8 h-8 md:w-9 md:h-9 rounded-xl bg-white text-black flex items-center justify-center font-display font-bold text-base md:text-lg tracking-tighter shadow">
         H
@@ -328,29 +308,18 @@
       </div>
     </div>
 
-    <!-- Center Mode Switcher (Compact single-line pills) -->
-    <div class="flex items-center bg-zinc-900/90 border border-zinc-800 p-0.5 rounded-full text-[10px] md:text-xs shrink-0">
-      <button id="btn-mode-hangar" onclick="setVitrineMode('hangar')" class="px-2.5 md:px-3.5 py-1 rounded-full font-semibold bg-white text-black transition whitespace-nowrap">
-        Hangar LED
-      </button>
-      <button id="btn-mode-alcove" onclick="setVitrineMode('alcove')" class="px-2.5 md:px-3.5 py-1 rounded-full font-medium text-zinc-400 hover:text-white transition whitespace-nowrap">
-        Alcôves
-      </button>
-    </div>
-
-    <!-- Right Action: Swaps cleanly between WhatsApp (Overview) and Retour Vitrine (Zoom) -->
     <div class="flex items-center shrink-0">
       <button id="btn-back-top" onclick="resetZoom()" class="hidden items-center gap-1 px-3 py-1.5 rounded-full bg-white text-black hover:bg-zinc-200 text-[11px] font-bold transition shadow whitespace-nowrap">
         <span>← Vitrine</span>
       </button>
-      <a id="top-whatsapp" href="https://wa.me/212649923007" target="_blank" class="inline-flex items-center gap-1.5 px-2.5 md:px-3.5 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/25 text-[11px] font-semibold transition whitespace-nowrap">
+      <a id="top-whatsapp" href="https://wa.me/212649923007" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/25 text-[11px] font-semibold transition whitespace-nowrap">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
         <span>WhatsApp</span>
       </a>
     </div>
   </header>
 
-  <!-- MOBILE FLOATING STAGE CONTROLS (Positioned around the zoomed shoe, never overlapping header) -->
+  <!-- MOBILE STAGE NAV CONTROLS -->
   <div id="mobile-stage-controls" class="fixed top-[18dvh] left-0 right-0 z-40 flex lg:hidden items-center justify-between px-3 pointer-events-none opacity-0 transition-opacity duration-300">
     <button onclick="navigateShoe(-1)" class="pointer-events-auto w-9 h-9 rounded-full bg-black/70 border border-white/15 backdrop-blur-md flex items-center justify-center text-white text-sm active:scale-90 transition shadow-lg">
       ←
@@ -360,7 +329,7 @@
     </button>
   </div>
 
-  <!-- COMPACT SINGLE-LINE BOTTOM TRUST BAR -->
+  <!-- BOTTOM TRUST BAR -->
   <div id="overview-hint" class="fixed bottom-2.5 left-0 right-0 z-30 pointer-events-none flex justify-center px-3 transition-opacity duration-400">
     <div class="inline-flex items-center gap-2 sm:gap-4 px-3.5 py-1.5 rounded-full bg-zinc-950/90 border border-zinc-800/90 text-[10px] sm:text-xs text-zinc-300 shadow-lg whitespace-nowrap">
       <span class="flex items-center gap-1"><span class="text-emerald-400">✓</span> Paiement à la livraison</span>
@@ -371,237 +340,100 @@
     </div>
   </div>
 
-  <!-- INTERACTIVE VITRINE VIEWPORT -->
+  <!-- INTERACTIVE VIEWPORT -->
   <main id="viewport" onclick="handleBackdropClick(event)">
     <div id="camera-rig">
-      <div id="vitrine-grid">
-        <!-- Injected dynamically -->
-      </div>
+      <div id="vitrine-grid"></div>
     </div>
   </main>
 
   <!-- ZOOM DETAIL & ORDER OVERLAY -->
   <section id="detail-overlay">
-
-    <!-- DESKTOP LEFT PANEL -->
     <div class="detail-panel hidden lg:flex flex-col justify-between glass-card rounded-2xl p-6 w-[350px]">
       <div>
         <div class="flex items-center justify-between mb-3">
-          <span id="detail-brand-desktop" class="text-[11px] font-mono uppercase tracking-widest px-2.5 py-1 rounded-md bg-white/10 text-zinc-200 font-semibold">
-            PUMA
-          </span>
-          <span class="text-xs text-emerald-400 font-semibold flex items-center gap-1.5">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> En Stock
-          </span>
+          <span id="detail-brand-desktop" class="text-[11px] font-mono uppercase tracking-widest px-2.5 py-1 rounded-md bg-white/10 text-zinc-200 font-semibold">PUMA</span>
+          <span class="text-xs text-emerald-400 font-semibold flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> En Stock</span>
         </div>
-
-        <h2 id="detail-name-desktop" class="font-display text-2xl font-bold tracking-tight text-white mb-2">
-          Puma RBD Game Low
-        </h2>
-
-        <p id="detail-desc" class="text-xs text-zinc-400 leading-relaxed mb-5">
-          Qualité Master Premium avec finitions haute précision, confort optimal et boîte d'origine incluse.
-        </p>
-
+        <h2 id="detail-name-desktop" class="font-display text-2xl font-bold tracking-tight text-white mb-2">Puma RBD Game Low</h2>
+        <p id="detail-desc" class="text-xs text-zinc-400 leading-relaxed mb-5">Qualité Master Premium avec finitions haute précision, confort optimal et boîte d'origine incluse.</p>
         <div class="space-y-2 p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.06] text-xs text-zinc-300 mb-5">
-          <div class="flex items-center gap-2">
-            <span>🚚</span> <span>Livraison rapide partout au Maroc (24h/48h)</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span>🤝</span> <span>Vérifiez votre commande avant de payer</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span>🔄</span> <span>Échange de pointure garanti</span>
-          </div>
+          <div class="flex items-center gap-2"><span>🚚</span> <span>Livraison rapide partout au Maroc (24h/48h)</span></div>
+          <div class="flex items-center gap-2"><span>🤝</span> <span>Vérifiez votre commande avant de payer</span></div>
         </div>
       </div>
-
       <div class="flex items-center justify-between pt-4 border-t border-white/10">
         <div class="flex items-center gap-2">
-          <button onclick="navigateShoe(-1)" class="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 flex items-center justify-center text-sm transition" title="Précédent">
-            ←
-          </button>
-          <button onclick="navigateShoe(1)" class="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 flex items-center justify-center text-sm transition" title="Suivant">
-            →
-          </button>
+          <button onclick="navigateShoe(-1)" class="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 flex items-center justify-center text-sm transition">←</button>
+          <button onclick="navigateShoe(1)" class="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 flex items-center justify-center text-sm transition">→</button>
         </div>
-        <button onclick="resetZoom()" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-semibold transition">
-          Toute la Vitrine (ESC)
-        </button>
+        <button onclick="resetZoom()" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-semibold transition">Toute la Vitrine (ESC)</button>
       </div>
     </div>
 
-    <!-- MOBILE BOTTOM SHEET / DESKTOP RIGHT CHECKOUT PANEL -->
     <div class="detail-panel glass-card rounded-t-3xl lg:rounded-2xl px-4 pt-3 pb-4 sm:p-6 w-full lg:w-[400px] max-h-[55dvh] lg:max-h-[85dvh] overflow-y-auto">
-      <!-- Mobile drag pill -->
       <div class="w-9 h-1 bg-zinc-700 rounded-full mx-auto mb-2.5 lg:hidden"></div>
-
-      <!-- Compact Product Title & Price Header -->
       <div class="flex items-start justify-between gap-2 mb-2.5 pb-2.5 border-b border-white/10">
         <div>
           <div class="flex items-center gap-1.5 mb-0.5">
-            <span id="detail-brand-mobile" class="text-[9px] font-mono uppercase tracking-wider px-1.5 py-0.5 rounded bg-white/10 text-zinc-300 font-bold">
-              PUMA
-            </span>
+            <span id="detail-brand-mobile" class="text-[9px] font-mono uppercase tracking-wider px-1.5 py-0.5 rounded bg-white/10 text-zinc-300 font-bold">PUMA</span>
             <span id="detail-counter-mobile" class="text-[10px] font-mono text-zinc-400">1/6</span>
           </div>
-          <h3 id="detail-name-mobile" class="font-display text-base sm:text-lg font-bold text-white leading-snug">
-            Puma RBD Game Low
-          </h3>
+          <h3 id="detail-name-mobile" class="font-display text-base sm:text-lg font-bold text-white leading-snug">Puma RBD Game Low</h3>
         </div>
         <div class="text-right shrink-0">
-          <span id="detail-price" class="font-display text-lg sm:text-2xl font-bold text-emerald-400 block leading-none">
-            379 MAD
-          </span>
-          <span id="detail-old-price" class="text-[11px] text-zinc-500 line-through">
-            499 MAD
-          </span>
+          <span id="detail-price" class="font-display text-lg sm:text-2xl font-bold text-emerald-400 block leading-none">379 MAD</span>
+          <span id="detail-old-price" class="text-[11px] text-zinc-500 line-through">499 MAD</span>
         </div>
       </div>
 
-      <!-- DIRECT WHATSAPP COD FORM -->
       <form id="cod-form" onsubmit="submitToWhatsApp(event)" class="space-y-2.5">
-        <!-- Pointure Selector -->
         <div>
           <div class="flex items-center justify-between mb-1.5">
             <label class="text-[11px] text-zinc-300 font-semibold">Pointure (EU) :</label>
-            <span id="selected-size-badge" class="text-[11px] font-mono text-emerald-400 font-bold">Taille: 42</span>
+            <span id="selected-size-badge" class="text-[11px] font-mono text-emerald-400 font-bold">Taille: 42 EU</span>
           </div>
-          <div id="size-options" class="grid grid-cols-6 gap-1.5">
-            <!-- Injected via JS -->
-          </div>
+          <div id="size-options" class="grid grid-cols-6 gap-1.5"></div>
         </div>
 
-        <!-- Customer Inputs -->
         <div class="grid grid-cols-2 gap-2">
-          <input type="text" id="client-name" required placeholder="Nom complet *"
-            class="w-full px-3 py-2 rounded-xl bg-black/75 border border-zinc-800 focus:border-white focus:outline-none text-xs text-white placeholder-zinc-500" />
-          <input type="tel" id="client-phone" required placeholder="Tél (06 / 07...) *"
-            class="w-full px-3 py-2 rounded-xl bg-black/75 border border-zinc-800 focus:border-white focus:outline-none text-xs text-white placeholder-zinc-500" />
+          <input type="text" id="client-name" required placeholder="Nom complet *" class="w-full px-3 py-2 rounded-xl bg-black/75 border border-zinc-800 focus:border-white focus:outline-none text-xs text-white placeholder-zinc-500" />
+          <input type="tel" id="client-phone" required placeholder="Tél (06 / 07...) *" class="w-full px-3 py-2 rounded-xl bg-black/75 border border-zinc-800 focus:border-white focus:outline-none text-xs text-white placeholder-zinc-500" />
         </div>
 
         <div class="grid grid-cols-3 gap-2">
-          <input type="text" id="client-city" required placeholder="Ville & Adresse de livraison *"
-            class="col-span-2 w-full px-3 py-2 rounded-xl bg-black/75 border border-zinc-800 focus:border-white focus:outline-none text-xs text-white placeholder-zinc-500" />
-          <select id="client-qty"
-            class="w-full px-2.5 py-2 rounded-xl bg-black/75 border border-zinc-800 focus:border-white focus:outline-none text-xs text-white">
+          <input type="text" id="client-city" required placeholder="Ville & Adresse de livraison *" class="col-span-2 w-full px-3 py-2 rounded-xl bg-black/75 border border-zinc-800 focus:border-white focus:outline-none text-xs text-white placeholder-zinc-500" />
+          <select id="client-qty" class="w-full px-2.5 py-2 rounded-xl bg-black/75 border border-zinc-800 focus:border-white focus:outline-none text-xs text-white">
             <option value="1">Qté: 1</option>
             <option value="2">Qté: 2</option>
             <option value="3">Qté: 3</option>
           </select>
         </div>
 
-        <!-- Clean Single-Line WhatsApp Button -->
-        <button type="submit"
-          class="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 active:scale-[0.99] text-black font-display font-bold text-xs sm:text-sm uppercase tracking-wider transition shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2 whitespace-nowrap">
+        <button type="submit" class="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 active:scale-[0.99] text-black font-display font-bold text-xs sm:text-sm uppercase tracking-wider transition shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2 whitespace-nowrap">
           <span>Commander sur WhatsApp (COD)</span>
           <span>→</span>
         </button>
       </form>
     </div>
-
   </section>
 
   <script>
-    /******************************************************************
-     * 1. CONFIGURATION OFFICIELLE HEMMA.MA & VRAIS MODÈLES (1.png - 6.png)
-     ******************************************************************/
     const STORE_CONFIG = {
       brandName: "HEMMA.MA",
-      whatsappNumber: "212649923007", // 0649923007
+      whatsappNumber: "212649923007",
       googleSheetWebhook: ""
     };
 
     const PRODUCTS = [
-      {
-        id: 1,
-        code: "HEMMA 01",
-        brand: "PUMA",
-        name: "Puma RBD Game Low Triple White",
-        shortName: "Puma RBD Triple White",
-        price: 379,
-        oldPrice: 499,
-        ledColor: "#38bdf8",
-        darkShoe: false,
-        image: "./assets/shoes/1.png",
-        sizes: [40, 41, 42, 43, 44, 45],
-        desc: "Puma RBD Game Low blanche intégrale en cuir souple perforé. Semelle confortable et style clean intemporel."
-      },
-      {
-        id: 2,
-        code: "HEMMA 02",
-        brand: "PUMA",
-        name: "Puma RBD Game Low Warm Beige Gum",
-        shortName: "Puma RBD Beige Gum",
-        price: 389,
-        oldPrice: 499,
-        ledColor: "#f59e0b",
-        darkShoe: false,
-        image: "./assets/shoes/2.png",
-        sizes: [40, 41, 42, 43, 44, 45],
-        desc: "Édition White & Warm Beige avec semelle extérieure Gum classique. Finition premium et maintien optimal."
-      },
-      {
-        id: 3,
-        code: "HEMMA 03",
-        brand: "PUMA",
-        name: "Puma RBD Game Low Black White Panda",
-        shortName: "Puma RBD Black White",
-        price: 389,
-        oldPrice: 520,
-        ledColor: "#3b82f6",
-        darkShoe: false,
-        image: "./assets/shoes/3.png",
-        sizes: [40, 41, 42, 43, 44, 45],
-        desc: "Contraste iconique Noir & Blanc (Panda), cuir texturé résistant et confort quotidien supérieur."
-      },
-      {
-        id: 4,
-        code: "HEMMA 04",
-        brand: "PUMA",
-        name: "Puma RBD Game Low Triple Black",
-        shortName: "Puma RBD Triple Black",
-        price: 379,
-        oldPrice: 499,
-        ledColor: "#a855f7",
-        darkShoe: true,
-        image: "./assets/shoes/4.png",
-        sizes: [40, 41, 42, 43, 44, 45],
-        desc: "Look monochrome Full Black ultra-polyvalent en cuir grainé premium avec semelle noire assortie."
-      },
-      {
-        id: 5,
-        code: "HEMMA 05",
-        brand: "NIKE",
-        name: "Nike Air Force 1 '07 Royal Mini Swoosh",
-        shortName: "Air Force 1 Royal Blue",
-        price: 399,
-        oldPrice: 549,
-        ledColor: "#2563eb",
-        darkShoe: false,
-        image: "./assets/shoes/5.png",
-        sizes: [40, 41, 42, 43, 44, 45],
-        desc: "Silhouette légendaire Air Force 1 blanche rehaussée du Swoosh Royal Blue et du Mini Swoosh brodé à l'avant."
-      },
-      {
-        id: 6,
-        code: "HEMMA 06",
-        brand: "NEW BALANCE",
-        name: "New Balance 9060 Triple Black Cat",
-        shortName: "New Balance 9060 Black",
-        price: 449,
-        oldPrice: 599,
-        ledColor: "#10b981",
-        darkShoe: true,
-        image: "./assets/shoes/6.png",
-        sizes: [40, 41, 42, 43, 44, 45],
-        desc: "Design futuriste New Balance 9060 Triple Black en daim et mesh premium avec semelle sculptée ABZORB ultra-confortable."
-      }
+      { id: 1, code: "HEMMA 01", brand: "PUMA", name: "Puma RBD Game Low Triple White", shortName: "Puma RBD Triple White", price: 379, oldPrice: 499, ledColor: "#38bdf8", darkShoe: false, image: "./assets/shoes/1.png", sizes: [40, 41, 42, 43, 44, 45], desc: "Puma RBD Game Low blanche intégrale en cuir souple perforé. Semelle confortable et style clean intemporel." },
+      { id: 2, code: "HEMMA 02", brand: "PUMA", name: "Puma RBD Game Low Warm Beige Gum", shortName: "Puma RBD Beige Gum", price: 389, oldPrice: 499, ledColor: "#f59e0b", darkShoe: false, image: "./assets/shoes/2.png", sizes: [40, 41, 42, 43, 44, 45], desc: "Édition White & Warm Beige avec semelle extérieure Gum classique. Finition premium et maintien optimal." },
+      { id: 3, code: "HEMMA 03", brand: "PUMA", name: "Puma RBD Game Low Black White Panda", shortName: "Puma RBD Black White", price: 389, oldPrice: 520, ledColor: "#3b82f6", darkShoe: false, image: "./assets/shoes/3.png", sizes: [40, 41, 42, 43, 44, 45], desc: "Contraste iconique Noir & Blanc (Panda), cuir texturé résistant et confort quotidien supérieur." },
+      { id: 4, code: "HEMMA 04", brand: "PUMA", name: "Puma RBD Game Low Triple Black", shortName: "Puma RBD Triple Black", price: 379, oldPrice: 499, ledColor: "#a855f7", darkShoe: true, image: "./assets/shoes/4.png", sizes: [40, 41, 42, 43, 44, 45], desc: "Look monochrome Full Black ultra-polyvalent en cuir grainé premium avec semelle noire assortie." },
+      { id: 5, code: "HEMMA 05", brand: "NIKE", name: "Nike Air Force 1 '07 Royal Mini Swoosh", shortName: "Air Force 1 Royal Blue", price: 399, oldPrice: 549, ledColor: "#2563eb", darkShoe: false, image: "./assets/shoes/5.png", sizes: [40, 41, 42, 43, 44, 45], desc: "Silhouette légendaire Air Force 1 blanche rehaussée du Swoosh Royal Blue et du Mini Swoosh brodé à l'avant." },
+      { id: 6, code: "HEMMA 06", brand: "NEW BALANCE", name: "New Balance 9060 Triple Black Cat", shortName: "New Balance 9060 Black", price: 449, oldPrice: 599, ledColor: "#10b981", darkShoe: true, image: "./assets/shoes/6.png", sizes: [40, 41, 42, 43, 44, 45], desc: "Design futuriste New Balance 9060 Triple Black en daim et mesh premium avec semelle sculptée ABZORB ultra-confortable." }
     ];
 
-    /******************************************************************
-     * 2. MOTEUR VITRINE & CAMERA ZOOM CALIBRÉ (PC & MOBILE)
-     ******************************************************************/
     let activeIndex = null;
     let selectedSize = 42;
 
@@ -613,6 +445,7 @@
         <div class="shoe-slot ${item.darkShoe ? 'dark-shoe' : ''}" id="slot-${idx}"
              style="--led-color: ${item.ledColor}; --led-glow: ${item.ledColor}77;"
              onclick="zoomToShoe(${idx}, event)">
+          <div class="spotlight-cone"></div>
           <div class="shoe-aura"></div>
           <div class="slot-label">
             <div class="min-w-0">
@@ -644,12 +477,9 @@
 
       document.body.classList.add("is-zoomed");
       document.getElementById("overview-hint").style.opacity = "0";
-
-      // Swap top-right WhatsApp button with Retour Vitrine button so header never overflows
       document.getElementById("top-whatsapp").classList.add("hidden");
       document.getElementById("btn-back-top").classList.remove("hidden");
       document.getElementById("btn-back-top").classList.add("inline-flex");
-
       document.getElementById("mobile-stage-controls").style.opacity = "1";
 
       applyCameraTransform(index);
@@ -674,10 +504,10 @@
       }
 
       const isMobile = window.innerWidth < 1024;
-      const targetScale = isMobile ? 1.72 : 2.15;
-
-      // Position the zoomed shoe cleanly in the upper stage above the mobile bottom sheet
-      const verticalOffset = isMobile ? -(window.innerHeight * 0.27) : -10;
+      const targetScale = isMobile ? 1.68 : 2.15;
+      
+      // Calibrated precisely so zoomed sneaker sits dead-center in the phone's upper open stage
+      const verticalOffset = isMobile ? -(window.innerHeight * 0.23) : -10;
 
       const tx = (rigCenterX - slotCenterX) * targetScale;
       const ty = (rigCenterY - slotCenterY) * targetScale + verticalOffset;
@@ -738,40 +568,18 @@
       document.querySelectorAll(".shoe-slot").forEach(el => el.classList.remove("active-slot"));
       cameraRig.style.transform = "translate3d(0, 0, 0) scale(1)";
       document.getElementById("overview-hint").style.opacity = "1";
-
       document.getElementById("btn-back-top").classList.add("hidden");
       document.getElementById("btn-back-top").classList.remove("inline-flex");
       document.getElementById("top-whatsapp").classList.remove("hidden");
-
       document.getElementById("mobile-stage-controls").style.opacity = "0";
     }
 
     function handleBackdropClick(e) {
-      if (
-        activeIndex !== null &&
-        (e.target.id === "viewport" || e.target.id === "camera-rig" || e.target.id === "vitrine-grid")
-      ) {
+      if (activeIndex !== null && (e.target.id === "viewport" || e.target.id === "camera-rig" || e.target.id === "vitrine-grid")) {
         resetZoom();
       }
     }
 
-    function setVitrineMode(mode) {
-      const isAlcove = mode === "alcove";
-      document.body.classList.toggle("mode-alcove", isAlcove);
-      document.body.classList.toggle("mode-hangar", !isAlcove);
-
-      document.getElementById("btn-mode-hangar").className = !isAlcove
-        ? "px-2.5 md:px-3.5 py-1 rounded-full font-semibold bg-white text-black transition whitespace-nowrap"
-        : "px-2.5 md:px-3.5 py-1 rounded-full font-medium text-zinc-400 hover:text-white transition whitespace-nowrap";
-
-      document.getElementById("btn-mode-alcove").className = isAlcove
-        ? "px-2.5 md:px-3.5 py-1 rounded-full font-semibold bg-white text-black transition whitespace-nowrap"
-        : "px-2.5 md:px-3.5 py-1 rounded-full font-medium text-zinc-400 hover:text-white transition whitespace-nowrap";
-    }
-
-    /******************************************************************
-     * 3. ENVOI DIRECT VERS WHATSAPP (0649923007)
-     ******************************************************************/
     function submitToWhatsApp(e) {
       e.preventDefault();
       if (activeIndex === null) return;
@@ -797,14 +605,11 @@
         `────────────────────\n` +
         `Merci de confirmer ma commande !`;
 
-      const whatsappURL = `https://wa.me/${STORE_CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
-      window.open(whatsappURL, "_blank");
+      window.open(`https://wa.me/${STORE_CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank");
     }
 
     window.addEventListener("resize", () => {
-      if (activeIndex !== null) {
-        applyCameraTransform(activeIndex);
-      }
+      if (activeIndex !== null) applyCameraTransform(activeIndex);
     });
 
     window.addEventListener("keydown", (e) => {
@@ -813,7 +618,6 @@
       if (e.key === "ArrowLeft" && activeIndex !== null) navigateShoe(-1);
     });
 
-    // Swipe Left/Right on Mobile Stage
     let touchStartX = 0;
     window.addEventListener("touchstart", (e) => {
       touchStartX = e.changedTouches[0].screenX;
