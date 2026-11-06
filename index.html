@@ -1,638 +1,417 @@
 <!DOCTYPE html>
-<html lang="fr" class="dark">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>HEMMA.MA — Sneakers & Streetwear Maroc</title>
-  <meta name="description" content="HEMMA.MA - Découvrez notre sélection exclusive Puma, Nike et New Balance au Maroc. Paiement à la livraison et livraison rapide 24h/48h." />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>رسالة خاصة لزينب 🌸✨</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <!-- Confetti Effects -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            cairo: ['Cairo', 'sans-serif'],
+            nunito: ['Nunito', 'sans-serif'],
+          },
+          colors: {
+            pastel: {
+              cream: '#FFF8F6',
+              softPink: '#FFE5EC',
+              blush: '#FFC2D1',
+              rose: '#FF8FAB',
+              hotRose: '#FB6F92',
+              textDark: '#3A2E39'
+            }
+          },
+          animation: {
+            'float-slow': 'float 5s ease-in-out infinite',
+            'pulse-soft': 'pulseSoft 2s infinite ease-in-out',
+            'pop-in': 'popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-10px)' },
+            },
+            pulseSoft: {
+              '0%, 100%': { transform: 'scale(1)' },
+              '50%': { transform: 'scale(1.04)' },
+            },
+            popIn: {
+              '0%': { opacity: '0', transform: 'scale(0.85) translateY(15px)' },
+              '100%': { opacity: '1', transform: 'scale(1) translateY(0)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
   <style>
-    :root {
-      --bg-dark: #07070a;
-      --led-color: #ffffff;
-    }
-
-    * {
-      box-sizing: border-box;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
-    }
-
+    /* iOS Safari viewport height fix & Smooth scrolling */
     html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100dvh;
-      background-color: var(--bg-dark);
-      color: #f4f4f6;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      overflow: hidden;
-      overscroll-behavior: none;
+      min-height: 100dvh;
+      font-family: 'Cairo', sans-serif;
+      background: radial-gradient(circle at 50% 20%, #FFF5F7 0%, #FFE9F0 45%, #FFD6E0 100%);
+      color: #3A2E39;
+      overflow-x: hidden;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
     }
 
-    .font-display {
-      font-family: 'Space Grotesk', sans-serif;
-    }
-
-    #viewport {
-      position: relative;
-      width: 100vw;
-      height: 100dvh;
-      overflow: hidden;
-      background: radial-gradient(circle at 50% 40%, #171720 0%, #09090d 60%, #050507 100%);
-    }
-
-    #camera-rig {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transform-origin: 50% 50%;
-      transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
-      will-change: transform;
-    }
-
-    #vitrine-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(240px, 330px));
-      grid-template-rows: repeat(2, 235px);
-      gap: 2rem 3rem;
-      padding: 3.8rem 2rem 3rem 2rem;
-      max-width: 1120px;
-      width: 100%;
-      justify-content: center;
-      align-content: center;
-    }
-
-    @media (max-width: 1023px) {
-      #vitrine-grid {
-        grid-template-columns: repeat(2, minmax(145px, 45vw));
-        grid-template-rows: repeat(3, minmax(135px, 22dvh));
-        gap: 0.65rem 0.75rem;
-        padding: 3.6rem 0.65rem 2.8rem 0.65rem;
-      }
-    }
-
-    /* Permanent Luxury Alcove Stone Box Style */
-    .shoe-slot {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-end;
-      padding-bottom: 18px;
-      cursor: pointer;
-      border-radius: 16px;
-      background: linear-gradient(180deg, #17171f 0%, #0b0b10 68%, #13131a 100%);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: inset 0 28px 40px -15px rgba(255, 255, 255, 0.08),
-                  inset 0 -16px 28px rgba(0, 0, 0, 0.9),
-                  0 14px 30px rgba(0, 0, 0, 0.75);
-      overflow: hidden;
-      transition: opacity 0.5s ease, filter 0.5s ease;
-    }
-
-    @media (max-width: 1023px) {
-      .shoe-slot {
-        padding-bottom: 10px;
-        border-radius: 14px;
-      }
-    }
-
-    /* Permanent Top Spotlight Cone */
-    .spotlight-cone {
-      position: absolute;
-      top: -15%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 130%;
-      height: 115%;
-      background: radial-gradient(ellipse at 50% 0%, var(--led-color) 0%, transparent 68%);
-      opacity: 0.32;
-      pointer-events: none;
-      transition: opacity 0.5s ease;
-    }
-
-    /* Backlight Aura */
-    .shoe-aura {
-      position: absolute;
-      bottom: 18%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 78%;
-      height: 58%;
-      border-radius: 999px;
-      background: radial-gradient(circle, var(--led-color) 0%, rgba(255,255,255,0.12) 45%, transparent 72%);
-      opacity: 0.35;
-      filter: blur(14px);
-      pointer-events: none;
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-
-    .shoe-slot.dark-shoe .shoe-aura {
-      opacity: 0.48;
-      background: radial-gradient(circle, rgba(255,255,255,0.38) 0%, var(--led-color) 45%, transparent 75%);
-    }
-
-    .shoe-slot.active-slot .shoe-aura {
-      opacity: 0.6;
-      transform: translateX(-50%) scale(1.15);
-    }
-
-    .shoe-img-wrap {
-      position: relative;
-      width: 100%;
-      flex: 1;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      padding: 24px 8px 6px 8px;
-      z-index: 10;
-    }
-
-    @media (max-width: 1023px) {
-      .shoe-img-wrap {
-        padding: 22px 6px 4px 6px;
-      }
-    }
-
-    .shoe-img {
-      width: 88%;
-      max-height: 135px;
-      object-fit: contain;
-      filter: drop-shadow(0 12px 12px rgba(0, 0, 0, 0.88))
-              drop-shadow(0 0 1px rgba(255, 255, 255, 0.22));
-      transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), filter 0.55s ease;
-      will-change: transform;
-    }
-
-    .shoe-slot.dark-shoe .shoe-img {
-      filter: drop-shadow(0 12px 12px rgba(0, 0, 0, 0.92))
-              drop-shadow(0 0 12px rgba(255, 255, 255, 0.16));
-    }
-
-    @media (max-width: 1023px) {
-      .shoe-img {
-        width: 92%;
-        max-height: 84px;
-      }
-    }
-
-    .shoe-slot:hover .shoe-img {
-      transform: translateY(-6px) scale(1.04);
-    }
-
-    .shoe-slot.active-slot .shoe-img {
-      transform: translateY(-8px) scale(1.08);
-      filter: drop-shadow(0 20px 18px rgba(0, 0, 0, 0.94))
-              drop-shadow(0 0 24px var(--led-glow));
-    }
-
-    body.is-zoomed .shoe-slot:not(.active-slot) {
-      opacity: 0.12;
-      filter: blur(2.5px) brightness(0.4);
-    }
-
-    .shelf-bar {
-      position: relative;
-      width: 86%;
-      height: 5px;
-      border-radius: 999px;
-      background: #252530;
-      z-index: 12;
-      flex-shrink: 0;
-    }
-
-    .shelf-led {
-      position: absolute;
-      inset: 0;
-      border-radius: 999px;
-      background: var(--led-color);
-      box-shadow: 0 0 14px var(--led-color),
-                  0 5px 22px var(--led-color),
-                  0 -3px 12px var(--led-color);
-      opacity: 0.95;
-    }
-
-    .slot-label {
-      position: absolute;
-      top: 8px;
-      left: 10px;
-      right: 10px;
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 4px;
-      z-index: 15;
-      transition: opacity 0.25s ease;
-      pointer-events: none;
-    }
-
-    body.is-zoomed .slot-label {
-      opacity: 0;
-    }
-
-    #detail-overlay {
+    /* Ambient floating hearts */
+    .floating-heart {
       position: fixed;
-      inset: 0;
-      z-index: 40;
       pointer-events: none;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
+      z-index: 1;
+      opacity: 0.35;
+      animation: riseAndFade 9s linear infinite;
     }
 
-    @media (min-width: 1024px) {
-      #detail-overlay {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        padding: 4.5rem 2.5rem 2rem 2.5rem;
+    @keyframes riseAndFade {
+      0% {
+        transform: translateY(105vh) scale(0.6) rotate(0deg);
+        opacity: 0.1;
+      }
+      50% {
+        opacity: 0.45;
+      }
+      100% {
+        transform: translateY(-12vh) scale(1.15) rotate(360deg);
+        opacity: 0;
       }
     }
 
-    .detail-panel {
-      pointer-events: auto;
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-                  transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    /* Glassmorphism Card */
+    .card-glass {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 16px 40px -10px rgba(251, 111, 146, 0.22), 0 0 0 1px rgba(255, 255, 255, 0.7);
     }
 
-    body.is-zoomed .detail-panel {
-      opacity: 1;
-      transform: translateY(0);
-      transition-delay: 0.12s;
+    /* Primary glowing button */
+    .btn-glow {
+      box-shadow: 0 8px 22px -3px rgba(251, 111, 146, 0.45);
+      transition: all 0.2s ease;
+    }
+    .btn-glow:active {
+      transform: scale(0.96);
     }
 
-    body:not(.is-zoomed) #detail-overlay * {
-      pointer-events: none !important;
-    }
-
-    .glass-card {
-      background: rgba(11, 11, 16, 0.92);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 -10px 45px rgba(0, 0, 0, 0.85);
-    }
-
-    ::-webkit-scrollbar {
-      width: 4px;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #2f2f3d;
-      border-radius: 999px;
+    /* The runaway button: smooth movement without lagging on touch */
+    #noBtn {
+      transition: left 0.18s cubic-bezier(0.2, 0.9, 0.3, 1), top 0.18s cubic-bezier(0.2, 0.9, 0.3, 1), transform 0.2s ease;
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
     }
   </style>
 </head>
-<body>
 
-  <!-- CLEAN TOP NAVBAR -->
-  <header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-3 md:px-10 h-14 bg-gradient-to-b from-black/95 via-black/75 to-transparent">
-    <div class="flex items-center gap-2 cursor-pointer shrink-0" onclick="resetZoom()">
-      <div class="w-8 h-8 md:w-9 md:h-9 rounded-xl bg-white text-black flex items-center justify-center font-display font-bold text-base md:text-lg tracking-tighter shadow">
-        H
-      </div>
-      <div class="leading-none">
-        <div class="flex items-center gap-1">
-          <span class="font-display font-bold tracking-wider text-xs md:text-base text-white">HEMMA</span>
-          <span class="text-[9px] font-mono px-1 py-0.5 rounded bg-white/10 text-emerald-400 font-semibold">.MA</span>
+<body class="flex items-center justify-center min-h-[100dvh] p-4 sm:p-6 select-none relative">
+
+  <!-- Ambient Hearts Container -->
+  <div id="heartContainer" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"></div>
+
+  <!-- Music Sound Toggle -->
+  <button id="audioToggleBtn" onclick="toggleCuteMusic()" class="fixed top-4 left-4 z-40 flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/80 backdrop-blur border border-pink-200/80 shadow-sm text-xs font-semibold text-pink-700 active:scale-95 transition cursor-pointer">
+    <span id="audioIcon">🎵</span>
+    <span id="audioText">موسيقى هادئة</span>
+  </button>
+
+  <main class="w-full max-w-md mx-auto relative z-10">
+
+    <!-- ======================== STEP 1: INITIAL QUESTION ======================== -->
+    <div id="step1Card" class="card-glass rounded-3xl p-6 sm:p-8 text-center relative border border-white">
+      
+      <!-- Cute Bear / Envelope Avatar -->
+      <div class="relative w-24 h-24 mx-auto mb-4">
+        <div class="w-full h-full rounded-full bg-pink-100 flex items-center justify-center text-4xl shadow-inner animate-float-slow">
+          🧸
         </div>
-        <span class="text-[8px] md:text-[10px] text-zinc-400 tracking-widest uppercase block mt-0.5 whitespace-nowrap">
-          Sneakers Maroc
-        </span>
+        <span class="absolute -bottom-1 -right-1 text-2xl animate-bounce">💌</span>
       </div>
+
+      <!-- Header & Intro -->
+      <span class="inline-block px-3 py-1 rounded-full bg-pink-100/90 text-pink-700 font-bold text-xs tracking-wider mb-2">
+        رسالة خاصة
+      </span>
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-pink-700 mb-2 leading-tight">
+        زينب... عافاك دقيقة من وقتك؟ 🥺
+      </h1>
+      <p class="text-sm sm:text-base text-gray-600 mb-8 font-medium">
+        واخا يلاه عرفتك البارح، وبغيت غير نقولك شي حاجة مهمة من القلب... تسمعيني؟
+      </p>
+
+      <!-- Buttons Arena -->
+      <div id="buttonsArena" class="relative w-full h-24 flex items-center justify-center gap-4">
+        
+        <!-- YES BUTTON (Always Easy to Click) -->
+        <button id="yesBtn" onclick="handleYesClick()" class="btn-glow px-6 sm:px-8 py-3.5 rounded-2xl bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 text-white font-bold text-base sm:text-lg flex items-center justify-center gap-2 cursor-pointer z-20">
+          <span>Oui / أه نسمعك</span>
+          <span class="text-xl animate-pulse">🤍</span>
+        </button>
+
+        <!-- NO BUTTON (Runaway Button for iPhone & Desktop) -->
+        <button id="noBtn" class="px-6 sm:px-7 py-3 rounded-2xl bg-white/90 text-gray-700 font-bold text-sm sm:text-base border border-pink-200 shadow-sm cursor-pointer z-10">
+          <span>Non / لا 😤</span>
+        </button>
+
+      </div>
+
+      <!-- Playful Subtitle -->
+      <p class="text-xs text-pink-400 mt-4 font-medium">
+        (راك عزيزة بزاف... وبوطون "Non" مابغاتش تخدم ليك أ زينب 🙈)
+      </p>
     </div>
 
-    <div class="flex items-center shrink-0">
-      <button id="btn-back-top" onclick="resetZoom()" class="hidden items-center gap-1 px-3 py-1.5 rounded-full bg-white text-black hover:bg-zinc-200 text-[11px] font-bold transition shadow whitespace-nowrap">
-        <span>← Vitrine</span>
-      </button>
-      <a id="top-whatsapp" href="https://wa.me/212649923007" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/25 text-[11px] font-semibold transition whitespace-nowrap">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span>WhatsApp</span>
-      </a>
-    </div>
-  </header>
+    <!-- ======================== STEP 2: THE APOLOGY NOTE ======================== -->
+    <div id="step2Card" class="hidden card-glass rounded-3xl p-6 sm:p-8 text-right relative border border-white animate-pop-in">
+      
+      <!-- Top Header -->
+      <div class="flex items-center justify-between border-b border-pink-100 pb-3 mb-4">
+        <div class="flex items-center gap-2.5">
+          <span class="text-2xl">🌷</span>
+          <div>
+            <h2 class="text-xl sm:text-2xl font-black text-pink-700">زينب... 🤍</h2>
+            <p class="text-xs text-pink-500 font-medium font-nunito">De tout mon cœur</p>
+          </div>
+        </div>
+        <span class="text-xs px-2.5 py-1 bg-pink-100/70 text-pink-700 rounded-lg font-bold">يوم جديد ✨</span>
+      </div>
 
-  <!-- MOBILE STAGE NAV CONTROLS -->
-  <div id="mobile-stage-controls" class="fixed top-[18dvh] left-0 right-0 z-40 flex lg:hidden items-center justify-between px-3 pointer-events-none opacity-0 transition-opacity duration-300">
-    <button onclick="navigateShoe(-1)" class="pointer-events-auto w-9 h-9 rounded-full bg-black/70 border border-white/15 backdrop-blur-md flex items-center justify-center text-white text-sm active:scale-90 transition shadow-lg">
-      ←
-    </button>
-    <button onclick="navigateShoe(1)" class="pointer-events-auto w-9 h-9 rounded-full bg-black/70 border border-white/15 backdrop-blur-md flex items-center justify-center text-white text-sm active:scale-90 transition shadow-lg">
-      →
-    </button>
-  </div>
+      <!-- Apology Content: Focused on 1-day acquaintance -->
+      <div class="space-y-3.5 text-gray-700 text-sm sm:text-base leading-relaxed font-medium">
+        
+        <p class="bg-pink-50/80 p-3.5 rounded-2xl border-r-4 border-pink-500 text-pink-900 font-semibold">
+          أول حاجة، سمحي ليا بزاف إذا تقلقتي مني، ولا تفهم كلامي بطريقة ما قصدتهاش... والله ما كان في بالي نزعلك نهائياً.
+        </p>
 
-  <!-- BOTTOM TRUST BAR -->
-  <div id="overview-hint" class="fixed bottom-2.5 left-0 right-0 z-30 pointer-events-none flex justify-center px-3 transition-opacity duration-400">
-    <div class="inline-flex items-center gap-2 sm:gap-4 px-3.5 py-1.5 rounded-full bg-zinc-950/90 border border-zinc-800/90 text-[10px] sm:text-xs text-zinc-300 shadow-lg whitespace-nowrap">
-      <span class="flex items-center gap-1"><span class="text-emerald-400">✓</span> Paiement à la livraison</span>
-      <span class="text-zinc-700">•</span>
-      <span class="flex items-center gap-1"><span class="text-emerald-400">✓</span> Livraison 24/48h</span>
-      <span class="hidden sm:inline text-zinc-700">•</span>
-      <span class="hidden sm:inline text-zinc-400">Cliquez sur une paire pour zoomer</span>
-    </div>
-  </div>
+        <p>
+          واخا عاد يلاه تلاقينا وعرفتك البارح، دخلتي ليا لخاطري ولقيت فيك إنسانة طيبة ومحترمة بزاف وبغيت نبقاو مزيانين.
+        </p>
 
-  <!-- INTERACTIVE VIEWPORT -->
-  <main id="viewport" onclick="handleBackdropClick(event)">
-    <div id="camera-rig">
-      <div id="vitrine-grid"></div>
+        <p class="text-pink-700 font-bold bg-white/70 p-3 rounded-2xl border border-pink-200 text-center text-sm sm:text-base">
+          ✨ شنو رأيك نبداو صفحة بيضا جديدة بجوج، وننساو أي سوء تفاهم داز؟ ✨
+        </p>
+
+        <p class="text-xs sm:text-sm text-gray-600 text-center">
+          ما كرهتش نحيدو هاد الزعل ونرجعو نهضرو بضحكة وراحة بال بحال ما وقع والو 🥺🤍
+        </p>
+      </div>
+
+      <!-- Action Button: Direct WhatsApp link to 212649923007 -->
+      <div class="mt-6">
+        <a id="waButton" href="https://wa.me/212649923007?text=%D8%B5%D8%A7%D9%81%D9%8A%20%D9%85%D8%B3%D8%A7%D9%85%D8%AD%D8%A9%D8%8C%20%D9%86%D8%A8%D8%AF%D8%A7%D9%88%20%D8%B5%D9%81%D8%AD%D8%A9%20%D8%AC%D8%AF%D9%8A%D8%AF%D8%A9%20%D8%A8%D8%AC%D9%88%D8%AC%20%F0%9F%A4%8D%E2%9C%A8" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           class="btn-glow w-full py-3.5 px-5 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-green-600 text-white font-bold text-base flex items-center justify-center gap-2.5 shadow-lg active:scale-95 transition">
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+          </svg>
+          <span>صافي مسامحة، نبداو صفحة جديدة 🤍</span>
+        </a>
+      </div>
+
     </div>
+
   </main>
 
-  <!-- ZOOM DETAIL & ORDER OVERLAY -->
-  <section id="detail-overlay">
-    <div class="detail-panel hidden lg:flex flex-col justify-between glass-card rounded-2xl p-6 w-[350px]">
-      <div>
-        <div class="flex items-center justify-between mb-3">
-          <span id="detail-brand-desktop" class="text-[11px] font-mono uppercase tracking-widest px-2.5 py-1 rounded-md bg-white/10 text-zinc-200 font-semibold">PUMA</span>
-          <span class="text-xs text-emerald-400 font-semibold flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> En Stock</span>
-        </div>
-        <h2 id="detail-name-desktop" class="font-display text-2xl font-bold tracking-tight text-white mb-2">Puma RBD Game Low</h2>
-        <p id="detail-desc" class="text-xs text-zinc-400 leading-relaxed mb-5">Qualité Master Premium avec finitions haute précision, confort optimal et boîte d'origine incluse.</p>
-        <div class="space-y-2 p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.06] text-xs text-zinc-300 mb-5">
-          <div class="flex items-center gap-2"><span>🚚</span> <span>Livraison rapide partout au Maroc (24h/48h)</span></div>
-          <div class="flex items-center gap-2"><span>🤝</span> <span>Vérifiez votre commande avant de payer</span></div>
-        </div>
-      </div>
-      <div class="flex items-center justify-between pt-4 border-t border-white/10">
-        <div class="flex items-center gap-2">
-          <button onclick="navigateShoe(-1)" class="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 flex items-center justify-center text-sm transition">←</button>
-          <button onclick="navigateShoe(1)" class="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 flex items-center justify-center text-sm transition">→</button>
-        </div>
-        <button onclick="resetZoom()" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-semibold transition">Toute la Vitrine (ESC)</button>
-      </div>
-    </div>
-
-    <div class="detail-panel glass-card rounded-t-3xl lg:rounded-2xl px-4 pt-3 pb-4 sm:p-6 w-full lg:w-[400px] max-h-[55dvh] lg:max-h-[85dvh] overflow-y-auto">
-      <div class="w-9 h-1 bg-zinc-700 rounded-full mx-auto mb-2.5 lg:hidden"></div>
-      <div class="flex items-start justify-between gap-2 mb-2.5 pb-2.5 border-b border-white/10">
-        <div>
-          <div class="flex items-center gap-1.5 mb-0.5">
-            <span id="detail-brand-mobile" class="text-[9px] font-mono uppercase tracking-wider px-1.5 py-0.5 rounded bg-white/10 text-zinc-300 font-bold">PUMA</span>
-            <span id="detail-counter-mobile" class="text-[10px] font-mono text-zinc-400">1/6</span>
-          </div>
-          <h3 id="detail-name-mobile" class="font-display text-base sm:text-lg font-bold text-white leading-snug">Puma RBD Game Low</h3>
-        </div>
-        <div class="text-right shrink-0">
-          <span id="detail-price" class="font-display text-lg sm:text-2xl font-bold text-emerald-400 block leading-none">379 MAD</span>
-          <span id="detail-old-price" class="text-[11px] text-zinc-500 line-through">499 MAD</span>
-        </div>
-      </div>
-
-      <form id="cod-form" onsubmit="submitToWhatsApp(event)" class="space-y-2.5">
-        <div>
-          <div class="flex items-center justify-between mb-1.5">
-            <label class="text-[11px] text-zinc-300 font-semibold">Pointure (EU) :</label>
-            <span id="selected-size-badge" class="text-[11px] font-mono text-emerald-400 font-bold">Taille: 42 EU</span>
-          </div>
-          <div id="size-options" class="grid grid-cols-6 gap-1.5"></div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-2">
-          <input type="text" id="client-name" required placeholder="Nom complet *" class="w-full px-3 py-2 rounded-xl bg-black/75 border border-zinc-800 focus:border-white focus:outline-none text-xs text-white placeholder-zinc-500" />
-          <input type="tel" id="client-phone" required placeholder="Tél (06 / 07...) *" class="w-full px-3 py-2 rounded-xl bg-black/75 border border-zinc-800 focus:border-white focus:outline-none text-xs text-white placeholder-zinc-500" />
-        </div>
-
-        <div class="grid grid-cols-3 gap-2">
-          <input type="text" id="client-city" required placeholder="Ville & Adresse de livraison *" class="col-span-2 w-full px-3 py-2 rounded-xl bg-black/75 border border-zinc-800 focus:border-white focus:outline-none text-xs text-white placeholder-zinc-500" />
-          <select id="client-qty" class="w-full px-2.5 py-2 rounded-xl bg-black/75 border border-zinc-800 focus:border-white focus:outline-none text-xs text-white">
-            <option value="1">Qté: 1</option>
-            <option value="2">Qté: 2</option>
-            <option value="3">Qté: 3</option>
-          </select>
-        </div>
-
-        <button type="submit" class="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 active:scale-[0.99] text-black font-display font-bold text-xs sm:text-sm uppercase tracking-wider transition shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2 whitespace-nowrap">
-          <span>Commander sur WhatsApp (COD)</span>
-          <span>→</span>
-        </button>
-      </form>
-    </div>
-  </section>
-
   <script>
-    const STORE_CONFIG = {
-      brandName: "HEMMA.MA",
-      whatsappNumber: "212649923007",
-      googleSheetWebhook: ""
-    };
+    /* ==========================================================
+       1. FLOATING HEARTS GENERATOR
+       ========================================================== */
+    const heartContainer = document.getElementById('heartContainer');
+    const heartEmojis = ['🤍', '🌸', '✨', '💕', '🌷', '🕊️'];
 
-    const PRODUCTS = [
-      { id: 1, code: "HEMMA 01", brand: "PUMA", name: "Puma RBD Game Low Triple White", shortName: "Puma RBD Triple White", price: 379, oldPrice: 499, ledColor: "#38bdf8", darkShoe: false, image: "./assets/shoes/1.png", sizes: [40, 41, 42, 43, 44, 45], desc: "Puma RBD Game Low blanche intégrale en cuir souple perforé. Semelle confortable et style clean intemporel." },
-      { id: 2, code: "HEMMA 02", brand: "PUMA", name: "Puma RBD Game Low Warm Beige Gum", shortName: "Puma RBD Beige Gum", price: 389, oldPrice: 499, ledColor: "#f59e0b", darkShoe: false, image: "./assets/shoes/2.png", sizes: [40, 41, 42, 43, 44, 45], desc: "Édition White & Warm Beige avec semelle extérieure Gum classique. Finition premium et maintien optimal." },
-      { id: 3, code: "HEMMA 03", brand: "PUMA", name: "Puma RBD Game Low Black White Panda", shortName: "Puma RBD Black White", price: 389, oldPrice: 520, ledColor: "#3b82f6", darkShoe: false, image: "./assets/shoes/3.png", sizes: [40, 41, 42, 43, 44, 45], desc: "Contraste iconique Noir & Blanc (Panda), cuir texturé résistant et confort quotidien supérieur." },
-      { id: 4, code: "HEMMA 04", brand: "PUMA", name: "Puma RBD Game Low Triple Black", shortName: "Puma RBD Triple Black", price: 379, oldPrice: 499, ledColor: "#a855f7", darkShoe: true, image: "./assets/shoes/4.png", sizes: [40, 41, 42, 43, 44, 45], desc: "Look monochrome Full Black ultra-polyvalent en cuir grainé premium avec semelle noire assortie." },
-      { id: 5, code: "HEMMA 05", brand: "NIKE", name: "Nike Air Force 1 '07 Royal Mini Swoosh", shortName: "Air Force 1 Royal Blue", price: 399, oldPrice: 549, ledColor: "#2563eb", darkShoe: false, image: "./assets/shoes/5.png", sizes: [40, 41, 42, 43, 44, 45], desc: "Silhouette légendaire Air Force 1 blanche rehaussée du Swoosh Royal Blue et du Mini Swoosh brodé à l'avant." },
-      { id: 6, code: "HEMMA 06", brand: "NEW BALANCE", name: "New Balance 9060 Triple Black Cat", shortName: "New Balance 9060 Black", price: 449, oldPrice: 599, ledColor: "#10b981", darkShoe: true, image: "./assets/shoes/6.png", sizes: [40, 41, 42, 43, 44, 45], desc: "Design futuriste New Balance 9060 Triple Black en daim et mesh premium avec semelle sculptée ABZORB ultra-confortable." }
+    function spawnHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'floating-heart';
+      heart.innerText = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+      heart.style.left = Math.random() * 92 + 'vw';
+      heart.style.fontSize = (Math.random() * 16 + 14) + 'px';
+      heart.style.animationDuration = (Math.random() * 5 + 6) + 's';
+      heartContainer.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 10000);
+    }
+    setInterval(spawnHeart, 750);
+    for (let i = 0; i < 7; i++) spawnHeart();
+
+    /* ==========================================================
+       2. EVASIVE "NON" BUTTON LOGIC (Works on Safari / iPhone)
+       ========================================================== */
+    const noBtn = document.getElementById('noBtn');
+    let escapeCount = 0;
+
+    const funnyEscapePhrases = [
+      "فين غادية؟ 😂",
+      "غير ضغطي على Oui! 💕",
+      "ماعندك فين تهربي 🙈",
+      "حشومة تقولي لا 🥺",
+      "والله ما تفلت ليك 🏃‍♂️",
+      "صفحة جديدة أحسن ✨",
+      "Oui كتسناك هنا! 🤍",
+      "ما كاينش لا اليوم 🌹"
     ];
 
-    let activeIndex = null;
-    let selectedSize = 42;
-
-    const gridEl = document.getElementById("vitrine-grid");
-    const cameraRig = document.getElementById("camera-rig");
-
-    function initVitrine() {
-      gridEl.innerHTML = PRODUCTS.map((item, idx) => `
-        <div class="shoe-slot ${item.darkShoe ? 'dark-shoe' : ''}" id="slot-${idx}"
-             style="--led-color: ${item.ledColor}; --led-glow: ${item.ledColor}77;"
-             onclick="zoomToShoe(${idx}, event)">
-          <div class="spotlight-cone"></div>
-          <div class="shoe-aura"></div>
-          <div class="slot-label">
-            <div class="min-w-0">
-              <span class="block text-[8px] sm:text-[9px] font-mono tracking-widest text-zinc-400 uppercase">${item.brand}</span>
-              <span class="block text-[10px] sm:text-xs font-display font-bold text-white truncate">${item.shortName}</span>
-            </div>
-            <span class="px-1.5 py-0.5 rounded bg-white/10 border border-white/10 text-[9px] sm:text-[10px] font-display font-bold text-emerald-400 shrink-0">
-              ${item.price} DH
-            </span>
-          </div>
-          <div class="shoe-img-wrap">
-            <img src="${item.image}" alt="${item.name}" class="shoe-img" loading="eager" />
-          </div>
-          <div class="shelf-bar">
-            <div class="shelf-led"></div>
-          </div>
-        </div>
-      `).join("");
-    }
-
-    function zoomToShoe(index, event) {
-      if (event) event.stopPropagation();
-      activeIndex = index;
-      const product = PRODUCTS[index];
-
-      document.querySelectorAll(".shoe-slot").forEach((el, i) => {
-        el.classList.toggle("active-slot", i === index);
-      });
-
-      document.body.classList.add("is-zoomed");
-      document.getElementById("overview-hint").style.opacity = "0";
-      document.getElementById("top-whatsapp").classList.add("hidden");
-      document.getElementById("btn-back-top").classList.remove("hidden");
-      document.getElementById("btn-back-top").classList.add("inline-flex");
-      document.getElementById("mobile-stage-controls").style.opacity = "1";
-
-      applyCameraTransform(index);
-      updateDetailPanel(product, index);
-    }
-
-    function applyCameraTransform(index) {
-      const slotEl = document.getElementById(`slot-${index}`);
-      if (!slotEl) return;
-
-      const rigCenterX = cameraRig.clientWidth / 2;
-      const rigCenterY = cameraRig.clientHeight / 2;
-
-      let el = slotEl;
-      let slotCenterX = slotEl.offsetWidth / 2;
-      let slotCenterY = slotEl.offsetHeight / 2;
-
-      while (el && el !== cameraRig) {
-        slotCenterX += el.offsetLeft;
-        slotCenterY += el.offsetTop;
-        el = el.offsetParent;
+    function teleportNoButton(event) {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
       }
 
-      const isMobile = window.innerWidth < 1024;
-      const targetScale = isMobile ? 1.68 : 2.15;
-      
-      // Calibrated precisely so zoomed sneaker sits dead-center in the phone's upper open stage
-      const verticalOffset = isMobile ? -(window.innerHeight * 0.23) : -10;
+      const padding = 20;
+      const btnRect = noBtn.getBoundingClientRect();
+      const btnW = btnRect.width || 100;
+      const btnH = btnRect.height || 45;
 
-      const tx = (rigCenterX - slotCenterX) * targetScale;
-      const ty = (rigCenterY - slotCenterY) * targetScale + verticalOffset;
+      const maxX = window.innerWidth - btnW - padding;
+      const maxY = window.innerHeight - btnH - padding;
 
-      cameraRig.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${targetScale})`;
-    }
+      // Calculate a randomized coordinate on screen
+      const nextX = Math.max(padding, Math.floor(Math.random() * maxX));
+      const nextY = Math.max(padding, Math.floor(Math.random() * maxY));
 
-    function updateDetailPanel(product, index) {
-      document.getElementById("detail-brand-desktop").textContent = `${product.brand} • ${product.code}`;
-      document.getElementById("detail-brand-mobile").textContent = product.brand;
-      document.getElementById("detail-counter-mobile").textContent = `${index + 1}/${PRODUCTS.length}`;
-      document.getElementById("detail-name-desktop").textContent = product.name;
-      document.getElementById("detail-name-mobile").textContent = product.name;
-      document.getElementById("detail-desc").textContent = product.desc;
-      document.getElementById("detail-price").textContent = `${product.price} MAD`;
-      document.getElementById("detail-old-price").textContent = `${product.oldPrice} MAD`;
+      // Switch to fixed positioning so it escapes anywhere on screen
+      noBtn.style.position = 'fixed';
+      noBtn.style.left = nextX + 'px';
+      noBtn.style.top = nextY + 'px';
+      noBtn.style.zIndex = '999';
 
-      if (!product.sizes.includes(selectedSize)) {
-        selectedSize = product.sizes[0];
-      }
-      renderSizes(product.sizes);
-    }
+      // Cycle text
+      escapeCount++;
+      const phrase = funnyEscapePhrases[escapeCount % funnyEscapePhrases.length];
+      noBtn.innerHTML = `<span>${phrase}</span>`;
 
-    function renderSizes(sizes) {
-      document.getElementById("selected-size-badge").textContent = `Taille: ${selectedSize} EU`;
-      const container = document.getElementById("size-options");
-      container.innerHTML = sizes.map(size => {
-        const active = size === selectedSize;
-        return `
-          <button type="button" onclick="selectSize(${size})"
-            class="py-1.5 sm:py-2 rounded-xl text-xs font-display font-bold border transition ${
-              active
-                ? "bg-white text-black border-white shadow scale-[1.03]"
-                : "bg-black/60 text-zinc-400 border-zinc-800 hover:border-zinc-600"
-            }">
-            ${size}
-          </button>
-        `;
-      }).join("");
-    }
-
-    function selectSize(size) {
-      selectedSize = size;
-      if (activeIndex !== null) {
-        renderSizes(PRODUCTS[activeIndex].sizes);
+      // Haptic feedback for supported phones
+      if (navigator.vibrate) {
+        navigator.vibrate(35);
       }
     }
 
-    function navigateShoe(direction) {
-      if (activeIndex === null) return;
-      const nextIndex = (activeIndex + direction + PRODUCTS.length) % PRODUCTS.length;
-      zoomToShoe(nextIndex);
+    // Attach all interactions for desktop and mobile Safari touch
+    noBtn.addEventListener('pointerover', teleportNoButton);
+    noBtn.addEventListener('touchstart', teleportNoButton, { passive: false });
+    noBtn.addEventListener('pointerdown', teleportNoButton);
+    noBtn.addEventListener('click', teleportNoButton);
+
+    /* ==========================================================
+       3. ACCEPT & SHOW APOLOGY CARD
+       ========================================================= */
+    function handleYesClick() {
+      // Confetti burst
+      if (window.confetti) {
+        confetti({
+          particleCount: 70,
+          spread: 60,
+          origin: { y: 0.6 },
+          colors: ['#FB6F92', '#FF8FAB', '#FFC2D1', '#FFF']
+        });
+      }
+
+      playSweetChime();
+
+      const step1 = document.getElementById('step1Card');
+      const step2 = document.getElementById('step2Card');
+
+      step1.style.opacity = '0';
+      step1.style.transform = 'scale(0.92)';
+      step1.style.transition = 'all 0.35s ease';
+
+      setTimeout(() => {
+        step1.classList.add('hidden');
+        step2.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 350);
     }
 
-    function resetZoom() {
-      activeIndex = null;
-      document.body.classList.remove("is-zoomed");
-      document.querySelectorAll(".shoe-slot").forEach(el => el.classList.remove("active-slot"));
-      cameraRig.style.transform = "translate3d(0, 0, 0) scale(1)";
-      document.getElementById("overview-hint").style.opacity = "1";
-      document.getElementById("btn-back-top").classList.add("hidden");
-      document.getElementById("btn-back-top").classList.remove("inline-flex");
-      document.getElementById("top-whatsapp").classList.remove("hidden");
-      document.getElementById("mobile-stage-controls").style.opacity = "0";
+    /* ==========================================================
+       4. LIGHTWEIGHT AUDIO SYNTHESIZER (Web Audio API)
+       ========================================================== */
+    let audioContext = null;
+    let isMusicActive = false;
+    let musicInterval = null;
+
+    function getAudioCtx() {
+      if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+      return audioContext;
     }
 
-    function handleBackdropClick(e) {
-      if (activeIndex !== null && (e.target.id === "viewport" || e.target.id === "camera-rig" || e.target.id === "vitrine-grid")) {
-        resetZoom();
+    function playNote(freq, time, dur = 0.45, vol = 0.07) {
+      try {
+        const ctx = getAudioCtx();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, time);
+
+        gain.gain.setValueAtTime(0.0001, time);
+        gain.gain.exponentialRampToValueAtTime(vol, time + 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.0001, time + dur);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(time);
+        osc.stop(time + dur);
+      } catch (e) {
+        console.warn(e);
       }
     }
 
-    function submitToWhatsApp(e) {
-      e.preventDefault();
-      if (activeIndex === null) return;
-
-      const product = PRODUCTS[activeIndex];
-      const name = document.getElementById("client-name").value.trim();
-      const phone = document.getElementById("client-phone").value.trim();
-      const city = document.getElementById("client-city").value.trim();
-      const qty = parseInt(document.getElementById("client-qty").value, 10) || 1;
-      const total = product.price * qty;
-
-      const message =
-        `🔥 *NOUVELLE COMMANDE — HEMMA.MA* 🔥\n\n` +
-        `👟 *Modèle :* ${product.name}\n` +
-        `🏷️ *Réf :* ${product.code} (${product.brand})\n` +
-        `📏 *Pointure :* ${selectedSize} EU\n` +
-        `🔢 *Quantité :* ${qty}\n` +
-        `💰 *Total à payer :* ${total} MAD (Paiement à la livraison)\n` +
-        `────────────────────\n` +
-        `👤 *Client :* ${name}\n` +
-        `📞 *Téléphone :* ${phone}\n` +
-        `📍 *Ville & Adresse :* ${city}\n` +
-        `────────────────────\n` +
-        `Merci de confirmer ma commande !`;
-
-      window.open(`https://wa.me/${STORE_CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank");
+    function playSweetChime() {
+      const ctx = getAudioCtx();
+      const now = ctx.currentTime;
+      playNote(523.25, now, 0.4);       // C5
+      playNote(659.25, now + 0.12, 0.4); // E5
+      playNote(783.99, now + 0.24, 0.5); // G5
+      playNote(1046.50, now + 0.36, 0.7);// C6
     }
 
-    window.addEventListener("resize", () => {
-      if (activeIndex !== null) applyCameraTransform(activeIndex);
-    });
+    const melodySequence = [
+      523.25, 659.25, 783.99, 659.25,
+      587.33, 698.46, 880.00, 698.46,
+      523.25, 587.33, 659.25, 523.25
+    ];
+    let seqIdx = 0;
 
-    window.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && activeIndex !== null) resetZoom();
-      if (e.key === "ArrowRight" && activeIndex !== null) navigateShoe(1);
-      if (e.key === "ArrowLeft" && activeIndex !== null) navigateShoe(-1);
-    });
+    function toggleCuteMusic() {
+      const icon = document.getElementById('audioIcon');
+      const text = document.getElementById('audioText');
 
-    let touchStartX = 0;
-    window.addEventListener("touchstart", (e) => {
-      touchStartX = e.changedTouches[0].screenX;
-    }, { passive: true });
-
-    window.addEventListener("touchend", (e) => {
-      if (activeIndex === null) return;
-      if (e.target.closest("#detail-overlay")) return;
-      const diffX = e.changedTouches[0].screenX - touchStartX;
-      if (Math.abs(diffX) > 50) {
-        navigateShoe(diffX < 0 ? 1 : -1);
+      if (isMusicActive) {
+        isMusicActive = false;
+        clearInterval(musicInterval);
+        icon.innerText = '🎵';
+        text.innerText = 'موسيقى هادئة';
+      } else {
+        isMusicActive = true;
+        icon.innerText = '⏸️';
+        text.innerText = 'إيقاف';
+        musicInterval = setInterval(() => {
+          if (!isMusicActive) return;
+          const ctx = getAudioCtx();
+          playNote(melodySequence[seqIdx], ctx.currentTime, 0.55, 0.05);
+          seqIdx = (seqIdx + 1) % melodySequence.length;
+        }, 460);
       }
-    }, { passive: true });
-
-    initVitrine();
+    }
   </script>
 </body>
 </html>
