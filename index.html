@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>رسالة خاصة لزينب 🌸✨</title>
+  <title>رسالة خاصة لزينب 🤍✨</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <!-- Confetti Effects -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Nunito:wght@400;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <script>
@@ -18,34 +17,17 @@
           fontFamily: {
             cairo: ['Cairo', 'sans-serif'],
             nunito: ['Nunito', 'sans-serif'],
+            playfair: ['Playfair Display', 'serif'],
           },
           colors: {
             pastel: {
-              cream: '#FFF8F6',
-              softPink: '#FFE5EC',
-              blush: '#FFC2D1',
-              rose: '#FF8FAB',
-              hotRose: '#FB6F92',
-              textDark: '#3A2E39'
-            }
-          },
-          animation: {
-            'float-slow': 'float 5s ease-in-out infinite',
-            'pulse-soft': 'pulseSoft 2s infinite ease-in-out',
-            'pop-in': 'popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
-          },
-          keyframes: {
-            float: {
-              '0%, 100%': { transform: 'translateY(0px)' },
-              '50%': { transform: 'translateY(-10px)' },
-            },
-            pulseSoft: {
-              '0%, 100%': { transform: 'scale(1)' },
-              '50%': { transform: 'scale(1.04)' },
-            },
-            popIn: {
-              '0%': { opacity: '0', transform: 'scale(0.85) translateY(15px)' },
-              '100%': { opacity: '1', transform: 'scale(1) translateY(0)' },
+              cream: '#FFFDFC',
+              pink: '#FFE9EF',
+              rose: '#FFAEB9',
+              deepRose: '#FF6B8B',
+              coral: '#FFA07A',
+              card: 'rgba(255, 255, 255, 0.94)',
+              text: '#3D2F35'
             }
           }
         }
@@ -54,363 +36,531 @@
   </script>
 
   <style>
-    /* iOS Safari viewport height fix & Smooth scrolling */
-    html, body {
-      min-height: 100dvh;
+    body {
       font-family: 'Cairo', sans-serif;
-      background: radial-gradient(circle at 50% 20%, #FFF5F7 0%, #FFE9F0 45%, #FFD6E0 100%);
-      color: #3A2E39;
+      background: radial-gradient(circle at 50% 15%, #FFF6F8 0%, #FFE9EF 50%, #FFDCE5 100%);
+      min-height: 100vh;
+      min-height: -webkit-fill-available;
       overflow-x: hidden;
       touch-action: manipulation;
       -webkit-tap-highlight-color: transparent;
-      padding-top: env(safe-area-inset-top);
-      padding-bottom: env(safe-area-inset-bottom);
+      padding-top: env(safe-area-inset-top, 16px);
+      padding-bottom: env(safe-area-inset-bottom, 24px);
     }
 
-    /* Ambient floating hearts */
-    .floating-heart {
+    .heart-bg {
       position: fixed;
       pointer-events: none;
-      z-index: 1;
+      z-index: 0;
+      animation: riseUp 9s linear infinite;
       opacity: 0.35;
-      animation: riseAndFade 9s linear infinite;
     }
 
-    @keyframes riseAndFade {
+    @keyframes riseUp {
       0% {
         transform: translateY(105vh) scale(0.6) rotate(0deg);
         opacity: 0.1;
       }
-      50% {
-        opacity: 0.45;
-      }
+      50% { opacity: 0.45; }
       100% {
-        transform: translateY(-12vh) scale(1.15) rotate(360deg);
+        transform: translateY(-15vh) scale(1.1) rotate(360deg);
         opacity: 0;
       }
     }
 
-    /* Glassmorphism Card */
     .card-glass {
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.93);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      box-shadow: 0 16px 40px -10px rgba(251, 111, 146, 0.22), 0 0 0 1px rgba(255, 255, 255, 0.7);
+      box-shadow: 0 16px 40px -10px rgba(255, 107, 139, 0.22), 0 0 0 1px rgba(255, 255, 255, 0.7);
     }
 
-    /* Primary glowing button */
-    .btn-glow {
-      box-shadow: 0 8px 22px -3px rgba(251, 111, 146, 0.45);
-      transition: all 0.2s ease;
+    .btn-cute {
+      box-shadow: 0 8px 22px -4px rgba(255, 107, 139, 0.4);
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-    .btn-glow:active {
+    .btn-cute:active {
       transform: scale(0.96);
     }
 
-    /* The runaway button: smooth movement without lagging on touch */
+    .pulse-btn {
+      animation: heartPulse 1.8s infinite ease-in-out;
+    }
+    @keyframes heartPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .step-fade {
+      animation: fadeInSlide 0.4s ease-out forwards;
+    }
+    @keyframes fadeInSlide {
+      from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Fixed Runway No-Button guarantees it never sits on top of Yes */
     #noBtn {
-      transition: left 0.18s cubic-bezier(0.2, 0.9, 0.3, 1), top 0.18s cubic-bezier(0.2, 0.9, 0.3, 1), transform 0.2s ease;
       touch-action: none;
       user-select: none;
       -webkit-user-select: none;
+      transition: transform 0.15s ease, left 0.2s ease, top 0.2s ease;
     }
   </style>
 </head>
+<body class="flex flex-col items-center justify-center min-h-screen p-4 sm:p-6 text-pastel-text relative select-none">
 
-<body class="flex items-center justify-center min-h-[100dvh] p-4 sm:p-6 select-none relative">
-
-  <!-- Ambient Hearts Container -->
-  <div id="heartContainer" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"></div>
+  <!-- Background Floating Hearts -->
+  <div id="heartContainer" class="fixed inset-0 overflow-hidden pointer-events-none z-0"></div>
 
   <!-- Music Sound Toggle -->
-  <button id="audioToggleBtn" onclick="toggleCuteMusic()" class="fixed top-4 left-4 z-40 flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/80 backdrop-blur border border-pink-200/80 shadow-sm text-xs font-semibold text-pink-700 active:scale-95 transition cursor-pointer">
-    <span id="audioIcon">🎵</span>
-    <span id="audioText">موسيقى هادئة</span>
+  <button id="soundToggle" onclick="toggleAudio()" class="fixed top-4 left-4 z-50 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur shadow-sm border border-pink-100 text-xs text-pink-600 font-semibold cursor-pointer">
+    <span id="soundIcon">🎵</span>
+    <span id="soundText">لحن هادئ</span>
   </button>
 
-  <main class="w-full max-w-md mx-auto relative z-10">
+  <!-- Progress Bar (Steps indicator) -->
+  <div class="fixed top-4 right-4 z-50 flex items-center gap-1.5 bg-white/90 backdrop-blur px-3 py-1.5 rounded-full border border-pink-100 shadow-sm text-xs font-bold text-pink-600">
+    <span>خطوة</span>
+    <span id="stepCounter" class="bg-pink-100 text-pink-700 px-2 py-0.5 rounded-full">1 / 5</span>
+  </div>
 
-    <!-- ======================== STEP 1: INITIAL QUESTION ======================== -->
-    <div id="step1Card" class="card-glass rounded-3xl p-6 sm:p-8 text-center relative border border-white">
-      
-      <!-- Cute Bear / Envelope Avatar -->
-      <div class="relative w-24 h-24 mx-auto mb-4">
-        <div class="w-full h-full rounded-full bg-pink-100 flex items-center justify-center text-4xl shadow-inner animate-float-slow">
-          🧸
-        </div>
-        <span class="absolute -bottom-1 -right-1 text-2xl animate-bounce">💌</span>
+  <!-- Main Container -->
+  <main class="relative z-10 w-full max-w-lg mx-auto my-auto">
+
+    <!-- ==================== STEP 1: SECRET ENVELOPE ==================== -->
+    <div id="step1" class="step-fade card-glass rounded-3xl p-6 sm:p-9 text-center border border-white">
+      <div class="w-24 h-24 mx-auto mb-4 rounded-3xl bg-pink-100/80 flex items-center justify-center text-5xl shadow-inner animate-bounce">
+        💌
       </div>
-
-      <!-- Header & Intro -->
-      <span class="inline-block px-3 py-1 rounded-full bg-pink-100/90 text-pink-700 font-bold text-xs tracking-wider mb-2">
-        رسالة خاصة
-      </span>
-      <h1 class="text-2xl sm:text-3xl font-extrabold text-pink-700 mb-2 leading-tight">
-        زينب... عافاك دقيقة من وقتك؟ 🥺
+      <div class="inline-block bg-pink-100/90 text-pink-700 text-xs font-extrabold px-3 py-1 rounded-full mb-3">
+        حصرياً لـ زينب 🤍
+      </div>
+      <h1 class="text-2xl sm:text-3xl font-black text-pink-700 mb-2 leading-snug">
+        عندي ليك رسالة سرية خاصة بيك...
       </h1>
-      <p class="text-sm sm:text-base text-gray-600 mb-8 font-medium">
-        واخا يلاه عرفتك البارح، وبغيت غير نقولك شي حاجة مهمة من القلب... تسمعيني؟
+      <p class="text-sm sm:text-base text-gray-600 mb-6 font-medium leading-relaxed">
+        واخا يلاه تلاقينا البارح وبدينا كنهضرو، ولكن كاين شي حوايج ما قدرتش نخليهم فقلبي 🥺
       </p>
 
-      <!-- Buttons Arena -->
-      <div id="buttonsArena" class="relative w-full h-24 flex items-center justify-center gap-4">
+      <button onclick="goToStep(2)" class="btn-cute pulse-btn w-full py-4 rounded-2xl bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 text-white font-bold text-lg flex items-center justify-center gap-2 cursor-pointer">
+        <span>فتحي الرسالة دابا</span>
+        <span class="text-2xl">🗝️✨</span>
+      </button>
+      <p class="text-xs text-pink-400 mt-4">كليكي باش تفتحي القفل 🕊️</p>
+    </div>
+
+    <!-- ==================== STEP 2: THE RUNAWAY 'NON' BUTTON ==================== -->
+    <div id="step2" class="hidden step-fade card-glass rounded-3xl p-6 sm:p-9 text-center border border-white">
+      <div class="w-20 h-20 mx-auto mb-3 rounded-full bg-rose-100/70 flex items-center justify-center text-4xl">
+        🥺👉👈
+      </div>
+      <h2 class="text-2xl sm:text-3xl font-black text-pink-700 mb-2">
+        واش نقدرو نبداو صفحة بيضا بجوج؟
+      </h2>
+      <p class="text-sm sm:text-base text-gray-600 mb-6 font-medium">
+        ما بغيتش بيناتنا أي زعل ولا سوء تفاهم وحنا يلاه فالبداية... شنو قلتي؟ 🌸
+      </p>
+
+      <!-- Button Arena -->
+      <div id="escapeZone" class="relative w-full h-44 sm:h-40 rounded-2xl bg-pink-50/50 border border-pink-100 flex flex-col items-center justify-center p-4 overflow-hidden">
         
-        <!-- YES BUTTON (Always Easy to Click) -->
-        <button id="yesBtn" onclick="handleYesClick()" class="btn-glow px-6 sm:px-8 py-3.5 rounded-2xl bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 text-white font-bold text-base sm:text-lg flex items-center justify-center gap-2 cursor-pointer z-20">
-          <span>Oui / أه نسمعك</span>
-          <span class="text-xl animate-pulse">🤍</span>
+        <!-- Big Yes Button (Clearly separated) -->
+        <button id="yesBtn" onclick="handleYesClick()" class="btn-cute pulse-btn z-10 w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 text-white font-black text-lg sm:text-xl flex items-center justify-center gap-2 cursor-pointer shadow-lg">
+          <span>Oui / أكيد متفقة معك 🤍</span>
+          <span class="text-2xl">✨</span>
         </button>
 
-        <!-- NO BUTTON (Runaway Button for iPhone & Desktop) -->
-        <button id="noBtn" class="px-6 sm:px-7 py-3 rounded-2xl bg-white/90 text-gray-700 font-bold text-sm sm:text-base border border-pink-200 shadow-sm cursor-pointer z-10">
+        <!-- Cheeky No Button (Guaranteed Escape) -->
+        <button id="noBtn" class="absolute bottom-3 left-1/2 -translate-x-1/2 px-5 py-2.5 rounded-xl bg-gray-200/95 text-gray-600 font-bold text-sm border border-gray-300 shadow-md cursor-not-allowed">
           <span>Non / لا 😤</span>
         </button>
-
       </div>
 
-      <!-- Playful Subtitle -->
-      <p class="text-xs text-pink-400 mt-4 font-medium">
-        (راك عزيزة بزاف... وبوطون "Non" مابغاتش تخدم ليك أ زينب 🙈)
+      <p id="teaseHint" class="text-xs text-pink-500 mt-4 font-semibold min-h-[20px] transition-all">
+        (جربي تضغطي على Non إلا قديتي عليها 😜)
       </p>
     </div>
 
-    <!-- ======================== STEP 2: THE APOLOGY NOTE ======================== -->
-    <div id="step2Card" class="hidden card-glass rounded-3xl p-6 sm:p-8 text-right relative border border-white animate-pop-in">
-      
-      <!-- Top Header -->
-      <div class="flex items-center justify-between border-b border-pink-100 pb-3 mb-4">
-        <div class="flex items-center gap-2.5">
-          <span class="text-2xl">🌷</span>
-          <div>
-            <h2 class="text-xl sm:text-2xl font-black text-pink-700">زينب... 🤍</h2>
-            <p class="text-xs text-pink-500 font-medium font-nunito">De tout mon cœur</p>
-          </div>
-        </div>
-        <span class="text-xs px-2.5 py-1 bg-pink-100/70 text-pink-700 rounded-lg font-bold">يوم جديد ✨</span>
+    <!-- ==================== STEP 3: PROMISE CONTRACT CARDS ==================== -->
+    <div id="step3" class="hidden step-fade card-glass rounded-3xl p-6 sm:p-8 text-right border border-white">
+      <div class="text-center mb-5">
+        <span class="text-3xl">🤝✨</span>
+        <h2 class="text-2xl font-black text-pink-700 mt-1">اتفاق البداية الجديدة 🤍</h2>
+        <p class="text-xs sm:text-sm text-gray-500 font-medium">
+          كليكي على البطاقات بـ 3 بيهم باش توقّعي على العهد ونكملو:
+        </p>
       </div>
 
-      <!-- Apology Content: Focused on 1-day acquaintance -->
-      <div class="space-y-3.5 text-gray-700 text-sm sm:text-base leading-relaxed font-medium">
+      <!-- 3 Clickable interactive cards -->
+      <div class="space-y-3 mb-6">
         
-        <p class="bg-pink-50/80 p-3.5 rounded-2xl border-r-4 border-pink-500 text-pink-900 font-semibold">
-          أول حاجة، سمحي ليا بزاف إذا تقلقتي مني، ولا تفهم كلامي بطريقة ما قصدتهاش... والله ما كان في بالي نزعلك نهائياً.
+        <!-- Promise 1 -->
+        <div onclick="unlockCard(1)" id="card1" class="promise-card border-2 border-pink-100 bg-white/80 p-4 rounded-2xl flex items-center justify-between cursor-pointer transition hover:border-pink-300">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">☕✨</span>
+            <div>
+              <h3 class="font-bold text-sm sm:text-base text-gray-800">1. صفحة جديدة بيضا كالحليب</h3>
+              <p class="text-xs text-gray-500">نخليو أي سوء تفاهم داز ونركزو على الجاي</p>
+            </div>
+          </div>
+          <span id="check1" class="text-xl text-gray-300">⚪</span>
+        </div>
+
+        <!-- Promise 2 -->
+        <div onclick="unlockCard(2)" id="card2" class="promise-card border-2 border-pink-100 bg-white/80 p-4 rounded-2xl flex items-center justify-between cursor-pointer transition hover:border-pink-300">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🕊️🤍</span>
+            <div>
+              <h3 class="font-bold text-sm sm:text-base text-gray-800">2. بلا حزازات وبلا عتاب</h3>
+              <p class="text-xs text-gray-500">حنا يلاه فاليوم الأول وكلشي جاي زوين</p>
+            </div>
+          </div>
+          <span id="check2" class="text-xl text-gray-300">⚪</span>
+        </div>
+
+        <!-- Promise 3 -->
+        <div onclick="unlockCard(3)" id="card3" class="promise-card border-2 border-pink-100 bg-white/80 p-4 rounded-2xl flex items-center justify-between cursor-pointer transition hover:border-pink-300">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🌸🥰</span>
+            <div>
+              <h3 class="font-bold text-sm sm:text-base text-gray-800">3. ضحكة واحترام متبادل ديما</h3>
+              <p class="text-xs text-gray-500">باغي نعرفك ونتقرب منك بطريقة نقية</p>
+            </div>
+          </div>
+          <span id="check3" class="text-xl text-gray-300">⚪</span>
+        </div>
+
+      </div>
+
+      <button id="contractBtn" onclick="goToStep(4)" disabled class="w-full py-3.5 rounded-2xl bg-gray-300 text-gray-500 font-bold text-base flex items-center justify-center gap-2 cursor-not-allowed transition">
+        <span>كليكي على الشروط بـ 3 بيهم أولاً 🔒</span>
+      </button>
+    </div>
+
+    <!-- ==================== STEP 4: HEARTFELT APOLOGY LETTER ==================== -->
+    <div id="step4" class="hidden step-fade card-glass rounded-3xl p-6 sm:p-8 text-right border border-white">
+      <div class="flex items-center justify-between border-b border-pink-100 pb-3 mb-4">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-black text-pink-700">زينب... من القلب 🤍</h2>
+          <p class="text-xs text-pink-500 font-medium">Pour toi, sincèrement</p>
+        </div>
+        <span class="text-3xl animate-pulse">🌷</span>
+      </div>
+
+      <div class="space-y-3.5 text-gray-700 text-sm sm:text-base leading-relaxed font-medium">
+        <p class="bg-pink-50/80 p-3.5 rounded-2xl border-r-4 border-pink-400 text-pink-900 font-semibold">
+          سمحي ليا إذا تصرفت شي تصرف خلاك تتقلقي مني ولا تحسي بشي إحساس خايب البارح، ما كانش قصدي نهائياً...
         </p>
 
         <p>
-          واخا عاد يلاه تلاقينا وعرفتك البارح، دخلتي ليا لخاطري ولقيت فيك إنسانة طيبة ومحترمة بزاف وبغيت نبقاو مزيانين.
+          واخا يلاه عرفتك هادي 24 ساعة، ولكن الصراحة ارتحت ليك وحسيت بك إنسانة طيبة بزاف، وخسارة نضيعو هاد البداية الزوينة فشي زعل تافه.
         </p>
 
-        <p class="text-pink-700 font-bold bg-white/70 p-3 rounded-2xl border border-pink-200 text-center text-sm sm:text-base">
-          ✨ شنو رأيك نبداو صفحة بيضا جديدة بجوج، وننساو أي سوء تفاهم داز؟ ✨
-        </p>
+        <div class="bg-gradient-to-r from-rose-100/90 to-pink-100/90 p-4 rounded-2xl text-center border border-pink-200">
+          <p class="text-base sm:text-lg font-black text-pink-700">
+            « راه باغيك غير نتي، وباغي نبدا معاك صفحة نقية بلا لوم وبلا صداع » 🤍✨
+          </p>
+        </div>
 
-        <p class="text-xs sm:text-sm text-gray-600 text-center">
-          ما كرهتش نحيدو هاد الزعل ونرجعو نهضرو بضحكة وراحة بال بحال ما وقع والو 🥺🤍
+        <p class="text-center text-xs sm:text-sm text-gray-500">
+          صافي نرجعو نهدرو عادي ونضحكو بحال والو ما وقع؟ 🥺
         </p>
       </div>
 
-      <!-- Action Button: Direct WhatsApp link to 212649923007 -->
       <div class="mt-6">
-        <a id="waButton" href="https://wa.me/212649923007?text=%D8%B5%D8%A7%D9%81%D9%8A%20%D9%85%D8%B3%D8%A7%D9%85%D8%AD%D8%A9%D8%8C%20%D9%86%D8%A8%D8%AF%D8%A7%D9%88%20%D8%B5%D9%81%D8%AD%D8%A9%20%D8%AC%D8%AF%D9%8A%D8%AF%D8%A9%20%D8%A8%D8%AC%D9%88%D8%AC%20%F0%9F%A4%8D%E2%9C%A8" 
-           target="_blank" 
-           rel="noopener noreferrer" 
-           class="btn-glow w-full py-3.5 px-5 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-green-600 text-white font-bold text-base flex items-center justify-center gap-2.5 shadow-lg active:scale-95 transition">
-          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
-            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
-          </svg>
-          <span>صافي مسامحة، نبداو صفحة جديدة 🤍</span>
-        </a>
+        <button onclick="goToStep(5)" class="btn-cute pulse-btn w-full py-4 rounded-2xl bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 text-white font-extrabold text-lg flex items-center justify-center gap-2 cursor-pointer">
+          <span>شوفي المفاجأة الأخيرة 🎁</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ==================== STEP 5: GRAND CELEBRATION & WHATSAPP ==================== -->
+    <div id="step5" class="hidden step-fade card-glass rounded-3xl p-6 sm:p-9 text-center border border-white shadow-2xl">
+      <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-emerald-100 flex items-center justify-center text-5xl animate-bounce">
+        🎉
       </div>
 
+      <div class="inline-block bg-emerald-100 text-emerald-700 text-xs font-black px-3 py-1 rounded-full mb-3">
+        تمت المصالحة رسمياً 🤍
+      </div>
+
+      <h2 class="text-2xl sm:text-3xl font-black text-pink-700 mb-2">
+        لهلا يخطيك عليا يا زينب! 🥺🤍
+      </h2>
+      <p class="text-sm sm:text-base text-gray-600 mb-6 font-medium leading-relaxed">
+        فرحتيني بهاد الفرصة الجديدة، ووعد مني البداية ديالنا غاتكون ديما زوينة وخفيفة على قلبك ✨
+      </p>
+
+      <!-- Direct WhatsApp Action Button with User Phone: 0649923007 -->
+      <a id="whatsappBtn" href="https://wa.me/212649923007?text=%D8%B5%D8%A7%D9%81%D9%8A%20%D9%85%D8%B3%D8%A7%D9%85%D8%AD%D8%A9%D8%8C%20%D9%86%D8%A8%D8%AF%D8%A7%D9%88%20%D8%B5%D9%81%D8%AD%D8%A9%20%D8%AC%D8%AF%D9%8A%D8%AF%D8%A9%20%D8%A8%D8%AC%D9%88%D8%AC%20%F0%9F%A4%8D%E2%9C%A8" target="_blank" class="btn-cute w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 text-white font-extrabold text-lg flex items-center justify-center gap-3 cursor-pointer shadow-lg hover:scale-105 transition">
+        <span>صيفطي ليا هاد الميساج فـ WhatsApp دابا 💬</span>
+      </a>
+
+      <p class="text-xs text-gray-400 mt-4">
+        (كليكي على الخضرا باش تدخلي نيشان للواتساب ونهضرو 🤍)
+      </p>
     </div>
 
   </main>
 
   <script>
-    /* ==========================================================
-       1. FLOATING HEARTS GENERATOR
-       ========================================================== */
+    /* ========================================================
+       1. BACKGROUND FLOATING HEARTS
+       ======================================================== */
     const heartContainer = document.getElementById('heartContainer');
-    const heartEmojis = ['🤍', '🌸', '✨', '💕', '🌷', '🕊️'];
+    const emojis = ['🤍', '🌸', '✨', '💕', '🌷', '🎀', '🧸'];
 
-    function spawnHeart() {
-      const heart = document.createElement('div');
-      heart.className = 'floating-heart';
-      heart.innerText = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
-      heart.style.left = Math.random() * 92 + 'vw';
-      heart.style.fontSize = (Math.random() * 16 + 14) + 'px';
-      heart.style.animationDuration = (Math.random() * 5 + 6) + 's';
-      heartContainer.appendChild(heart);
-
-      setTimeout(() => heart.remove(), 10000);
+    function createHeart() {
+      const el = document.createElement('div');
+      el.className = 'heart-bg';
+      el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+      el.style.left = (Math.random() * 92) + 'vw';
+      el.style.fontSize = (Math.random() * 18 + 14) + 'px';
+      el.style.animationDuration = (Math.random() * 5 + 6) + 's';
+      heartContainer.appendChild(el);
+      setTimeout(() => el.remove(), 11000);
     }
-    setInterval(spawnHeart, 750);
-    for (let i = 0; i < 7; i++) spawnHeart();
+    setInterval(createHeart, 700);
+    for (let i = 0; i < 6; i++) createHeart();
 
-    /* ==========================================================
-       2. EVASIVE "NON" BUTTON LOGIC (Works on Safari / iPhone)
-       ========================================================== */
-    const noBtn = document.getElementById('noBtn');
-    let escapeCount = 0;
+    /* ========================================================
+       2. NAVIGATION SYSTEM
+       ======================================================== */
+    let currentStep = 1;
 
-    const funnyEscapePhrases = [
-      "فين غادية؟ 😂",
-      "غير ضغطي على Oui! 💕",
-      "ماعندك فين تهربي 🙈",
-      "حشومة تقولي لا 🥺",
-      "والله ما تفلت ليك 🏃‍♂️",
-      "صفحة جديدة أحسن ✨",
-      "Oui كتسناك هنا! 🤍",
-      "ما كاينش لا اليوم 🌹"
-    ];
+    function goToStep(stepNum) {
+      playTone(580, 0.15);
+      
+      const prevStep = document.getElementById('step' + currentStep);
+      const nextStep = document.getElementById('step' + stepNum);
 
-    function teleportNoButton(event) {
-      if (event) {
-        event.preventDefault();
-        event.stopPropagation();
+      if (prevStep) prevStep.classList.add('hidden');
+      if (nextStep) {
+        nextStep.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
-      const padding = 20;
-      const btnRect = noBtn.getBoundingClientRect();
-      const btnW = btnRect.width || 100;
-      const btnH = btnRect.height || 45;
+      currentStep = stepNum;
+      document.getElementById('stepCounter').innerText = currentStep + ' / 5';
+
+      if (stepNum === 5) {
+        launchBigConfetti();
+      }
+    }
+
+    /* ========================================================
+       3. BULLETPROOF 'NON' RUNAWAY BUTTON (Strictly Evades)
+       ======================================================== */
+    const noBtn = document.getElementById('noBtn');
+    const teaseHint = document.getElementById('teaseHint');
+
+    const runawayMessages = [
+      "زعما تقدي؟ 😂",
+      "والو مستحيل تضغطي هنا 😜",
+      "راه الـ Oui هي الحل الوحيد ✨",
+      "عافاك ياك يلاه بدينا 🥺",
+      "فين غادية بـ لا؟ 🏃‍♂️",
+      "ممنوع الزعل نهائياً 🤍",
+      "غير كليكي على Oui وبردي قلبك 🥰"
+    ];
+    let dodgeCount = 0;
+
+    function evadeNo(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+      }
+
+      // Safe screen boundaries ensuring it never leaves or covers the top Yes button
+      const padding = 16;
+      const btnW = noBtn.offsetWidth || 110;
+      const btnH = noBtn.offsetHeight || 44;
 
       const maxX = window.innerWidth - btnW - padding;
       const maxY = window.innerHeight - btnH - padding;
 
-      // Calculate a randomized coordinate on screen
-      const nextX = Math.max(padding, Math.floor(Math.random() * maxX));
-      const nextY = Math.max(padding, Math.floor(Math.random() * maxY));
+      // Pick a random location away from current touch
+      let randomX = Math.max(padding, Math.random() * maxX);
+      let randomY = Math.max(padding + 60, Math.random() * maxY); // +60 avoids navbar
 
-      // Switch to fixed positioning so it escapes anywhere on screen
       noBtn.style.position = 'fixed';
-      noBtn.style.left = nextX + 'px';
-      noBtn.style.top = nextY + 'px';
-      noBtn.style.zIndex = '999';
+      noBtn.style.left = randomX + 'px';
+      noBtn.style.top = randomY + 'px';
+      noBtn.style.zIndex = '9999';
 
-      // Cycle text
-      escapeCount++;
-      const phrase = funnyEscapePhrases[escapeCount % funnyEscapePhrases.length];
-      noBtn.innerHTML = `<span>${phrase}</span>`;
+      dodgeCount++;
+      const text = runawayMessages[dodgeCount % runawayMessages.length];
+      noBtn.innerHTML = `<span>${text}</span>`;
+      teaseHint.innerText = `حاولتي ${dodgeCount} مرات... قلت ليك ماعندك فين تهربي من Oui 😂🤍`;
 
-      // Haptic feedback for supported phones
       if (navigator.vibrate) {
-        navigator.vibrate(35);
+        navigator.vibrate(30);
       }
+      playChimeNote(350 + (dodgeCount * 40));
+      return false;
     }
 
-    // Attach all interactions for desktop and mobile Safari touch
-    noBtn.addEventListener('pointerover', teleportNoButton);
-    noBtn.addEventListener('touchstart', teleportNoButton, { passive: false });
-    noBtn.addEventListener('pointerdown', teleportNoButton);
-    noBtn.addEventListener('click', teleportNoButton);
+    // Bind ALL touch & pointer events with strict preventDefault
+    noBtn.addEventListener('touchstart', evadeNo, { passive: false });
+    noBtn.addEventListener('pointerdown', evadeNo, { passive: false });
+    noBtn.addEventListener('mouseenter', evadeNo);
+    noBtn.addEventListener('click', evadeNo);
 
-    /* ==========================================================
-       3. ACCEPT & SHOW APOLOGY CARD
-       ========================================================= */
     function handleYesClick() {
       // Confetti burst
       if (window.confetti) {
         confetti({
-          particleCount: 70,
+          particleCount: 50,
           spread: 60,
           origin: { y: 0.6 },
-          colors: ['#FB6F92', '#FF8FAB', '#FFC2D1', '#FFF']
+          colors: ['#FF6B8B', '#FFAEB9', '#FFA07A']
         });
       }
-
-      playSweetChime();
-
-      const step1 = document.getElementById('step1Card');
-      const step2 = document.getElementById('step2Card');
-
-      step1.style.opacity = '0';
-      step1.style.transform = 'scale(0.92)';
-      step1.style.transition = 'all 0.35s ease';
-
-      setTimeout(() => {
-        step1.classList.add('hidden');
-        step2.classList.remove('hidden');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }, 350);
+      goToStep(3);
     }
 
-    /* ==========================================================
-       4. LIGHTWEIGHT AUDIO SYNTHESIZER (Web Audio API)
-       ========================================================== */
-    let audioContext = null;
-    let isMusicActive = false;
-    let musicInterval = null;
+    /* ========================================================
+       4. PROMISE CONTRACT CARDS (Unlock Step 3)
+       ======================================================== */
+    const unlocked = { 1: false, 2: false, 3: false };
+
+    function unlockCard(index) {
+      if (unlocked[index]) return;
+
+      unlocked[index] = true;
+      playChimeNote(500 + index * 100);
+
+      const card = document.getElementById('card' + index);
+      const check = document.getElementById('check' + index);
+
+      card.classList.replace('border-pink-100', 'border-emerald-400');
+      card.classList.add('bg-emerald-50/70');
+      check.innerText = '✅';
+      check.classList.replace('text-gray-300', 'text-emerald-500');
+
+      if (unlocked[1] && unlocked[2] && unlocked[3]) {
+        const btn = document.getElementById('contractBtn');
+        btn.disabled = false;
+        btn.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+        btn.classList.add('bg-gradient-to-r', 'from-pink-500', 'via-rose-500', 'to-pink-600', 'text-white', 'btn-cute', 'cursor-pointer');
+        btn.innerHTML = '<span>وقّعنا بجوج! دوزي للرسالة 💌</span>';
+      }
+    }
+
+    /* ========================================================
+       5. CELEBRATION CONFETTI (Step 5)
+       ======================================================== */
+    function launchBigConfetti() {
+      playHappyChord();
+      const end = Date.now() + (3 * 1000);
+      const colors = ['#FF6B8B', '#FFAEB9', '#10B981', '#F59E0B', '#EC4899'];
+
+      (function frame() {
+        confetti({
+          particleCount: 4,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 },
+          colors: colors
+        });
+        confetti({
+          particleCount: 4,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 },
+          colors: colors
+        });
+
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      }());
+    }
+
+    /* ========================================================
+       6. SOUND ENGINE (Web Audio API)
+       ======================================================== */
+    let audioCtx = null;
+    let isPlayingMelody = false;
+    let melodyTimer = null;
 
     function getAudioCtx() {
-      if (!audioContext) {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       }
-      if (audioContext.state === 'suspended') {
-        audioContext.resume();
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
       }
-      return audioContext;
+      return audioCtx;
     }
 
-    function playNote(freq, time, dur = 0.45, vol = 0.07) {
+    function playTone(freq, duration = 0.2, volume = 0.08) {
       try {
         const ctx = getAudioCtx();
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
 
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq, time);
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
 
-        gain.gain.setValueAtTime(0.0001, time);
-        gain.gain.exponentialRampToValueAtTime(vol, time + 0.04);
-        gain.gain.exponentialRampToValueAtTime(0.0001, time + dur);
+        gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(volume, ctx.currentTime + 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
 
         osc.connect(gain);
         gain.connect(ctx.destination);
 
-        osc.start(time);
-        osc.stop(time + dur);
-      } catch (e) {
-        console.warn(e);
-      }
+        osc.start();
+        osc.stop(ctx.currentTime + duration);
+      } catch (e) {}
     }
 
-    function playSweetChime() {
-      const ctx = getAudioCtx();
-      const now = ctx.currentTime;
-      playNote(523.25, now, 0.4);       // C5
-      playNote(659.25, now + 0.12, 0.4); // E5
-      playNote(783.99, now + 0.24, 0.5); // G5
-      playNote(1046.50, now + 0.36, 0.7);// C6
+    function playChimeNote(freq) {
+      playTone(freq, 0.25, 0.06);
     }
 
-    const melodySequence = [
-      523.25, 659.25, 783.99, 659.25,
-      587.33, 698.46, 880.00, 698.46,
-      523.25, 587.33, 659.25, 523.25
-    ];
-    let seqIdx = 0;
+    function playHappyChord() {
+      const notes = [440, 554, 659, 880];
+      notes.forEach((n, i) => {
+        setTimeout(() => playTone(n, 0.4, 0.07), i * 90);
+      });
+    }
 
-    function toggleCuteMusic() {
-      const icon = document.getElementById('audioIcon');
-      const text = document.getElementById('audioText');
+    const melodyNotes = [523, 659, 784, 659, 587, 698, 880, 698, 523, 659, 784, 1046];
+    let noteIdx = 0;
 
-      if (isMusicActive) {
-        isMusicActive = false;
-        clearInterval(musicInterval);
-        icon.innerText = '🎵';
-        text.innerText = 'موسيقى هادئة';
-      } else {
-        isMusicActive = true;
-        icon.innerText = '⏸️';
-        text.innerText = 'إيقاف';
-        musicInterval = setInterval(() => {
-          if (!isMusicActive) return;
-          const ctx = getAudioCtx();
-          playNote(melodySequence[seqIdx], ctx.currentTime, 0.55, 0.05);
-          seqIdx = (seqIdx + 1) % melodySequence.length;
-        }, 460);
+    function startMelody() {
+      isPlayingMelody = true;
+      document.getElementById('soundIcon').innerText = '⏸️';
+      document.getElementById('soundText').innerText = 'إيقاف';
+
+      function loop() {
+        if (!isPlayingMelody) return;
+        playTone(melodyNotes[noteIdx], 0.45, 0.04);
+        noteIdx = (noteIdx + 1) % melodyNotes.length;
+        melodyTimer = setTimeout(loop, 450);
       }
+      loop();
+    }
+
+    function stopMelody() {
+      isPlayingMelody = false;
+      clearTimeout(melodyTimer);
+      document.getElementById('soundIcon').innerText = '🎵';
+      document.getElementById('soundText').innerText = 'لحن هادئ';
+    }
+
+    function toggleAudio() {
+      if (isPlayingMelody) stopMelody();
+      else startMelody();
     }
   </script>
 </body>
